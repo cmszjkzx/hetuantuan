@@ -1,201 +1,173 @@
 <?php
 
-		if($_GP["follower"]!="nologinby")
-		{
-				if(is_login_account()==false)
-				{
-					if(empty($_SESSION["noneedlogin"]))
-					{
-					tosaveloginfrom();
-					header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'login','from'=>'confirm')));	
-					exit;
-					}
-				}
-		
-		}else
-		{
-			 $_SESSION["noneedlogin"]=true;
-				clearloginfrom();	
-		}
-	
-			$member=get_member_account();
-				$openid =$member['openid'] ;
-				$op = $_GP['op']?$_GP['op']:'display';
-        $totalprice = 0;
-        $allgoods = array();
-        $id = intval($_GP['id']);
-        $optionid = intval($_GP['optionid']);
-        $total = intval($_GP['total']);
-        if (empty($total)) {
-            $total = 1;
+if($_GP["follower"]!="nologinby")
+{
+    //判断用户是否手机登录
+    if(is_login_account()==false)
+    {
+        if(empty($_SESSION["noneedlogin"]))
+        {
+            tosaveloginfrom();
+            header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'login','from'=>'confirm')));
+            exit;
         }
-        $direct = false; //是否是直接购买
-        $returnurl = ""; //当前连接
-	$issendfree=0;
-	 $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
-        
+    }
+}else
+{
+    $_SESSION["noneedlogin"]=true;
+    clearloginfrom();
+}
+$member=get_member_account();
+$openid =$member['openid'] ;
+$op = $_GP['op']?$_GP['op']:'display';
+$totalprice = 0;
+$allgoods = array();
+$id = intval($_GP['id']);
+$optionid = intval($_GP['optionid']);
+$total = intval($_GP['total']);
+if (empty($total)) {
+    $total = 1;
+}
+$direct = false; //是否是直接购买
+$returnurl = ""; //当前连接
+$issendfree=0;
+$defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
 
-        if (!empty($id)) {
-        
-            $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
+if (!empty($id))
+{
+    $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
+    if($item['issendfree']==1||$item['isverify']==1)
+    {
+        $issendfree=1;
+    }
+    if ($item['istime'] == 1) {
+        if (time() > $item['timeend']) {
+            message('抱歉，商品限购时间已到，无法购买了！', refresh(), "error");
+        }
+    }
+    if (!empty($optionid)) {
+        $option = mysqld_select("select title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id", array(":id" => $optionid));
+        if ($option) {
+            $item['optionid'] = $optionid;
+            $item['title'] = $item['title'];
+            $item['optionname'] = $option['title'];
+            $item['marketprice'] = $option['marketprice'];
+            $item['weight'] = $option['weight'];
+        }
+    }
+    $item['stock'] = $item['total'];
+    $item['total'] = $total;
+    $item['totalprice'] = $total * $item['marketprice'];
+    $item['credit'] = $total* $item['credit'];
+    $allgoods[] = $item;
+    $totalprice+= $item['totalprice'];
+            
+    //========促销活动===============
+    $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
 			
-				
-					if($item['issendfree']==1||$item['isverify']==1)
-                    		{
-                    			$issendfree=1;	
-                    		}
-       
-            if ($item['istime'] == 1) {
-                if (time() > $item['timeend']) {
-                    message('抱歉，商品限购时间已到，无法购买了！', refresh(), "error");
+    if(empty($issendfree))
+    {
+        foreach($promotion as $pro){
+            if($pro['promoteType']==1)
+            {
+                if(	($item['totalprice'])>=$pro['condition'])
+                {
+                    $issendfree=1;
                 }
             }
-
-            if (!empty($optionid)) {
-                $option = mysqld_select("select title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id", array(":id" => $optionid));
-                if ($option) {
-                    $item['optionid'] = $optionid;
-                    $item['title'] = $item['title'];
-                    $item['optionname'] = $option['title'];
-                    $item['marketprice'] = $option['marketprice'];
-                    $item['weight'] = $option['weight'];
+            else if($pro['promoteType']==0)
+            {
+                if($total>=$pro['condition'])
+                {
+                    $issendfree=1;
                 }
+            }
+        }
+    }
+            
+    $direct = true;
+    $returnurl = mobile_url("confirm", array("id" => $id, "optionid" => $optionid, "total" => $total));
+}
+if (!$direct) {
+    //如果不是直接购买（从购物车购买）
+    $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE  session_id = '".$openid."'");
+    if (!empty($list)) {
+        $totalprice=0;
+        $totaltotal=0;
+        foreach ($list as &$g) {
+            $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $g['goodsid']));
+            //属性
+            $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id ", array(":id" => $g['optionid']));
+            if ($option) {
+                if($item['issendfree']==1)
+                {
+                    $issendfree=1;
+                }
+                $item['optionid'] = $g['optionid'];
+                $item['title'] = $item['title'];
+                $item['optionname'] = $option['title'];
+                $item['marketprice'] = $option['marketprice'];
+                $item['weight'] = $option['weight'];
             }
             $item['stock'] = $item['total'];
-            $item['total'] = $total;
-            $item['totalprice'] = $total * $item['marketprice'];
-            $item['credit'] = $total* $item['credit'];
+            $item['total'] = $g['total'];
+            $item['totalprice'] = $g['total'] * $item['marketprice'];
+            $item['credit'] = $g['total'] * $item['credit'];
             $allgoods[] = $item;
             $totalprice+= $item['totalprice'];
-            
-                		//========促销活动===============
-		$promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-			
-			if(empty($issendfree))
-			{
-			foreach($promotion as $pro){
-				
-
-
-						if($pro['promoteType']==1)
-								{
-								if(	($item['totalprice'])>=$pro['condition'])
-									{
-									$issendfree=1;	
-									
-									}
-								}
-					 else if($pro['promoteType']==0)
-							{
-							if($total>=$pro['condition'])
-								{
-								$issendfree=1;	
-							
-								}
-							}
-						
-			
-			
-        }
-      }
-            
-            
-            $direct = true;
-            $returnurl = mobile_url("confirm", array("id" => $id, "optionid" => $optionid, "total" => $total));
-        }
-        if (!$direct) {
-        
-            //如果不是直接购买（从购物车购买）
-            $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE  session_id = '".$openid."'");
-            if (!empty($list)) {
-            	$totalprice=0;
-            		$totaltotal=0;
-                foreach ($list as &$g) {
-                    $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $g['goodsid']));
-                    //属性
-                    $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id ", array(":id" => $g['optionid']));
-                    if ($option) {
-                    		if($item['issendfree']==1)
-                    		{
-                    			$issendfree=1;	
-                    		}
-                        $item['optionid'] = $g['optionid'];
-                        $item['title'] = $item['title'];
-                        $item['optionname'] = $option['title'];
-                        $item['marketprice'] = $option['marketprice'];
-                        $item['weight'] = $option['weight'];
-                    }
-                    $item['stock'] = $item['total'];
-                    $item['total'] = $g['total'];
-                    $item['totalprice'] = $g['total'] * $item['marketprice'];
-                     $item['credit'] = $g['total'] * $item['credit'];
-                    $allgoods[] = $item;
-                    $totalprice+= $item['totalprice'];
-                    if($totaltotal<$g['total'])
-                    {
-                   $totaltotal=$g['total'];
-                 		 }
-                }
-                
-                $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-		
-                 //========促销活动===============
-			foreach($promotion as $pro){
-						if($pro['promoteType']==1)
-								{
-								if(	($totalprice)>=$pro['condition'])
-									{
-									$issendfree=1;	
-							
-									
-									}
-								}
-					 else if($pro['promoteType']==0)
-							{
-							if($totaltotal>=$pro['condition'])
-								{
-								$issendfree=1;	
-								
-							
-								}
-							}
-						
-			
-			
-        }
-          //========end===============
-                
-                unset($g);
+            if($totaltotal<$g['total'])
+            {
+                $totaltotal=$g['total'];
             }
-            $returnurl = mobile_url("confirm");
         }
-
-        if (count($allgoods) <= 0) {
-            header("location: " . mobile_url('myorder'));
-            exit();
+                
+        $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
+		
+        //========促销活动===============
+        foreach($promotion as $pro){
+            if($pro['promoteType']==1)
+            {
+                if(	($totalprice)>=$pro['condition'])
+                {
+                    $issendfree=1;
+                }
+            }
+            else if($pro['promoteType']==0)
+            {
+                if($totaltotal>=$pro['condition'])
+                {
+                    $issendfree=1;
+                }
+            }
         }
-        //配送方式
-       
-       $dispatch=array();
-     $dispatchcode=array();
-     $addressdispatch1 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ((dispatch_area.provance=:provance and dispatch_area.city=:city and dispatch_area.area=:area)))",array(":provance"=>$defaultAddress['province'],":city"=>$defaultAddress['city'],":area"=>$defaultAddress['area']));
-    $addressdispatch2 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ( (dispatch_area.provance=:provance and dispatch_area.city=:city and dispatch_area.area='') ))",array(":provance"=>$defaultAddress['province'],":city"=>$defaultAddress['city']));
-   $addressdispatch3 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ((dispatch_area.provance=:provance and dispatch_area.city='' and dispatch_area.area='') ))",array(":provance"=>$defaultAddress['province']));
-   $addressdispatch4 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and (dispatch_area.provance='' and dispatch_area.city='' and dispatch_area.area='') )");
-
- 	$addressdispatchs=array($addressdispatch1,$addressdispatch2,$addressdispatch3,$addressdispatch4);
- 	$dispatchIndex=0;
-   foreach ($addressdispatchs as $addressdispatch) {
-	
- 	 foreach ($addressdispatch as $d) {
- 	 			if(!in_array ($d['express'],$dispatchcode))
- 	 			{
-      	$dispatch[$dispatchIndex]=$d;
-      	$dispatchcode[$dispatchIndex]=$d['express'];
-      	$dispatchIndex=$dispatchIndex+1;
+        //========end===============
+        unset($g);
+    }
+    $returnurl = mobile_url("confirm");
+}
+if (count($allgoods) <= 0) {
+    header("location: " . mobile_url('myorder'));
+    exit();
+}
+//配送方式
+$dispatch=array();
+$dispatchcode=array();
+$addressdispatch1 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ((dispatch_area.provance=:provance and dispatch_area.city=:city and dispatch_area.area=:area)))",array(":provance"=>$defaultAddress['province'],":city"=>$defaultAddress['city'],":area"=>$defaultAddress['area']));
+$addressdispatch2 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ( (dispatch_area.provance=:provance and dispatch_area.city=:city and dispatch_area.area='') ))",array(":provance"=>$defaultAddress['province'],":city"=>$defaultAddress['city']));
+$addressdispatch3 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and ((dispatch_area.provance=:provance and dispatch_area.city='' and dispatch_area.area='') ))",array(":provance"=>$defaultAddress['province']));
+$addressdispatch4 = mysqld_selectall("select shop_dispatch.*,dispatchitem.name dname from " . table("shop_dispatch") . " shop_dispatch left join ". table('dispatch') . " dispatchitem on shop_dispatch.express=dispatchitem.code  WHERE shop_dispatch.deleted=0 and dispatchitem.enabled=1 and  shop_dispatch.id in (select dispatch.id from " . table("shop_dispatch_area") . " dispatch_area left join  " . table("shop_dispatch") . " dispatch on dispatch.id=dispatch_area.dispatchid WHERE dispatch.deleted=0 and (dispatch_area.provance='' and dispatch_area.city='' and dispatch_area.area='') )");
+$addressdispatchs=array($addressdispatch1,$addressdispatch2,$addressdispatch3,$addressdispatch4);
+$dispatchIndex=0;
+foreach ($addressdispatchs as $addressdispatch) {
+    foreach ($addressdispatch as $d) {
+        if(!in_array ($d['express'],$dispatchcode))
+        {
+            $dispatch[$dispatchIndex]=$d;
+      	    $dispatchcode[$dispatchIndex]=$d['express'];
+      	    $dispatchIndex=$dispatchIndex+1;
       	}
     }	 	
-  }
+}
 
      
         foreach ($dispatch as &$d) {

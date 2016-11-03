@@ -43,7 +43,7 @@ var interval = setInterval(function(){
 })();
 </script>
 <?php  } else { ?>
- <p>[<strong><a id="href" href="<?php  echo $redirect;?>">点击进入下一页</b>]</strong></p>
+ <p>[<strong><a id="href" href="<?php  echo $redirect;?>">点击进入下一页</a>]</strong></p>
 		<?php  } ?>
 <?php  } else { ?>
 <p>[<a href="javascript:history.go(-1);">点击这里返回上一页</a>] </p>

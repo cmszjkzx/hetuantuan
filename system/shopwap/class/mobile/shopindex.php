@@ -1,54 +1,88 @@
 <?php	
-			$settings=globaSetting();
-			$advs = mysqld_selectall("select * from " . table('shop_adv') . " where enabled=1  order by displayorder desc");
-     
-	    $allgoods = mysqld_selectcolumn("SELECT count(*) FROM " . table('shop_goods') . " WHERE deleted =0");
-			 $children_category=array();
-	 $category = mysqld_selectall("SELECT *,'' as list FROM " . table('shop_category') . " WHERE isrecommand=1 and enabled=1 and deleted=0 ORDER BY parentid ASC, displayorder DESC", array(), 'id');
-        foreach ($category as $index => $row) {
-            if (!empty($row['parentid'])) {
-                $children_category[$row['parentid']][$row['id']] = $row;
-                unset($category[$index]);
-            }
-        }
- 			$first_good_list=array();
-        $recommandcategory = array();
-        foreach ($category as &$c) {
-            if ($c['isrecommand'] == 1) {
-                $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}'  ORDER BY displayorder DESC, sales" );
-               
-               foreach ($c['list'] as &$c1goods) {
-                    if ($c1goods['isrecommand'] == 1&&$c1goods['isfirst'] == 1) {
-                       $first_good_list[] = $c1goods;
-                    }
-                }
-                $recommandcategory[] = $c;
-            }
-            if (!empty($children_category[$c['id']])) {
-                foreach ($children_category[$c['id']] as &$child) {
-                    if ($child['isrecommand'] == 1) {
-                        $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and ccate='{$child['id']}'  ORDER BY displayorder DESC, sales DESC " );
-                       	  foreach ($child['list'] as &$c2goods) {
-				                    if ($c2goods['isrecommand'] == 1&&$c2goods['isfirst'] == 1) {
-				                       $first_good_list[] = $c2goods;
-				                    }
-				                }
-                       
-                        $recommandcategory[] = $child;
-                    }
-                }
-                unset($child);
-            }
-        }
-         $isdzd=false;
-       
-      	require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/shopindex_1.php');
-			
-       if($isdzd==false)
-			{
-				
-        include themePage('shopindex');	
-      }
+$settings=globaSetting();
+//获取广告列表
+$advs = mysqld_selectall("select * from " . table('shop_adv') . " where enabled=1  order by displayorder desc");
+//获取商品的总数量
+$allgoods = mysqld_selectcolumn("SELECT count(*) FROM " . table('shop_goods') . " WHERE deleted =0");
+$children_category=array();
+//获取商品类型类别根据父节点等排序
+$category = mysqld_selectall("SELECT *,'' as list FROM " . table('shop_category') . " WHERE isrecommand=1 and enabled=1 and deleted=0 ORDER BY parentid ASC, displayorder DESC", array(), 'id');
+//选择出一级分类
+foreach ($category as $index => $row) {
+    if (!empty($row['parentid'])) {
+        $children_category[$row['parentid']][$row['id']] = $row;
+        unset($category[$index]);
+    }
+}
 
-		require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/shopindex_2.php');
+$first_good_list=array();
+$recommandcategory = array();
+foreach ($category as &$c) {
+    if ($c['isrecommand'] == 1) {
+        if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
+            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and kinds = '{$_GP['kinds']}' ORDER BY displayorder DESC, sales");
+        }else {
+            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}'  ORDER BY displayorder DESC, sales");
+        }
+            foreach ($c['list'] as &$c1goods) {
+            if ($c1goods['isrecommand'] == 1&&$c1goods['isfirst'] == 1) {
+                $first_good_list[] = $c1goods;
+            }
+        }
+        $recommandcategory[] = $c;
+    }
+    if (!empty($children_category[$c['id']])) {
+        foreach ($children_category[$c['id']] as &$child) {
+            if ($child['isrecommand'] == 1) {
+                if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
+                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and ccate='{$child['id']}' and kinds = '{$_GP['kinds']}' ORDER BY displayorder DESC, sales DESC ");
+                }else {
+                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and ccate='{$child['id']}'  ORDER BY displayorder DESC, sales DESC ");
+                }foreach ($child['list'] as &$c2goods) {
+                    if ($c2goods['isrecommand'] == 1&&$c2goods['isfirst'] == 1) {
+                        $first_good_list[] = $c2goods;
+                    }
+                }
+                $recommandcategory[] = $child;
+            }
+        }
+        unset($child);
+    }
+}
+
+//2016-10-26-yanru-begin
+//对根据商品列表对商品分类用于分类展示
+//商品中根据用户设置好的商品类别进行分类获取
+$kinds_list = mysqld_selectall("SELECT * FROM " . table('goods_kinds')." ORDER BY kinds_level ", array(), 'kinds_level');
+/*$has_kinds_list = mysqld_selectall("SELECT * FROM " . table('shop_goods')." WHERE  isrecommand = 1 and status = 1 and kinds != 0 ORDER BY displayorder DESC, sales DESC ");
+$kinds_goods_list = array();
+foreach ($kinds_list as $tlo) {
+    $tplist = array();
+    foreach ($has_kinds_list as $tlt) {
+        if($tlo['kinds_level'] == $tlt['kinds']){
+            $tplist[] = $tlt;
+        }
+    }
+    $tlo['goods_list'] = $tplist;
+    $kinds_goods_list[] = $tlo;
+}
+if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
+    unset($category);
+    foreach ($kinds_goods_list as $t) {
+        if($_GP['kinds'] == $t['kinds_level']){
+            $category = $t['goods_list'];
+        }
+    }
+}*/
+//end
+
+$isdzd=false;
+       
+require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/shopindex_1.php');
+			
+if($isdzd==false) {
+    include themePage('shopindex');
+}
+
+require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/shopindex_2.php');
 			

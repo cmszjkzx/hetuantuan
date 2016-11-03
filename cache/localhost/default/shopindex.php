@@ -13,16 +13,16 @@
 </head>
 <body>
 <div class="container cboxshadow">
-<!--<div class="indexsearch">
-        <form action="mobile.php" id="searchForm" name="searchForm" class="form-inline">
-            <input type="hidden" name="mod" value="mobile"/>
-            <input type="hidden" name="do" value="goodlist"/>
-            <input type="hidden" name="name" value="shopwap"/>
-            <input name="keyword" id="search_word" placeholder="请输入商品名进行搜索！" type="text" class="inputwidth">
-            <lable><a href="&lt;!&ndash;@php  echo mobile_url('listCategory')@&ndash;&gt;"><i id="fi" class="iconfont bjicon-listbullet"></i></a>
-            </lable>
-        </form>
-</div>-->
+<!--<div class="indexsearch">-->
+        <!--<form action="mobile.php" id="searchForm" name="searchForm" class="form-inline">-->
+            <!--<input type="hidden" name="mod" value="mobile"/>-->
+            <!--<input type="hidden" name="do" value="goodlist"/>-->
+            <!--<input type="hidden" name="name" value="shopwap"/>-->
+            <!--<input name="keyword" id="search_word" placeholder="请输入商品名进行搜索！" type="text" class="inputwidth">-->
+            <!--<lable><a href="&lt;!&ndash;@php  echo mobile_url('listCategory')@&ndash;&gt;"><i id="fi" class="iconfont bjicon-listbullet"></i></a>-->
+            <!--</lable>-->
+        <!--</form>-->
+<!--</div>-->
     <div class="row">
         <div class="slider card card-nomb" style="visibility: visible;">
             <script type="text/javascript" src="http://localhost/hetuantuan/themes/default/__RESOURCE__/js/TouchSlide.1.1.js"></script>
@@ -74,15 +74,16 @@
     </div>
     <div class="paixu paixu_index">
         <div class="tab">
-            <a <?php if($sort==1) { ?>  class="price on"<?php } else { ?>class="price"<?php } ?>
-            onclick="location.href='<?php echo $sorturl;?>&sort=1&sortb1=<?php echo $sortb11;?>
-            '">同事推荐</a>
-            <a onclick="alert(1)">人气</a>
+            <?php if(!empty($kinds_list)){ foreach($kinds_list as $list) {?>
+            <a class="click on" href="<?php echo create_url('mobile', array('do'=>$_GP['do'], 'name'=>$_GP['modul'], 'kinds'=>$list['kinds_level']));?>"><?php echo $list['kinds_name']?></a>
+            <?php }} ?>
+
             <a <?php if($sort==3) { ?>  class="click on"<?php } else { ?>class="renqi"<?php } ?>
             onclick="location.href='<?php echo $sorturl;?>&sort=3&sortb3=<?php echo $sortb33;?>
             '">筛选</a>
             <a <?php if($sort==3) { ?>  class="click on"<?php } else { ?>class="click"<?php } ?>
-            href="<?php echo mobile_url('goodlist');?>">搜索</a>
+            href="<?php echo mobile_url('listCategory');?>">搜索</a>
+
         </div>
     </div>
     <!--<div class="row ptb10">-->
@@ -125,31 +126,28 @@
             <div role="main" class="ui-content ">
                 <div class="home-categories">
                     <div class="category-container" style="background-color:#ffffff;">
-                    <ul class="goods_list">
+                        <ul class="goods_list">
                         <?php foreach($category as $row){ ?>
                         <?php foreach($row['list'] as $item){ ?>
-
-                        <li class="SeckillOne">
-                            <a href="<?php echo mobile_url('detail', array('id' => $item['id']))?>" class="item">
-
-                                <div class="img"><img
-                                        src="<?php echo WEBSITE_ROOT;?>/attachment/<?php echo $item['thumb']?>"
-                                        usesrc="1" alt=""></div>
-                                <div class="txt">商品名称:<?php echo $item['title'];?></div>
-
-                                <div class="buy">
-                                    <span class="price">价格:<strong><em>￥
+                            <li class="SeckillOne">
+                                <a href="<?php echo mobile_url('detail', array('id' => $item['id']))?>" class="item">
+                                    <div class="img">
+                                        <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php echo $item['thumb']?>"
+                                        usesrc="1" alt="">
+                                    </div>
+                                    <div class="txt">商品名称:<?php echo $item['title'];?></div>
+                                    <div class="buy">
+                                        <span class="price">价格:<strong><em>￥
                                         <?php echo $item['marketprice'];?></em></strong>
                                         <!--<del>￥&lt;!&ndash;@php echo $item['productprice'];@&ndash;&gt;</del>-->
-                                    </span>
-
-                                </div>
-                            </a>
-                        </li>
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
 
                         <?php } ?>
                         <?php } ?>
-                    </ul>
+                        </ul>
 
                     <!--&lt;!&ndash;@php foreach($category as $row){ @&ndash;&gt;-->
                     <!--<div class="category-container" style="background-color:#ffffff;">-->
@@ -201,11 +199,10 @@
 
 
                 <!--</div>-->
-
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
     <?php include page('footer');?>
 </div>
 <?php include themePage('footer');?>

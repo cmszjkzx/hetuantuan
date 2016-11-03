@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/ueditor/third-party/highcharts/highcharts.js"></script>
  
 <script type="text/javascript">
-	function hiddenall()
+function hiddenall()
 {
 	 document.getElementById('container').style.display='none';
 	   /* document.getElementById('container2').style.display='none';
@@ -23,7 +23,7 @@ $(function () {
     $('#container').highcharts({
     	 credits: {
           enabled:false
-				},
+		},
         chart: {
             type: 'column'
         },
@@ -62,8 +62,8 @@ $(function () {
         		<?php  $index=0?>
             	<?php  if(is_array($chartdata1)) { foreach($chartdata1 as $item) { ?>
                 ['<?php  echo $item['dates'];?>', <?php  echo $item['counts'];?>],	
-          <?php  $index++?>
-                	<?php  } } ?>
+                <?php  $index++?>
+                <?php  } } ?>
             ],
             dataLabels: {
                 enabled: true,
@@ -80,7 +80,7 @@ $(function () {
         }]
     });
     /*
-    
+
       $('#container2').highcharts({
     	 credits: {
           enabled:false
@@ -120,9 +120,9 @@ $(function () {
             name: 'Population',  
              color: 'rgba(126,86,134,.9)',
             data: [
-        		<?php  $index=0?>
+	            <?php  $index=0?>
             	<?php  if(is_array($chartdata2)) { foreach($chartdata2 as $item) { ?>
-                ['<?php  echo $item['dates'];?>', <?php  echo $item['counts'];?>],	
+                ['<?php  echo $item['dates'];?>', <?php  echo $item['counts'];?>],
           <?php  $index++?>
                 	<?php  } } ?>
             ],

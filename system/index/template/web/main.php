@@ -41,7 +41,7 @@
     	{
     		if(stitle=='')
     		{
-    		stitle='控制台';	
+    		  stitle='控制台';	
     		}
     		document.getElementById('activeworker').innerText=stitle;
     	}
@@ -119,7 +119,7 @@
     </a> 
 </li>
 <li class="Larger">
-    <a class="dropdown-toggle"  href="<?php  echo WEBSITE_ROOT.'index.php';?>" target="_blank">
+    <a class="dropdown-toggle"  href="<?php  echo WEBSITE_ROOT.'mobile.php';?>" target="_blank">
         <i class="icon-mobile-phone"></i>
         <span>手机端商城首页</span>
     </a> 
@@ -130,26 +130,26 @@
 
 <li class="light-blue">
     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-       				<span class="user-info">
-									<small>欢迎光临,</small>
-									<?php echo $username ?>								</span>
-
+       	<span class="user-info">
+		<small>欢迎光临,</small>
+		<?php echo $username ?>
+        </span>
         <i class="icon-caret-down"></i>
     </a>
 
     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-  <li>
-            <a onclick="navtoggle('修改密码')" href="<?php  echo create_url('site',array('name' => 'index','do' => 'changepwd'))?>" target="main">
-                <i class="icon-info-sign"></i>
-                修改密码
-            </a>
-        </li>
-        <li>
-            <a onclick="navtoggle('退出系统')" href="<?php  echo create_url('site',array('name' => 'public','do' => 'logout'))?>">
-                <i class="icon-off"></i>
-                退出系统
-            </a>
-        </li>
+    <li>
+        <a onclick="navtoggle('修改密码')" href="<?php  echo create_url('site',array('name' => 'index','do' => 'changepwd'))?>" target="main">
+            <i class="icon-info-sign"></i>
+            修改密码
+        </a>
+    </li>
+    <li>
+        <a onclick="navtoggle('退出系统')" href="<?php  echo create_url('site',array('name' => 'public','do' => 'logout'))?>">
+            <i class="icon-off"></i>
+            退出系统
+        </a>
+    </li>
     </ul>
 </li>
 </ul><!-- /.ace-nav -->
@@ -189,20 +189,20 @@
           	  <?php   require "smenu_home.php";?> 
           	  <?php   }?> 
           	
-          	  	<?php if("shop"==$_GP['smenu']){ ?>
+          	<?php if("shop"==$_GP['smenu']){ ?>
           	  <?php   require "smenu_shop.php";?> 
           	  <?php   }?> 
           	  
-          	  	<?php if("statistical"==$_GP['smenu']){ ?>
+          	<?php if("statistical"==$_GP['smenu']){ ?>
           	  <?php   require "smenu_statistical.php";?> 
           	  <?php   }?> 
           	  
           
-          	  	<?php if("setting"==$_GP['smenu']){ ?>
+          	<?php if("setting"==$_GP['smenu']){ ?>
           	  <?php   require "smenu_setting.php";?> 
           	  <?php   }?> 
           	  
-          	  <?php if("extends"==$_GP['smenu']){ ?>
+          	<?php if("extends"==$_GP['smenu']){ ?>
           	  <?php   require "smenu_extends.php";?> 
           	  <?php   }?> 
           	     </ul>

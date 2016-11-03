@@ -23,7 +23,7 @@ body{ background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16p
 <div class="system-message">
 	<div style="padding:24px;">
 				
-		<div class="error"><img style="margin-right: 9px;padding-top:10px;" src="<?php echo RESOURCE_ROOT;?>/addons/common/image/<?php  if($type=='success') { ?>success.png<?php  } else if($type=='error') { ?>error.png<?php  } else if($type=='tips') { ?>success.png<?php  } else if($type=='sql') { ?>error.png<?php  } ?>" style="cursor:pointer;"><span style="padding-top:0px;"><?php  echo $msg;?></div>	
+		<div class="error"><img style="margin-right: 9px;padding-top:10px;" src="<?php echo RESOURCE_ROOT;?>/addons/common/image/<?php  if($type=='success') { ?>success.png<?php  } else if($type=='error') { ?>error.png<?php  } else if($type=='tips') { ?>success.png<?php  } else if($type=='sql') { ?>error.png<?php  } ?>" style="cursor:pointer;"><span style="padding-top:0px;"><?php  echo $msg;?><!-- yanru 2016-10-18 --></span></div>	
 	</div>
 <p class="detail"></p>
 <div class="jump" style="float:right;padding-right:5px;">
@@ -43,8 +43,8 @@ var interval = setInterval(function(){
 })();
 </script>
 <?php  } else { ?>
- <p>[<strong><a id="href" href="<?php  echo $redirect;?>">点击进入下一页</b>]</strong></p>
-		<?php  } ?>
+ <p>[<strong><a id="href" href="<?php  echo $redirect;?>">点击进入下一页</a>]</strong></p>
+		<?php  } ?><!-- yanru 2016-10-18 把后面的b修改成a -->
 <?php  } else { ?>
 <p>[<a href="javascript:history.go(-1);">点击这里返回上一页</a>] </p>
 	<?php  } 

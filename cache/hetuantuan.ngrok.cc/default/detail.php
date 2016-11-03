@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/css/base.css?v=1">
     <link rel="stylesheet" href="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/css/iconfont.css"/>
+    <link rel="stylesheet" href="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/css/weui.css"/>
     <script type="text/javascript" src="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/js/TouchSlide.1.1.js"></script>
     <style type='text/css'>
@@ -178,8 +179,10 @@
             <p class="sub-title">关于物流</p>
             <ul  style="padding-bottom:50px;">
                 <li>
-                    <p>全部包邮,大方得恨!</p>
-
+                    <p>
+                    <!--<p>全部包邮,大方得恨!</p>-->
+                    <?php echo $goods['express'];?>
+                    </p>
                 </li>
             </ul>
         </div>
@@ -187,8 +190,10 @@
             <p class="sub-title">关于服务</p>
             <ul  style="padding-bottom:50px;">
                 <li>
-                   <p>全部买一送一,不差钱的狠!</p>
-
+                    <p>
+                    <!--<p>全部买一送一,不差钱的狠!</p>-->
+                    <?php echo $goods['service'];?>
+                    </p>
                 </li>
             </ul>
         </div>
@@ -401,7 +406,6 @@
 
     //添加到购物车
     function addtocart(){
-//        debugger;
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");
@@ -422,8 +426,8 @@
             tip("最多只能购买" + parseInt($("#goodstotail").html()) + "件!",true);
             return;
 
-        };  	<?php } ?>
-
+        };
+        <?php } ?>
         tip("正在处理数据...");
         var url = '<?php echo mobile_url('mycart',array('op'=>'add','id'=>$goods['id']),true);?>' +"&optionid=" + $("#optionid").val() + "&total=" + total;
         $.getJSON(url, function(s){
@@ -442,11 +446,10 @@
 
 
     function option_selected(){
-
         var ret= {
             no: "",
             all: []
-        };
+        };//初始化对象，no,all都是变量名
         if(!hasoption){
             return ret;
         }
@@ -463,14 +466,12 @@
 
 <!--规格选择JS Start-->
 <script type="text/javascript">
-//    debugger;
     var options =<?php echo json_encode($options)?>;
     var specs =<?php echo json_encode($specs)?>;
     var hasoption = <?php echo $goods['hasoption']=='1'?'true':'false'?>;
 
 
     $(".option,.optionimg").click(function () {
-//        debugger;
         var specid = $(this).attr("specid");
         var oid = $(this).attr("oid");
         $(".optionid_" + specid).val(oid);
