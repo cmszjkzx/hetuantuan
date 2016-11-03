@@ -4,3 +4,5 @@ cache/*
 index.php
 
 /cache/*/
+
+.idea/workspace.xml
