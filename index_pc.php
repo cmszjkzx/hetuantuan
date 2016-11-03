@@ -4,11 +4,12 @@ if((empty($_REQUEST['name'])||!empty($_REQUEST['name'])&&$_REQUEST['name']!='mod
 	header("location:install.php");
 	exit;
 }
-
+/*yanru 2016-10-18 begin*/
 $mod='mobile';
 $mname='shopwap';
 defined('SYSTEM_ACT') or define('SYSTEM_ACT', 'mobile');
 $do='index_pc';
+/*end*/
 if(!empty($do))
 {
 	ob_start();

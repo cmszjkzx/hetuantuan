@@ -653,32 +653,34 @@ CREATE TABLE `hetuantuan_shop_diymenu` (
 DROP TABLE IF EXISTS `hetuantuan_shop_goods`;
 CREATE TABLE `hetuantuan_shop_goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `pcate` int(10) unsigned NOT NULL DEFAULT '0',
-  `ccate` int(10) unsigned NOT NULL DEFAULT '0',
+  `pcate` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '一级分类',
+  `ccate` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '二级分类',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '0为实体，1为虚拟',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架，0为否，1为是',
   `displayorder` int(10) unsigned NOT NULL DEFAULT '0',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `thumb` varchar(255) DEFAULT '',
-  `description` varchar(1000) NOT NULL DEFAULT '',
-  `content` text NOT NULL,
-  `goodssn` varchar(50) NOT NULL DEFAULT '',
-  `weight` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `thumb` varchar(255) DEFAULT '' COMMENT '商品主图',
+  `description` varchar(1000) NOT NULL DEFAULT '' COMMENT '商品分享描述',
+  `content` text NOT NULL COMMENT '商品详细描述',
+  `express` text NOT NULL COMMENT '快递详细描述',
+  `service` text NOT NULL COMMENT '服务详细描述',
+  `goodssn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
+  `weight` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '重量',
   `productsn` varchar(50) NOT NULL DEFAULT '',
-  `marketprice` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `productprice` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `total` int(10) NOT NULL DEFAULT '0',
+  `marketprice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '本店销售价格',
+  `productprice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '市场销售价格',
+  `total` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `totalcnf` int(11) DEFAULT '0' COMMENT '0 拍下减库存 1 付款减库存 2 永久不减',
   `sales` int(10) unsigned NOT NULL DEFAULT '0',
   `createtime` int(10) unsigned NOT NULL,
-  `credit` int(11) DEFAULT '0',
+  `credit` int(11) DEFAULT '0' COMMENT '积分奖励',
   `hasoption` int(11) DEFAULT '0',
-  `isnew` int(11) DEFAULT '0',
-  `issendfree` int(11) DEFAULT NULL,
-  `ishot` int(11) DEFAULT '0',
+  `isnew` int(11) DEFAULT '0' COMMENT '是否是新品',
+  `issendfree` int(11) DEFAULT NULL COMMENT '免运费',
+  `ishot` int(11) DEFAULT '0' COMMENT '是否热卖',
   `isdiscount` int(11) DEFAULT '0',
-  `isrecommand` int(11) DEFAULT '0',
-  `istime` int(11) DEFAULT '0',
+  `isrecommand` int(11) DEFAULT '0' COMMENT '首页推荐',
+  `istime` int(11) DEFAULT '0' COMMENT '限时促销',
   `timestart` int(11) DEFAULT '0',
   `timeend` int(11) DEFAULT '0',
   `viewcount` int(11) DEFAULT '0',
@@ -687,6 +689,7 @@ CREATE TABLE `hetuantuan_shop_goods` (
   `isfirst` int(1) DEFAULT '0' COMMENT '首发',
   `isjingping` int(1) DEFAULT '0' COMMENT '精品',
   `isverify` int(1) DEFAULT '0' COMMENT '是否是核销产品0否1是',
+  `kinds` int(3) DEFAULT '0' COMMENT '商品类别',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -843,6 +846,23 @@ CREATE TABLE `hetuantuan_shop_order` (
 -- ----------------------------
 -- Records of hetuantuan_shop_order
 -- ----------------------------
+
+-------------------------------
+--2016-10-26-yanru-begin
+-- ----------------------------
+-- Table structure for hetuantuan_goods_kinds
+-- ----------------------------
+DROP TABLE IF EXISTS `hetuantuan_goods_kinds`;
+CREATE TABLE `hetuantuan_goods_kinds` (
+  `kinds_level` int(3) NOT NULL DEFAULT '0' COMMENT '类别',
+  `kinds_name` varchar(50) DEFAULT NULL COMMENT '类别名称',
+  PRIMARY KEY (`kinds_level`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of hetuantuan_shop_order
+-- ----------------------------
+--end
+-------------------------------
 
 -- ----------------------------
 -- Table structure for hetuantuan_shop_order_goods

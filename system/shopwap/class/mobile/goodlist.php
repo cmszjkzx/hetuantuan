@@ -79,7 +79,6 @@
             }
         }
         $list = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  deleted=0 AND status = '1' $condition ORDER BY $sortfield  ");
-//        var_dump($list);
   
         $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('shop_goods') . " WHERE  deleted=0  AND status = '1' $condition");
         $pager = pagination($total, $pindex, $psize, $url = '', $context = array('before' => 0, 'after' => 0, 'ajaxcallback' => ''));
