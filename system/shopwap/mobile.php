@@ -9,7 +9,7 @@ class shopwapAddons  extends BjSystemModule {
 				$qrurl=$this->create_qrcode(WEBSITE_ROOT.mobile_url('shopindex'));
 	        	include page('index_pc');
 	}
-
+//生成二维码需要传入的变量是页面的地址URL
 		   function create_qrcode($homeurl)
   {
   	$att_target_file = 'shopindex_qrcode.png';
