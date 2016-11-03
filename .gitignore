@@ -1,0 +1,6 @@
+attachment/*
+cache/*
+
+index.php
+
+/cache/*/
