@@ -1,6 +1,7 @@
 attachment/*
 cache/*
 cache/localhost/*
+cache/hetuantuan.ngrok.cc
 .idea/*
 
 index.php
