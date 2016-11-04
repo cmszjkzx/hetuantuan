@@ -1,5 +1,6 @@
 attachment/*
 cache/*
+cache/localhost/*
 .idea/*
 
 index.php
