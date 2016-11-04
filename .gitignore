@@ -1,5 +1,6 @@
 attachment/*
 cache/*
+.idea/*
 
 index.php
 index_pc.php
