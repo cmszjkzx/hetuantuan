@@ -3,6 +3,8 @@ cache/*
 
 index.php
 
+index_pc.php
+
 /cache/*/
 
 .idea/workspace.xml
