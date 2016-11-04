@@ -42,6 +42,10 @@
                         </li>
                         <?php } } ?>
                     </ul>
+                    <div style="position: absolute;right: 0.5rem;bottom: 0.1rem">
+                        <a style="float: right" href="<?php echo mobile_url('shopindex')?>"><img style="width:2rem;height: 2rem" src="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/images/t6.png"></a>
+                        <a style="float: right"><img style="width:2rem;height: 2rem" src="http://hetuantuan.ngrok.cc/hetuantuan/themes/default/__RESOURCE__/images/t2.png"></a>
+                    </div>
                 </div>
             </div>
             <script type="text/javascript">
@@ -360,10 +364,6 @@
         </div>
     </div>
 </div>
-
-    <div id="btnHome" style="position: fixed;top: 300px;right: 25px;">
-        <a href="<?php echo mobile_url('shopindex')?>" type="button" class="btn btn-primary">商城首页</a>
-    </div>
 
     <div class="my_nav">
         <ul id="nav">
