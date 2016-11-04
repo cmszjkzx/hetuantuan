@@ -246,14 +246,14 @@ ol, ul {
 .os_box_list{
     padding:0 2px 5px 10px;
     background-color:#ffffff;
-    padding-top:10px;
+    padding-top:0.5rem;
 }
 
 .os_box_list > li{
     width:50%;
     float:left;
-    padding-right:8px;
-    padding-bottom:10px;
+    padding-right:0.4rem;
+    padding-bottom:0.5rem;
     box-sizing:border-box;
     position:relative
 }
@@ -262,7 +262,7 @@ ol, ul {
     background:#fff;
     display:block;
     border:1px solid #E5E5E5;
-    font-size:12px
+    font-size:0.6rem
 }
 
 .os_box_list .img{
@@ -279,22 +279,22 @@ ol, ul {
 
 .os_box_list .txt{
     padding:5px 0 0 5px;
-    height:25px;
+    height:1.25rem;
     overflow:hidden
 }
 
 .os_box_list .desc{
-    height:30px;
+    height:1.5rem;
     padding:0 0 0 5px;
     color:#999;
     overflow:hidden;
-    font-size:11px;
+    font-size:0.5rem;
     line-height:1.3
 }
 
 .os_box_list .buy{
     padding:0 5px 5px;
-    height:24px
+    height:1.2rem;
 }
 
 .os_box_list .buy .btn{
@@ -312,9 +312,9 @@ ol, ul {
 
 .os_box_list .price del{
     color:#666;
-    font-size:12px;
+    font-size:0.6rem;
     display:block;
-    line-height:20px;
+    line-height:1rem;
     float:right;
 }
 
@@ -354,49 +354,49 @@ ol, ul {
 
 
 .goodtitle {
-    height: 50px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    height: 2.5rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
     overflow: hidden;
 }
 
 .goodprice {
-    padding-top: 10px;
-    font-size: 24px;
+    padding-top: 0.5rem;
+    font-size: 1.2rem;
     color: #F7762E;
-    line-height: 30px;
+    line-height: 1.5rem;
 }
 
 .goodprice strong {
-    font-size: 24px;
+    font-size: 1.2rem;
     color: #F7762E;
     font-weight: normal;
 }
 
 .goodprice span {
-    font-size: 12px;
+    font-size: 0.6rem;
     color: #ffffff;
     background-color: #e01d20;
     padding: 1px;
 }
 
 .goodpricedel {
-    padding-bottom: 10px;
-    font-size: 14px;
+    padding-bottom: 0.5rem;
+    font-size: 0.7rem;
     color: #BEBEBE;
 }
 
 .goodxl {
-    font-size: 14px;
+    font-size: 0.7rem;
 
 }
 
 .goodyh {
-    font-size: 14px;
+    font-size: 0.7rem;
 }
 
 .goodyh strong {
-    font-size: 16px;
+    font-size: 0.8rem;
     color: #F7762E;
 }
 
