@@ -1,12 +1,12 @@
 attachment/*
 cache/*
 cache/localhost/*
-cache/hetuantuan.ngrok.cc
+cache/hetuantuan.ngrok.cc/*
 .idea/*
 
 index.php
 index_pc.php
 
-/cache/*/
+/cache
 
 .idea/workspace.xml

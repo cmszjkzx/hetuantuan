@@ -731,31 +731,31 @@ ol, ul {
 .detail-group .property {
     color: #333;
     float: left;
-    line-height: 40px;
-    height: 40px;
+    line-height: 2rem;
+    height: 2rem;
     display: inline-block;
     padding: 0 5px;
-    margin: 0 10px 10px 0;
+    margin: 0 0.5rem 0.5rem 0;
     background: #fff;
-    min-width: 49px;
+    min-width: 3rem;
     text-align: center;
     border: 1px solid #edeeef;
-    font-size: 12px
+    font-size: 0.8rem
 }
 
 .detail-group .propertyimg {
     color: #333;
     float: left;
-    line-height: 40px;
-    height: 52px;
+    line-height: 2rem;
+    height: 2.5rem;
     display: inline-block;
     padding: 0 0px;
     margin: 0 10px 10px 0;
     background: #fff;
-    min-width: 49px;
+    min-width: 3rem;
     text-align: center;
     border: 1px solid #edeeef;
-    font-size: 12px
+    font-size: 0.6rem
 }
 
 .detail-group .current {
