@@ -23,11 +23,6 @@
 <div class="main">
 <script type="text/javascript" src="__RESOURCE__/mobile/images/jquery.gcjs.js"></script>
 <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
-
-<style>
-.shopcart-footer{margin-bottom:49px;}
-</style>
-
 <div class="shopcart-main" style="margin-top: 60;">
 
 <div style='text-align:center;padding:50px 0 50px 0; <!--@php  if(count($list)>0) { @-->display:none<!--@php  } @-->' id='cartempty'>
@@ -65,7 +60,7 @@
 	<!--@php  } } @-->
 </div>
 <div style='height:80px;width:100%;'>&nbsp;</div>
-<div id='cartfooter' class="shopcart-footer" <!--@php  if(count($list)<=0) { @-->style='display:none'<!--@php  } else { @--> style='margin-bottom: 49px;'  <!--@php  } @-->'>
+<div id='cartfooter' class="shopcart-footer" <!--@php  if(count($list)<=0) { @-->style='display:none'<!--@php  } else { @--> <!--@php  } @-->'>
 	<span class="pull-left">合计：<span id="pricetotal"><!--@php  echo $price;@--></span> 元</span>
 	  
 	<a href="<!--@php  echo mobile_url('confirm')@-->" class="btn btn-success pull-right">立即结算</a>
@@ -73,9 +68,6 @@
 </div>
 </div>
 
-
-
-<!--@php include themePage('footer');@-->
 <script type="text/javascript">
     $(function(){
         $(".goodsnum").blur(function(){
