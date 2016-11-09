@@ -37,7 +37,7 @@
                         <!--@php  if(is_array($advs)) { foreach($advs as $adv) { @-->
                         <li>
                             <a href="<!--@php  if(empty($adv['link'])) { @--><!--@php  } else { @--><!--@php  echo $adv['link'];@--><!--@php  } @-->">
-                                <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/></a>
+                                <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/></a>
                         </li>
                         <!--@php  } } @-->
                     </ul>
@@ -73,19 +73,13 @@
             </script>
         </div>
     </div>
-    <div class="paixu paixu_index">
-        <div class="tab">
+    <div class="paixu paixu_index" style="display: flex;border-top: solid 0.25rem #EFEFEF;">
+        <ul class="tab" style="display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;flex: 7.2;">
             <!--@php if(!empty($kinds_list)){ foreach($kinds_list as $list) {@-->
-            <a class="click on" href="<!--@php  echo create_url('mobile', array('do'=>$_GP['do'], 'name'=>$_GP['modul'], 'kinds'=>$list['kinds_level']));@-->"><!--@php echo $list['kinds_name']@--></a>
+            <li class="click on" style="display:inline-block;width:4.325rem;"><a href="<!--@php  echo create_url('mobile', array('do'=>$_GP['do'], 'name'=>$_GP['modul'], 'kinds'=>$list['kinds_level']));@-->" style="margin: 0 auto;width: 100%"><img src="__RESOURCE__/images/ic_cat.png" style="margin: 0.5rem auto 0 auto;display: block;height: 1.25rem;width: 1.25rem"><span style="margin-top: 0.2rem;color: #343434"><!--@php echo $list['kinds_name']@--></span></a></li>
             <!--@php }} @-->
-
-            <a <!--@php  if($sort==3) { @-->  class="click on"<!--@php  } else { @-->class="renqi"<!--@php  } @-->
-            onclick="location.href='<!--@php  echo $sorturl;@-->&sort=3&sortb3=<!--@php  echo $sortb33;@-->
-            '">筛选</a>
-            <a <!--@php  if($sort==3) { @-->  class="click on"<!--@php  } else { @-->class="click"<!--@php  } @-->
-            href="<!--@php  echo mobile_url('listCategory');@-->">搜索</a>
-
-        </div>
+        </ul>
+        <a style="flex: 1;text-align: center;margin: 0 auto;line-height: 2.8rem;border-left: 1px solid #e6e6e6;" href="<!--@php  echo mobile_url('goodlist')@-->"><img src="__RESOURCE__/images/ic_magnifier.png" style="height: 1.25rem;width: 1.25rem"></a>
     </div>
     <!--<div class="row ptb10">-->
         <!--<div class="col-xsl-2">-->
@@ -131,17 +125,18 @@
                         <!--@php foreach($category as $row){ @-->
                         <!--@php foreach($row['list'] as $item){ @-->
                             <li class="SeckillOne">
-                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item">
-                                    <div class="img">
-                                        <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php echo $item['thumb']@-->"
+                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item" style="display: flex">
+                                    <div class="img" style="flex: 1">
+                                        <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php echo $item['thumb']@-->" class="good-img"
                                         usesrc="1" alt="">
                                     </div>
-                                    <div class="txt">商品名称:<!--@php echo $item['title'];@--></div>
+                                    <div style="flex: 1;border-left: solid 1px #EFEFEF">
+                                    <div class="txt"><!--@php echo $item['title'];@--></div>
                                     <div class="buy">
-                                        <span class="price">价格:<strong><em>￥
-                                        <!--@php echo $item['marketprice'];@--></em></strong>
-                                        <!--<del>￥&lt;!&ndash;@php echo $item['productprice'];@&ndash;&gt;</del>-->
+                                        <span>
+                                        <!--@php echo $item['marketprice'];@-->元
                                         </span>
+                                    </div>
                                     </div>
                                 </a>
                             </li>
@@ -206,7 +201,26 @@
         </div>
     <!--@php  include page('footer');@-->
 </div>
-<!--@php include themePage('footer');@-->
+    <!--@php include themePage('footer');@-->
+    <!--<div style="display: flex;height: 2.4rem;background: white;border-top: solid 1px #EFEFEF;margin-left: -15px;margin-right: -15px;position: fixed;bottom: 0;width: 100%">
+        <a style="flex: 1">
+            <div style="margin: 0 auto;text-align: center">
+            <img src="__RESOURCE__/images/ic_order_form_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+            <span style="font-size: 0.5rem;color: #9e9e9e">订单</span>
+            </div>
+        </a>
+        <a style="flex: 1">
+            <div style="margin: 0 auto;text-align: center">
+                <img src="__RESOURCE__/images/ic_shopping_cart.png" style="margin:-1.2rem auto 0 auto ;display: block;width: 2.85rem;height: 2.85rem;">
+            </div>
+        </a>
+        <a style="flex: 1">
+            <div style="margin: 0 auto;text-align: center">
+                <img src="__RESOURCE__/images/ic_home_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+                <span style="font-size: 0.5rem;color: #9e9e9e">HOME</span>
+            </div>
+        </a>
+    </div>-->
 
 <script type="text/javascript">
     jQuery(document).ready(function ($) {

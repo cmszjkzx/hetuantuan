@@ -1,7 +1,7 @@
 ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 2.4rem 0;
     vertical-align: baseline;
     display: block;
 }
@@ -36,11 +36,9 @@ ul {
 
 .paixu .tab {
     width: 100%;
-    height: 44px;
+    height: 2.8rem;
     text-align: center;
-    line-height: 44px;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #e6e6e6;
+    background-color: white;
 }
 
 .paixu_index {
@@ -49,15 +47,24 @@ ul {
 }
 
 .paixu .tab a {
-    width: 25%;
     float: left;
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    height: 44px;
-    border-right: 1px solid #e6e6e6;
-    font-size: 14px;
+    /*height: rem;*/
+    /*border-right: 1px solid #e6e6e6;*/
+    font-size: 0.65rem;
 }
+
+/*.tab a:before {*/
+    /*width: 1rem;*/
+    /*height: 1.25rem;*/
+    /*content: '\20';*/
+    /*display: block;*/
+    /*margin: 0 auto 2px auto;*/
+    /*background-image: url(../images/t2.png);*/
+    /*background-repeat: no-repeat;*/
+/*}*/
 
 .paixu .tab a.click {
     border-right: none;
@@ -121,47 +128,57 @@ ul {
 .os_box_list .txt {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
+    text-align: center;
 }
 
 .os_box_list {
-    padding: 0 2px 5px 10px;
+    border-style: solid none none none;
+    border-color: #C8C8C8;
+    border-width: 1px;
+    /*padding: 0 2px 5px 10px;*/
     background-color: #ffffff;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
 }
 
 .os_box_list > li {
     width:50%;
     float: left;
-    padding-right: 8px;
-    padding-bottom: 10px;
+    border-color: #C8C8C8;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
     box-sizing: border-box;
     position: relative
+}
+
+.os_box_list > li:nth-child(2n) {
+    border-width: 0 0 1px 0;
 }
 
 .os_box_list .item {
     background: #fff;
     display: block;
-    border: 1px solid #E5E5E5;
-    font-size: 12px
 }
+
+
 
 .os_box_list .img {
     width: 100%;
-    padding-top: 95%;
     overflow: hidden;
-    height: 0;
 }
 
 .os_box_list .img img {
+    position: absolute;
+    top:0;
+    padding: 0 1px 0 1px;
     /*margin-top: 10%;*/
     width: 100%;
 }
 
 .os_box_list .txt {
-    padding: 5px 0 0 5px;
-    height: 25px;
-    overflow: hidden
+    line-height: 1rem;
+    overflow: hidden;
+    margin-top: 1.25rem;
 }
 
 .os_box_list .desc {
@@ -174,8 +191,10 @@ ul {
 }
 
 .os_box_list .buy {
-    padding: 0 5px 5px;
-    height: 24px
+    color: #FFAE01;
+    text-align: center;
+    font-size: 0.5rem;
+    padding: 0.5rem 0 1.25rem 0;
 }
 
 .os_box_list .buy .btn {
@@ -205,30 +224,28 @@ ul {
 }
 
 .SeckillOne{
-    padding-top: 1rem;
-    background-color: gainsboro;
+    border-top: solid 0.25rem #EFEFEF;
     position: relative;
 }
 .SeckillOne img{
     width: 100%;
-    max-width: 640px;
-    max-height: 178px;
 }
 
 .SeckillOne .txt {
     position: absolute;
-    bottom: 25%;
-    right: 4%;
-    font-size: 1.4rem;
-    color: lightyellow;
+    bottom: 2.3rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+    color: #3c3c3c;
+    max-width: 8rem;
 }
 
 .SeckillOne .buy {
     position: absolute;
-    bottom: 15%;
-    right: 4%;
-    font-size: 1.4rem;
-    color: lightyellow;
+    bottom: 0.9rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: #3c3c3c;
 }
 
 .goods_list .price del {

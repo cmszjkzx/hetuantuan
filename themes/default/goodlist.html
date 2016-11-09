@@ -7,41 +7,52 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="__RESOURCE__/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/list.css" type="text/css"/>
+    <link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
+    <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
+    <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="__RESOURCE__/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $("#submit").click(function () {
+                if ($("#search_word").val()) {
+                    $("#searchForm").submit();
+                } else {
+                    alert("请输入关键词！");
+                    return false;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="paixu">
-            <div class="tab">
-                <a <!--@php  if($sort==1) { @-->  class="price on"<!--@php  } else { @-->class="price"<!--@php  } @-->
-                onclick="location.href='<!--@php  echo $sorturl;@-->&sort=1&sortb1=<!--@php  echo $sortb11;@-->
-                '">销量↓</a>
-                <a <!--@php  if($sort==0) { @-->  class="time on"<!--@php  } else { @-->class="time"
-                <!--@php  } @-->
-                onclick="location.href='<!--@php  echo $sorturl;@-->&sort=0&sortb0=<!--@php  echo $sortb00;@-->
-                '">时间↓</a>
-                <a <!--@php  if($sort==2) { @-->  class="renqi on"<!--@php  } else { @-->class="renqi"<!--@php  } @-->
-                onclick="location.href='<!--@php  echo $sorturl;@-->&sort=2&sortb2=<!--@php  echo $sortb22;@-->
-                '">人气↓</a>
-                <a <!--@php  if($sort==3) { @-->  class="click on"<!--@php  } else { @-->class="click"<!--@php  } @-->
-                onclick="location.href='<!--@php  echo $sorturl;@-->&sort=3&sortb3=<!--@php  echo $sortb33;@-->
-                '">价格↓</a>
-            </div>
+        <div class="weui-search-bar weui-search-bar_focusing" id="search_bar">
+
+            <form class="weui-search-bar__form" action="mobile.php" id="searchForm" name="searchForm">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="hidden" name="mod" value="mobile"/>
+                    <input type="hidden" name="do" value="goodlist"/>
+                    <input type="hidden" name="name" value="shopwap"/>
+                    <input type="search" name="keyword" class="weui-search-bar__input" id="search_word" placeholder="搜索" />
+                </div>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="submit">搜索</a>
+
         </div>
-        <div style="padding-top:10px;"></div>
+        <!--<div style="padding-top:10px;background-color: #EFEFF4;"></div>-->
         <div class="os_panel">
             <ul class="os_box_list" id="m2Con">
                 <!--@php  if(is_array($list)) { foreach($list as $item) { @-->
                 <li>
                     <a href="<!--@php  echo mobile_url('detail', array('id' => $item['id']))@-->" class="item">
-                        <div class="img"><img
+                        <div class="img good-img"><img
                                 src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb'];@-->">
                         </div>
-                        <div class="txt"><!--@php echo $item['title']@--></div>
-                        <div class="buy">
-                        <span class="price"><strong><em>¥<!--@php  echo $item['marketprice'];@--></em></strong><del>¥
-                            <!--@php  echo $item['productprice'];@--></del></span>
-                        </div>
+                        <div class="txt font-good-name"><!--@php echo $item['title']@--></div>
+                        <div class="buy">¥<!--@php  echo $item['marketprice'];@--></div>
                     </a>
                 </li>
                 <!--@php  } } @-->

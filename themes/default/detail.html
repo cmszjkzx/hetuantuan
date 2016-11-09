@@ -62,143 +62,31 @@
                 });
             </script>
             <!-- banner轮播End -->
-            <div class="goodtitle bb1">
-                <div class="col-xs-8" style="font-size: 1rem">
+            <div class="goodtitle">
+                <div style="font-size: 0.75rem;color: #3C3C3C">
                     <!--@php  echo $goods['title'];@-->
                 </div>
-                 <!--@php  if($_CMS['addons_bj_tbk']){if($bj_tbk_member_relect['isagent']) { @-->
-                <div class="col-xs-4 bl1">
-                    <a type="button" class="btn btn-danger btn-block" href="javascript:;" onclick="	document.getElementById('mcover').style.display='block';">我要分销</a>
-                </div>
-                   <!--@php  }} @-->
             </div>
 
             <div class="goodprice col-xs-12">
-                ￥<strong id="marketprice"><!--@php  echo $marketprice;@--></strong>
-                <!--@php  if($goods['issendfree']==1) { @-->
-                <span>包邮商品</span>
-                <!--@php  } @-->
+                <strong id="marketprice">￥<!--@php  echo $marketprice;@--></strong>
             </div>
-            <!--@php  if($marketprice < $productprice) { @-->
-            <!--<div class="goodpricedel col-xs-12 bb1">
-                价格
-                <del id="productprice">&lt;!&ndash;@php  echo $productprice;@&ndash;&gt;</del>
-            </div>-->
-            <!--@php  } @-->
 
-            <!--@php  if($goods['istime']==1) { @-->
-            <div class="col-xs-12 bb1 lh50">
-                <i class="iconfont bjicon-clock" style="color:#F7762E;"></i>
-                <em id="time_<!--@php  echo $goods['id'];@-->"><!--@php  echo $goods['timelaststr'];@--></em>
-                <!--@php  if($stock!=-1) { @-->
-               <span class="pull-right">还剩：<strong><!--@php  echo $stock;@-->
-               </strong><!--@php  } @-->
-               </span>
-            </div>
-            <!--@php  } @-->
-
-            <div class="goodxl col-xs-12 bb1 lh50">
-                <div class="col-xs-6" style="padding-left: 0px;">
-                    <!--<i class="iconfont bjicon-database"></i>-->已出售：<!--@php  echo $goods['sales'];@-->
+            <div class="goodxl col-xs-12">
+                <div class="col-xs-6" style="padding-left: 0px;padding-top: 0.4rem;padding-bottom:0.25rem;font-size: 0.6rem;color: #7F7F7F">
+                    已出售：<!--@php  echo $goods['sales'];@--> 笔
                 </div>
-                <!--<div class="col-xs-6" style="padding-right: 0px">-->
-                   <!--<span class="pull-right">-->
-                       <!--货号：&lt;!&ndash;@php  echo $goods['goodssn'];@&ndash;&gt;-->
-                   <!--</span>-->
-                <!--</div>-->
             </div>
-
-            <!--@php  if($_CMS['addons_bj_hx']){if($goods['isverify']==1){ @-->
-                <div class="col-xs-10" style="padding-top: 15px;padding-bottom: 15px;line-height: 24px;"> 提货门店：
-                    <!--@php  if(is_array($bj_hx_verify_goods)) { foreach($bj_hx_verify_goods as $row) { @-->
-                    <!--@php  echo $row['vname']; @-->&nbsp;&nbsp;&nbsp;
-                    <!--@php  } } @-->
-                </div>
-                <div class="col-xs-2" style="padding-top: 15px;padding-bottom: 15px;line-height: 24px;">
-                    <a class="pull-right" href="<!--@php  echo create_url('mobile',array('name' => 'bj_hx','do' => 'verifyshopindex'));@-->">
-                        <i class="iconfont bjicon-iconfontdizhi"></i>
-                    </a>
-                </div>
-            <!--@php  }  @-->
-            <!--@php  }  @-->
-
-
-        <!--@php  if(is_array($bonus_type)) { foreach($bonus_type as $row) { @-->
-            <div class="goodyh col-xs-12 lh50">
-                <i class="iconfont bjicon-tag"></i>  <!--@php  echo $row['type_name'] @-->
-            </div>
-        <!--@php  } } @-->
         </div>
     </div>
-    <!--<div class="container">
-        <div class="row" style="border-top: 15px solid #eee;border-bottom: 15px solid #eee;">
-            <div class="col-xs-12 lh50">
-                <a href="#" data-toggle="modal" data-target="#xzmodal" id="xzsp">请点击选择商品规格和数量
-                    <span class="pull-right pr15" ><i class="iconfont bjicon-sortright"></i></span>
-                </a>
-            </div>
-        </div>
-    </div>-->
-   <!-- <div class="container">
-        <div class="row" style="border-bottom: 15px solid #eee;">
-            <div class="media pt15 pb15 pl15">
-                <div class="media-left">
-                    <a href="#">
-                        <img src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $goods['thumb'] @&ndash;&gt;"
-                             class="media-object img-circle" style="width:50px;height: 50px">
-                    </a>
-                </div>
-                <div class="media-body" style="padding-top: 5px">
-                    <h4 class="media-heading">&lt;!&ndash;@php  echo $cfg['shop_title'];@&ndash;&gt;</h4>
-                    <span style="color: #BEBEBE">全部商品&lt;!&ndash;@php  echo $allgoods  @&ndash;&gt;款</span>
-                </div>
-            </div>
-            <div class="col-xs-6 pb15">
-            	
-      
-                <a href="&lt;!&ndash;@php  echo mobile_url('goodlist')@&ndash;&gt;" role="button" class="btn btn-default btn-block"
-                   style="width: 97%">
-                    <i class="iconfont bjicon-shangpin1"></i>查看全部商品
-                </a>
-            </div>
-            <div class="col-xs-6 pb15">
-                <a href="&lt;!&ndash;@php  echo mobile_url('shopindex')@&ndash;&gt;" role="button"
-                   class="btn btn-default btn-block pull-right" style="width: 97%">
-                    <i class="iconfont bjicon-iconcaidanshouye"></i>进入商城首页
-                </a>
-            </div>
-        </div>
-    </div>-->
     <div class="container" style="padding-left: 0px;padding-right: 0px;">
         <!-- 商品详情和评价 Start  -->
         <div class="con"><!-- 高度自适应需添加外层 -->
-            <p class="sub-title">商品简介</p>
-            <ul  style="padding-bottom:50px;">
-                <li>
+            <p class="sub-title">商品详情</p>
+            <ul  style="padding-bottom:2.5rem;">
+                <li style="width: 100%">
                     <!--@php  echo $goods['content'];@-->
 
-                </li>
-            </ul>
-        </div>
-        <div class="con"><!-- 高度自适应需添加外层 -->
-            <p class="sub-title">关于物流</p>
-            <ul  style="padding-bottom:50px;">
-                <li>
-                    <p>
-                    <!--<p>全部包邮,大方得恨!</p>-->
-                    <!--@php  echo $goods['express'];@-->
-                    </p>
-                </li>
-            </ul>
-        </div>
-        <div class="con"><!-- 高度自适应需添加外层 -->
-            <p class="sub-title">关于服务</p>
-            <ul  style="padding-bottom:50px;">
-                <li>
-                    <p>
-                    <!--<p>全部买一送一,不差钱的狠!</p>-->
-                    <!--@php  echo $goods['service'];@-->
-                    </p>
                 </li>
             </ul>
         </div>
@@ -331,13 +219,13 @@
                         <p class="name">购买数量：</p>
 
 
-						<div class="input-group" style="width:100px;height:20px;float:right" >
+						<div class="input-group" style="width:2.5rem;height:1.67rem;float:right;margin-top: 0.8rem;background: url('__RESOURCE__/images/ic_button.png');background-size: auto" >
 						    <span class="input-group-btn">
-						        <button type="button" value="-" class="btn btn-default" onClick="chgNum(-1);" style="height:20px;line-height:5px">-</button>
+						        <button type="button" value="-" class="btn btn-default" onClick="chgNum(-1);" style="height:inherit;background: none;border: none">-</button>
 						    </span>
-						    <input type="text" class="form-control" id="total" name="number" value="1" style="width:60px;height:20px;line-height:20px;text-align: center;"/>
+						    <input type="text" class="form-control" id="total" name="number" value="1" style="width:60px;height:inherit;text-align: center;"/>
 						     <span class="input-group-btn">
-						        <button type="button" value="+" class="btn btn-default" onClick="chgNum(1);" style="height:20px;line-height:5px">+</button>
+						        <button type="button" value="+" class="btn btn-default" onClick="chgNum(1);" style="height:inherit;background: none;border: none">+</button>
 						    </span>
 						</div>
                        
@@ -345,35 +233,59 @@
                 </form>
                 <input type="hidden" id="optionid" name="optionid" value=""/>
             </div>
-            <div class="modal-footer" style="border: none;padding:15px 0 0 0;">
-            	<!--@php  if(empty($goods['isverify'])){ @-->
+            <div class="modal-footer" style="border: none;padding:0">
+                <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
+                    <a style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart()'>加入购物车</a>
+                </div>
+            </div>
+            <!--<div class="modal-footer" style="border: none;padding:15px 0 0 0;">
+            	&lt;!&ndash;@php  if(empty($goods['isverify'])){ @&ndash;&gt;
                 <div class="col-xs-6" style="padding-left: 0px;padding-right: 0px;">
                     <a style="background-color:#ff7d00;color: #ffffff " class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart()'>加入购物车</a>
                 </div>
-                <!--@php  } @-->
-                <div class="col-xs-6" style="padding-left: 0px;padding-right: 0px;<!--@php  echo !empty($goods['isverify'])?'width:99%;':''; @-->">
-                	  <!--@php  if($goods['hasoption']==1&&is_array($specs)) { @-->
-                   
+                &lt;!&ndash;@php  } @&ndash;&gt;
+                <div class="col-xs-6" style="padding-left: 0px;padding-right: 0px;&lt;!&ndash;@php  echo !empty($goods['isverify'])?'width:99%;':''; @&ndash;&gt;">
+                	  &lt;!&ndash;@php  if($goods['hasoption']==1&&is_array($specs)) { @&ndash;&gt;
+
                     <a style="color:#ffffff;" class="btn btn-danger btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
-                    <!--@php  }else{ @-->
+                    &lt;!&ndash;@php  }else{ @&ndash;&gt;
                     <a style="color:#ffffff;" class="btn btn-danger btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
-                      <!--@php } @-->
+                      &lt;!&ndash;@php } @&ndash;&gt;
                 </div>
-            </div>
+            </div>-->
                 
         </div>
     </div>
 </div>
 
-    <div class="my_nav">
+    <div style="display: flex;height: 2.4rem;background: white;border-top: solid 1px #EFEFEF;margin-right: -15px;position: fixed;bottom: 0;width: 100%">
+        <a style="flex: 1">
+            <div style="margin: 0 auto;text-align: center">
+                <img src="__RESOURCE__/images/ic_contact_service_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+                <span style="font-size: 0.5rem;color: #9e9e9e">联系客服</span>
+            </div>
+        </a>
+        <a style="flex: 1"  onclick='addtocart()'>
+            <div style="margin: 0 auto;text-align: center">
+                <img src="__RESOURCE__/images/ic_shopping_cart_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+                <span style="font-size: 0.5rem;color: #9e9e9e">购物车</span>
+            </div>
+        </a>
+        <a style="flex: 1;background-color: #FDAD2A" href="javascript:void()" onclick='buy()'>
+            <div style="margin: 0 auto;text-align: center;padding-top: 0.9rem">
+                <span style="font-size: 0.5rem;color: white;">买</span>
+            </div>
+        </a>
+    </div>
+
+
+    <!--<div class="my_nav">
         <ul id="nav">
             <li ><a>联系客服</a></li>
-            <!--@php  if(empty($goods['isverify'])){ @-->
             <li ><a onclick='addtocart()'>加入购物车</a></li>
-            <!--@php  } @-->
-            <li ><a style="<!--@php  echo !empty($goods['isverify'])?'width:99%':''; @-->" href="javascript:void()" onclick='buy()'>立即购买</span></a></li>
+            <li ><a style="&lt;!&ndash;@php  echo !empty($goods['isverify'])?'width:99%':''; @&ndash;&gt;" href="javascript:void()" onclick='buy()'>立即购买</span></a></li>
         </ul>
-    </div>
+    </div>-->
 
 <script type="text/javascript" src="__RESOURCE__/js/bootstrap.min.js"></script>
 

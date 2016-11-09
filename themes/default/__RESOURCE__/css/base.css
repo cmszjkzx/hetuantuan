@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-body {
-    color: #333;
-}
-
 .cboxshadow{
     box-shadow: 0 7px 17px #ccc;
     min-height: 100%
@@ -354,22 +350,23 @@ ol, ul {
 
 
 .goodtitle {
-    height: 2.5rem;
-    padding-top: 0.4rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
     padding-bottom: 0.4rem;
     overflow: hidden;
 }
 
 .goodprice {
-    padding-top: 0.5rem;
+    padding-top: 0.05rem;
     font-size: 1.2rem;
     color: #F7762E;
     line-height: 1.5rem;
 }
 
 .goodprice strong {
-    font-size: 1.2rem;
-    color: #F7762E;
+    font-size: 0.7rem;
+    color: #FDAD2A;
     font-weight: normal;
 }
 
@@ -477,7 +474,6 @@ ol, ul {
 .focus .hd ul {
     display: inline-block;
     padding: 3px 5px;
-    background-color: rgba(255, 255, 255, 0.7);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -510,7 +506,7 @@ ol, ul {
 
 .focus .bd li img {
     width: 100%;
-    height: 14rem;
+    height: 10.3rem;
 }
 
 .focus .bd li a {
@@ -530,9 +526,7 @@ ol, ul {
 }
 
 #xzmodal .modal-body {
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
+    padding: 0;
 }
 
 #poptip {
@@ -791,11 +785,14 @@ ol, ul {
 }
 
 .goods_number {
-    margin: 15px 10px 15px 10px;
+    height: 3.2rem;
+    line-height: 3.2rem;
+    margin: 0 10px 0 10px;
 }
 
 .goods_number .name {
     float: left;
+    margin: 0;
 }
 
 .goods_number .shopcount {
@@ -987,18 +984,23 @@ ol, ul {
 
 .pimg .name{
     padding-left: 10px;
-    font-size: 16px;
+    font-size: 0.4rem;
 }
 
 .con p.sub-title{
+    font-size: 0.65rem;
     line-height: 3;
     background-color: #e7e7e7;
 }
 
 .con p{
     padding-left: 15px;
+    padding-right: 15px;
 }
 
+.con img {
+    width: 100%;
+}
 a, a:visited {
 
     text-decoration: none;
