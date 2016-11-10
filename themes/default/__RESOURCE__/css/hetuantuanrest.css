@@ -18,3 +18,27 @@ body {
 .weui-search-bar:after {
     border-bottom: none;
 }
+
+.ic-minus , .ic-plus ,.ic-input{
+    border:none;
+    height: 1.3rem;
+    padding: 0;
+}
+
+/*.ic-minus {
+    background-image: url("../images/ic_plus.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}*/
+
+.ic-minus , .ic-plus {
+    width: 1.3rem;
+    border-radius: 0.65rem;
+    margin: 2px;
+}
+
+.ic-input-group {
+    border: solid 1px;
+    border-color: #D9D9D9;
+    border-radius: 0.83rem;
+}
