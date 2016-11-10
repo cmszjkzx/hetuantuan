@@ -15,6 +15,7 @@
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/common.mobile.css">
 	<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/jquery.touchwipe.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/swipe.js"></script>
 </head>
@@ -23,6 +24,7 @@
 <div class="main">
 <script type="text/javascript" src="__RESOURCE__/mobile/images/jquery.gcjs.js"></script>
 <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css">
 <div class="shopcart-main" style="margin-top: 60;">
 
 <div style='text-align:center;padding:50px 0 50px 0; <!--@php  if(count($list)>0) { @-->display:none<!--@php  } @-->' id='cartempty'>
@@ -35,23 +37,34 @@
         
                   <!--@php  $goods = $item['goods']@-->
                     <span id="stock_<!--@php  echo $item['id'];@-->" style='display:none'><!--@php  echo $goods['total'];@--></span>
-	<div class="shopcart-item" id='item_<!--@php  echo $item['id'];@-->' style='height:<!--@php  if(!empty($goods['optionname'])) { @-->130px;<!--@php  } else { @-->120px<!--@php  } @-->'>
+	<div class="shopcart-item" id='item_<!--@php  echo $item['id'];@-->' style='height:<!--@php  if(!empty($goods['optionname'])) { @-->5rem;<!--@php  } else { @-->120px<!--@php  } @-->'>
+	<div style="height: inherit;width:80px;display: inline">
 		<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->">
+	</div>
+	<div class="ic-input-group input-group shopcart-item-num" >
+						    <span class="input-group-btn">
+						        <button type="button" value="-" class="btn btn-default ic-minus" onClick="chgNum(-1);"></button>
+						    </span>
+		<input type="text" class="form-control ic-input" id="total" name="number" value="1" style="height:inherit;text-align: center"/>
+		<span class="input-group-btn">
+						        <button type="button" value="+" class="btn btn-default ic-plus" onClick="chgNum(1);"></button>
+						    </span>
+	</div>
 		<div class="shopcart-item-detail">
                     <div class="name"><!--@php  echo $goods['title'];@--></div>
                      <!--@php  if(!empty($goods['optionname'])) { @--><div class="price">规格：<span><!--@php  echo $goods['optionname'];@--></span></div><!--@php  } @-->
-                       
-                        <div class="price">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['marketprice'];@--></span> 元</div>
+
 			<div class="price">小计：<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
-			<div class="input-group">
-				<span class="input-group-btn">
-					<button class="btn btn-default btn-sm" type="button" onclick="reduceNum(<!--@php  echo $item['id'];@-->)"><i class="icon-minus"></i></button>
-				</span>
-				<input type="tel" class="form-control input-sm pricetotal goodsnum" style="border-left:0;" value="<!--@php  echo $item['total'];@-->" price="<!--@php  echo $goods['marketprice'];@-->" pricetotal="<!--@php  echo $item['totalprice'];@-->" id="goodsnum_<!--@php  echo $item['id'];@-->" cartid='<!--@php  echo $item['id'];@-->' maxbuy="999" />
-				<span class="input-group-btn">
-					<button class="btn btn-default btn-sm" type="button" onclick="addNum(<!--@php  echo $item['id'];@-->,999)"><i class="icon-plus"></i></button>
-				</span>
-			</div>
+			<!--<div class="input-group">-->
+				<!--<span class="input-group-btn">-->
+					<!--<button class="btn btn-default btn-sm" type="button" onclick="reduceNum(&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;)"><i class="icon-minus"></i></button>-->
+				<!--</span>-->
+				<!--<input type="tel" class="form-control input-sm pricetotal goodsnum" style="border-left:0;" value="&lt;!&ndash;@php  echo $item['total'];@&ndash;&gt;" price="&lt;!&ndash;@php  echo $goods['marketprice'];@&ndash;&gt;" pricetotal="&lt;!&ndash;@php  echo $item['totalprice'];@&ndash;&gt;" id="goodsnum_&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;" cartid='&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;' maxbuy="999" />-->
+				<!--<span class="input-group-btn">-->
+					<!--<button class="btn btn-default btn-sm" type="button" onclick="addNum(&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;,999)"><i class="icon-plus"></i></button>-->
+				<!--</span>-->
+			<!--</div>-->
+
 		</div>
 		<a href="javascript:;" onclick="removeCart(<!--@php  echo $item['id'];@-->)" class="shopcart-item-remove"><i class="icon-remove"></i> 删除</a>
 	</div>
