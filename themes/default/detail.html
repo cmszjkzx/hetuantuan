@@ -236,7 +236,8 @@
             </div>
             <div class="modal-footer" style="border: none;padding:0">
                 <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
-                    <a style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart()'>加入购物车</a>
+                    <a id="add-cart" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart()'>加入购物车</a>
+                    <a id="buy-now" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
                 </div>
             </div>
             <!--<div class="modal-footer" style="border: none;padding:15px 0 0 0;">
@@ -273,8 +274,8 @@
             </div>
         </a>
         <a style="flex: 1;background-color: #FDAD2A" href="javascript:void()" onclick='buy()'>
-            <div style="margin: 0 auto;text-align: center;padding-top: 0.9rem">
-                <span style="font-size: 0.5rem;color: white;">买</span>
+            <div style="margin: 0 auto;text-align: center;padding-top: 0.7rem">
+                <span style="font-size: 0.7rem;color: white;">买</span>
             </div>
         </a>
     </div>
@@ -294,6 +295,8 @@
     //立即购买
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
     function buy(){
+        $('#buy-now').addClass('addvisible');
+                $('#add-cart').addClass('addinvisible');
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");
@@ -320,6 +323,8 @@
 
     //添加到购物车
     function addtocart(){
+        $('#buy-now').addClass('addinvisible');
+        $('#add-cart').addClass('addvisible');
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");

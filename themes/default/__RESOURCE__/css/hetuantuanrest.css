@@ -3,6 +3,7 @@
 body {
     color: #3C3C3C;
     font-size: 0.75rem;
+    font-weight: 100;
     font-family: "PingFang SC";
 }
 
@@ -53,4 +54,12 @@ body {
     height:1.67rem;
     float:right;
     vertical-align: middle;
+}
+
+.addvisible {
+    display: block;
+}
+
+.addinvisible {
+    display: none;
 }

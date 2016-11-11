@@ -46,7 +46,7 @@
 			<!--@php  if(!empty($goods['optionname'])) { @--><div class="price" style="margin-top: 0.25rem"><span><!--@php  echo $goods['optionname'];@--></span></div><!--@php  } @-->
 			<div class="price" style="display: none">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['marketprice'];@--></span> 元</div>
 
-			<div class="price" style="margin-top: 0.7rem">￥：<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
+			<div class="price" style="margin-top: 0.7rem">￥<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
 			<!--<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default btn-sm" type="button" onclick="reduceNum(&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;)"><i class="icon-minus"></i></button>
