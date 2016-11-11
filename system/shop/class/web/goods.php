@@ -164,6 +164,10 @@ if ($operation == 'post') {
         if (empty($_GP['kinds'])) {
             message('请选择商品类别！');
         }
+        //2016-11-10-yanru
+        //if (empty($_GP['videopath'])) {
+        //    message('请上传商品视频！');
+        //}
         //end
         $data = array(
             'pcate' => intval($_GP['pcate']),
@@ -199,7 +203,8 @@ if ($operation == 'post') {
             'hasoption' => intval($_GP['hasoption']),
             'timeend' => strtotime($_GP['timeend']),
             'isverify' => intval($_GP['isverify']),
-            'kinds' => intval($_GP['kinds'])
+            'kinds' => intval($_GP['kinds']),
+            'videopath' => $_GP['videopath']
         );
         require(WEB_ROOT.'/system/common/extends/class/shop/class/web/goods_1.php');
                     

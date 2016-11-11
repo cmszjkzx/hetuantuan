@@ -210,11 +210,60 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label no-padding-left" >商品详细描述：<br/><span style="font-size:12px">(建议图片宽不超过640px)</span></label>
+		<label class="col-sm-2 control-label no-padding-left" >商品详细描述：<br/>
+			<span style="font-size:12px">(建议图片宽不超过640px)</span>
+		</label>
 		<div class="col-sm-9">
-			<textarea  id="container" name="content" ><?php  echo $item['content'];?></textarea>
+            <textarea  id="container" name="content">
+                <?php  echo $item['content'];?>
+            </textarea>
 		</div>
 	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-left" > 其他视频：</label>
+		<div class="col-sm-9">
+			<span id="selectvideo" tabindex="-1" class="btn btn-primary"><i class="icon-plus"></i> 上传视频</span><span style="color:red;">
+				<input name="videolist" type="hidden" value="<?php  echo $item['videolist'];?>" /></span>
+			<div id="file_upload-queue" class="uploadify-queue"></div>
+			<ul class="ipost-list ui-sortable" id="fileList">
+				<?php  if(is_array($videolist)) { foreach($videolist as $v) { ?>
+					<li class="imgbox" style="list-style-type:none;display:inline;  float: left;  position: relative;   width: 125px;  height: 130px;">
+						<span class="item_box">
+							<video src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $v['videourl'];?>" style="width:50px;height:50px">
+							</video>
+						</span>
+						<a  href="javascript:;" onclick="deletepic(this);" title="删除">删除</a>
+						<input type="hidden" value="<?php  echo $v['picurl'];?>" name="attachment[]">
+					</li>
+				<?php  } } ?>
+			</ul>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label no-padding-left" >添加商品视频：<br/>
+			<span style="font-size:12px">(视频大小不超过20)</span>
+		</label>
+		<input id="video" type="file" style="display:none">
+		<div class="input-append">
+			<div class="col-sm-9">
+				<input type="text" id="videopath" name="videopath"  class="col-xs-10 col-sm-4" value="<?php  echo $item['videopath'];?>">
+				<a type="button" class="btn btn-sm btn-success" onclick="$('input[id=video]').click();">上传</a>
+				<a type="button" class="btn btn-sm btn-danger" onclick="clearpath();">清空</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('input[id=video]').change(function() {
+			$('#videopath').val($(this).val());
+		});
+	</script>
+    <script type="text/javascript">
+        function clearpath(){
+            $('#videopath').val("");
+        }
+    </script>
 
 	<?php  include page('goods_option');?>
 	<div class="form-group">
@@ -340,6 +389,7 @@
 			},"html");
 		}
 	}
+	//ueditor
     function fillform()
 	{
 		if(ue.queryCommandState( 'source' )==1)

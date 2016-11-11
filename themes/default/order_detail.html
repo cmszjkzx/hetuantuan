@@ -83,108 +83,243 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 
 <body>
 <div class="head">
-	<a href="<!--@php  echo mobile_url('myorder',array('status'=>intval($_GP['fromstatus'])))@-->" class="bn pull-left"><i class="icon-angle-left"></i></a>
-	<span class="title">订单详情</span>
+	<a href="<!--@php  echo mobile_url('myorder',array('status'=>intval($_GP['fromstatus'])))@-->" class="bn pull-left">
+		<i class="icon-angle-left"></i>
+	</a>
+	<!--@php  if($item['status'] == 0) { @--><span class="title" >待付款订单详情</span><!--@php  } @-->
+	<!--@php  if($item['status'] == 1) { @--><span class="title" >待发货订单详情</span><!--@php  } @-->
+	<!--@php  if($item['status'] == 2) { @--><span class="title" >待收货订单详情</span><!--@php  } @-->
+	<!--<span class="title">订单详情</span>-->
 </div>
  
 <div class="myoder" style='padding-bottom: 10px;'>
 	<div class="myoder-hd">
-		<span class="pull-left">订单编号：<!--@php  echo $item['ordersn'];@--></span>
-		<span class="pull-right"><!--@php  echo date('Y-m-d H:i', $item['createtime'])@--></span>
+		<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
+		<span>
+			您未付款，订单将于
+			<strong id="RemainM"></strong>
+			分
+			<strong id="RemainS"></strong>
+			秒后失效
+		</span>
+		<!--@php }else {@-->
+		<span>
+			您的订单已超时请重新下单
+		</span>
+		<!--@php } }@-->
+	</div>
+	<script>
+		var runtimes = 0;
+		function GetRTime(){
+			var time = <!--@php echo $limittime - $starttime @-->-runtimes;
+			var nM=Math.floor(time/60 );
+			var nS=Math.floor(time%60);
+			document.getElementById("RemainM").innerHTML=nM;
+			document.getElementById("RemainS").innerHTML=nS;
+			runtimes++;
+			setTimeout("GetRTime()",1000);
+		}
+		window.onload=GetRTime;
+		// -->
+	</script>
+	<div class="myoder-express">
+		<span class="pull-left">收货人：
+			<!--@php  echo $item['address_realname'];@-->
+		</span>
+		<br>
+		<span class="pull-left">手机号码：
+			<!--@php  echo $item['address_mobile'];@-->
+		</span>
+		<br>
+		<span class="pull-left">送货地址：
+			<!--@php  echo $item['address_provice'].$item['address_city'].$item['address_area'].$item['address_address']@-->
+		</span>
+	</div>
+
+	<div class="myoder-express">
+		<span class="pull-left">订单编号：
+			<!--@php  echo $item['ordersn'];@-->
+		</span>
+		<br>
+		<span class="pull-left">支付交易号：
+		</span>
+		<br>
+		<span class="pull-left">下单时间：
+			<!--@php  echo date('Y-m-d H:i', $item['createtime'])@-->
+		</span>
 	</div>
     
 	<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
-	<div >
-		<a href="<!--@php  echo mobile_url('detail', array('id' => $g['id']))@-->"><img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $g['thumb'];@-->" width="160"></a>
+	<div class="myoder-express">
 		<div class="pull-left">
-			<div class="name"><a href="<!--@php  echo mobile_url('detail', array('id' => $g['id']))@-->"><!--@php  echo $g['title'];@--></a></div>
-			<div class="price">
-				<span><!--@php  echo $g['marketprice'];@--> 元<!--@php  if($g['unit']) { @--> / <!--@php  echo $g['unit'];@--><!--@php  } @--></span>
-				<span class="num">数量：<!--@php  echo $g['total'];@--><!--@php  if($g['unit']) { @--> <!--@php  echo $g['unit'];@--><!--@php  } @--></span>
+			<a href="<!--@php  echo mobile_url('detail', array('id' => $g['id']))@-->">
+				<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $g['thumb'];@-->" width="160">
+			</a>
+		</div>
+		<!--<div class="pull-right">-->
+		<div>
+			<div class="name">
+				&nbsp;&nbsp;<!--@php  echo $g['title'];@-->
+				<br>
+				&nbsp;&nbsp;<!--@php  echo $g[option]['title'];@-->
+				x
+				<!--@php  echo $g['total'];@-->
+				<!--@php  if($g['unit']) { @-->
+				<!--@php  echo $g['unit'];@--><!--@php  } @-->
+			</div>
+			<div class="pull-right">
+				<span>共计：
+					<span class="false">
+						<!--@php  if($item['dispatchprice']<=0) { @-->
+						<!--@php  echo $item['price'];@--> 元
+						<!--@php  } else { @-->
+						<!--@php  echo $item['price'];@--> 元 (含运费
+						<!--@php  echo $item['dispatchprice'];@-->
+						元)
+						<!--@php  } @-->
+					</span>
+					<!--@php  if($item['hasbonus']>0) { @-->
+					<span style="color:green"> ( 已优惠：
+						<!--@php  echo $item['bonusprice'];@-->
+						元)
+					</span>
+					<!--@php  }  @-->
+				</span>
 			</div>
 		</div>
 	</div>
 	<!--@php  } } @-->
-	<div class="myoder-express">
+	<!--<div class="myoder-express">
 		<span class="express-company">状态</span>
-		<span class="express-num">
-					<!--@php  if($item['status'] == 0) { @--><span class="text-warning" >待付款</span><!--@php  } @-->
-						<!--@php  if($item['status'] == 1) { @--><span class="text-danger" >待发货</span><!--@php  } @-->
-						<!--@php  if($item['status'] == 2) { @--><span class="text-warning">待收货</span><!--@php  } @-->
-						<!--@php  if($item['status'] == 3) { @--><span class="text-success" >已完成</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -1) { @--><span class="text-success">已关闭</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -2) { @--><span class="text-danger">退款中</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -3) { @--><span class="text-danger">换货中</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -4) { @--><span class="text-danger">退货中</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -5) { @--><span class="text-success">已退货</span><!--@php  } @-->
-						<!--@php  if($item['status'] == -6) { @--><span class="text-success">已退款</span><!--@php  } @-->
-						
-		</span>
-	</div>
-	<div class="myoder-express">
+		<span class="express-num">-->
+			<!--@php  //if($item['status'] == 0) { @-->
+			<!--<span class="text-warning" >待付款</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == 1) { @-->
+			<!--<span class="text-danger" >待发货</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == 2) { @-->
+			<!--<span class="text-warning">待收货</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == 3) { @-->
+			<!--<span class="text-success" >已完成</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -1) { @-->
+			<!--<span class="text-success">已关闭</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -2) { @-->
+			<!--<span class="text-danger">退款中</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -3) { @-->
+			<!--<span class="text-danger">换货中</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -4) { @-->
+			<!--<span class="text-danger">退货中</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -5) { @-->
+			<!--<span class="text-success">已退货</span>-->
+			<!--@php  //} @-->
+			<!--@php  //if($item['status'] == -6) { @-->
+			<!--<span class="text-success">已退款</span>-->
+			<!--@php  //} @-->
+		<!--</span>
+	</div>-->
+	<!--<div class="myoder-express">
 		<span class="express-company">配送方式</span>
-		<span class="express-num"><!--@php  echo $dispatch['dispatchname'];@--></span>
-	</div>
-	    <!--@php  if($item['hasbonus']>0) { @-->
-		<div class="myoder-express">
+		<span class="express-num">-->
+			<!--@php  //echo $dispatch['dispatchname'];@-->
+		<!--</span>
+	</div>-->
+	<!--@php  //if($item['hasbonus']>0) { @-->
+	<!--<div class="myoder-express">
 		<span class="express-company">优惠券</span>
-		<span class="express-num"><!--@php 	 foreach ($bonuslist as $bonus) {echo $bonus['type_name']."(".$bonus['bonus_sn'].")&nbsp;&nbsp;&nbsp;";}@--></span>
-	</div>
-		<!--@php  } @-->
-	<!--@php  if(($item['status'] == '2' || $item['status']==3) && !empty($item['expresssn'])) { @-->
-	<div class="myoder-express">
-            <span class="express-company">快递: <!--@php  echo $item['expresscom'];@--></span>
-		<span class="express-num">
-                    单号: <!--@php  echo $item['expresssn'];@-->
-	<!--@php  if(!empty($item['expresssn'])&&!empty($item['express'])&&$item['express']!='-1') { @--> 
-	<a  href="http://m.kuaidi100.com/index_all.html?type=<!--@php  echo $item['express']@-->&postid=<!--@php  echo $item['expresssn']@-->#input"  >[查看物流信息]
-</a><!--@php }@-->
-                    
-		 </span>
-	</div>
-        <div class="myoder-total" style='margin-bottom:10px;'>
-		<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php  echo $item['express'];@-->&postid=<!--@php  echo $item['expresssn'];@-->#input" class="btn btn-success pull-right btn-sm" >查看快递</a>
-	</div>
-        
-	<!--@php  } @-->
-	
-    <!--@php  if(!empty($item['remark'])) { @-->
-             <div class="myoder-express" style='margin-top:10px;'>
+		<span class="express-num">-->
+			<!--@php //foreach ($bonuslist as $bonus) {echo $bonus['type_name']."(".$bonus['bonus_sn'].")&nbsp;&nbsp;&nbsp;";}@-->
+		<!--</span>
+	</div>-->
+	<!--@php  //} @-->
+	<!--@php  //if(($item['status'] == '2' || $item['status']==3) && !empty($item['expresssn'])) { @-->
+	<!--<div class="myoder-express">
+		<span class="express-company">快递:-->
+			<!--@php  //echo $item['expresscom'];@-->
+		<!--</span>
+		<span class="express-num">单号:-->
+			<!--@php  //echo $item['expresssn'];@-->
+			<!--@php  //if(!empty($item['expresssn'])&&!empty($item['express'])&&$item['express']!='-1') { @-->
+			<!--<a  href="http://m.kuaidi100.com/index_all.html?type="-->
+			<!--@php  //echo $item['express']@-->
+			<!--"&postid="-->
+			<!--@php  //echo $item['expresssn']@-->
+			<!--"#input">
+				[查看物流信息]
+            </a>-->
+			<!--@php //}@-->
+		<!--</span>
+	</div>-->
+	<!--<div class="myoder-total" style='margin-bottom:10px;'>
+		<a href="http://m.kuaidi100.com/index_all.html?type="-->
+		<!--@php  //echo $item['express'];@-->
+		<!--&postid=-->
+		<!--@php  //echo $item['expresssn'];@-->
+		<!--"#input" class="btn btn-success pull-right btn-sm" >
+			查看快递
+		</a>
+	</div>-->
+
+	<!--@php  //} @-->
+	<!--@php  //if(!empty($item['remark'])) { @-->
+	<!--<div class="myoder-express" style='margin-top:10px;'>
 		<span class="express-company">订单备注</span>
-		
 	</div>
   
-        <div style='float:left;margin:10px;overflow:hidden;word-break:break-all;width:100%;'>
-            <!--@php  echo $item['remark'];@-->
-        </div> 
-        <!--@php  } @-->
+	<div style='float:left;margin:10px;overflow:hidden;word-break:break-all;width:100%;'>-->
+		<!--@php  //echo $item['remark'];@-->
+	<!--</div>-->
+	<!--@php  //} @-->
 	<div class="myoder-total" style='margin-bottom:30px;'>
-		<span>共计：<span class="false">
-                     <!--@php  if($item['dispatchprice']<=0) { @-->
-                        <!--@php  echo $item['price'];@--> 元
-                        <!--@php  } else { @-->
-                        <!--@php  echo $item['price'];@--> 元 (含运费 <!--@php  echo $item['dispatchprice'];@--> 元) 
-                        <!--@php  } @-->
-                    </span>
-                         <!--@php  if($item['hasbonus']>0) { @-->
-                      <span style="color:green"> ( 已优惠：<!--@php  echo $item['bonusprice'];@--> 元)</span>
-                        <!--@php  }  @--></span>
-
+		<!--<span>共计：
+			<span class="false">-->
+				<!--@php  //if($item['dispatchprice']<=0) { @-->
+				<!--@php  //echo $item['price'];@-->
+				<!-- 元 -->
+				<!--@php  //} else { @-->
+				<!--@php  //echo $item['price'];@-->
+				<!-- 元 (含运费 -->
+				<!--@php  //echo $item['dispatchprice'];@-->
+				<!-- 元) -->
+			<!--@php  //} @-->
+			<!--</span>-->
+			<!--@php  //if($item['hasbonus']>0) { @-->
+			<!--<span style="color:green">
+				( 已优惠：-->
+				<!--@php  //echo $item['bonusprice'];@-->
+				<!--元)
+			</span>-->
+			<!--@php  //}  @-->
+		<!-- </span>-->
+		<!--@php  //if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
+		<!--<div class="pull-right">
+			支付方式：
+			<select style="margin-right:15px;width:150px" name="payment"  id="payment" autocomplete="off">-->
+				<!--@php   //foreach($payments as $payment) { @-->
+				<!--<option value=""-->
+				<!--@php  echo $payment['code'];@-->
+				<!--@php  //if($payment['code']==$item['paytypecode']) { @-->
+				<!--selected-->
+				<!--@php  //} @-->
+				<!--'>'-->
+				<!--@php  //echo $payment['name'];@-->
+				<!--</option>-->
+				<!--@php // } @-->
+			<!--</select>
+		</div>-->
+		<!--@php  //} @-->
 		<!--@php  if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
-		<div class="pull-right">
-		支付方式：
-	<select style="margin-right:15px;width:150px" name="payment"  id="payment" autocomplete="off">
-			<!--@php   foreach($payments as $payment) { @-->
-                <option value="<!--@php  echo $payment['code'];@-->" 	<!--@php  if($payment['code']==$item['paytypecode']) { @-->selected<!--@php  } @-->><!--@php  echo $payment['name'];@--></option>
-                	<!--@php  } @-->
-              <select>
-		<a href="javascript:;" onclick="topay();" class="btn btn-danger btn-sm">立即支付</a>
-		<script>
-	function topay()
-	{
-location.href ="<!--@php  echo mobile_url('pay', array('orderid' => $item['id']))@-->&paymentcode="+document.getElementById('payment').value;	
-}</script>
-		</div>
+		<!--@php  if ($starttime < $limittime){ @-->
+		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
+			立即支付
+		</a>
+		<!--@php  } @-->
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
 		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">取消订单</a>
@@ -192,16 +327,12 @@ location.href ="<!--@php  echo mobile_url('pay', array('orderid' => $item['id'])
 		<!--@php  if($item['status'] == 2 || ($item['paytype'] == 3 && $item['status'] > 1&& $item['status'] < 3)) { @-->
 		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('点击确认收货前，请确认您的商品已经收到。确定收货吗？'); ">确认收货</a>
 		<!--@php  } @-->
-			<!--@php  if($item['status'] == 1&&$item['paytype'] != 3) { @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'returnpay', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-warning pull-right btn-sm" >申请退款</a>
-	
-			<!--@php  } @-->
-		
-				<!--@php  if($item['status'] == 3) { @-->
-		
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'resendgood', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-warning pull-right btn-sm" >申请换货</a>
-		<a  style="margin-right:10px" href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'returngood', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-warning pull-right btn-sm" >申请退货</a>
-		
+		<!--@php  if($item['status'] == 1&&$item['paytype'] != 3) { @-->
+		<a href="<!--@php  echo mobile_url('shopindex')@-->" class="btn btn-success pull-right btn-sm" >再去逛逛</a>
+		<!--@php  } @-->
+		<!--@php  if($item['status'] == 3) { @-->
+		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">取消订单</a>
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" >我要评价</a>
 		<!--@php  } @-->
 		
 			 	<!--@php if($_CMS['addons_bj_hx']){ if($item['status']!=3&&$item['status']>0&&!empty($item['isverify'])) { @-->
