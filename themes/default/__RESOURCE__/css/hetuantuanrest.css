@@ -3,7 +3,7 @@
 body {
     color: #3C3C3C;
     font-size: 0.75rem;
-    font-weight: 100;
+    font-weight: 200;
     font-family: "PingFang SC";
 }
 
@@ -62,4 +62,8 @@ body {
 
 .addinvisible {
     display: none;
+}
+
+.goods_list:last-child {
+    border-bottom: solid 1px #EFEFEF;
 }
