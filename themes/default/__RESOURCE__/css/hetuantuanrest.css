@@ -67,3 +67,9 @@ body {
 .goods_list:last-child {
     border-bottom: solid 1px #EFEFEF;
 }
+
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

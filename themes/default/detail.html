@@ -43,9 +43,9 @@
                         </li>
                         <!--@php  } } @-->
                     </ul>
-                    <div style="position: absolute;right: 0.5rem;bottom: 0.1rem">
-                        <a style="float: right" href="<!--@php  echo mobile_url('shopindex')@-->"><img style="width:2rem;height: 2rem" src="__RESOURCE__/images/t6.png"></a>
-                        <a style="float: right"><img style="width:2rem;height: 2rem" src="__RESOURCE__/images/t2.png"></a>
+                    <div style="position: absolute;right: 0.375rem;bottom: 0.25rem">
+                        <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;" href="<!--@php  echo mobile_url('shopindex')@-->"><img style="width:1rem;height: 1rem;" src="__RESOURCE__/images/ic_home_pressed.png"></a>
+                        <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-right: 0.4rem"><img style="width:1rem;height:1rem" src="__RESOURCE__/images/ic_give_the%20thumbs_up.png"></a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="goodprice col-xs-12">
-                <strong id="marketprice">￥<!--@php  echo $marketprice;@--></strong>
+                <strong id="marketprice" class="goodprice">￥<!--@php  echo $marketprice;@--></strong>
             </div>
 
             <div class="goodxl col-xs-12">
@@ -155,12 +155,17 @@
     <div class="modal-dialog">
         <div class="media" style="padding-left: 15px;position: relative;margin-bottom: -74px;z-index: 2000;">
             <div class="media-left">
-                <img class="img-thumbnail media-object" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'] @-->" style="width:80px;height:80px">
+                <img class="img-thumbnail media-object" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'] @-->" style="width:4.5rem;height:4.5rem;border: solid 1px #EFEFEF;padding: 2px;background-color: #EFEFEF">
             </div>
             <div class="media-body">
                <div class="media-heading" style="padding-top: 30px">
-                   <p style="color: #F7762E;font-size: 16px">
-                       ￥<strong id="marketprice2"><!--@php  echo $marketprice;@--></strong>
+                   <!--<div class="goodtitle">
+                       <div style="font-size: 0.75rem;color: #3C3C3C">
+                           &lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;
+                       </div>
+                   </div>-->
+                   <p class="goodprice" style="font-size: 0.75rem;color: #3C3C3C">
+                       <!--@php  echo $goods['title'];@-->
                    </p>
                    <p>
                        <!--@php  if($stock!=-1) { @-->
@@ -295,8 +300,10 @@
     //立即购买
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
     function buy(){
-        $('#buy-now').addClass('addvisible');
-                $('#add-cart').addClass('addinvisible');
+//        $('#buy-now').addClass('addvisible');
+//        $('#add-cart').addClass('addinvisible');
+        $('#buy-now').show();
+        $('#add-cart').hide();
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");
@@ -323,8 +330,10 @@
 
     //添加到购物车
     function addtocart(){
-        $('#buy-now').addClass('addinvisible');
-        $('#add-cart').addClass('addvisible');
+//        $('#buy-now').addClass('addinvisible');
+//        $('#add-cart').addClass('addvisible');
+        $('#buy-now').hide();
+        $('#add-cart').show();
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");

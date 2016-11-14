@@ -355,19 +355,20 @@ ol, ul {
     padding-top: 0.25rem;
     padding-bottom: 0.4rem;
     overflow: hidden;
+    font-size: 0.75rem;
+    color: #3C3C3C
 }
 
 .goodprice {
     padding-top: 0.05rem;
-    font-size: 1.2rem;
-    color: #F7762E;
+    font-size: 0.7rem;
+    color: #FDAD2A;
     line-height: 1.5rem;
 }
 
 .goodprice strong {
     font-size: 0.7rem;
     color: #FDAD2A;
-    font-weight: normal;
 }
 
 .goodprice span {
