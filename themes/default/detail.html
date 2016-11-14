@@ -164,14 +164,17 @@
                            &lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;
                        </div>
                    </div>-->
-                   <p class="goodprice" style="font-size: 0.75rem;color: #3C3C3C">
+                   <p class="goodprice text-ellipsis" style="font-size: 0.75rem;color: #3C3C3C;width: 7rem;margin: 0">
                        <!--@php  echo $goods['title'];@-->
                    </p>
-                   <p>
-                       <!--@php  if($stock!=-1) { @-->
-                       库存:<strong id="goodstotail"><!--@php  echo $stock;@--></strong>
-                       <!--@php  }else{ @-->库存:0<!--@php  } @-->
+                   <p class="goodprice" style="margin: 0">
+                       ￥<!--@php  echo $marketprice;@-->
                    </p>
+                   <!--<p>
+                       &lt;!&ndash;@php  if($stock!=-1) { @&ndash;&gt;
+                       库存:<strong id="goodstotail">&lt;!&ndash;@php  echo $stock;@&ndash;&gt;</strong>
+                       &lt;!&ndash;@php  }else{ @&ndash;&gt;库存:0&lt;!&ndash;@php  } @&ndash;&gt;
+                   </p>-->
                </div>
             </div>
             <div class="media-right">
@@ -225,7 +228,7 @@
                         <p class="name">购买数量：</p>
 
 
-						<div class="input-group ic-input-group" >
+						<div class="input-group ic-input-group" style="margin-top: 0.6rem">
 						    <span class="input-group-btn">
 						        <button type="button" value="-" class="btn btn-default ic-minus" onClick="chgNum(-1);"></button>
 						    </span>
