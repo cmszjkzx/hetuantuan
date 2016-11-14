@@ -6,7 +6,7 @@ $id = $profile['id'];
 $op = $_GP['op'];
 $settings=globaSetting();
 $rebacktime=intval($settings['shop_postsale']);
-        
+$today = time();
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
@@ -199,8 +199,9 @@ else if ($op == 'detail')
         //属性
         $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $g['optionid']));
         if ($option) {
-            $g['title'] = "[" . $option['title'] . "]" . $g['title'];
-            $g['marketprice'] = $option['marketprice'];
+            //$g['title'] = "[" . $option['title'] . "]" . $g['title'];
+            //$g['marketprice'] = $option['marketprice'];
+            $g['option'] = $option;
         }
     }
     unset($g);
@@ -245,11 +246,17 @@ else
             foreach ($goods as &$item)
             {
                 //属性
-                $option = mysqld_select("select title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $item['optionid']));
+                $option = mysqld_select("select id,title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $item['optionid']));
                 if ($option)
                 {
-                    $item['title'] = "[" . $option['title'] . "]" . $item['title'];
-                    $item['marketprice'] = $option['marketprice'];
+                    //2016-11-03-yanru-begin
+                    //$item['title'] = "[" . $option['title'] . "]" . $item['title'];
+                    //$item['marketprice'] = $option['marketprice'];
+                    $item['attribute_id'] = $option['id'];
+                    $item['attribute_title'] = $option['title'];
+                    $item['attribute_price'] = $option['marketprice'];
+                    $item['stock'] = $option['stock'];
+                    //end
                 }
             }
             unset($item);

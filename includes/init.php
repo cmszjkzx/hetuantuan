@@ -1169,7 +1169,10 @@ function integration_session_account($loginid,$oldsessionid) {
 	        $data = array(
 	                'marketprice' => $cartitem['marketprice'],
 	                'total' => $t,
-	                'optionid' => $optionid
+                //2016-11-11-yanru-begin
+                    'optionid' => $row['optionid']
+	                //'optionid' => $optionid
+                //end
 	                );
 	        mysqld_update('shop_cart', $data, array('id' => $row['id']));
 	        mysqld_delete('shop_cart', array('id'=>$cartitem['id']));
@@ -1387,8 +1390,13 @@ function get_html($str) {
 	if (!function_exists('file_get_html'))
 	{
         require_once(WEB_ROOT . '/includes/lib/simple_html_dom.php');
-    }	
-	$html = str_get_html($content);
+    }
+    /*
+     * 2016-11-11-yanru-begin
+     */
+	//$html = str_get_html($content);
+    $html = str_get_html($str);
+    //end
     $ret = $html->find('a');
     foreach ($ret as $a)
     {
@@ -1542,7 +1550,8 @@ function file_upload($file, $type = 'image') {
 	{
 		return error(-1, '没有上传内容');
 	}
-	$limit=5000;
+	//$limit=5000;压缩后tmp图片大小设置
+    $limit=10000;//相当于10M
 	$extention = pathinfo($file['name'], PATHINFO_EXTENSION);
 	$extention=strtolower($extention);
 	if(empty($type)||$type=='image')
