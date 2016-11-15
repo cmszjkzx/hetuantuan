@@ -73,3 +73,20 @@ body {
     white-space: nowrap;
     overflow: hidden;
 }
+
+.avatar-notice {
+    color:#E8C2B5;
+    font-size: 0.8rem;
+    line-height: 1.375rem
+}
+
+.btntoshop {
+    margin: 1.55rem auto;
+    display: block;
+    text-align: center;
+    line-height: 2.5rem;
+    width: 12.5rem;
+    border-radius: 0.525rem;
+    background-color: #FFAE01;
+    color: white
+}

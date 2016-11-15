@@ -1,4 +1,4 @@
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=20150120"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
 <script type="text/javascript">
 var wxData = {
             "imgUrl" : "<?php echo $shopwap_weixin_share['imgUrl'];?>",
@@ -18,7 +18,7 @@ wx.config({
         'onMenuShareAppMessage',
         'onMenuShareQQ',
         'onMenuShareWeibo',
-        'onMenuShareQZone'
+        'onMenuShareQZone',
       ]
 });
 wx.error(function(res){	
