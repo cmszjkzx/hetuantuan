@@ -8,7 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css?v=111" />
+    <link rel="stylesheet" href="__RESOURCE__/css/weui.css" />
+    <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" />
 	<script type="text/javascript" src="<!--@php echo RESOURCE_ROOT;@-->/script/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
     <style>
         body{padding-bottom:55px}
         .label_radio input {
@@ -67,21 +70,21 @@
             <!--<h2>收货信息</h2>-->
             <!--@php  if(empty($item['isverify'])) { @-->
             <!--@php  if(!empty($defaultAddress)) { @-->
-            <p class="address_item">
-                <button type="button" class="btn btn-danger" onclick="location.href='<!--@php  echo mobile_url('address',array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'">
-                    <i class="icon-plus"></i>管理收货地址
-                </button>
-                收件人：
-                <!--@php  echo $defaultAddress['realname'];@-->&nbsp;&nbsp;
-                <!--@php  echo $defaultAddress['mobile'];@-->
-                <br/>
-                收货地址：
-                <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
-                <!--@php  //echo $defaultAddress['city'];@-->
-                <!--@php  //echo $defaultAddress['area'];@-->
-                <!--@php  //echo $defaultAddress['address'];@-->
-                <br/>
-            </p>
+            <div class="address_item" style="height: 3.5rem">
+                <a type="button" onclick="openAddress()" style="height:3.5rem;line-height: 3.5rem;display: inline;margin-left: 0.6rem;float: left;">
+                    <img style="width: 0.95rem;height: 0.95rem" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
+                </a>
+                <!--<div style="display: inline;float: left;margin-left: 10px">
+                    收件人：
+                    &lt;!&ndash;@php  echo $defaultAddress['realname'];@&ndash;&gt;&nbsp;&nbsp;
+                    &lt;!&ndash;@php  echo $defaultAddress['mobile'];@&ndash;&gt;
+                    收货地址：
+                    &lt;!&ndash;@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@&ndash;&gt;
+                    &lt;!&ndash;@php  //echo $defaultAddress['city'];@&ndash;&gt;
+                    &lt;!&ndash;@php  //echo $defaultAddress['area'];@&ndash;&gt;
+                    &lt;!&ndash;@php  //echo $defaultAddress['address'];@&ndash;&gt;
+                </div>-->
+            </div>
             <!--@php  } else { @-->
             <p>
                 <button type="button" class="btn btn-danger" onclick="location.href='<!--@php  echo mobile_url('address',array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'">
@@ -160,28 +163,24 @@
                                     <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb']@-->">
                                 </span>
                                 <p class="pro-info">
-                                    <span class="member-browse-name">
+                                    <span class="member-browse-name text-ellipsis font-28 color-3c">
                                         <!--@php  echo $item['title'];@-->
                                     </span>
-                                    <br/>
                                     <!--<span class="pro-name">价格：-->
                                     <!--@php  //echo $item['totalprice'];@-->
                                     <!--</span>-->
-                                    <span class="pro-price">
+
+                                    <span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
                                         <!--@php  if(!empty($item['optionname'])) { @-->
                                         <!--@php  echo $item['optionname'];@-->
                                         <!--@php  } @-->
-                                    </span>
-                                    ×
-                                    <span class="pro-price">
-                                        <!--@php  echo $item['total'];@-->
+                                        ×<!--@php  echo $item['total'];@-->
                                         <!--@php  if(!empty($item['unit'])) { @-->
                                         <!--@php  echo $item['unit'];@--><!--@php  } @-->
                                         <!--</strong>-->
                                     </span>
-                                    <br/>
-                                    <span class='goodsprice'>&yen;
-                                        <!--@php  echo $item['totalprice'];@-->
+                                    <span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
+                                        ￥<!--@php  echo $item['totalprice'];@-->
                                     </span>
                                 </p>
                             </a>
@@ -192,82 +191,108 @@
             </div>
 	    </div>
 
-        <div class="infobox ">
+        <div class="weui-cells">
+        <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input name="remark" onchange='oninputchange("detail");' class="weui-input font-28 color-7f" type="text" placeholder="给卖家留言（选填）"/>
+                </div>
+        </div>
+            </div>
+        <!--<div class="infobox ">
             <ul id='infoul' class="otherInfo">
-                <!--<li>备注信息：
-                    <br/>-->
+                &lt;!&ndash;<li>备注信息：
+                    <br/>&ndash;&gt;
                 <li>
                     <textarea name="remark" onchange='oninputchange("detail");' style='resize:none;width:100%;border:none;' type="text" value="" placeholder="给卖家留言（选填）"></textarea>
                 </li>
-                <!--</li>-->
+                &lt;!&ndash;</li>&ndash;&gt;
             </ul>
+        </div>-->
+
+        <div class="weui-cells">
+            <label class="weui-cell weui-check__label">
+
+                <div class="weui-cell__bd">
+                    <p class="font-28 color-3c">商品总价</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <p class="font-28 color-FFAE01">￥<!--@php  echo $totalprice;@--></p>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label">
+                <div class="weui-cell__bd">
+                    <p class="font-28 color-3c">运费</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <p class="font-28 color-FFAE01"><!--@php  //if($item['issendfree'] == 1){@-->
+                        <!--@php  //echo 0;}else{@-->
+                        <!--@php  echo $bonusprice;@--></p>
+                </div>
+            </label>
         </div>
 
-        <div class="infobox">
+        <!--<div class="infobox">
             <ul id='inprice' class="otherInfo">
                 <li>
                     <span class='goodsprice'>商品总价&nbsp;&nbsp;&yen;
-                        <!--@php  echo $totalprice;@-->
+                        &lt;!&ndash;@php  echo $totalprice;@&ndash;&gt;
                     </span>
                 </li>
             </ul>
         </div>
 
-        <!--@php  if(is_array($bonus_list)&& count($bonus_list)>0) {  @-->
+        &lt;!&ndash;@php  if(is_array($bonus_list)&& count($bonus_list)>0) {  @&ndash;&gt;
         <div class="infobox">
             <h2>优惠券</h2>
             <ul class="payStyle">
-                <!--@php  if(is_array($bonus_list)) { foreach($bonus_list as $bonus) { @-->
-                <!--@php  if($bonus['send_type']==3) {@-->
+                &lt;!&ndash;@php  if(is_array($bonus_list)) { foreach($bonus_list as $bonus) { @&ndash;&gt;
+                &lt;!&ndash;@php  if($bonus['send_type']==3) {@&ndash;&gt;
                 <li>
                     <label>
                         <input name='bonus'  type="radio"  value="custom"  />
-                        <!--@php echo $bonus['bonus_name']@-->
+                        &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
                         ，编号：
                         <input name='custom_bonus_sn'  type="text"  value=""  style="width: 40%;;"/>
                     </label>
                 </li>
-                <!--@php  }else{  @-->
+                &lt;!&ndash;@php  }else{  @&ndash;&gt;
                 <li>
                     <label>
-                        <input name='bonus'  type="radio"  value="<!--@php echo $bonus['bonus_sn']@-->"  />
-                        <!--@php echo $bonus['bonus_name']@-->
+                        <input name='bonus'  type="radio"  value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;"  />
+                        &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
                         [
-                        <!--@php echo $bonus['bonus_sn']@-->
+                        &lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;
                         ]
                     </label>
                 </li>
-                <!--@php  } @-->
-                <!--@php  } } @-->
+                &lt;!&ndash;@php  } @&ndash;&gt;
+                &lt;!&ndash;@php  } } @&ndash;&gt;
                 <li><label><input name='bonus'  type="radio"  value=""  />无</label></li>
             </ul>
         </div>
-        <!--@php  } @-->
+        &lt;!&ndash;@php  } @&ndash;&gt;
 
         <div class="infobox">
             <ul id='sendprice' class="otherInfo">
                 <li>
                     <span class='goodsprice'>运费&nbsp;&nbsp;&yen;
-                        <!--@php  //if($item['issendfree'] == 1){@-->
-                        <!--@php  //echo 0;}else{@-->
-                        <!--@php  echo $bonusprice;@-->
+                        &lt;!&ndash;@php  //if($item['issendfree'] == 1){@&ndash;&gt;
+                        &lt;!&ndash;@php  //echo 0;}else{@&ndash;&gt;
+                        &lt;!&ndash;@php  echo $bonusprice;@&ndash;&gt;
                     </span>
                 </li>
             </ul>
-        </div>
+        </div>-->
 
         <div class="carFoot">
-            <button type="submit" id='submit'  name="submit" value="yes" style="display: inline-block;float: right;padding: 0 33px;text-align: center;height: 35px;line-height: 35px;margin-right: 10px;color: #fff;background: #e4393c;font-size: 16px;border: none;border-radius: 5px;">
-                微信支付
+            <button class="font-26" type="submit" id='submit'  name="submit" value="yes" style="display: inline-block;float: right;padding: 0 33px;text-align: center;height: 2.5rem;line-height: 35px;color: #fff;background: #FFAE01;border: none;">
+                立即支付
             </button>
-            <p>合计：
-                <i class="price">&yen;
-                    <span class='goodsprice'>
-                        <!--@php  echo $totalprice;@-->
+            <span class="font-26" style="line-height: 2.5rem;float: right;margin-right: 0.5rem">总计：
+                    <span class="color-FFAE01">
+                        &yen;<!--@php  echo $totalprice;@-->
                     </span>
-                    <span >元</span>
-                </i>
-            </p>
+            </span>
         </div>
         <input type="hidden" name="token" value="<!--@php  echo $_W['token'];@-->" />
     </section>
@@ -309,6 +334,18 @@
 </script>
 
 <script language='javascript'>
+    function openAddress() {
+        alert('get in');
+        wx.openAddress({
+            success: function (data) {
+                // 用户成功拉出地址
+                alert(data.userName + '  ' + data.provinceName + data.cityName);
+            },
+            cancel: function () {
+                // 用户取消拉出地址
+                alert('failed');
+            }});
+    }
     function changeAddress(){
         location.href = '<!--@php  echo mobile_url('address', array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'
     }

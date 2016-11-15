@@ -1,5 +1,9 @@
 <?php
 
+if ( is_use_weixin()) {
+    include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
+}
+
 if($_GP["follower"]!="nologinby")
 {
     //判断用户是否手机登录

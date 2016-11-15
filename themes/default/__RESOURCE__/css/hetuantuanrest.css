@@ -90,3 +90,31 @@ body {
     background-color: #FFAE01;
     color: white
 }
+
+.font-30 {
+    font-size: 0.75rem;
+}
+
+.font-28 {
+    font-size: 0.7rem;
+}
+
+.font-26 {
+    font-size: 0.65rem;
+}
+
+.color-3c {
+    color: #3C3C3C;
+}
+
+.color-93 {
+    color: #939393;
+}
+
+.color-7f {
+    color: #7F7F7F;
+}
+
+.color-FFAE01 {
+    color: #FFAE01;
+}

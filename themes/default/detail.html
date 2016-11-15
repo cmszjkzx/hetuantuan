@@ -45,7 +45,7 @@
                     </ul>
                     <div style="position: absolute;right: 0.375rem;bottom: 0.25rem">
                         <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;" href="<!--@php  echo mobile_url('shopindex')@-->"><img style="width:1rem;height: 1rem;" src="__RESOURCE__/images/ic_home_pressed.png"></a>
-                        <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-right: 0.4rem"><img style="width:1rem;height:1rem" src="__RESOURCE__/images/ic_give_the%20thumbs_up.png"></a>
+                        <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-right: 0.4rem" onclick="openAddress()"><img style="width:1rem;height:1rem" src="__RESOURCE__/images/ic_give_the%20thumbs_up.png"></a>
                     </div>
                 </div>
             </div>
@@ -278,7 +278,7 @@
         <a style="flex: 1"  onclick='addtocart()'>
             <div style="margin: 0 auto;text-align: center">
                 <img src="__RESOURCE__/images/ic_shopping_cart_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
-                <span style="font-size: 0.5rem;color: #9e9e9e">购物车</span>
+                <span style="font-size: 0.5rem;color: #9e9e9e">加入购物车</span>
             </div>
         </a>
         <a style="flex: 1;background-color: #FDAD2A" href="javascript:void()" onclick='buy()'>
@@ -580,6 +580,18 @@
 <!--收藏按钮JS End-->
 
 <script type="text/javascript">
+    function openAddress() {
+        alert('get in');
+        wx.openAddress({
+            success: function (data) {
+                // 用户成功拉出地址
+                alert(data.userName + '  ' + data.provinceName + data.cityName);
+            },
+            cancel: function () {
+                // 用户取消拉出地址
+                alert('failed');
+            }});
+    }
     var $$ = function (obj) {
         if (obj != null && obj != undefined && obj.toString().length > 0) {
             if (obj[0] == '#') {
