@@ -23,6 +23,10 @@
         .my_nav a{position:relative;display:block;height:43px;line-height:45px;text-align:center;color:#666;border-bottom:1px solid #ddd;padding-bottom:2px;font-size:16px}
         .my_nav a:before{width:1px;height:20px;position:absolute;left:-1px;top:50%;margin-top:-10px;background:#ddd}
         .my_nav li.cur a{padding-bottom:0;border-bottom:3px solid #e4393c;color:#e4393c}
+        /*2016-11-16-yanru-begin*/
+        .vid-wrapper{width:100%;position:relative;padding-bottom:56.25%;height:0;}
+        .vid-wrapper video{position:absolute;top:0;left:0;width:100%;height:100%;}
+        /*end*/
     </style>
 </head>
 <body>
@@ -85,9 +89,12 @@
         <div class="con"><!-- 高度自适应需添加外层 -->
             <p class="sub-title">商品详情</p>
             <ul  style="padding-bottom:2.5rem;">
+                <div class="vid-wrapper">
+                    <video type="video/mp4" controls="controls" codecs="avc1.42E01E, mp4a.40.2" src="<?php echo WEBSITE_ROOT;?>attachment/<?php  echo $goods['videopath'];?>"></video>
+                </div>
+                <br/>
                 <li style="width: 100%">
                     <!--@php  echo $goods['content'];@-->
-
                 </li>
             </ul>
         </div>
