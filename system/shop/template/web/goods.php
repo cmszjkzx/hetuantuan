@@ -221,49 +221,98 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-2 control-label no-padding-left" > 其他视频：</label>
+		<label class="col-sm-2 control-label no-padding-left" >商品视频：<br/>（视频大小不超过10M）</label>
 		<div class="col-sm-9">
-			<span id="selectvideo" tabindex="-1" class="btn btn-primary"><i class="icon-plus"></i> 上传视频</span><span style="color:red;">
-				<input name="videolist" type="hidden" value="<?php  echo $item['videolist'];?>" /></span>
-			<div id="file_upload-queue" class="uploadify-queue"></div>
-			<ul class="ipost-list ui-sortable" id="fileList">
-				<?php  if(is_array($videolist)) { foreach($videolist as $v) { ?>
-					<li class="imgbox" style="list-style-type:none;display:inline;  float: left;  position: relative;   width: 125px;  height: 130px;">
-						<span class="item_box">
-							<video src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $v['videourl'];?>" style="width:50px;height:50px">
-							</video>
-						</span>
-						<a  href="javascript:;" onclick="deletepic(this);" title="删除">删除</a>
-						<input type="hidden" value="<?php  echo $v['picurl'];?>" name="attachment[]">
-					</li>
-				<?php  } } ?>
-			</ul>
+			<div class="fileupload fileupload-new" data-provides="fileupload">
+				<div class="fileupload-preview thumbnail" style="width: 800px; height: 600px;">
+					<?php  if(!empty($item['videopath'])) { ?>
+						<video type="video/mp4" controls="controls" codecs="avc1.42E01E, mp4a.40.2" src="<?php echo WEBSITE_ROOT;?>attachment/<?php  echo $item['videopath'];?>" onerror="$(this).remove();"></video>
+					<?php  } ?>
+				</div>
+				<div>
+					<input name="videopath" id="videopath" type="file" />
+					<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除视频</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="form-group">
+	<!--<div class="form-group">
 		<label class="col-sm-2 control-label no-padding-left" >添加商品视频：<br/>
 			<span style="font-size:12px">(视频大小不超过20)</span>
 		</label>
-		<input id="video" type="file" style="display:none">
+
 		<div class="input-append">
 			<div class="col-sm-9">
-				<input type="text" id="videopath" name="videopath"  class="col-xs-10 col-sm-4" value="<?php  echo $item['videopath'];?>">
-				<a type="button" class="btn btn-sm btn-success" onclick="$('input[id=video]').click();">上传</a>
-				<a type="button" class="btn btn-sm btn-danger" onclick="clearpath();">清空</a>
+				<div class="fileupload fileupload-new" data-provides="fileupload">
+					<input id="video" type="file" style="display:none">
+					<input type="text" id="videopath" name="videopath"  class="col-xs-10 col-sm-4" value="<?php  //echo $item['videopath'];?>">
+					&nbsp;&nbsp;<a type="button" class="btn btn-sm btn-success" onclick="$('input[id=video]').click();">上传</a>
+					&nbsp;<a type="button" class="btn btn-sm btn-danger" onclick="clearpath();">清空</a>
+				</div>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		$('input[id=video]').change(function() {
-			$('#videopath').val($(this).val());
-		});
-	</script>
-    <script type="text/javascript">
-        function clearpath(){
-            $('#videopath').val("");
-        }
-    </script>
+//		$('input[id=video]').change(function() {
+//			//$('#videopath').val($(this).val());
+//			var file = document.getElementById("video").files[0];
+//			//alert(file.type+"---"+file.name+"---"+file.url);
+//			//var videoPathValue = getVideoPath(document.getElementById("video"));
+//			$('#videopath').val(file.name);
+//		});
+//
+//        function clearpath(){
+//            $('#videopath').val("");
+//        }
+
+//        function getVideoPath(node){
+//			var videoPath = "";
+//			try {
+//				var file = null;
+//				if (node.files && node.files[0]) {
+//					file = node.files[0];
+//				} else if (node.files && node.files.item(0)) {
+//					file = node.files.item(0);
+//				}
+//				alert(file.value());
+//				//Firefox因安全问题已无法直接通过input[file].value获取完整的文件路径
+//				try {
+//					//Firefox7.0
+//					videoPath = file.getAsDataURL();
+//				} catch (e) {
+//					//Firefox8.0以上
+//					videoPath = window.URL.createObjectURL(file);
+//				}
+//			}catch(e){
+//				//支持html5的浏览器，比如高版本的firefox,chrome,ie10
+//					if(node.files && node.files[0]){
+//						var reader = new FileReader();
+//						reader.onload = function (e) {
+//							videoPath = e.target.result;
+//						};
+//						reader.readAsDataURL(node.files[0]);
+//					}
+//			}
+//			return videoPath;
+//		}
+
+//		function getVideoPath(obj){
+//			if(obj){
+//				document.getElementById("video")
+//				if(window.navigator.userAgent.indexOf("MSIE")>=1){
+//					obj.select();
+//					return document.selection.createRange().text;
+//				}else if(window.navigator.userAgent.indexOf("Firefox")>=1) {
+//					if (obj.file){
+//						return obj.files.item(0).getAsDataURL();
+//					}
+//					return obj.value;
+//				}
+//				return obj.value;
+//			}
+//		}
+    </script>-->
 
 	<?php  include page('goods_option');?>
 	<div class="form-group">

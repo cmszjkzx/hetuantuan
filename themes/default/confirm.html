@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" />
 	<script type="text/javascript" src="<!--@php echo RESOURCE_ROOT;@-->/script/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <style>
         body{padding-bottom:55px}
         .label_radio input {
@@ -72,18 +73,18 @@
             <!--@php  if(!empty($defaultAddress)) { @-->
             <div class="address_item" style="height: 3.5rem">
                 <a type="button" onclick="openAddress()" style="height:3.5rem;line-height: 3.5rem;display: inline;margin-left: 0.6rem;float: left;">
-                    <img style="width: 0.95rem;height: 0.95rem" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
+                    <img style="width: 0.95rem;height: 0.95rem" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;display: none">选择收货地址</span>
                 </a>
-                <!--<div style="display: inline;float: left;margin-left: 10px">
+                <div style="display: inline;float: right;margin-left: 10px;width: 13rem">
                     收件人：
-                    &lt;!&ndash;@php  echo $defaultAddress['realname'];@&ndash;&gt;&nbsp;&nbsp;
-                    &lt;!&ndash;@php  echo $defaultAddress['mobile'];@&ndash;&gt;
+                    <!--@php  echo $defaultAddress['realname'];@-->&nbsp;&nbsp;
+                    <!--@php  echo $defaultAddress['mobile'];@-->
                     收货地址：
-                    &lt;!&ndash;@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@&ndash;&gt;
-                    &lt;!&ndash;@php  //echo $defaultAddress['city'];@&ndash;&gt;
-                    &lt;!&ndash;@php  //echo $defaultAddress['area'];@&ndash;&gt;
-                    &lt;!&ndash;@php  //echo $defaultAddress['address'];@&ndash;&gt;
-                </div>-->
+                    <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
+                    <!--@php  //echo $defaultAddress['city'];@-->
+                    <!--@php  //echo $defaultAddress['area'];@-->
+                    <!--@php  //echo $defaultAddress['address'];@-->
+                </div>
             </div>
             <!--@php  } else { @-->
             <p>

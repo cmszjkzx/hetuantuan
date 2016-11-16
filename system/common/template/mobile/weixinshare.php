@@ -7,7 +7,7 @@ var wxData = {
             "title" : "<?php echo $shopwap_weixin_share['title'];?>"
 };
 wx.config({
-    debug: false,
+    debug: true,
     appId: "<?php echo $shopwap_weixin_share['appId'];?>",
     timestamp: <?php echo $shopwap_weixin_share['timestamp'];?>, 
     nonceStr: "<?php echo $shopwap_weixin_share['nonceStr'];?>", 
@@ -26,8 +26,8 @@ wx.error(function(res){
 	{
 		if(res.errMsg='config:invalid signature')
 		{
-	//alert(res.errMsg);
-			//alert("转发接口失效，请联系管理员");
+	alert(res.errMsg);
+			alert("转发接口失效，请联系管理员");
 		}
 	}
 });	

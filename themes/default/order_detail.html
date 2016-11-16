@@ -156,8 +156,8 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 				<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $g['thumb'];@-->" width="160">
 			</a>
 		</div>
-		<!--<div class="pull-right">-->
-		<div>
+		<!--<div class="pull-right">
+		<div>-->
 			<div class="name">
 				&nbsp;&nbsp;<!--@php  echo $g['title'];@-->
 				<br>
@@ -167,28 +167,30 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 				<!--@php  if($g['unit']) { @-->
 				<!--@php  echo $g['unit'];@--><!--@php  } @-->
 			</div>
-			<div class="pull-right">
-				<span>共计：
-					<span class="false">
-						<!--@php  if($item['dispatchprice']<=0) { @-->
-						<!--@php  echo $item['price'];@--> 元
-						<!--@php  } else { @-->
-						<!--@php  echo $item['price'];@--> 元 (含运费
-						<!--@php  echo $item['dispatchprice'];@-->
-						元)
-						<!--@php  } @-->
-					</span>
-					<!--@php  if($item['hasbonus']>0) { @-->
-					<span style="color:green"> ( 已优惠：
-						<!--@php  echo $item['bonusprice'];@-->
-						元)
-					</span>
-					<!--@php  }  @-->
-				</span>
-			</div>
-		</div>
+		<!--</div>-->
 	</div>
 	<!--@php  } } @-->
+	<div class="myoder-express">
+		<div class="pull-right">
+			<span>共计：
+				<span class="false">
+					<!--@php  if($item['dispatchprice']<=0) { @-->
+					<!--@php  echo $item['price'];@--> 元
+					<!--@php  } else { @-->
+					<!--@php  echo $item['price'];@--> 元 (含运费
+					<!--@php  echo $item['dispatchprice'];@-->
+					元)
+					<!--@php  } @-->
+				</span>
+				<!--@php  if($item['hasbonus']>0) { @-->
+				<span style="color:green"> ( 已优惠：
+					<!--@php  echo $item['bonusprice'];@-->
+					元)
+				</span>
+				<!--@php  }  @-->
+			</span>
+		</div>
+	</div>
 	<!--<div class="myoder-express">
 		<span class="express-company">状态</span>
 		<span class="express-num">-->

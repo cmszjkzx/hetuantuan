@@ -164,11 +164,11 @@ if ($operation == 'post') {
         if (empty($_GP['kinds'])) {
             message('请选择商品类别！');
         }
-        //2016-11-10-yanru
-        //if (empty($_GP['videopath'])) {
-        //    message('请上传商品视频！');
-        //}
-        //end
+//        //2016-11-10-yanru
+//        if (empty($_GP['videopath'])) {
+//            message('请上传商品视频！');
+//        }
+//        //end
         $data = array(
             'pcate' => intval($_GP['pcate']),
             'ccate' => intval($_GP['ccate']),
@@ -215,6 +215,17 @@ if ($operation == 'post') {
             }
             $data['thumb'] = $upload['path'];
         }
+
+        //2016-11-16-yanru-begin-video
+        if (!empty($_FILES['videopath']['tmp_name'])) {
+            $upload = video_upload($_FILES['videopath']);
+            if (is_error($upload)) {
+                message($upload['message'], '', 'error');
+            }
+            $data['videopath'] = $upload['path'];
+        }
+        //end
+
         if (empty($id)) {
             $data['sales']=0;
             mysqld_insert('shop_goods', $data);

@@ -259,6 +259,7 @@ $openid   = base64_decode($_COOKIE[$cookieid]);
         $code         = $_GP['code'];
 //        $url          = WEBSITE_ROOT . 'index.php?' . $_SERVER['QUERY_STRING'];
             $url          = 'http://hetuantuan.ngrok.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
+//                $url          = 'http://9198e902.ngrok.io/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
 
 
     if (empty($code)) {

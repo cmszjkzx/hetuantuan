@@ -68,10 +68,10 @@
             <!--@php  if($item['status'] == -6) { @--><span class="text-success">已退款</span><!--@php  } @-->
         </span>
 	</div>
-    <!--@php  if(count($item['goods'])==1) { @-->
+    <!--@php  if(count($item['goods'])>=1) { @-->
 	<!--@php  if(is_array($item['goods'])) { foreach($item['goods'] as $goods) { @-->
-	<div class="myoder-detail">
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@-->">
+	<div class="myoder-detail" onclick="window.location.href='<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@-->';return false">
+		<a>
             <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->" width="160">
         </a>
 		<div class="pull-left">
@@ -94,33 +94,39 @@
 				</span>
 			</div>
 		</div>
-		<div class="pull-right">
-			<div class="price">
-				<span>(含物流)合计:￥
-					<!--@php  if($item['dispatchprice']<=0) { @-->
-					<!--@php  echo $item['price'];@-->
-					<!--@php  } else { @-->
-					<!--@php  echo $item['price'];@-->
-					<!--(运费 &lt;!&ndash;@php  echo $item['dispatchprice'];@&ndash;&gt; 元) -->
-					<!--@php  } @-->
-					<!--@php  if($item['hasbonus']>0) { @-->
-					<!-- <span style="color:green"> ( 已优惠：&lt;!&ndash;@php  echo $item['bonusprice'];@&ndash;&gt; 元)</span>-->
-					<!--@php  }  @-->
-				</span>
-			</div>
-		</div>
 	</div>
 	<!--@php  } } @-->
-	<!--@php  } else { @-->
+    <div class="pull-right">
+        <div class="price">
+				<span>(含物流)合计:￥
+                    <!--@php  if($item['dispatchprice']<=0) { @-->
+                    <!--@php  echo $item['price'];@-->
+                    <!--@php  } else { @-->
+                    <!--@php  echo $item['price'];@-->
+                    <!--(运费 &lt;!&ndash;@php  echo $item['dispatchprice'];@&ndash;&gt; 元) -->
+                    <!--@php  } @-->
+                    <!--@php  if($item['hasbonus']>0) { @-->
+                    <!-- <span style="color:green"> ( 已优惠：&lt;!&ndash;@php  echo $item['bonusprice'];@&ndash;&gt; 元)</span>-->
+                    <!--@php  }  @-->
+				</span>
+        </div>
+    </div>
+	<!--@php  } //else { @-->
        
-	<div class="myoder-detail">
-		<!--@php  if(is_array($item['goods'])) { foreach($item['goods'] as $goods) { @-->
-		<a href="<!--@php  echo mobile_url('detail', array('id' => $goods['id']))@-->">
-			<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->" width="160">
-		</a>
-		<!--@php  } } @-->
-	</div>
-	<!--@php  } @-->
+	<!--<div class="myoder-detail">-->
+		<!--@php  //if(is_array($item['goods'])) { foreach($item['goods'] as $goods) { @-->
+		<!--<a href="-->
+		<!--@php  //echo mobile_url('detail', array('id' => $goods['id']))@-->
+         <!--">-->
+			<!--<img src="-->
+			<!--@php //echo WEBSITE_ROOT;@-->
+			<!--/attachment/-->
+			<!--@php  //echo $goods['thumb'];@-->"
+                <!-- width="160">
+		</a>-->
+		<!--@php  //} } @-->
+	<!--</div>-->
+	<!--@php  //} @-->
 	 
 	<div class="myoder-total">
 		<!--@php  if($item['status'] == 0) { @-->
