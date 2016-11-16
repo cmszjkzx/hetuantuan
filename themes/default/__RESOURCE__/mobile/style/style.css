@@ -115,9 +115,8 @@ body{background:#f2f2f2; padding-top:40px; padding-bottom:45px;}
 .order-main .order-submit{width:100%;}
  
 .myoder{margin-top:10px;margin-bottom:10px; overflow:hidden; background:#FFF;}
-.myoder .myoder-hd{height:35px; line-height:35px; overflow:hidden; background:#fff; border-bottom:1px dashed #f3f3f4; padding:0 10px;}
-.myoder .myoder-hd > span{font-size:14px; color:#504040;}
-.myoder .myoder-hd > span.pull-right{font-size:12px; color:#999;}
+.myoder .myoder-hd{height:1rem; line-height:1rem; overflow:hidden; background:#fff; border-bottom:1px solid #D9D9D9; padding:0 10px;}
+.myoder .myoder-hd > span.pull-right{font-size:12px; color:#FFAE01;}
 .myoder .myoder-detail{height:73px; border-bottom:1px dashed #f3f3f4; padding:10px; overflow:hidden;}
 .myoder .myoder-detail img{width:50px; margin-right:10px; float:left;}
 .myoder .myoder-detail .name a{color:#4d4f5d; display:inline-block; width:210px; font-weight:bold; text-decoration:underline; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
@@ -127,7 +126,7 @@ body{background:#f2f2f2; padding-top:40px; padding-bottom:45px;}
 .myoder .myoder-total{height:38px; line-height:38px; padding:0 10px; color:#b9b9b9; font-weight:bold;}
 .myoder .myoder-total > span{margin-right:10px;}
 .myoder .myoder-total > span .false{color:#e9342a;}
-.myoder .myoder-total > .btn{margin-top:3.5px;margin-right: 3.5px}
+.myoder .myoder-total > .btn{margin-top:3.5px;margin-right: 3.5px;background-color: white;border-width: thin;border-color: #D9D9D9;color: #3;font-size: 0.65rem}
 .myoder .myoder-express{border-bottom:1px dashed #f3f3f4; padding:5px 10px; overflow:hidden; background:#fff;}
 .myoder .myoder-express > span{display:inline-block; width:50%; float:left;}
 .myoder .myoder-express .express-company{}

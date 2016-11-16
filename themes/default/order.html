@@ -12,6 +12,7 @@
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/bootstrap.css">
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/bootstrap.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/style/font-awesome.min.css" />
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/common.mobile.css">
 	<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
@@ -20,20 +21,22 @@
     <style type='text/css'>
         .my_nav ul{display:box;display:-ms-box;display:-webkit-box;display:flex;display:-ms-flexbox;display:-webkit-flex}
 	    .my_nav li{display:block;flex:1;-ms-flex:1;-webkit-flex:1;box-flex:1;-ms-box-flex:1;-webkit-box-flex:1}
-	    .my_nav a:before{content:'\20';display:block}.layer .action a,.order_head .oh_btn.bg_1{background:#F3F3F3;color:#fff;border:1px solid transparent}
-	    .my_nav{width:100%;background:#efefef}
+	    /*.my_nav a:before{content:'\20';display:block}.layer .action a,.order_head .oh_btn.bg_1{background:#F3F3F3;color:#fff;border:1px solid transparent}*/
+	    .my_nav{width:100%;background:white}
 	    .my_nav ul{overflow:hidden}
-	    .my_nav a{position:relative;display:block;height:43px;line-height:45px;text-align:center;color:#666;border-bottom:1px solid #ddd;padding-bottom:2px;font-size:16px}
+	    .my_nav a{position:relative;display:block;height:2.25rem;line-height:2.25rem;text-align:center;color:#3C3C3C;border-bottom:1px solid #ddd;padding-bottom:2px;}
 	    .my_nav a:before{width:1px;height:20px;position:absolute;left:-1px;top:50%;margin-top:-10px;background:#ddd}
-	    .my_nav li.cur a{padding-bottom:0;border-bottom:3px solid #e4393c;color:#e4393c}
+	    .my_nav li.cur a{padding-bottom:0;border-bottom:1px solid #FFAE01;color:#FFAE01}
     </style>
     <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css">
 </head>
 
 <body style="padding-top:0px;margin:0 auto;">
 <div class="main">
     <div class="my_nav">
-        <ul id="nav">
+        <ul id="nav" class="font-26">
             <li <!--@php  if($status==99) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>99))@-->">全部</a></li>
             <li <!--@php  if($status==0) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>0))@-->">待付款</a></li>
             <li <!--@php  if($status==1) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>1))@-->">待发货</span></a></li>
@@ -54,51 +57,81 @@
 <!--@php  if(is_array($list)) { foreach($list as $item) { @-->
 <div class="myoder">
 	<div class="myoder-hd">
-		<span class="pull-left">订单编号：<!--@php  echo $item['ordersn'];@--></span>
-		<span class="pull-right"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
-            <!--@php  if($item['status'] == 0) { @--><span class="text-warning" >待付款</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 1) { @--><span class="text-danger" >待发货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 2) { @--><span class="text-warning">待收货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 3) { @--><span class="text-success" >已完成</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -1) { @--><span class="text-success">已关闭</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -2) { @--><span class="text-danger">退款中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -3) { @--><span class="text-danger">换货中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -4) { @--><span class="text-danger">退货中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -5) { @--><span class="text-success">已退货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -6) { @--><span class="text-success">已退款</span><!--@php  } @-->
+		<span class="pull-left font-20 color-3c">订单编号：<!--@php  echo $item['ordersn'];@--></span>
+		<span class="pull-right  font-20 color-FFAE01"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
+            <!--@php  if($item['status'] == 0) { @--><span>待付款</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 1) { @--><span>待发货</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 2) { @--><span>待收货</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 3) { @--><span>已完成</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -1) { @--><span>已关闭</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -2) { @--><span>退款中</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -3) { @--><span>换货中</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -4) { @--><span>退货中</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -5) { @--><span>已退货</span><!--@php  } @-->
+            <!--@php  if($item['status'] == -6) { @--><span>已退款</span><!--@php  } @-->
         </span>
 	</div>
     <!--@php  if(count($item['goods'])>=1) { @-->
 	<!--@php  if(is_array($item['goods'])) { foreach($item['goods'] as $goods) { @-->
-	<div class="myoder-detail" onclick="window.location.href='<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@-->';return false">
+
+	<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
+		<div class="member-browser-pro-list" >
+			<a class="member-browser-pro-a" href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@-->">
+                                <span class="pro-img">
+                                    <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb']@-->">
+                                </span>
+				<p class="pro-info">
+                                    <span class="member-browse-name text-ellipsis font-28 color-3c">
+                                        <!--@php  echo $goods['title'];@-->
+                                    </span>
+					<!--<span class="pro-name">价格：-->
+					<!--@php  //echo $goods['totalprice'];@-->
+					<!--</span>-->
+
+					<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
+                                       <!--@php  echo $goods['attribute_title'];@--> × <!--@php  echo $goods['total'];@-->
+                                    </span>
+					<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
+                                        ￥<!--@php  echo $goods['attribute_price'];@-->
+						<!--@php  //if($goods['unit']) { @-->
+						<!--/-->
+						<!--@php  //echo $goods['unit'];@-->
+						<!--@php  //} @-->
+                                    </span>
+				</p>
+			</a>
+		</div>
+	</li>
+
+	<!--<div class="myoder-detail" onclick="window.location.href='&lt;!&ndash;@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@&ndash;&gt;';return false">
 		<a>
-            <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->" width="160">
+            <img src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $goods['thumb'];@&ndash;&gt;" width="160">
         </a>
 		<div class="pull-left">
-			<div class="name"><!--@php  echo $goods['title'];@--></div>
+			<div class="name">&lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;</div>
 			<div class="total">
-				<span><!--@php  echo $goods['attribute_title'];@--> × <!--@php  echo $goods['total'];@--></span>
+				<span>&lt;!&ndash;@php  echo $goods['attribute_title'];@&ndash;&gt; × &lt;!&ndash;@php  echo $goods['total'];@&ndash;&gt;</span>
 			</div>
 			<div class="price">
 				<span>￥
-					<!--@php  echo $goods['attribute_price'];@-->
-					<!--@php  //if($goods['unit']) { @-->
-					<!--/-->
-					<!--@php  //echo $goods['unit'];@-->
-					<!--@php  //} @-->
+					&lt;!&ndash;@php  echo $goods['attribute_price'];@&ndash;&gt;
+					&lt;!&ndash;@php  //if($goods['unit']) { @&ndash;&gt;
+					&lt;!&ndash;/&ndash;&gt;
+					&lt;!&ndash;@php  //echo $goods['unit'];@&ndash;&gt;
+					&lt;!&ndash;@php  //} @&ndash;&gt;
 				</span>
-				<span class="num"><!--@php  echo $item['total'][$goods['id']]['total'];@-->
-					<!--@php  //if($goods['unit']) { @-->
-					<!--@php  //echo $goods['unit'];@-->
-					<!--@php  //} @-->
+				<span class="num">&lt;!&ndash;@php  echo $item['total'][$goods['id']]['total'];@&ndash;&gt;
+					&lt;!&ndash;@php  //if($goods['unit']) { @&ndash;&gt;
+					&lt;!&ndash;@php  //echo $goods['unit'];@&ndash;&gt;
+					&lt;!&ndash;@php  //} @&ndash;&gt;
 				</span>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<!--@php  } } @-->
-    <div class="pull-right">
+    <div class="pull-right" style="margin-right: 0.5rem">
         <div class="price">
-				<span>(含物流)合计:￥
+			<span class="font-22 color-7f">(含物流)</span><span class="font-26 color-3c">合计:</span><span class="font-26 color-FFAE01">￥
                     <!--@php  if($item['dispatchprice']<=0) { @-->
                     <!--@php  echo $item['price'];@-->
                     <!--@php  } else { @-->

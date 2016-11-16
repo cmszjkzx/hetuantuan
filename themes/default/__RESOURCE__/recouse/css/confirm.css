@@ -72,7 +72,7 @@ body > section{ padding:0px 10px;}
 .member-browser-pro-a:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 .member-browser-pro-a:active{background:#f1f1f1;}
 .member-browser-pro-a .pro-img{float:left;margin-right:0.5rem;margin-top: 0.5rem}
-.member-browser-pro-a .pro-img img{width:4.5rem;margin-left: 0.5rem}
+.member-browser-pro-a .pro-img img{width:4.5rem;height: 3.5rem;margin-left: 0.5rem}
 .member-browser-pro-a .pro-info{display:block;margin:0.5rem 0.5rem;overflow:hidden;}
 .member-browser-pro-a .pro-name{display:block;line-height:20px;font-size:14px;color:#333;}
 .member-browser-pro-a .pro-price{font-size:12px;color:#999;}
