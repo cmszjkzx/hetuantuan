@@ -39,8 +39,8 @@
         <ul id="nav" class="font-26">
             <li <!--@php  if($status==99) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>99))@-->">全部</a></li>
             <li <!--@php  if($status==0) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>0))@-->">待付款</a></li>
-            <li <!--@php  if($status==1) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>1))@-->">待发货</span></a></li>
-            <li <!--@php  if($status==2) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>2))@-->">待收货</a></li>
+            <li <!--@php  if($status==2) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>2))@-->">待发货</span></a></li>
+            <li <!--@php  if($status==3) { @-->class='cur'<!--@php  } else { @-->class=""<!--@php  } @-->><a href="<!--@php  echo mobile_url('myorder',array('status'=>3))@-->">待收货</a></li>
 			<!--<li &lt;!&ndash;@php  if($status==-5) { @&ndash;&gt;class='cur'&lt;!&ndash;@php  } else { @&ndash;&gt;class=""&lt;!&ndash;@php  } @&ndash;&gt;><a href="&lt;!&ndash;@php  echo mobile_url('myorder',array('status'=>-5))@&ndash;&gt;">退换货</a></li>-->
         </ul>
     </div>
@@ -59,16 +59,17 @@
 	<div class="myoder-hd">
 		<span class="pull-left font-20 color-3c">订单编号：<!--@php  echo $item['ordersn'];@--></span>
 		<span class="pull-right  font-20 color-FFAE01"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
-            <!--@php  if($item['status'] == 0) { @--><span>待付款</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 1) { @--><span>待发货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 2) { @--><span>待收货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == 3) { @--><span>已完成</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -1) { @--><span>已关闭</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -2) { @--><span>退款中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -3) { @--><span>换货中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -4) { @--><span>退货中</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -5) { @--><span>已退货</span><!--@php  } @-->
-            <!--@php  if($item['status'] == -6) { @--><span>已退款</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 0) { @--><span>等待买家付款</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 1) { @--><span>订单关闭</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 2) { @--><span>买家已付款</span><!--@php  } @-->
+            <!--@php  if($item['status'] == 3) { @--><span>卖家已发货</span><!--@php  } @-->
+			<!--@php  if($item['status'] == 4) { @--><span>交易完成</span><!--@php  } @-->
+            <!--@php  //if($item['status'] == -1) { @--><!--<span>已关闭</span>--><!--@php  //} @-->
+            <!--@php  //if($item['status'] == -2) { @--><!--<span>退款中</span>--><!--@php  //} @-->
+            <!--@php  //if($item['status'] == -3) { @--><!--<span>换货中</span>--><!--@php  //} @-->
+            <!--@php  //if($item['status'] == -4) { @--><!--<span>退货中</span>--><!--@php  //} @-->
+            <!--@php  //if($item['status'] == -5) { @--><!--<span>已退货</span>--><!--@php  //} @-->
+            <!--@php  //if($item['status'] == -6) { @--><!--<span>已退款</span>--><!--@php  //} @-->
         </span>
 	</div>
     <!--@php  if(count($item['goods'])>=1) { @-->
@@ -77,27 +78,27 @@
 	<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
 		<div class="member-browser-pro-list" >
 			<a class="member-browser-pro-a" href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>$status))@-->">
-                                <span class="pro-img">
-                                    <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb']@-->">
-                                </span>
+				<span class="pro-img">
+					<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb']@-->">
+				</span>
 				<p class="pro-info">
-                                    <span class="member-browse-name text-ellipsis font-28 color-3c">
-                                        <!--@php  echo $goods['title'];@-->
-                                    </span>
+					<span class="member-browse-name text-ellipsis font-28 color-3c">
+						<!--@php  echo $goods['title'];@-->
+					</span>
 					<!--<span class="pro-name">价格：-->
 					<!--@php  //echo $goods['totalprice'];@-->
 					<!--</span>-->
 
 					<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
-                                       <!--@php  echo $goods['attribute_title'];@--> × <!--@php  echo $goods['total'];@-->
-                                    </span>
+						<!--@php  echo $goods['attribute_title'];@--> × <!--@php  echo $goods['total'];@-->
+					</span>
 					<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
-                                        ￥<!--@php  echo $goods['attribute_price'];@-->
+						￥<!--@php  echo $goods['attribute_price'];@-->
 						<!--@php  //if($goods['unit']) { @-->
 						<!--/-->
 						<!--@php  //echo $goods['unit'];@-->
 						<!--@php  //} @-->
-                                    </span>
+					</span>
 				</p>
 			</a>
 		</div>
@@ -165,49 +166,61 @@
 		<!--@php  if($item['status'] == 0) { @-->
 		<!--<span class="text-warning" >待付款</span>-->
 		&nbsp;&nbsp;
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('确认取消该订单吗？'); " >
-			取消订单
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
+			删除订单
 		</a>
 		&nbsp;&nbsp;
-
-		<!--@php  $limittime = $item['createtime'] + 30*60;if($limittime > time()) { @-->
+		<!--@php  $limittime = $item['createtime'] + 30*60;if($limittime > time()) {$item['status'] == 1; @-->
 		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
-            立即付款
+            立即购买
 		</a>
 		<!--@php  } @-->
-
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == 1) { @-->
-		<!--<span class="text-danger" >待发货</span>-->
+		<!--<span class="text-danger" >订单超时</span>-->
+		&nbsp;&nbsp;
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
+			删除订单
+		</a>
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == 2) { @-->
+		<!--<span class="text-danger" >待发货</span>-->
+		<!--@php  } @-->
+		<!--@php  if($item['status'] == 3) { @-->
 		<!--<span class="text-warning">待收货</span>-->
 		&nbsp;&nbsp;
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('确认取消该订单吗？'); " >
-			取消订单
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
+			删除订单
 		</a>
 		&nbsp;&nbsp;
-		<a href="<!--@php  //echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
-			我要评价
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
+			我要点评
 		</a>
 		&nbsp;&nbsp;
-		<a href="<!--@php  //echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
 			确认收货
 		</a>
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == 3) { @-->
+		<!--@php  if($item['status'] == 4) { @-->
 		<!--<span class="text-success" >已完成</span>-->
 		&nbsp;&nbsp;
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('确认取消该订单吗？'); " >
-			取消订单
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
+			删除订单
 		</a>
 		&nbsp;&nbsp;
-		<a href="<!--@php  //echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
-			我要评价
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
+			我要点评
 		</a>
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == -1) { @-->
+		<!--@php  if($item['status'] == 5) { @-->
 		<!--<span class="text-success">已关闭</span>-->
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
+			删除订单
+		</a>
+		&nbsp;&nbsp;
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
+			已评价
+		</a>
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == -2) { @-->
 		<!--<span class="text-danger">退款中</span>-->

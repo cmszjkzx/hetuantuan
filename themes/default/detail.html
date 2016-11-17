@@ -89,9 +89,11 @@
         <div class="con"><!-- 高度自适应需添加外层 -->
             <p class="sub-title">商品详情</p>
             <ul  style="padding-bottom:2.5rem;">
+                <!--@php if(!empty($goods['videopath'])) {@-->
                 <div class="vid-wrapper">
                     <video type="video/mp4" controls="controls" codecs="avc1.42E01E, mp4a.40.2" src="<?php echo WEBSITE_ROOT;?>attachment/<?php  echo $goods['videopath'];?>"></video>
                 </div>
+                <!--@php }@-->
                 <br/>
                 <li style="width: 100%">
                     <!--@php  echo $goods['content'];@-->

@@ -87,39 +87,52 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 		<i class="icon-angle-left"></i>
 	</a>
 	<!--@php  if($item['status'] == 0) { @--><span class="title" >待付款订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 1) { @--><span class="title" >待发货订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 2) { @--><span class="title" >待收货订单详情</span><!--@php  } @-->
+	<!--@php  if($item['status'] == 2) { @--><span class="title" >待发货订单详情</span><!--@php  } @-->
+	<!--@php  if($item['status'] == 3) { @--><span class="title" >待收货订单详情</span><!--@php  } @-->
 	<!--<span class="title">订单详情</span>-->
 </div>
  
-<div class="myoder" style='padding-bottom: 10px;'>
-	<div class="myoder-hd">
-		<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
+<!--<div class="myoder" style='padding-bottom: 10px;'>-->
+<div class="myoder">
+	<!--<div class="myoder-hd">-->
+	<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
+	<div class="myoder-hd-yr" style="height: 50px;">
 		<span>
 			您未付款，订单将于
 			<strong id="RemainM"></strong>
 			分
 			<strong id="RemainS"></strong>
-			秒后失效
+			秒后自动关闭
 		</span>
-		<!--@php }else {@-->
+		<!--@php }else { @-->
 		<span>
 			您的订单已超时请重新下单
 		</span>
-		<!--@php } }@-->
+		<!--@php } @-->
 	</div>
+		<!--@php } @-->
+	<!--</div>-->
 	<script>
 		var runtimes = 0;
 		function GetRTime(){
 			var time = <!--@php echo $limittime - $starttime @-->-runtimes;
-			var nM=Math.floor(time/60 );
-			var nS=Math.floor(time%60);
-			document.getElementById("RemainM").innerHTML=nM;
-			document.getElementById("RemainS").innerHTML=nS;
-			runtimes++;
-			setTimeout("GetRTime()",1000);
+			if(time > 0) {
+				var nM = Math.floor(time / 60);
+				var nS = Math.floor(time % 60);
+				document.getElementById("RemainM").innerHTML = nM;
+				document.getElementById("RemainS").innerHTML = nS;
+				runtimes++;
+				setTimeout("GetRTime()", 1000);
+			}else if(time == 0){
+				setTimeout("OutRTime()");
+			}
 		}
 		window.onload=GetRTime;
+		function OutRTime(){
+			<!--@php if(0 == $item['status']) { @-->
+			window.location = "<!--@php echo WEBSITE_ROOT.mobile_url('myorder',array('orderid' => $item['id'], 'op' => 'detail','fromstatus'=>99)) @-->";
+			<!--@php } @-->
+		}
 		// -->
 	</script>
 	<div class="myoder-express">
@@ -316,17 +329,17 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			<!--</select>
 		</div>-->
 		<!--@php  //} @-->
-		<!--@php  if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
+		<!--@php  if($item['status'] == 0) { @-->
 		<!--@php  if ($starttime < $limittime){ @-->
 		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
 			立即支付
 		</a>
 		<!--@php  } @-->
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
+		<!--@php  if($item['status'] ==1) { @-->
 		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">取消订单</a>
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == 2 || ($item['paytype'] == 3 && $item['status'] > 1&& $item['status'] < 3)) { @-->
+		<!--@php  if($item['status'] == 2) { @-->
 		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('点击确认收货前，请确认您的商品已经收到。确定收货吗？'); ">确认收货</a>
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == 1&&$item['paytype'] != 3) { @-->

@@ -11,20 +11,22 @@ if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
-    if (empty($item))
+    if (empty($item)||$item['status']<0)
     {
         message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
     }
-    if(($item['paytype']==3&&$item['status']==1)||$item['status']==0)
+    //if(($item['paytype']==3&&$item['status']==1)||$item['status']==0)
+    //{
+    //    mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+    //    message('订单已关闭！', mobile_url('myorder'), 'success');
+    //}
+    if($item['status']==3)
     {
-        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
-        message('订单已关闭！', mobile_url('myorder'), 'success');
+        message('请确认是否受到货物！');
     }
-    if($item['status']==2)
-    {
-        message('商家已发货无法修改订单');
-    }
-    message('该订单不可取消');
+    mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+    $_GP['status'] = 99;
+    //message('该订单不可取消');
 }
 if ($op == 'returngood')
 {
@@ -96,25 +98,26 @@ if ($op == 'resendgood')
 if ($op == 'returncomment')
 {
     $orderid = intval($_GP['orderid']);
-    $ogsid = intval($_GP['ogsid']);
+    //2016-11-17-yanru-begin-原来是对同一订单不同商品进行评价，现在是同一评价
+    //$ogsid = intval($_GP['ogsid']);
              
     $list = mysqld_selectall("SELECT comment.*,member.realname,member.mobile FROM " . table('shop_goods_comment') . " comment  left join " . table('member') . " member on comment.openid=member.openid WHERE comment.orderid=:orderid and comment.openid=:openid ", array(':orderid' => $orderid, 'openid' => $openid ));
            
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
-    $shop_order = mysqld_select("SELECT * FROM " . table('shop_order_goods') . " WHERE id = :id", array(':id' => $ogsid ));
-    if(empty($shop_order['id']))
-    {
-        message('商品不能空', refresh(), 'error');
-    }
+//    $shop_order = mysqld_select("SELECT * FROM " . table('shop_order_goods') . " WHERE id = :id", array(':id' => $ogsid ));
+//    if(empty($shop_order['id']))
+//    {
+//        message('商品不能空', refresh(), 'error');
+//    }
     if (checksubmit("submit"))
     {
         $optionid = intval($_GP['optionid']);
         $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $optionid));
 
-        if($item['status']!=3)
-        {
-            message('订单未完成不能评论', refresh(), 'error');
-        }
+//        if($item['status']!=3)
+//        {
+//            message('订单未完成不能评论', refresh(), 'error');
+//        }
         if(empty($_GP['rsreson']))
         {
             message('请输入评论内容', refresh(), 'error');
@@ -164,15 +167,19 @@ elseif ($op == 'confirm')
     {
         message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
     }
-    if (empty($order['isrest']))
-    {//不是换货
-        $this->setOrderCredit($openid,$order['id'],true,'订单:'.$order['ordersn'].'收货新增积分');
-    }
-    mysqld_update('shop_order', array('status' => 3,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
-    $settings=globaSetting();
-							
-    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/myorder_1.php');
-    message('确认收货完成！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
+    //2016-11-17-yanru-下面是用户增加积分功能暂时屏蔽
+//    if (empty($order['isrest']))
+//    {//不是换货
+//        $this->setOrderCredit($openid,$order['id'],true,'订单:'.$order['ordersn'].'收货新增积分');
+//    }
+    //end
+    mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+//    $settings=globaSetting();
+//
+//    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/myorder_1.php');
+//    message('确认收货完成！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
+    $url = WEBSITE_ROOT.mobile_url('myorder',array('status' => 99));
+   header("location:".WEBSITE_ROOT.mobile_url('myorder',array('status' => 99)));
 }
 else if ($op == 'detail')
 {
@@ -191,6 +198,13 @@ else if ($op == 'detail')
         mysqld_update('shop_order', array('paytype' => $this->getPaytypebycode($item['paytypecode'])), array('id' => $orderid, 'openid' => $openid ));
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
     }
+    //2017-11-17-yanru-begin-change status 0 to 1 begin
+    if(0==$item['status'] && ($today - 30*60 > $item['createtime']))
+    {
+        mysqld_update('shop_order', array('status' => 1), array('id' => $orderid, 'openid' => $openid ));
+        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
+    }
+    //end
     $goodsid = mysqld_selectall("SELECT goodsid,total FROM " . table('shop_order_goods') . " WHERE orderid = '{$orderid}'", array(), 'goodsid');
     $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment,o.id as ogsid FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
         . " WHERE o.orderid='{$orderid}'");
@@ -227,6 +241,12 @@ else
     else if ($status == 99)
     {
         // $where.=" and ( status=-5 or status=-6 or status=3 )";
+        //2016-11-17-yanru-begin
+        $where.=" and ( status >= 0)";
+    }
+    else if($status == 3)
+    {
+        $where.=" and ( status=3 or status=4 or status=5 )";
     }
     else
     {
