@@ -94,7 +94,7 @@ ol, ul {
 }
 
 #home-page .ui-content .home-categories{
-    margin:0;
+    margin:0 0 3rem;
     padding-top:0px;
     float:left;
     width:100%;
