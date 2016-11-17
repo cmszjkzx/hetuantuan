@@ -71,19 +71,25 @@
             <!--<h2>收货信息</h2>-->
             <!--@php  if(empty($item['isverify'])) { @-->
             <!--@php  if(!empty($defaultAddress)) { @-->
-            <div class="address_item" style="height: 3.5rem">
-                <a type="button" onclick="openAddress()" style="height:3.5rem;line-height: 3.5rem;display: inline;margin-left: 0.6rem;float: left;">
-                    <img style="width: 0.95rem;height: 0.95rem" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;display: none">选择收货地址</span>
+            <div style="height: 3.5rem;margin-right: 0.75rem">
+                <a type="button" onclick="openAddress()" style="display: inline;margin-left: 0.6rem;margin-top:1rem;float: left;">
+                    <img style="width: 0.95rem;height: 0.95rem;" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
                 </a>
-                <div style="display: inline;float: right;margin-left: 10px;width: 13rem">
-                    收件人：
-                    <!--@php  echo $defaultAddress['realname'];@-->&nbsp;&nbsp;
-                    <!--@php  echo $defaultAddress['mobile'];@-->
+                <div id="address-area" style="float: right;margin-top: 0.2rem;width: 15rem;display: none" class="font-26 color-41">
+                    <div style="width: inherit">
+                        收 件 人 ：
+                        <span id="address-realname"><!--@php  echo $defaultAddress['realname'];@--></span>
+                        <span id="address-mobile" style="float: right">
+                        <!--@php  echo $defaultAddress['mobile'];@-->
+                        </span>
+                    </div>
+                    <span id="address-text">
                     收货地址：
                     <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
                     <!--@php  //echo $defaultAddress['city'];@-->
                     <!--@php  //echo $defaultAddress['area'];@-->
                     <!--@php  //echo $defaultAddress['address'];@-->
+                    </span>
                 </div>
             </div>
             <!--@php  } else { @-->
@@ -326,11 +332,14 @@
 
 <script language='javascript'>
     function openAddress() {
-        alert('get in');
         wx.openAddress({
             success: function (data) {
                 // 用户成功拉出地址
-                alert(data.userName + '  ' + data.provinceName + data.cityName);
+                $('#location-text').hide();
+                $('#address-area').show();
+                $('#address-realname').text(data.userName);
+                $('#address-mobile').text(data.telNumber);
+                $('#address-text').text(data.provinceName + data.cityName + data.detailInfo);
             },
             cancel: function () {
                 // 用户取消拉出地址

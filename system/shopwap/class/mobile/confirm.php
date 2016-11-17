@@ -1,6 +1,7 @@
 <?php
 
 if ( is_use_weixin() ) {
+    $settings=globaSetting();
 
     $dzddes = $settings['shop_description'];
 
