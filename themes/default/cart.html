@@ -34,7 +34,7 @@
 		</div>
 
 		<!--@php  if(is_array($list)) { foreach($list as $item) { @-->
-		<!--@php  $price += $item['totalprice'];@-->
+		<!--@php  //$price += $item['totalprice'];@-->
 
 		<!--@php  $goods = $item['goods']@-->
 		<span id="stock_<!--@php  echo $item['id'];@-->" style='display:none'><!--@php  echo $goods['total'];@--></span>
@@ -55,7 +55,7 @@
 		<div class="shopcart-item-detail">
 			<div class="name"><!--@php  echo $goods['title'];@--></div>
 			<!--@php  if(!empty($goods['optionname'])) { @--><div class="price" style="margin-top: 0.25rem"><span><!--@php  echo $goods['optionname'];@--></span></div><!--@php  } @-->
-			<div class="price" style="display: none">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['marketprice'];@--></span> 元</div>
+			<div class="price" style="display: none">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['optionmarketprice'];@--></span> 元</div>
 
 			<div class="price" style="margin-top: 0.7rem">￥<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
 			<!--<div class="input-group">
@@ -83,9 +83,8 @@
 
 <a href="<!--@php  echo mobile_url('confirm')@-->" class="pull-right" style="width: 5.25rem;text-align: center;background-color: #FFAE01;color: white">立即结算</a>
 <!--<a href="javascript:void(0)" onclick="clearCart()" class="bn pull-right" style="font-size:16px;color:#fff; margin-right:10px"><i class="icon-trash"></i> 清空</a>-->
-<a class="bn pull-right" style="font-size:0.55rem; margin-right:10px;color: #7F7F7F">不含运费</a>
-<span class="pull-right">总计：<span id="pricetotal" style="color: #FFAE01;margin-right: 1.375rem">￥<!--@php  echo $price;@--></span></span>
-<span class="pull-right">总计：的九分裤是；开发商看过看过；个</span>
+<!--<a class="bn pull-right" style="font-size:0.55rem; margin-right:10px;color: #7F7F7F">不含运费</a>-->
+<span class="pull-right">总计：<span id="pricetotal" style="color: #FFAE01;margin-right: 1.375rem">￥<!--@php  echo $totalprice;@--></span></span>
 </div>
 </div>
 

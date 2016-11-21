@@ -13,23 +13,32 @@ if($operation=='post')
         $member= mysqld_select("SELECT * FROM " . table('member')."where istemplate=0 and mobile=:mobile limit 1",array(":mobile"=>$mobile) );
         if(!empty($member['openid']))
 			  {
-          $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
-          $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
-				  while(!empty($bonus_user['bonus_id']))
-					{
-            $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
-					  $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
-					}
-			  	$data=array('createtime'=>time(),
-            'openid'=>$member['openid'],
-			  		'bonus_sn'=>$bonus_sn,
-			  		'deleted'=>0,
-			  		'isuse'=>0,
-			  		'bonus_type_id'=>$_GP['id']);
-			  	mysqld_insert('bonus_user',$data);
+          $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);//生成随机的优惠券号
+//          $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
+//				  while(!empty($bonus_user['bonus_id']))
+//					{
+//            $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
+//					  $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
+//					}
+            //2016-11-21-yanru-begin
+            $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_type_id='".intval($_GP['id'])."' and openid='".$member['openid']."' " );
+            if(!empty($bonus_user)){
+                message("用户已经领取该优惠券！");
+            }else {
+                //end
+                $data = array('createtime' => time(),
+                    'openid' => $member['openid'],
+                    'wenxin_openid' => $member['wenxin_openid'],
+                    'bonus_sn' => $bonus_sn,
+                    'deleted' => 0,
+                    'isuse' => 0,
+                    'bonus_type_id' => $_GP['id']);
+                mysqld_insert('bonus_user', $data);
+                message("发放成功！","refresh","success");
+            }
 			  }
   		}
-  		message("发放成功！","refresh","success");
+
   	}
   	if (checksubmit('send_userleve'))
     {

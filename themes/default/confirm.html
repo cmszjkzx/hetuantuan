@@ -221,9 +221,10 @@
                     <p class="font-28 color-3c">运费</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <p class="font-28 color-FFAE01"><!--@php  //if($item['issendfree'] == 1){@-->
-                        <!--@php  //echo 0;}else{@-->
-                        <!--@php  echo $bonusprice;@--></p>
+                    <p class="font-28 color-FFAE01">￥
+                        <!--@php  if($item['issendfree'] == 1){@-->
+                        <!--@php  echo 0;}else{@-->
+                        <!--@php  echo $bonusprice;}@--></p>
                 </div>
             </label>
         </div>

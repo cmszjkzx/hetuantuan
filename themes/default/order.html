@@ -129,21 +129,17 @@
 		</div>
 	</div>-->
 	<!--@php  } } @-->
-    <div class="pull-right" style="margin-right: 0.5rem">
+
+	<div class="pull-right" style="margin-right: 0.5rem">
         <div class="price">
-			<span class="font-22 color-7f">(含物流)</span><span class="font-26 color-3c">合计:</span><span class="font-26 color-FFAE01">￥
-                    <!--@php  if($item['dispatchprice']<=0) { @-->
-                    <!--@php  echo $item['price'];@-->
-                    <!--@php  } else { @-->
-                    <!--@php  echo $item['price'];@-->
-                    <!--(运费 &lt;!&ndash;@php  echo $item['dispatchprice'];@&ndash;&gt; 元) -->
-                    <!--@php  } @-->
-                    <!--@php  if($item['hasbonus']>0) { @-->
-                    <!-- <span style="color:green"> ( 已优惠：&lt;!&ndash;@php  echo $item['bonusprice'];@&ndash;&gt; 元)</span>-->
-                    <!--@php  }  @-->
-				</span>
-        </div>
-    </div>
+			<span class="font-22 color-7f">(含物流)</span>
+			<span class="font-26 color-3c">合计:</span>
+			<span class="font-26 color-FFAE01">￥
+				<!--@php  echo $item['price'];@-->
+			</span>
+		</div>
+	</div>
+
 	<!--@php  } //else { @-->
        
 	<!--<div class="myoder-detail">-->
@@ -154,13 +150,13 @@
 			<!--<img src="-->
 			<!--@php //echo WEBSITE_ROOT;@-->
 			<!--/attachment/-->
-			<!--@php  //echo $goods['thumb'];@-->"
+			<!--@php  //echo $goods['thumb'];@-->&nbsp;
                 <!-- width="160">
 		</a>-->
 		<!--@php  //} } @-->
 	<!--</div>-->
 	<!--@php  //} @-->
-	 
+
 	<div class="myoder-total">
 		<!--@php  if($item['status'] == 0) { @-->
 		<!--<span class="text-warning" >待付款</span>-->

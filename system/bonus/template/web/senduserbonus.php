@@ -46,9 +46,9 @@
   <tr>
     <td width="45%" align="center">
       <select name="user_search[]" id="user_search" size="15" style="width:260px" ondblclick="addUser()" multiple="true">
-      					<?php foreach($search_member_list as $member){?>
+      					<?php if(is_array($search_member_list)) { foreach($search_member_list as $member){?>
      				  				<option value="<?php echo $member['mobile']?>"><?php echo $member['mobile']?></option> 
-     							<?php }?>
+     							<?php } }?>
       
       </select>
     </td>
