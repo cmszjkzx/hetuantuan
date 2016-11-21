@@ -13,7 +13,7 @@ li { list-style-type: none; -webkit-tap-highlight-color:rgba(0,0,0,0); }
 a:link{color: #444; text-decoration:none;-webkit-tap-highlight-color:rgba(0,0,0,0); }
 a:active{color: #0a0a0a; text-decoration:none;}
 a:visited{color: #444; text-decoration:none;}
-body{ background:#E6E6E6;}
+body{ background:#EFEFEF;}
 
 body > header { width:100%; height:40px; line-height:40px; background:#1c5f97; text-align:center; font-size:18px; position:relative; color:#FFF;}
 body > header a.back{ display:block; width:45px; height:40px; background:url(../images/arrow_right.png) no-repeat center center; background-size:10px; position:absolute;top:0px; left:0px;}
