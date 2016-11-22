@@ -256,6 +256,7 @@
 
     //添加到购物车
     function addtocart(){
+        //debugger;
         $('#buy-now').hide();
         $('#add-cart').show();
         var ret = option_selected();
@@ -292,6 +293,10 @@
                 $('#globalId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
                 $('#carId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
 
+                var specid = $(".option,.optionimg").attr("specid");
+                var oid = $(".option,.optionimg").attr("oid");
+                $(".optionid_" + specid).val(oid);
+                $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
                 $('#xzmodal').modal('hide');
                 $(".optionid").val("");
                 ret.no = $(".optionid").attr("title");
