@@ -1,89 +1,91 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
-<title>订单详情</title>
-<meta charset="utf-8">
- <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no">
-<script type="text/javascript" src="__RESOURCE__/script/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="__RESOURCE__/script/common.js"></script>
-<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/bootstrap.css">
-<script type="text/javascript" src="__RESOURCE__/script/bootstrap.js"></script>
-<script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
-<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/common.mobile.css">
-<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
-<script type="text/javascript" src="__RESOURCE__/mobile/script/jquery.touchwipe.js"></script>
-<script type="text/javascript" src="__RESOURCE__/mobile/script/swipe.js"></script>
-<style type='text/css'>
-    #poptip { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px;height: 27px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;
-        -webkit-border-radius:5px;
-        -moz-border-radius:5px;}
-#poptip_content { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909}
-	.weui-label {
-		font-size: 0.65rem;
-		font-weight: 200;
+	<title>订单详情</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<script type="text/javascript" src="__RESOURCE__/script/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/script/common.js"></script>
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/bootstrap.css">
+	<script type="text/javascript" src="__RESOURCE__/script/bootstrap.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
+	<link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
+	<link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
+	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
+	<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/mobile/script/jquery.touchwipe.js"></script>
+	<script type="text/javascript" src="__RESOURCE__/mobile/script/swipe.js"></script>
+	<style type='text/css'>
+		#poptip { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px;height: 27px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;}
+		#poptip_content { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909}
+		.weui-label {
+			font-size: 0.65rem;
+			font-weight: 200;
 
-	}
-	.weui-cell__bd {
-		font-size: 0.6rem;
-		font-weight: 200;
-	}
-</style>
-<script language='javascript'>
-    function tip(msg,autoClose){
-     var div = $("#poptip");
-     var content =$("#poptip_content");
-     if(div.length<=0){
-         div = $("<div id='poptip'></div>").appendTo(document.body);
-         content =$("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
-     }
-     else{
-         content.html(msg);
-         content.show(); div.show();
-     }
-     if(autoClose) {
-        setTimeout(function(){
-            content.fadeOut(500);
-            div.fadeOut(500);
+		}
+		.weui-cell__bd {
+			font-size: 0.6rem;
+			font-weight: 200;
+		}
+	</style>
+	<script language='javascript'>
+		function tip(msg,autoClose){
+			var div = $("#poptip");
+			var content =$("#poptip_content");
+			if(div.length<=0){
+				div = $("<div id='poptip'></div>").appendTo(document.body);
+				content =$("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+			}
+			else{
+				content.html(msg);
+				content.show(); div.show();
+			}
+			if(autoClose) {
+				setTimeout(function(){
+					content.fadeOut(500);
+					div.fadeOut(500);
 
-        },1000);
-     }
-}
-function tip_close(){
-    $("#poptip").fadeOut(500);
-     $("#poptip_content").fadeOut(500);
-}
-    </script>
+				},1000);
+			}
+		}
+		function tip_close(){
+			$("#poptip").fadeOut(500);
+			$("#poptip_content").fadeOut(500);
+		}
+	</script>
 </head>
 
 
 <style>
 
 
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{width:100%; margin-bottom:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
+	select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{width:100%; margin-bottom:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
 
-input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{height:30px;}
+	input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{height:30px;}
 
-.input-append, .input-prepend{width:100%; margin-bottom:0;}
+	.input-append, .input-prepend{width:100%; margin-bottom:0;}
 
-select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
+	select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 
-.checkbox.inline{margin-top:0;}
+	.checkbox.inline{margin-top:0;}
 
-.checkbox.inline + .checkbox.inline {margin-left:0;}
+	.checkbox.inline + .checkbox.inline {margin-left:0;}
 
-.checkbox input[type="checkbox"]{filter:alpha(opacity:0); opacity:0;}
+	.checkbox input[type="checkbox"]{filter:alpha(opacity:0); opacity:0;}
 
-.file{position:relative;}
+	.file{position:relative;}
 
-.file input[type="file"]{position:absolute; top:0; left:0; width:100%; filter:alpha(opacity:0); opacity:0;}
+	.file input[type="file"]{position:absolute; top:0; left:0; width:100%; filter:alpha(opacity:0); opacity:0;}
 
-.file button{width:100%; text-align:left;}
+	.file button{width:100%; text-align:left;}
 
-.form-item{border-left:3px #ED2F2F solid; padding-left:10px; height:30px; line-height:30px; background:#F7F7F7; margin-bottom:10px;}
+	.form-item{border-left:3px #ED2F2F solid; padding-left:10px; height:30px; line-height:30px; background:#F7F7F7; margin-bottom:10px;}
 
 </style>
 
@@ -92,25 +94,9 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 <link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
 
 <body>
-
-<div class="head">
-	<a href="<!--@php  echo mobile_url('myorder',array('status'=>intval($_GP['fromstatus'])))@-->" class="bn pull-left">
-		<i class="icon-angle-left"></i>
-	</a>
-	<!--@php  if($item['status'] == 0) { @--><span class="title" >待付款订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 1) { @--><span class="title" >超时订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 2) { @--><span class="title" >待发货订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 3 || $item['status'] == 4 || $item['status'] == 5) { @--><span class="title" >待收货订单详情</span><!--@php  } @-->
-	<!--<span class="title">订单详情</span>-->
-</div>
- 
-<!--<div class="myoder" style='padding-bottom: 10px;'>-->
-<div class="myoder">
-
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder" style="background-color: #EFEFEF">
 	<!--<div class="myoder-hd">-->
-
 	<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
 	<div class="myoder-hd-yr" style="height: 50px;">
 		<span>
@@ -125,27 +111,9 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			您的订单已超时请重新下单
 		</span>
 		<!--@php } @-->
-	</div>>
-	<!--@php } else if($item['status'] == 1){@-->
-	<div class="myoder-hd-yr" style="height: 50px;">
-		<span>
-			您的订单已超时请重新下单
-		</span>
-	</div>
-	<!--@php }else if($item['status'] == 2){ @-->
-	<div class="myoder-hd-yr" style="height: 50px;">
-		<span>
-			您已付款，我们在火急火燎地发货，请再
-			<br>
-			<br>
-			给我一首歌的时间哦～
-		</span>
-	</div>
-	<!--@php } else {@-->
-	<div class="myoder-hd">
-
 	</div>
 	<!--@php } @-->
+	<!--</div>-->
 	<script>
 		var runtimes = 0;
 		function GetRTime(){
@@ -169,24 +137,6 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 		}
 		// -->
 	</script>
-
-	<div class="myoder-express">
-		<span class="pull-left">收货人：
-			<!--@php  echo $item['address_realname'];@-->
-		</span>
-
-		<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
-			<span class="pull-left">手机号码：
-				<!--@php  echo $item['address_mobile'];@-->
-			</span>
-		</li>
-
-		<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
-		<span class="pull-left">送货地址：
-			<!--@php  echo $item['address_provice'].$item['address_city'].$item['address_area'].$item['address_address']@-->
-		</span>
-		</li>
-
 	<div class="weui-cells weui-cells_form">
 		<div class="weui-cell">
 			<div class="weui-cell__hd"><label class="weui-label">收货人：</label></div>
@@ -195,12 +145,12 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			</div>
 		</div>
 		<div class="weui-cell">
-		<div class="weui-cell__hd">
-			<label class="weui-label">手机号码：</label>
-		</div>
-		<div class="weui-cell__bd">
-			<label><!--@php  echo $item['address_mobile'];@--></label>
-		</div>
+			<div class="weui-cell__hd">
+				<label class="weui-label">手机号码：</label>
+			</div>
+			<div class="weui-cell__bd">
+				<label><!--@php  echo $item['address_mobile'];@--></label>
+			</div>
 		</div>
 		<div class="weui-cell">
 			<div class="weui-cell__hd">
@@ -210,7 +160,6 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 				<label><!--@php  echo $item['address_provice'].$item['address_city'].$item['address_area'].$item['address_address']@--></label>
 			</div>
 		</div>
-
 	</div>
 
 	<div class="weui-cells weui-cells_form">
@@ -243,81 +192,64 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			&lt;!&ndash;@php  echo $item['ordersn'];@&ndash;&gt;
 		</span>
 		<br>
-		<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
 		<span class="pull-left">支付交易号：
 		</span>
-		</li>
-
-		<li class="member-browse-li" STYLE="border-bottom: 1px solid #ebebeb">
+		<br>
 		<span class="pull-left">下单时间：
 			&lt;!&ndash;@php  echo date('Y-m-d H:i', $item['createtime'])@&ndash;&gt;
 		</span>
-
-		</li>
-	</div>
-
 	</div>-->
-    <div style="margin-top: 1.5rem">
-
-	<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
-	<li class="member-browse-li" style="border-bottom: 1px solid #ebebeb;background-color: white">
-		<div class="member-browser-pro-list" >
-			<a class="member-browser-pro-a">
+	<div style="margin-top: 1.5rem">
+		<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
+		<li class="member-browse-li" style="border-bottom: 1px solid #ebebeb;background-color: white">
+			<div class="member-browser-pro-list" >
+				<a class="member-browser-pro-a">
 				<span class="pro-img">
 					<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $g['thumb'];@-->">
 				</span>
-				<p class="pro-info">
+					<p class="pro-info">
 					<span class="member-browse-name text-ellipsis font-28 color-3c">
 						<!--@php  echo $g['title'];@-->
 					</span>
-					<!--<span class="pro-name">价格：-->
-					<!--@php  //echo $goods['totalprice'];@-->
-					<!--</span>-->
+						<!--<span class="pro-name">价格：-->
+						<!--@php  //echo $goods['totalprice'];@-->
+						<!--</span>-->
 
-					<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
+						<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
 						<!--@php  echo $g[option]['title'];@-->
 				x
-						<!--@php  echo $g['total'];@-->
-						<!--@php  if($g['unit']) { @-->
-						<!--@php  echo $g['unit'];@--><!--@php  } @-->
+							<!--@php  echo $g['total'];@-->
+							<!--@php  if($g['unit']) { @-->
+							<!--@php  echo $g['unit'];@--><!--@php  } @-->
 					</span>
-					<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
+						<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
 						￥<!--@php  if($g['unit']) { @-->
-						<!--@php  echo $g['unit'];@--><!--@php  } @-->
+							<!--@php  echo $g['unit'];@--><!--@php  } @-->
 					</span>
-				</p>
-			</a>
-		</div>
-	</li>
-	<!--<div class="myoder-express">
-		<div class="pull-left">
-			<a href="&lt;!&ndash;@php  echo mobile_url('detail', array('id' => $g['id']))@&ndash;&gt;">
-				<img src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $g['thumb'];@&ndash;&gt;" width="160">
-			</a>
-		</div>
-		&lt;!&ndash;<div class="pull-right">
-		<div>&ndash;&gt;
-			<div class="name">
-				&nbsp;&nbsp;&lt;!&ndash;@php  echo $g['title'];@&ndash;&gt;
-				<br>
-				&nbsp;&nbsp;&lt;!&ndash;@php  echo $g[option]['title'];@&ndash;&gt;
-				x
-				&lt;!&ndash;@php  echo $g['total'];@&ndash;&gt;
-				&lt;!&ndash;@php  if($g['unit']) { @&ndash;&gt;
-				&lt;!&ndash;@php  echo $g['unit'];@&ndash;&gt;&lt;!&ndash;@php  } @&ndash;&gt;
+					</p>
+				</a>
 			</div>
-		&lt;!&ndash;</div>&ndash;&gt;
-	</div>-->
-	<!--@php  } } @-->
-
-	<div class="pull-right" style="margin-right: 0.5rem">
-		<div class="price">
-			<span class="font-22 color-7f">(含物流)</span>
-			<span class="font-26 color-3c">合计:</span>
-			<span class="font-26 color-FFAE01">￥
-				<!--@php  echo $item['price'];@-->
-			</span>
-		</div>
+		</li>
+		<!--<div class="myoder-express">
+            <div class="pull-left">
+                <a href="&lt;!&ndash;@php  echo mobile_url('detail', array('id' => $g['id']))@&ndash;&gt;">
+                    <img src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $g['thumb'];@&ndash;&gt;" width="160">
+                </a>
+            </div>
+            &lt;!&ndash;<div class="pull-right">
+            <div>&ndash;&gt;
+                <div class="name">
+                    &nbsp;&nbsp;&lt;!&ndash;@php  echo $g['title'];@&ndash;&gt;
+                    <br>
+                    &nbsp;&nbsp;&lt;!&ndash;@php  echo $g[option]['title'];@&ndash;&gt;
+                    x
+                    &lt;!&ndash;@php  echo $g['total'];@&ndash;&gt;
+                    &lt;!&ndash;@php  if($g['unit']) { @&ndash;&gt;
+                    &lt;!&ndash;@php  echo $g['unit'];@&ndash;&gt;&lt;!&ndash;@php  } @&ndash;&gt;
+                </div>
+            &lt;!&ndash;</div>&ndash;&gt;
+        </div>-->
+		<!--@php  } } @-->
 	</div>
 	<div class="myoder-express">
 		<div class="pull-right" style="margin-right: 0.5rem">
@@ -355,112 +287,163 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			</span>
 		</div>-->
 	</div>
-
-	&nbsp;
-	<!--<div class="myoder-total" style='margin-bottom:30px;'>-->
-	<div class="myoder-total">
+	<!--<div class="myoder-express">
+		<span class="express-company">状态</span>
+		<span class="express-num">-->
+	<!--@php  //if($item['status'] == 0) { @-->
+	<!--<span class="text-warning" >待付款</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == 1) { @-->
+	<!--<span class="text-danger" >待发货</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == 2) { @-->
+	<!--<span class="text-warning">待收货</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == 3) { @-->
+	<!--<span class="text-success" >已完成</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -1) { @-->
+	<!--<span class="text-success">已关闭</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -2) { @-->
+	<!--<span class="text-danger">退款中</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -3) { @-->
+	<!--<span class="text-danger">换货中</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -4) { @-->
+	<!--<span class="text-danger">退货中</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -5) { @-->
+	<!--<span class="text-success">已退货</span>-->
+	<!--@php  //} @-->
+	<!--@php  //if($item['status'] == -6) { @-->
+	<!--<span class="text-success">已退款</span>-->
+	<!--@php  //} @-->
+	<!--</span>
+</div>-->
+	<!--<div class="myoder-express">
+		<span class="express-company">配送方式</span>
+		<span class="express-num">-->
+	<!--@php  //echo $dispatch['dispatchname'];@-->
+	<!--</span>
+</div>-->
+	<!--@php  //if($item['hasbonus']>0) { @-->
+	<!--<div class="myoder-express">
+		<span class="express-company">优惠券</span>
+		<span class="express-num">-->
+	<!--@php //foreach ($bonuslist as $bonus) {echo $bonus['type_name']."(".$bonus['bonus_sn'].")&nbsp;&nbsp;&nbsp;";}@-->
+	<!--</span>
+</div>-->
+	<!--@php  //} @-->
+	<!--@php  //if(($item['status'] == '2' || $item['status']==3) && !empty($item['expresssn'])) { @-->
+	<!--<div class="myoder-express">
+		<span class="express-company">快递:-->
+	<!--@php  //echo $item['expresscom'];@-->
+	<!--</span>
+    <span class="express-num">单号:-->
+	<!--@php  //echo $item['expresssn'];@-->
+	<!--@php  //if(!empty($item['expresssn'])&&!empty($item['express'])&&$item['express']!='-1') { @-->
+	<!--<a  href="http://m.kuaidi100.com/index_all.html?type="-->
+	<!--@php  //echo $item['express']@-->
+	<!--"&postid="-->
+	<!--@php  //echo $item['expresssn']@-->
+	<!--"#input">
+        [查看物流信息]
+    </a>-->
+	<!--@php //}@-->
+	<!--</span>
+</div>-->
+	<!--<div class="myoder-total" style='margin-bottom:10px;'>
+		<a href="http://m.kuaidi100.com/index_all.html?type="-->
+	<!--@php  //echo $item['express'];@-->
+	<!--&postid=-->
+	<!--@php  //echo $item['expresssn'];@-->
+	<!--"#input" class="btn btn-success pull-right btn-sm" >
+        查看快递
+    </a>
+</div>-->
 
 	<!--@php  //} @-->
 	<!--@php  //if(!empty($item['remark'])) { @-->
 	<!--<div class="myoder-express" style='margin-top:10px;'>
 		<span class="express-company">订单备注</span>
 	</div>
-  
+
 	<div style='float:left;margin:10px;overflow:hidden;word-break:break-all;width:100%;'>-->
-		<!--@php  //echo $item['remark'];@-->
+	<!--@php  //echo $item['remark'];@-->
 	<!--</div>-->
 	<!--@php  //} @-->
 	<div class="myoder-total" style='margin-bottom:30px;background-color: white'>
 		<!--<span>共计：
 			<span class="false">-->
-				<!--@php  //if($item['dispatchprice']<=0) { @-->
-				<!--@php  //echo $item['price'];@-->
-				<!-- 元 -->
-				<!--@php  //} else { @-->
-				<!--@php  //echo $item['price'];@-->
-				<!-- 元 (含运费 -->
-				<!--@php  //echo $item['dispatchprice'];@-->
-				<!-- 元) -->
-			<!--@php  //} @-->
-			<!--</span>-->
-			<!--@php  //if($item['hasbonus']>0) { @-->
-			<!--<span style="color:green">
-				( 已优惠：-->
-				<!--@php  //echo $item['bonusprice'];@-->
-				<!--元)
-			</span>-->
-			<!--@php  //}  @-->
+		<!--@php  //if($item['dispatchprice']<=0) { @-->
+		<!--@php  //echo $item['price'];@-->
+		<!-- 元 -->
+		<!--@php  //} else { @-->
+		<!--@php  //echo $item['price'];@-->
+		<!-- 元 (含运费 -->
+		<!--@php  //echo $item['dispatchprice'];@-->
+		<!-- 元) -->
+		<!--@php  //} @-->
+		<!--</span>-->
+		<!--@php  //if($item['hasbonus']>0) { @-->
+		<!--<span style="color:green">
+            ( 已优惠：-->
+		<!--@php  //echo $item['bonusprice'];@-->
+		<!--元)
+    </span>-->
+		<!--@php  //}  @-->
 		<!-- </span>-->
 		<!--@php  //if($item['status'] == 0||($item['paytype'] ==3&&$item['status'] ==1)) { @-->
 		<!--<div class="pull-right">
 			支付方式：
 			<select style="margin-right:15px;width:150px" name="payment"  id="payment" autocomplete="off">-->
-				<!--@php   //foreach($payments as $payment) { @-->
-				<!--<option value=""-->
-				<!--@php  echo $payment['code'];@-->
-				<!--@php  //if($payment['code']==$item['paytypecode']) { @-->
-				<!--selected-->
-				<!--@php  //} @-->
-				<!--'>'-->
-				<!--@php  //echo $payment['name'];@-->
-				<!--</option>-->
-				<!--@php // } @-->
-			<!--</select>
-		</div>-->
+		<!--@php   //foreach($payments as $payment) { @-->
+		<!--<option value=""-->
+		<!--@php  echo $payment['code'];@-->
+		<!--@php  //if($payment['code']==$item['paytypecode']) { @-->
+		<!--selected-->
 		<!--@php  //} @-->
-
+		<!--'>'-->
+		<!--@php  //echo $payment['name'];@-->
+		<!--</option>-->
+		<!--@php // } @-->
+		<!--</select>
+    </div>-->
+		<!--@php  //} @-->
 		<!--@php  if($item['status'] == 0) { @-->
-		&nbsp;&nbsp;
+		<!--@php  if ($starttime < $limittime){ @-->
 		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
-			立即付款
+			立即支付
 		</a>
-		&nbsp;&nbsp;
+		<!--@php  } @-->
 		<!--@php  } @-->
 		<!--@php  if($item['status'] ==1) { @-->
-		&nbsp;&nbsp;
-		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">
-			取消订单
-		</a>
-		&nbsp;&nbsp;
+		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">取消订单</a>
 		<!--@php  } @-->
 		<!--@php  if($item['status'] == 2) { @-->
-		&nbsp;&nbsp;
-		<a href="<!--@php  echo mobile_url('shopindex')@-->" class="btn btn-success pull-right btn-sm" >
-			再去逛逛
-		</a>
-		&nbsp;&nbsp;
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('点击确认收货前，请确认您的商品已经收到。确定收货吗？'); ">
-			确认收货
-		</a>
-		&nbsp;&nbsp;
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('点击确认收货前，请确认您的商品已经收到。确定收货吗？'); ">确认收货</a>
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == 3 || $item['status'] == 4) { @-->
-		&nbsp;&nbsp;
-		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">
-			取消订单
-		</a>
-		&nbsp;&nbsp;
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" >
-			我要评价
-		</a>
-		&nbsp;&nbsp;
+		<!--@php  if($item['status'] == 1&&$item['paytype'] != 3) { @-->
+		<a href="<!--@php  echo mobile_url('shopindex')@-->" class="btn btn-success pull-right btn-sm" >再去逛逛</a>
 		<!--@php  } @-->
-		<!--@php  if($item['status'] == 5) { @-->
-		&nbsp;&nbsp;
-		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">
-			取消订单
-		</a>
-		&nbsp;&nbsp;
+		<!--@php  if($item['status'] == 3) { @-->
+		<a href="	<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm" onclick="return confirm('确认取消该订单吗？'); ">取消订单</a>
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" >我要评价</a>
 		<!--@php  } @-->
+
 		<!--@php if($_CMS['addons_bj_hx']){ if($item['status']!=3&&$item['status']>0&&!empty($item['isverify'])) { @-->
 		&nbsp;&nbsp;<a href="<!--@php  echo create_url('mobile',array('name' => 'bj_hx','do' => 'verifyshow','orderid' => $item['id']))@-->" class="btn btn-success pull-right btn-sm" >订单消费码</a>
 		&nbsp;&nbsp;<a href="<!--@php  echo create_url('mobile',array('name' => 'bj_hx','do' => 'sendweixin','orderid' => $item['id']))@-->" class="btn btn-success pull-right btn-sm" >发送到微信</a>
+
 		<!--@php  }} @-->
+
 	</div>
 </div>
- 
- 
-<!--@php  include page('footer');@-->	
+
+
+<!--@php  include page('footer');@-->
 <script>
-//t_hideOptionMenu()();
+	//t_hideOptionMenu()();
 </script>
