@@ -126,27 +126,17 @@
                 <!--@php  //} } @-->
             <!--</ul>
         </div>-->
-        <!--<div class="infobox">
+        <div class="infobox">
             <h2>支付方式</h2>
-            <ul class="payStyle">-->
-                <!--@php  //$ischecked=true;   if(is_array($payments)) { foreach($payments as $d) { @-->
-                <!--@php  //if(empty($item['isverify'])||(!empty($item['isverify'])&&$d['online']==1)) { @-->
-                <!--<li>
-                    <label>-->
-                        <!--<input name='payment'  type="radio"  value=""删除一个双引号-->
-                        <!--@php //echo $d['code']@-->
-                        <!--"-->
-                        <!--@php //echo $ischecked?'checked="checked"':'';$ischecked=false;  @-->
-                        <!--/><img src="__RESOURCE__/recouse/images/icon- -->
-                        <!--@php //echo $d['code']@-->
-                        <!--.png"  />-->
-                        <!--@php //echo $d['name']@-->
-                    <!--</label>
-                </li>-->
-                <!--@php  //} @-->
-                <!--@php  //} } @-->
-            <!--</ul>
-        </div>-->
+            <ul class="payStyle">
+                <!--@php  $ischecked=true;   if(is_array($payments)) { foreach($payments as $d) { @-->
+                <!--@php  if(empty($item['isverify'])||(!empty($item['isverify'])&&$d['online']==1)) { @-->
+                <li><label><input name='payment'  type="radio"  value="<!--@php echo $d['code']@-->" <!--@php echo $ischecked?'checked="checked"':'';$ischecked=false;  @--> /><img src="__RESOURCE__/recouse/images/icon-<!--@php echo $d['code']@-->.png"  /><!--@php echo $d['name']@--></label></li>
+                <!--@php  } @-->
+                <!--@php  } } @-->
+
+            </ul>
+        </div>
 
         <div class="my-memvers">
             <div class="member-browse">
@@ -352,7 +342,7 @@
     }
     function check(){
         <!--@php  if(empty($item['isverify'])){ @-->
-        if($(".address_item").length<=0){
+        if($("#address-area").css('display') == 'none'){
             alert("请添加收货地址!");
             return false;
         }

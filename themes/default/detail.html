@@ -100,65 +100,6 @@
                 </li>
             </ul>
         </div>
-        <!--<div id="tabBox1" class="tabBox">
-            <div class="hd">
-                <ul  style="padding-bottom:100px;">
-                    <li><a href="javascript:void(0)">商品简介</a></li>
-                    <li><a href="javascript:void(0)">关于物流</a></li>
-                    <li><a href="javascript:void(0)">关于服务</a></li>
-                </ul>
-            </div>
-            <div class="bd" id="tabBox1-bd">&lt;!&ndash; 添加id，js用到 &ndash;&gt;
-                <div class="con">&lt;!&ndash; 高度自适应需添加外层 &ndash;&gt;
-                    <ul  style="padding-bottom:100px;">
-                        <li>
-                            &lt;!&ndash;@php  echo $goods['content'];@&ndash;&gt;
-
-                        </li>
-                    </ul>
-                </div>
-                <div class="con">&lt;!&ndash; 高度自适应需添加外层 &ndash;&gt;
-                    <span>全部包邮吧好不好</span>
-                    &lt;!&ndash;<ul>
-                        &lt;!&ndash;@php  if(is_array($comments)) { foreach($comments as $row) { @&ndash;&gt;
-                        <li style="margin: 15px;border-bottom: 1px dashed #eee">
-                            <h4 style="display: inline">
-                                &lt;!&ndash;@php  echo  empty($row['realname'])?hidtel($row['mobile']):$row['realname']; @&ndash;&gt; :
-                                &lt;!&ndash;@php  echo empty($row['rate'])?'差评':($row['rate']==2?'好评':'中评') @&ndash;&gt; </h4>
-                            <span style="float: right">时间：&lt;!&ndash;@php  echo date('Y-m-d H:i:s', $row['createtime'])@&ndash;&gt;</span>
-
-                            <p style="padding: 15px 0">
-                                &lt;!&ndash;@php  echo $row['comment'] @&ndash;&gt;</p>
-                        </li>
-                        &lt;!&ndash;@php  }} @&ndash;&gt;
-                        &lt;!&ndash;@php  if(empty($comments)) { @&ndash;&gt;
-                        <div class="myoder" style="text-align:center;color:#aaa;padding:30px;">
-                            暂时没有任何评论!
-                        </div>
-                        &lt;!&ndash;@php  } @&ndash;&gt;
-                    </ul>&ndash;&gt;
-                </div>
-                <div class="con">
-                    <span>全部买一送一好不好</span>
-                    &lt;!&ndash;<div class="col-xs-12 tltj">
-                             &lt;!&ndash;@php  if(is_array($ccategoods)) { foreach($ccategoods as $row) { @&ndash;&gt;
-                     <a href="&lt;!&ndash;@php echo mobile_url('detail', array('id' => $row['id']))@&ndash;&gt;" class="item">      <div class="col-xs-6 col-sm-4">
-                            <div class="thumbnail">
-                                <img src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $row['thumb'] @&ndash;&gt;">
-                                <div class="caption" style="padding: 9px 0 9px 0">
-                                    <h6>&lt;!&ndash;@php  echo $row['title'] @&ndash;&gt;</h6>
-                                    <span>￥&lt;!&ndash;@php  echo $row['marketprice'] @&ndash;&gt;</span>
-                                    <del>￥&lt;!&ndash;@php  echo $row['productprice'] @&ndash;&gt;</del>
-                                </div>
-                            </div>
-                        </div></a>
-      &lt;!&ndash;@php  }} @&ndash;&gt;
-
-                    </div>&ndash;&gt;
-                </div>
-            </div>
-        </div>-->
-        <!--商品详情和评价 End  -->
     </div>
 <div class="modal" id="xzmodal" tabindex="-1" aria-labelledby="myModalLabel" role="dialog" style="top:auto">
     <div class="modal-dialog">
@@ -257,22 +198,6 @@
                     <a id="buy-now" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
                 </div>
             </div>
-            <!--<div class="modal-footer" style="border: none;padding:15px 0 0 0;">
-            	&lt;!&ndash;@php  if(empty($goods['isverify'])){ @&ndash;&gt;
-                <div class="col-xs-6" style="padding-left: 0px;padding-right: 0px;">
-                    <a style="background-color:#ff7d00;color: #ffffff " class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart()'>加入购物车</a>
-                </div>
-                &lt;!&ndash;@php  } @&ndash;&gt;
-                <div class="col-xs-6" style="padding-left: 0px;padding-right: 0px;&lt;!&ndash;@php  echo !empty($goods['isverify'])?'width:99%;':''; @&ndash;&gt;">
-                	  &lt;!&ndash;@php  if($goods['hasoption']==1&&is_array($specs)) { @&ndash;&gt;
-
-                    <a style="color:#ffffff;" class="btn btn-danger btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
-                    &lt;!&ndash;@php  }else{ @&ndash;&gt;
-                    <a style="color:#ffffff;" class="btn btn-danger btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
-                      &lt;!&ndash;@php } @&ndash;&gt;
-                </div>
-            </div>-->
-                
         </div>
     </div>
 </div>
@@ -297,23 +222,12 @@
         </a>
     </div>
 
-
-    <!--<div class="my_nav">
-        <ul id="nav">
-            <li ><a>联系客服</a></li>
-            <li ><a onclick='addtocart()'>加入购物车</a></li>
-            <li ><a style="&lt;!&ndash;@php  echo !empty($goods['isverify'])?'width:99%':''; @&ndash;&gt;" href="javascript:void()" onclick='buy()'>立即购买</span></a></li>
-        </ul>
-    </div>-->
-
 <script type="text/javascript" src="__RESOURCE__/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
     //立即购买
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
     function buy(){
-//        $('#buy-now').addClass('addvisible');
-//        $('#add-cart').addClass('addinvisible');
         $('#buy-now').show();
         $('#add-cart').hide();
         var ret = option_selected();
@@ -342,9 +256,6 @@
 
     //添加到购物车
     function addtocart(){
-//        $('#buy-now').addClass('addinvisible');
-//        $('#add-cart').addClass('addvisible');
-//        debugger;
         $('#buy-now').hide();
         $('#add-cart').show();
         var ret = option_selected();
@@ -358,6 +269,7 @@
             }
             return;
         };
+
 
         var total = $("#total").val();
         <!--@php  if($stock!=-1) { @-->
@@ -379,10 +291,6 @@
                 //alert("已加入购物车!");
                 $('#globalId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
                 $('#carId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
-
-                $('#xzmodal').modal('hide');
-                $(".optionid").val("");
-                ret.no = $(".optionid").attr("title");
             };
         });
     }
