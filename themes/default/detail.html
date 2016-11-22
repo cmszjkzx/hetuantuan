@@ -291,6 +291,10 @@
                 //alert("已加入购物车!");
                 $('#globalId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
                 $('#carId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
+
+                $('#xzmodal').modal('hide');
+                $(".optionid").val("");
+                ret.no = $(".optionid").attr("title");
             };
         });
     }

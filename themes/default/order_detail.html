@@ -92,7 +92,7 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 <link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
 
 <body>
-<<<<<<< HEAD
+
 <div class="head">
 	<a href="<!--@php  echo mobile_url('myorder',array('status'=>intval($_GP['fromstatus'])))@-->" class="bn pull-left">
 		<i class="icon-angle-left"></i>
@@ -106,11 +106,11 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
  
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder">
-=======
+
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder" style="background-color: #EFEFEF">
 	<!--<div class="myoder-hd">-->
->>>>>>> origin/master
+
 	<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
 	<div class="myoder-hd-yr" style="height: 50px;">
 		<span>
@@ -169,7 +169,7 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 		}
 		// -->
 	</script>
-<<<<<<< HEAD
+
 	<div class="myoder-express">
 		<span class="pull-left">收货人：
 			<!--@php  echo $item['address_realname'];@-->
@@ -186,7 +186,7 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			<!--@php  echo $item['address_provice'].$item['address_city'].$item['address_area'].$item['address_address']@-->
 		</span>
 		</li>
-=======
+
 	<div class="weui-cells weui-cells_form">
 		<div class="weui-cell">
 			<div class="weui-cell__hd"><label class="weui-label">收货人：</label></div>
@@ -210,7 +210,7 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 				<label><!--@php  echo $item['address_provice'].$item['address_city'].$item['address_area'].$item['address_address']@--></label>
 			</div>
 		</div>
->>>>>>> origin/master
+
 	</div>
 
 	<div class="weui-cells weui-cells_form">
@@ -252,14 +252,13 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 		<span class="pull-left">下单时间：
 			&lt;!&ndash;@php  echo date('Y-m-d H:i', $item['createtime'])@&ndash;&gt;
 		</span>
-<<<<<<< HEAD
+
 		</li>
 	</div>
 
-=======
 	</div>-->
     <div style="margin-top: 1.5rem">
->>>>>>> origin/master
+
 	<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
 	<li class="member-browse-li" style="border-bottom: 1px solid #ebebeb;background-color: white">
 		<div class="member-browser-pro-list" >
@@ -310,7 +309,6 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 		&lt;!&ndash;</div>&ndash;&gt;
 	</div>-->
 	<!--@php  } } @-->
-<<<<<<< HEAD
 
 	<div class="pull-right" style="margin-right: 0.5rem">
 		<div class="price">
@@ -318,7 +316,8 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			<span class="font-26 color-3c">合计:</span>
 			<span class="font-26 color-FFAE01">￥
 				<!--@php  echo $item['price'];@-->
-=======
+			</span>
+		</div>
 	</div>
 	<div class="myoder-express">
 		<div class="pull-right" style="margin-right: 0.5rem">
@@ -353,16 +352,14 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 					元)
 				</span>
 				&lt;!&ndash;@php  }  @&ndash;&gt;
->>>>>>> origin/master
 			</span>
 		</div>-->
 	</div>
 
-<<<<<<< HEAD
 	&nbsp;
 	<!--<div class="myoder-total" style='margin-bottom:30px;'>-->
 	<div class="myoder-total">
-=======
+
 	<!--@php  //} @-->
 	<!--@php  //if(!empty($item['remark'])) { @-->
 	<!--<div class="myoder-express" style='margin-top:10px;'>
@@ -411,7 +408,7 @@ select{padding:0 5px; line-height:28px; -webkit-appearance:button;}
 			<!--</select>
 		</div>-->
 		<!--@php  //} @-->
->>>>>>> origin/master
+
 		<!--@php  if($item['status'] == 0) { @-->
 		&nbsp;&nbsp;
 		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
