@@ -1,0 +1,9 @@
+diff a/themes/default/order_detail.html b/themes/default/order_detail.html	(rejected hunks)
+@@ -12,6 +12,7 @@
+ <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/bootstrap.css">
+ <script type="text/javascript" src="__RESOURCE__/script/bootstrap.js"></script>
+ <script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
++<link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
+ <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
+ <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+ <link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
