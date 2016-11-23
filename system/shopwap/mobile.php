@@ -139,6 +139,12 @@ class shopwapAddons  extends BjSystemModule {
 	{
 		$this->__mobile(__FUNCTION__);
 	}
+	//2016-11-23-yanru-begin
+    public function do_getbonus()
+    {
+        $this->__mobile(__FUNCTION__);
+    }
+    //end
 
 	 public function getCartTotal() {
        	$member=get_member_account(false);
