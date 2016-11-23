@@ -118,18 +118,18 @@
 	})
 	function clearCart(){
 		if (confirm('确定要清空购物车吗？')) {
-			alert("正在处理数据...");
+//			alert("正在处理数据...");
 			$.getJSON('<!--@php  echo mobile_url('mycart',array('op'=>'clear'));@-->', function(s){
 				$(".shopcart-item").remove();
 				$("#cartempty").show();
 				$("#cartfooter").hide();
-				tip_close();
+//				tip_close();
 			});
 		}
 	}
 	function removeCart(id){
 		if (confirm('您确定要删除此商品吗？')) {
-			alert("正在处理数据...");
+//			alert("正在处理数据...");
 			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'remove'))@-->' + "&id=" + id;
 			$.getJSON(url, function(s){
 				$("#item_" + s.cartid).remove();
@@ -137,7 +137,7 @@
 					$("#cartempty").show();
 					$("#cartfooter").hide();
 				}
-				tip_close();
+//				tip_close();
 				canculate();
 			});
 		}
