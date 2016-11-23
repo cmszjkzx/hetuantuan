@@ -37,8 +37,15 @@
                     <ul>
                         <!--@php  if(is_array($advs)) { foreach($advs as $adv) { @-->
                         <li>
-                            <a href="<!--@php echo mobile_url('getbonus', array('id' => $adv['id'], 'thumb' => $adv['thumb'], 'name' => $adv['name']))@-->">
-                                <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/></a>
+                            <!--@php if(empty($adv['link'])) {@-->
+                            <a href="<!--@php echo mobile_url('getbonus', array('id' => $adv['id']))@-->">
+                                <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/>
+                            </a>
+                            <!--@php } else {@-->
+                            <a href="<!--@php echo $adv['link']@-->">
+                                <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/>
+                            </a>
+                            <!--@php } @-->
                         </li>
                         <!--@php  } } @-->
                     </ul>
