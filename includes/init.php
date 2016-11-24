@@ -1328,6 +1328,11 @@ function member_get($openid) {
 	return $member;
 }
 
+function member_get_by_weixin($weixin_openid) {
+    $member = mysqld_select("SELECT * FROM ".table('member')." where weixin_openid=:weixin_openid ", array(':weixin_openid' => $weixin_openid));
+    return $member;
+}
+
 function member_credit($openid,$fee,$type,$remark) {
 	$member=member_get($openid);
 	if(!empty($member['openid']))
