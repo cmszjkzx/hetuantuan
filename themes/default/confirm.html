@@ -7,12 +7,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css?v=111" />
+    <link rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css?v=111" />
     <link rel="stylesheet" href="__RESOURCE__/css/weui.css" />
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" />
-	<script type="text/javascript" src="<!--@php echo RESOURCE_ROOT;@-->/script/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="<!--@php echo RESOURCE_ROOT;@-->/script/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
-    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <!--<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>-->
     <style>
         body{padding-bottom:55px}
         .label_radio input {
@@ -85,10 +85,10 @@
                     </div>
                     <span id="address-text">
                     收货地址：
-                    <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
-                    <!--@php  //echo $defaultAddress['city'];@-->
-                    <!--@php  //echo $defaultAddress['area'];@-->
-                    <!--@php  //echo $defaultAddress['address'];@-->
+                        <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
+                        <!--@php  //echo $defaultAddress['city'];@-->
+                        <!--@php  //echo $defaultAddress['area'];@-->
+                        <!--@php  //echo $defaultAddress['address'];@-->
                     </span>
                 </div>
             </div>
@@ -109,23 +109,23 @@
         <!--<div class="infobox">
             <h2>配送方式</h2>
             <ul class="payStyle">-->
-                <!--@php //$ischecked=true; $initdispatchprice=$issendfree==1?0:$d['price']; if(is_array($dispatch)) { foreach($dispatch as $d) { @-->
-                <!--<li>
-                    <label>-->
-                        <!--<input name='dispatch'  onchange='oncheckboxchange("'-->
-                        <!--@php //if($ischecked){$initdispatchprice=$issendfree==1?0:$d['price'];} echo $issendfree==1?0:$d['price']@-->
-                        <!--");' type="radio"  value="-->
-                        <!--@php  //echo $d['id'];@-->
-                        <!--"-->
-                        <!--@php //echo $ischecked?'checked="checked"':'';$ischecked=false;  @-->
-                       <!-- />
-                        <img src="__RESOURCE__/recouse/images/icon-wein.png" />-->
-                        <!--@php  //echo $d['dname'];@-->
-                    <!--</label>
-                </li>-->
-                <!--@php  //} } @-->
-            <!--</ul>
-        </div>-->
+        <!--@php //$ischecked=true; $initdispatchprice=$issendfree==1?0:$d['price']; if(is_array($dispatch)) { foreach($dispatch as $d) { @-->
+        <!--<li>
+            <label>-->
+        <!--<input name='dispatch'  onchange='oncheckboxchange("'-->
+        <!--@php //if($ischecked){$initdispatchprice=$issendfree==1?0:$d['price'];} echo $issendfree==1?0:$d['price']@-->
+        <!--");' type="radio"  value="-->
+        <!--@php  //echo $d['id'];@-->
+        <!--"-->
+        <!--@php //echo $ischecked?'checked="checked"':'';$ischecked=false;  @-->
+        <!-- />
+         <img src="__RESOURCE__/recouse/images/icon-wein.png" />-->
+        <!--@php  //echo $d['dname'];@-->
+        <!--</label>
+    </li>-->
+        <!--@php  //} } @-->
+        <!--</ul>
+    </div>-->
         <div class="infobox">
             <h2>支付方式</h2>
             <ul class="payStyle">
@@ -142,7 +142,7 @@
             <div class="member-browse">
                 <!--<h2 class="member-browse-title"><span>订单详情</span></h2>-->
                 <ul class="member-browse-ul">
-        		<!--@php  if(is_array($allgoods)) { foreach($allgoods as $item) { @-->
+                    <!--@php  if(is_array($allgoods)) { foreach($allgoods as $item) { @-->
                     <li class="member-browse-li">
                         <div class="member-browser-pro-list" >
                             <a class="member-browser-pro-a" href="<!--@php  echo mobile_url('detail',array('id'=>$item['id']))@-->">
@@ -176,15 +176,15 @@
                     <!--@php  } } @-->
                 </ul>
             </div>
-	    </div>
+        </div>
 
         <div class="weui-cells">
-        <div class="weui-cell">
+            <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <input name="remark" onchange='oninputchange("detail");' class="weui-input font-28 color-7f" type="text" placeholder="给卖家留言（选填）"/>
                 </div>
-        </div>
             </div>
+        </div>
         <!--<div class="infobox ">
             <ul id='infoul' class="otherInfo">
                 &lt;!&ndash;<li>备注信息：
@@ -198,12 +198,35 @@
 
         <div class="weui-cells">
             <label class="weui-cell weui-check__label">
-
                 <div class="weui-cell__bd">
                     <p class="font-28 color-3c">商品总价</p>
                 </div>
                 <div class="weui-cell__ft">
                     <p class="font-28 color-FFAE01">￥<!--@php  echo $totalprice;@--></p>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" style="padding: 5px 15px">
+                <div class="weui-cell__bd">
+                    <p class="font-28 color-3c">优惠券</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <select class="payStyle" name="bonus" style="font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 15px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;">
+                        <!--@php  if(is_array($bonus_list)) { foreach($bonus_list as $bonus) { @-->
+                        <!--@php  if($bonus['send_type']==3) {@-->
+                        <option value="<!--@php echo $bonus['bonus_sn']@-->">
+                            <!--@php echo $bonus['bonus_name']@-->
+                            [
+                            <!--@php echo $bonus['bonus_sn']@-->
+                            ]
+                        </option>
+                        <!--@php  }else{  @-->
+                        <option value="<!--@php echo $bonus['bonus_sn']@-->">
+                            <!--@php echo $bonus['bonus_name']@-->
+                        </option>
+                        <!--@php  } @-->
+                        <!--@php  } } @-->
+                        <option value="">不使用优惠券</option>
+                    </select>
                 </div>
             </label>
             <label class="weui-cell weui-check__label">
@@ -406,6 +429,6 @@
         }
     }
     oncheckboxchange(<!--@php echo empty($initdispatchprice)?"0":$initdispatchprice;@-->);
- </script>
+</script>
 </body>
 </html>
