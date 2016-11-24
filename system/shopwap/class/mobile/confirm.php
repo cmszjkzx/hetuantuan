@@ -36,6 +36,7 @@ if($_GP["follower"]!="nologinby")
 }
 $member=get_member_account();
 $openid =$member['openid'] ;
+$weixin_openid = $member['openid'];
 $op = $_GP['op']?$_GP['op']:'display';
 $totalprice = 0;
 //$totaltotal = 0;
@@ -48,9 +49,9 @@ if (empty($total)) {
 }
 $direct = false; //是否是直接购买
 $returnurl = ""; //当前连接
-$issendfree=0;
+$issendfree=0;//这里有问题不应该所有都是免运费，而是满多少才减去运费
 $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
-
+//这里是通过openid获取默认地址，需要改成以weixin_openid
 if (!empty($id))
 {
     $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
@@ -425,10 +426,25 @@ if(is_login_account())
         {
             if($bonus_type['send_type']==0)
             {
-                $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                foreach ($bonus_users as $bonus_user) {
-                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                //2016-11-24-yanru-begin
+//                $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+//                foreach ($bonus_users as $bonus_user) {
+//                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+//                }
+                if(!empty($weixin_openid)){
+                    $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                    foreach ($bonus_users as $bonus_user) {
+                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                    }
+                }else {
+                    if(!empty($openid)){
+                        $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        foreach ($bonus_users as $bonus_user) {
+                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                        }
+                    }
                 }
+                //end
             }
   			if($bonus_type['send_type']==1)
             {
@@ -437,7 +453,16 @@ if(is_login_account())
                     $bonus_good= mysqld_select("select * from " . table("bonus_good")." where good_id=:good_id and bonus_type_id=:bonus_type_id limit 1",array(":good_id"=>$good['id'],":bonus_type_id"=>$bonus_type['type_id']));
                     if(!empty( $bonus_good['id']))
                     {
-                        $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        //2016-11-24-yanru-begin
+                        //$bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        if(!empty($weixin_openid)){
+                            $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                        }else {
+                            if(!empty($openid)){
+                                $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                            }
+                        }
+                        //end
                         if(!empty($bonus_user['bonus_id']))
   						{
                             $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
@@ -452,6 +477,9 @@ if(is_login_account())
                             }
                             $data=array('createtime'=>time(),
   								'openid'=>$openid,
+                                //2016-11-24-yanru-begin
+                                'weixin_openid'=>$weixin_openid,
+                                //end
   								'bonus_sn'=>$bonus_sn,
 			  					'deleted'=>0,
 			  					'isuse'=>0,
@@ -464,7 +492,16 @@ if(is_login_account())
             }
             if($bonus_type['send_type']==2)
             {
-                $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                //2016-11-24-yanru-begin
+                //$bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                if(!empty($weixin_openid)){
+                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                }else {
+                    if(!empty($openid)){
+                        $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                    }
+                }
+                //end
                 if(!empty($bonus_user['bonus_id']))
                 {
                     $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
@@ -479,6 +516,9 @@ if(is_login_account())
                     }
                     $data=array('createtime'=>time(),
                         'openid'=>$openid,
+                        //2016-11-24-yanru-begin
+                        'weixin_openid'=>$weixin_openid,
+                        //end
                         'bonus_sn'=>$bonus_sn,
                         'deleted'=>0,
                         'isuse'=>0,
