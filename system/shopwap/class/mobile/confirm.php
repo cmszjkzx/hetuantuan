@@ -495,7 +495,7 @@ if(is_login_account())
                 //2016-11-24-yanru-begin
                 //$bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                 if(!empty($weixin_openid)){
-                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
                 }else {
                     if(!empty($openid)){
                         $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
