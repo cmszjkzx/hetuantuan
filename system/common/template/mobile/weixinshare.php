@@ -7,7 +7,7 @@ var wxData = {
             "title" : "<?php echo $shopwap_weixin_share['title'];?>"
 };
 wx.config({
-    debug: true,
+    debug: false,
     appId: "<?php echo $shopwap_weixin_share['appId'];?>",
     timestamp: <?php echo $shopwap_weixin_share['timestamp'];?>, 
     nonceStr: "<?php echo $shopwap_weixin_share['nonceStr'];?>", 
