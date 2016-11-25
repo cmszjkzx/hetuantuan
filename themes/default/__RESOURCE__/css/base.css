@@ -725,12 +725,12 @@ ol, ul {
 }
 
 .detail-group .property {
-    color: #333;
+    color: #7F7F7F;
     float: left;
-    line-height: 2rem;
-    height: 2rem;
+    line-height: 1.65rem;
+    height: 1.65rem;
     display: inline-block;
-    padding: 0 5px;
+    padding: 0 1rem;
     margin: 0 0.5rem 0.5rem 0;
     background: #fff;
     min-width: 3rem;
@@ -791,7 +791,6 @@ ol, ul {
     height: 3.2rem;
     line-height: 3.2rem;
     padding: 0 10px;
-    border-bottom: solid 1px #3C3C3C;
 }
 
 .goods_number .name {

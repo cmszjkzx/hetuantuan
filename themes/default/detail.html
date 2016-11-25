@@ -113,17 +113,12 @@
                            &lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;
                        </div>
                    </div>-->
-                   <p class="goodprice text-ellipsis" style="font-size: 0.75rem;color: #3C3C3C;width: 7rem;margin: 0">
+                   <p class="goodprice text-ellipsis font-30 color-3c" style="width: 7rem;margin: 0">
                        <!--@php  echo $goods['title'];@-->
                    </p>
                    <p class="goodprice" style="margin: 0">
                        ￥<!--@php  echo $marketprice;@-->
                    </p>
-                   <!--<p>
-                       &lt;!&ndash;@php  if($stock!=-1) { @&ndash;&gt;
-                       库存:<strong id="goodstotail">&lt;!&ndash;@php  echo $stock;@&ndash;&gt;</strong>
-                       &lt;!&ndash;@php  }else{ @&ndash;&gt;库存:0&lt;!&ndash;@php  } @&ndash;&gt;
-                   </p>-->
                </div>
             </div>
             <div class="media-right">
@@ -146,8 +141,8 @@
 
                         <div class="detail-group">
 
-                            <p style='margin-left:10px;padding:0'><!--@php  echo $spec['title'];@-->:</p>
-                            <span style="float:left;margin-left:8px;" class='options options_<!--@php  echo $spec['id'];@-->'
+                            <p class="font-28" style='margin-left:10px;padding:0'><!--@php  echo $spec['title'];@-->:</p>
+                            <span style="float:left;margin-left:8px;" class='color-7f font-26 options options_<!--@php  echo $spec['id'];@-->'
                             specid='<!--@php  echo $spec['id'];@-->'>
 
                             <!--@php  if(is_array($spec['items'])) { foreach($spec['items'] as $o) { @-->
@@ -171,7 +166,11 @@
                     <!--@php  } } @-->
                     <!--@php  } @-->
 
-
+                    <p style="padding: 10px;border-bottom: solid 1px #D9D9D9" class="font-28 color-7f">
+                        <!--@php  if($stock!=-1) { @-->
+                        库存:<span id="goodstotail"><!--@php  echo $stock;@--></span>
+                        <!--@php  }else{ @-->库存:0<!--@php  } @-->件
+                    </p>
 
                     <div class="goods_number clearfix">
                         <p class="name">购买数量：</p>
@@ -284,7 +283,7 @@
         var url = '<!--@php  echo mobile_url('mycart',array('op'=>'add','id'=>$goods['id']),true);@-->' +"&optionid=" + $("#optionid").val() + "&total=" + total;
         $.getJSON(url, function(s){
             if(s.result==0){
-                tip("只能购买 " + s.maxbuy + " 件!");
+                tip("只能购买 " + s.maxbuy + " 件!",true);
             }else{
                 tip_close();
                 tip("已加入购物车!");
@@ -482,15 +481,15 @@
         }
         if (autoClose) {
             setTimeout(function () {
-                content.fadeOut(500);
-                div.fadeOut(500);
+                content.fadeOut(3000);
+                div.fadeOut(3000);
 
             }, 1000);
         }
     }
     function tip_close() {
-        $("#poptip").fadeOut(500);
-        $("#poptip_content").fadeOut(500);
+        $("#poptip").fadeOut(3000);
+        $("#poptip_content").fadeOut(3000);
     }
 </script>
 
