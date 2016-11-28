@@ -94,16 +94,6 @@
 <link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
 
 <body>
-<div class="head">
-	<a href="<!--@php  echo mobile_url('myorder',array('status'=>intval($_GP['fromstatus'])))@-->" class="bn pull-left">
-		<i class="icon-angle-left"></i>
-	</a>
-	<!--@php  if($item['status'] == 0) { @--><span class="title" >待付款订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 1) { @--><span class="title" >超时订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 2) { @--><span class="title" >待发货订单详情</span><!--@php  } @-->
-	<!--@php  if($item['status'] == 3 || $item['status'] == 4 || $item['status'] == 5) { @--><span class="title" >待收货订单详情</span><!--@php  } @-->
-	<!--<span class="title">订单详情</span>-->
-</div>
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder" style="background-color: #EFEFEF">
 	<!--<div class="myoder-hd">-->
