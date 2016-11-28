@@ -492,26 +492,26 @@ if(is_login_account())
 //                }
                 if(!empty($weixin_openid)){
                     //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
-                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
                     foreach ($bonus_users as $bonus_user) {
                         if($bonus_type['min_goods_amount'] > $totalprice){
                             $canbeuse = 0;
                         }else{
                             $canbeuse = 1;
                         }
-                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "canbeuse"=>$canbeuse);
+                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
                     }
                 }else {
                     if(!empty($openid)){
                         //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                        $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                         foreach ($bonus_users as $bonus_user) {
                             if($bonus_type['min_goods_amount'] > $totalprice){
                                 $canbeuse = 0;
                             }else{
                                 $canbeuse = 1;
                             }
-                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "canbeuse"=>$canbeuse);
+                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
                         }
                     }
                 }
