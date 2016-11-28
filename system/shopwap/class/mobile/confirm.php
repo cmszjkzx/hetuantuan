@@ -476,7 +476,10 @@ if (checksubmit('submit')) {
 if(is_login_account())
 {
     $bonus_list=array();
-    $bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and min_amount<:min_amount and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":min_amount"=>$totalprice,":min_goods_amount"=>$totalprice,":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
+    //2016-11-28-yanru-begin
+    //$bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and min_amount<:min_amount and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":min_amount"=>$totalprice,":min_goods_amount"=>$totalprice,":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
+    $bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
+    //end
     foreach ($bonus_types as $bonus_type) {
         if(!empty($bonus_type['type_id']))
         {
@@ -488,15 +491,17 @@ if(is_login_account())
 //                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
 //                }
                 if(!empty($weixin_openid)){
-                    $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                    //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
                     foreach ($bonus_users as $bonus_user) {
-                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount']);
                     }
                 }else {
                     if(!empty($openid)){
-                        $bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                        $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                         foreach ($bonus_users as $bonus_user) {
-                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount']);
                         }
                     }
                 }
@@ -590,6 +595,16 @@ if(is_login_account())
             }
         }
     }
+//2016-11-28-yanru-begin
+    for($i=0; $i<=count($bonus_list); $i++){
+        if($bonus_list[$i]['min_goods_amount'] <= $totalprice  && $bonus_list[$i+1]['min_goods_amount'] > $totalprice){
+            $temp_bonus = $bonus_list[$i];
+            unset($bonus_list[$i]);
+            array_unshift($bonus_list, $temp_bonus);
+            break;
+        }
+    }
+    //end
 }
 
 include themePage('confirm');
