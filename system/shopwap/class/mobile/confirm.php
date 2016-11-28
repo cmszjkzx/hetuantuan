@@ -78,7 +78,7 @@ if (!empty($id))
 //            $item['optionname'] = $option['title'];
 //            $item['marketprice'] = $option['marketprice'];
 //            $item['weight'] = $option['weight'];
-            $item['optionid'] = $g['optionid'];
+            $item['optionid'] = $optionid;
             $item['title'] = $item['title'];
             $item['optionname'] = $option['title'];
             //2016-11-13-yanru-begin
@@ -96,10 +96,10 @@ if (!empty($id))
 //    $allgoods[] = $item;
 //    $totalprice+= $item['totalprice'];
     $item['stock'] = $item['total'];//一级商品的总数变成库存
-    $item['total'] = $g['total'];//把购买商品的总数变成传递的总数
-    $item['totalprice'] = $g['total'] * $item['optionmarketprice'];
+    $item['total'] = $total;//把购买商品的总数变成传递的总数
+    $item['totalprice'] = $total * $item['optionmarketprice'];
     //$item['credit'] = $g['total'] * $item['credit'];
-    $item['totalcredit'] = $g['total'] * $item['credit'];
+    $item['totalcredit'] = $total * $item['credit'];
     $allgoods[] = $item;
     $totalprice+= $item['totalprice'];//购物车内的总价格
 //2016-11-25-yanru-begin
