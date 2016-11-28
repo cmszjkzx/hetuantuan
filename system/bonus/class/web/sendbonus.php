@@ -28,7 +28,7 @@ if($operation=='post')
                 //end
                 $data = array('createtime' => time(),
                     'openid' => $member['openid'],
-                    'wenxin_openid' => $member['wenxin_openid'],
+                    'weixin_openid' => $member['weixin_openid'],
                     'bonus_sn' => $bonus_sn,
                     'deleted' => 0,
                     'isuse' => 0,
@@ -64,6 +64,7 @@ if($operation=='post')
 		  		}
   				$data=array('createtime'=>time(),
             'openid'=>$member['openid'],
+                    'weixin_openid' => $member['weixin_openid'],
   					'bonus_sn'=>$bonus_sn,
 			  		'deleted'=>0,
 			  		'isuse'=>0,
@@ -100,6 +101,7 @@ if($operation=='post')
 		  			}
   					$data=array('createtime'=>time(),
   							'openid'=>$member['openid'],
+                        'weixin_openid' => $member['weixin_openid'],
   							'bonus_sn'=>$bonus_sn,
 			  				'deleted'=>0,
 			  				'isuse'=>0,
@@ -186,6 +188,7 @@ if($operation=='post')
 		  	}
   			$data=array('createtime'=>time(),
           'openid'=>'',
+                'weixin_openid' => '',
   				'bonus_sn'=>$bonus_sn,
 			  	'deleted'=>0,
 			  	'isuse'=>0,

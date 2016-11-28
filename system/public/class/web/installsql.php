@@ -508,6 +508,10 @@ DROP TABLE IF EXISTS `hetuantuan_shop_address`;
 CREATE TABLE `hetuantuan_shop_address` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `openid` varchar(50) NOT NULL,
+  -- ----------------------------
+-- 2016-11-25-yanru
+  `weixin_openid` varchar(50) NOT NULL COMMENT '微信openid',
+-- ----------------------------
   `realname` varchar(20) NOT NULL,
   `mobile` varchar(11) NOT NULL,
   `province` varchar(30) NOT NULL,
@@ -677,7 +681,7 @@ CREATE TABLE `hetuantuan_shop_goods` (
   `credit` int(11) DEFAULT '0' COMMENT '积分奖励',
   `hasoption` int(11) DEFAULT '0',
   `isnew` int(11) DEFAULT '0' COMMENT '是否是新品',
-  `issendfree` int(11) DEFAULT NULL COMMENT '免运费',
+  `issendfree` int(11) DEFAULT NULL COMMENT '0为要运费,1为免运费',
   `ishot` int(11) DEFAULT '0' COMMENT '是否热卖',
   `isdiscount` int(11) DEFAULT '0',
   `isrecommand` int(11) DEFAULT '0' COMMENT '首页推荐',

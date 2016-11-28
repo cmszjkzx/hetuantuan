@@ -36,7 +36,7 @@ if($_GP["follower"]!="nologinby")
 }
 $member=get_member_account();
 $openid =$member['openid'] ;
-$weixin_openid = $member['openid'];
+$weixin_openid = $member['weixin_openid'];
 $op = $_GP['op']?$_GP['op']:'display';
 $totalprice = 0;
 //$totaltotal = 0;
@@ -50,8 +50,14 @@ if (empty($total)) {
 $direct = false; //是否是直接购买
 $returnurl = ""; //当前连接
 $issendfree=0;//这里有问题不应该所有都是免运费，而是满多少才减去运费
-$defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
-//这里是通过openid获取默认地址，需要改成以weixin_openid
+
+//这里是通过openid获取默认地址，需要改成优先以weixin_openid
+if(!empty($weixin_openid)){
+    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and weixin_openid = :weixin_openid and deleted=0 limit 1", array(':weixin_openid' => $weixin_openid));
+}else if(!empty($openid)){
+    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
+}
+
 if (!empty($id))
 {
     $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
@@ -67,28 +73,56 @@ if (!empty($id))
     if (!empty($optionid)) {
         $option = mysqld_select("select title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id", array(":id" => $optionid));
         if ($option) {
-            $item['optionid'] = $optionid;
+//            $item['optionid'] = $optionid;
+//            $item['title'] = $item['title'];
+//            $item['optionname'] = $option['title'];
+//            $item['marketprice'] = $option['marketprice'];
+//            $item['weight'] = $option['weight'];
+            $item['optionid'] = $g['optionid'];
             $item['title'] = $item['title'];
             $item['optionname'] = $option['title'];
-            $item['marketprice'] = $option['marketprice'];
-            $item['weight'] = $option['weight'];
+            //2016-11-13-yanru-begin
+            //$item['marketprice'] = $option['marketprice'];
+            //$item['weight'] = $option['weight'];
+            $item['optionmarketprice'] = $option['marketprice'];
+            $item['optionweight'] = $option['weight'];
+            //end
         }
     }
-    $item['stock'] = $item['total'];
-    $item['total'] = $total;
-    $item['totalprice'] = $total * $item['marketprice'];
-    $item['credit'] = $total* $item['credit'];
+//    $item['stock'] = $item['total'];
+//    $item['total'] = $total;
+//    $item['totalprice'] = $total * $item['marketprice'];
+//    $item['credit'] = $total* $item['credit'];
+//    $allgoods[] = $item;
+//    $totalprice+= $item['totalprice'];
+    $item['stock'] = $item['total'];//一级商品的总数变成库存
+    $item['total'] = $g['total'];//把购买商品的总数变成传递的总数
+    $item['totalprice'] = $g['total'] * $item['optionmarketprice'];
+    //$item['credit'] = $g['total'] * $item['credit'];
+    $item['totalcredit'] = $g['total'] * $item['credit'];
     $allgoods[] = $item;
-    $totalprice+= $item['totalprice'];
+    $totalprice+= $item['totalprice'];//购物车内的总价格
+//2016-11-25-yanru-begin
+    //原来的满件包邮是某个商品中购买多少件就行，我的看法是订单内的所有商品总件数
+//            if($totaltotal<$g['total'])
+//            {
+//                $totaltotal=$g['total'];
+//            }
+    $totaltotal += $item['total'];
             
     //========促销活动===============
     $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-			
+
+    //2016-11-27-yanru-begin
+    $usable_promotion = array();
+    //end
+
     if(empty($issendfree))
     {
         foreach($promotion as $pro){
             if($pro['promoteType']==1)
             {
+                $usable_promotion[] = $pro;//2016-11-27-yanru
                 if(	($item['totalprice'])>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -96,6 +130,7 @@ if (!empty($id))
             }
             else if($pro['promoteType']==0)
             {
+                $usable_promotion[] = $pro;//2016-11-27-yanru
                 if($total>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -120,10 +155,12 @@ if (!$direct) {
             //属性
             $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id ", array(":id" => $g['optionid']));
             if ($option) {
-                if($item['issendfree']==1)
-                {
-                    $issendfree=1;
-                }
+                //2016-11-25-yanru-begin
+//                if($item['issendfree']==1)
+//                {
+//                    $issendfree=1;//一件商品包邮不会导致订单所有都包邮
+//                }
+                //end
                 $item['optionid'] = $g['optionid'];
                 $item['title'] = $item['title'];
                 $item['optionname'] = $option['title'];
@@ -141,18 +178,27 @@ if (!$direct) {
             $item['totalcredit'] = $g['total'] * $item['credit'];
             $allgoods[] = $item;
             $totalprice+= $item['totalprice'];//购物车内的总价格
-            if($totaltotal<$g['total'])
-            {
-                $totaltotal=$g['total'];
-            }
+//2016-11-25-yanru-begin
+            //原来的满件包邮是某个商品中购买多少件就行，我的看法是订单内的所有商品总件数
+//            if($totaltotal<$g['total'])
+//            {
+//                $totaltotal=$g['total'];
+//            }
+            $totaltotal += $item['total'];
+            //end
         }
                 
         $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-		
-        //========促销活动===============
+
+        //2016-11-27-yanru-begin
+        $usable_promotion = array();
+        //end
+
+        //========促销活动===============//全场的优惠活动，跟商品无关
         foreach($promotion as $pro){
             if($pro['promoteType']==1)
             {
+                $usable_promotion[] = $pro;//2016-11-27-yanru
                 if(	($totalprice)>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -160,6 +206,7 @@ if (!$direct) {
             }
             else if($pro['promoteType']==0)
             {
+                $usable_promotion[] = $pro;//2016-11-27-yanru
                 if($totaltotal>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -198,7 +245,13 @@ foreach ($addressdispatchs as $addressdispatch) {
 foreach ($dispatch as &$d) {
     $weight = 0;
     foreach ($allgoods as $g) {
-        $weight+=$g['weight'] * $g['total'];
+        //2016-11-25-yanru-前面已经修改过不再是weight
+//        $weight+=$g['weight'] * $g['total'];
+//        if($g['issendfree']==1)
+//        {
+//            $issendfree=1;
+//        }
+        $weight += $g['optionweight'] * $g['total'];
         if($g['issendfree']==1)
         {
             $issendfree=1;
@@ -221,8 +274,11 @@ foreach ($dispatch as &$d) {
         }
     }
     $d['price'] = $price;
+    $dispatchprice =$d['price'];
+
 }
 unset($d);
+
 $paymentconfig="";
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
     $paymentconfig=" and code!='alipay'";
@@ -244,8 +300,8 @@ if (checksubmit('submit')) {
         if (empty($_GP['verify_address_tell'])) {
             message('请填写联系电话！');
         }
- 	$address['realname']=$_GP['verify_address_name'];
- 	$address['mobile']=$_GP['verify_address_tell'];
+        $address['realname']=$_GP['verify_address_name'];
+        $address['mobile']=$_GP['verify_address_tell'];
     }else
     {
         $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));

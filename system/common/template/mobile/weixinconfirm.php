@@ -1,7 +1,7 @@
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
 <script type="text/javascript">
     wx.config({
-        debug: true,
+        debug: false,
         appId: "<?php echo $shopwap_weixin_share['appId'];?>",
         timestamp: <?php echo $shopwap_weixin_share['timestamp'];?>,
         nonceStr: "<?php echo $shopwap_weixin_share['nonceStr'];?>",
