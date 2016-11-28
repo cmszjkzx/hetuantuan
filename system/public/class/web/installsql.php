@@ -317,6 +317,7 @@ CREATE TABLE `hetuantuan_member` (
   `outgold` double NOT NULL DEFAULT '0' COMMENT '已提取余额',
   `outgoldinfo` varchar(1000) DEFAULT '0' COMMENT '提款信息 序列化',
   `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid',
+  `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '微信昵称',
   `alipay_openid` varchar(50) DEFAULT '' COMMENT '阿里openid',
   PRIMARY KEY (`openid`),
   KEY `idx_member_from_user` (`openid`)

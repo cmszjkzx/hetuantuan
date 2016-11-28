@@ -46,9 +46,13 @@
                             <select name="user_search[]" id="user_search" size="15" style="width:260px" ondblclick="addUser()" multiple="true">
                                 <?php if(is_array($search_member_phone_list)) { foreach($search_member_phone_list as $member){?>
                                     <option value="<?php echo $member['mobile']?>"><?php echo $member['mobile']?></option>
-     							<?php } }else if(is_array($search_member_weixin_list)) { foreach($search_member_weixin_list as $member){?>
+     							<?php } ?>
+                                    <input type="hidden" name="search_type" value="phone" />
+                                <?php }else if(is_array($search_member_weixin_list)) { foreach($search_member_weixin_list as $member){?>
                                 <option value="<?php echo $member['weixin_openid']?>"><?php echo $member['nickname']?></option>
-                                <?php } }?>
+                                <?php } ?>
+                                    <input type="hidden" name="search_type" value="weixin" />
+                                <?php }?>
                             </select>
                         </td>
                         <td align="center">

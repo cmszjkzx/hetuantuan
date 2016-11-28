@@ -8,10 +8,14 @@ if($operation=='post')
     $rank_model_list = mysqld_selectall("SELECT * FROM " . table('rank_model')." order by rank_level" );
     if (checksubmit('send_user'))
     {
-      foreach ($_GP['user_add'] as &$mobile)
+      foreach ($_GP['user_add'] as &$id)
       {
-        $member= mysqld_select("SELECT * FROM " . table('member')."where istemplate=0 and mobile=:mobile limit 1",array(":mobile"=>$mobile) );
-        if(!empty($member['openid']))
+          if($_GP['search_type'] == 'phone'){
+              $member = mysqld_select("SELECT * FROM " . table('member') . "where istemplate=0 and mobile=:mobile limit 1", array(":mobile" => $id));
+          }else {
+              $member = mysqld_select("SELECT * FROM " . table('member') . "where istemplate=0 and weixin_openid=:weixin_openid limit 1", array(":weixin_openid" => $id));
+          }
+          if(!empty($member['openid']))
 			  {
           $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);//生成随机的优惠券号
 //          $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
