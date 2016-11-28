@@ -47,7 +47,7 @@
                                 <?php if(is_array($search_member_phone_list)) { foreach($search_member_phone_list as $member){?>
                                     <option value="<?php echo $member['mobile']?>"><?php echo $member['mobile']?></option>
      							<?php } }else if(is_array($search_member_weixin_list)) { foreach($search_member_weixin_list as $member){?>
-                                <option value="<?php echo $member['weixin_openid']?>"><?php echo $member['weixin_openid']?></option>
+                                <option value="<?php echo $member['weixin_openid']?>"><?php echo $member['nickname']?></option>
                                 <?php } }?>
                             </select>
                         </td>
