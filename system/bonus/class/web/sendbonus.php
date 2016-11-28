@@ -112,9 +112,13 @@ if($operation=='post')
       }
       message("发放成功！","refresh","success");
     }
-    if (checksubmit('search'))
+    if (checksubmit('search_phone'))
     {
-      $search_member_list = mysqld_selectall("SELECT * FROM " . table('member')."where istemplate=0 and mobile like :mobile",array(":mobile"=>'%'.$_GP['send_user_tel'].'%'));
+      $search_member_phone_list = mysqld_selectall("SELECT * FROM " . table('member')."where istemplate=0 and mobile like :mobile",array(":mobile"=>'%'.$_GP['send_user_tel'].'%'));
+    }
+    if (checksubmit('search_weixin'))
+    {
+        $search_member_weixin_list = mysqld_selectall("SELECT * FROM " . table('member')."where istemplate=0 and weixin_openid like :weixin_openid",array(":weixin_openid"=>'%'.$_GP['send_user_weixin'].'%'));
     }
   	$user=$_GP['user'];
   	include page('senduserbonus');
