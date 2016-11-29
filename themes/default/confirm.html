@@ -76,7 +76,6 @@
     <section class="accounts">
         <div class="infobox">
             <!--<h2>收货信息</h2>-->
-            <!--@php  if(empty($item['isverify'])) { @-->
             <div style="height: 3rem;margin-right: 0.75rem">
                 <a type="button" onclick="openAddress()" style="display: inline;margin-left: 0.6rem;margin-top:1rem;float: left;">
                     <img style="width: 0.95rem;height: 0.95rem;" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
@@ -98,11 +97,10 @@
                     </span>
                 </div>
             </div>
-            <!--@php  }else{ @-->
-            <p>联系人：<input type="text" name="verify_address_name" id="verify_address_name" value="" /></p>
-            <p>联系电话：<input type="text" name="verify_address_tell" id="verify_address_tell" value="" /></p>
-            <!--@php  } @-->
         </div>
+        <input type="hidden" type="text" name="verify_address_name" id="verify_address_name" value="" />
+        <input type="hidden" type="text" name="verify_address_tell" id="verify_address_tell" value="" />
+
         <input type="hidden" name="goodstype" value="<!--@php  echo $goodstype;@-->" />
         <input type="hidden" name="address" value="<!--@php  echo $defaultAddress['id'];@-->" />
         <!--<div class="infobox">
@@ -394,6 +392,8 @@
                 $('#address-realname').text(data.userName);
                 $('#address-mobile').text(data.telNumber);
                 $('#address-text').text(data.provinceName + data.cityName + data.detailInfo);
+                $('#verify_address_name').val(data.provinceName + data.cityName + data.detailInfo);
+                $('#verify_address_tell').val(data.telNumber);
             },
             cancel: function () {
                 // 用户取消拉出地址
@@ -404,21 +404,10 @@
         location.href = '<!--@php  echo mobile_url('address', array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'
     }
     function check(){
-        <!--@php  if(empty($item['isverify'])){ @-->
         if($("#address-area").css('display') == 'none'){
             alert("请添加收货地址!");
             return false;
         }
-        <!--@php  }else{ @-->
-        if($("#verify_address_name").val()==''){
-            alert("请添加联系人!");
-            return false;
-        }
-        if($("#verify_address_tell").val()==''){
-            alert("请添加联系电话!");
-            return false;
-        }
-        <!--@php } @-->
         var isdispatch=false;
         for(var i=0;i<document.getElementsByName('dispatch').length;i++)
         {
