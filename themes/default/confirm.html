@@ -7,16 +7,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="__RESOURCE__/css/bootstrap.min.css" />
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css?v=111" />
     <link rel="stylesheet" href="__RESOURCE__/css/weui.css" />
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" />
-    <script type="text/javascript" src="<!--@php echo RESOURCE_ROOT;@-->/script/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="__RESOURCE__/js/bootstrap.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
     <!--<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>-->
     <style>
-        body{padding-bottom:55px}
+        body{padding-bottom:55px;}
         .label_radio input {
             margin-right: 5px;
         }
@@ -72,7 +77,6 @@
         <div class="infobox">
             <!--<h2>收货信息</h2>-->
             <!--@php  if(empty($item['isverify'])) { @-->
-            <!--@php  if(!empty($defaultAddress)) { @-->
             <div style="height: 3rem;margin-right: 0.75rem">
                 <a type="button" onclick="openAddress()" style="display: inline;margin-left: 0.6rem;margin-top:1rem;float: left;">
                     <img style="width: 0.95rem;height: 0.95rem;" src="__RESOURCE__/images/ic_plus.png"></img><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
@@ -94,13 +98,6 @@
                     </span>
                 </div>
             </div>
-            <!--@php  } else { @-->
-            <p>
-                <button type="button" class="btn btn-danger" onclick="location.href='<!--@php  echo mobile_url('address',array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'">
-                    <i class="icon-plus"></i> 添加收货地址
-                </button>
-            </p>
-            <!--@php  } @-->
             <!--@php  }else{ @-->
             <p>联系人：<input type="text" name="verify_address_name" id="verify_address_name" value="" /></p>
             <p>联系电话：<input type="text" name="verify_address_tell" id="verify_address_tell" value="" /></p>
@@ -198,7 +195,7 @@
             </ul>
         </div>-->
 
-        <div class="weui-cells">
+        <div class="weui-cells" style="overflow: visible">
             <label class="weui-cell weui-check__label">
                 <div class="weui-cell__bd">
                     <p class="font-28 color-3c">商品总价</p>
@@ -213,23 +210,96 @@
                 </div>
                 <div class="weui-cell__ft">
                     <!--@php  if(is_array($bonus_list) && count($bonus_list) > 0) { @-->
-                    <select class="payStyle" name="bonus" style="font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 15px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;margin: -5px;">
-                        <!--@php  foreach($bonus_list as $bonus) { @-->
-                        <!--@php  if($bonus['send_type']==3) {@-->
-                        <option value="<!--@php echo $bonus['bonus_sn']@-->">
-                            <!--@php echo $bonus['bonus_name']@-->
+                    <div class="dropdown" style="display: none">
+                        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                                data-toggle="dropdown" name="bonus" value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->" attr-value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->">
+                            <!--@php  if( $bonus_list[0]['canbeuse']==1) { @-->
+                            <!--@php  echo $bonus_list[0]['bonus_name'] @-->
+                            <!--@php  } else { @-->
+                            无可用优惠券
+                            <!--@php  } @-->
+                        </button><span class="caret"></span>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                            <!--@php  foreach($bonus_list as $bonus) { @-->
+                            <!--@php  if($bonus['canbeuse']==1) {@-->
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"><!--@php echo $bonus['bonus_name']@--></a>
+                            </li>
+                            <li role="presentation" class="divider"></li>
+                            <!--@php  }else{  @-->
+                            <li value="<!--@php echo $bonus['bonus_sn']@-->">
+                                <!--@php echo $bonus['bonus_name']@-->
+                            </li>
+                            <!--@php  } @-->
+                            <!--@php  } @-->
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" style="font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 20px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;margin: -5px;">
+                            <span id="dLabel-name" name="bonus" value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->" attr-value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->">
+                                <!--@php  if( $bonus_list[0]['canbeuse']==1) { @-->
+                                <!--@php  echo $bonus_list[0]['bonus_name'] @-->
+                                <!--@php  } else { @-->
+                                无可用优惠券
+                                <!--@php  } @-->
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right dropdown-reset" role="menu">
+                            <!--@php  foreach($bonus_list as $bonus) { @-->
+                            <!--@php  if($bonus['send_type']==3) {@-->
+                            <!--@php  if($bonus['canbeuse']==1) {@-->
+                            <li value="<!--@php echo $bonus['bonus_sn']@-->" class="able-click">
+                                <!--@php echo $bonus['canbuuse']@-->
+                                [
+                                <!--@php echo $bonus['bonus_sn']@-->
+                                ]
+                            </li>
+                            <li class="divider"></li>
+                            <!--@php  }else{  @-->
+                            <li value="<!--@php echo $bonus['bonus_sn']@-->">
+                                <!--@php echo $bonus['bonus_name']@-->
+                                [
+                                <!--@php echo $bonus['bonus_sn']@-->
+                                ]
+                            </li>
+                            <li class="divider"></li>
+                            <!--@php  } @-->
+                            <!--@php  }else{  @-->
+                            <!--@php  if($bonus['canbeuse']==1) {@-->
+                            <li value="<!--@php echo $bonus['bonus_sn']@-->" class="able-click" attr-money="<!--@php echo $bonus['type_money']@-->">
+                                <!--@php echo $bonus['bonus_name']@-->
+                            </li>
+                            <!--@php  }else{  @-->
+                            <li value="<!--@php echo $bonus['bonus_sn']@-->">
+                                <!--@php echo $bonus['bonus_name']@-->
+                            </li>
+                            <!--@php  } @-->
+                            <li class="divider"></li>
+                            <!--@php  } @-->
+                            <!--@php  } @-->
+                            <li value="0" class="able-click">不使用优惠券</li>
+                        </ul>
+                    </div>
+
+                    <!--<select class="payStyle" name="bonus" style="font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 15px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;margin: -5px;">
+                        &lt;!&ndash;@php  foreach($bonus_list as $bonus) { @&ndash;&gt;
+                        &lt;!&ndash;@php  if($bonus['send_type']==3) {@&ndash;&gt;
+                        <option value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;">
+                            &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
                             [
-                            <!--@php echo $bonus['bonus_sn']@-->
+                            &lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;
                             ]
                         </option>
-                        <!--@php  }else{  @-->
-                        <option value="<!--@php echo $bonus['bonus_sn']@-->">
-                            <!--@php echo $bonus['bonus_name']@-->
+                        &lt;!&ndash;@php  }else{  @&ndash;&gt;
+                        <option value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;">
+                            &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
                         </option>
-                        <!--@php  } @-->
-                        <!--@php  } @-->
+                        &lt;!&ndash;@php  } @&ndash;&gt;
+                        &lt;!&ndash;@php  } @&ndash;&gt;
                         <option value="">不使用优惠券</option>
-                    </select>
+                    </select>-->
                     <!--@php  } else{ @-->
                     <a class="font-26 color-3c" style="padding: 10px 0" href="<!--@php  echo mobile_url('getbonus', array('id' => 5))@-->">0张优惠券，马上去领 ></a>
                     <!--@php  } @-->
@@ -252,58 +322,7 @@
             </label>
         </div>
 
-        <!--<div class="infobox">
-            <ul id='inprice' class="otherInfo">
-                <li>
-                    <span class='goodsprice'>商品总价&nbsp;&nbsp;&yen;
-                        &lt;!&ndash;@php  echo $totalprice;@&ndash;&gt;
-                    </span>
-                </li>
-            </ul>
-        </div>
-
-        &lt;!&ndash;@php  if(is_array($bonus_list)&& count($bonus_list)>0) {  @&ndash;&gt;
-        <div class="infobox">
-            <h2>优惠券</h2>
-            <ul class="payStyle">
-                &lt;!&ndash;@php  if(is_array($bonus_list)) { foreach($bonus_list as $bonus) { @&ndash;&gt;
-                &lt;!&ndash;@php  if($bonus['send_type']==3) {@&ndash;&gt;
-                <li>
-                    <label>
-                        <input name='bonus'  type="radio"  value="custom"  />
-                        &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
-                        ，编号：
-                        <input name='custom_bonus_sn'  type="text"  value=""  style="width: 40%;;"/>
-                    </label>
-                </li>
-                &lt;!&ndash;@php  }else{  @&ndash;&gt;
-                <li>
-                    <label>
-                        <input name='bonus'  type="radio"  value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;"  />
-                        &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
-                        [
-                        &lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;
-                        ]
-                    </label>
-                </li>
-                &lt;!&ndash;@php  } @&ndash;&gt;
-                &lt;!&ndash;@php  } } @&ndash;&gt;
-                <li><label><input name='bonus'  type="radio"  value=""  />无</label></li>
-            </ul>
-        </div>
-        &lt;!&ndash;@php  } @&ndash;&gt;
-
-        <div class="infobox">
-            <ul id='sendprice' class="otherInfo">
-                <li>
-                    <span class='goodsprice'>运费&nbsp;&nbsp;&yen;
-                        &lt;!&ndash;@php  //if($item['issendfree'] == 1){@&ndash;&gt;
-                        &lt;!&ndash;@php  //echo 0;}else{@&ndash;&gt;
-                        &lt;!&ndash;@php  echo $bonusprice;@&ndash;&gt;
-                    </span>
-                </li>
-            </ul>
-        </div>-->
+        <div style="height: 5rem;"></div>
 
         <div class="carFoot">
             <button class="font-26" type="submit" id='submit'  name="submit" value="yes" style="display: inline-block;float: right;padding: 0 33px;text-align: center;height: 2.5rem;line-height: 35px;color: #fff;background: #FFAE01;border: none;">
@@ -311,8 +330,13 @@
             </button>
             <span class="font-26" style="line-height: 2.5rem;float: right;margin-right: 0.5rem">总计：
                     <span class="color-FFAE01">
-                        &yen;<!--@php  echo $totalprice + $dispatchprice;@-->
-                    </span>
+                        &yen;</span><span class="color-FFAE01" id="total-sum">
+                    <!--@php  if(is_array($bonus_list) && count($bonus_list) > 0 && $bonus_list[0]['canbeuse']==1) { @-->
+                    <!--@php  echo $totalprice + $dispatchprice - $bonus_list[0]['type_money'];@-->
+                    <!--@php  } else { @-->
+                    <!--@php  echo $totalprice + $dispatchprice;@-->
+                    <!--@php  }  @-->
+                </span>
             </span>
         </div>
         <input type="hidden" name="token" value="<!--@php  echo $_W['token'];@-->" />
@@ -355,6 +379,12 @@
 </script>
 
 <script language='javascript'>
+    $(".dropdown-menu li.able-click").click(function () {
+        $("#dLabel-name").text($(this).text());
+        $("#dLabel-name").val($(this).val());
+        $("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - ($(this).attr("attr-money")||0));
+//        alert($(this).attr("attr-money"));
+    })
     function openAddress() {
         wx.openAddress({
             success: function (data) {
