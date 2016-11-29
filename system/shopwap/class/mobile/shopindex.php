@@ -1,13 +1,9 @@
 <?php	
 $settings=globaSetting();
-//获取广告列表
 $advs = mysqld_selectall("select * from " . table('shop_adv') . " where enabled=1  order by displayorder desc");
-//获取商品的总数量
 $allgoods = mysqld_selectcolumn("SELECT count(*) FROM " . table('shop_goods') . " WHERE deleted =0");
 $children_category=array();
-//获取商品类型类别根据父节点等排序
 $category = mysqld_selectall("SELECT *,'' as list FROM " . table('shop_category') . " WHERE isrecommand=1 and enabled=1 and deleted=0 ORDER BY parentid ASC, displayorder DESC", array(), 'id');
-//选择出一级分类
 foreach ($category as $index => $row) {
     if (!empty($row['parentid'])) {
         $children_category[$row['parentid']][$row['id']] = $row;
@@ -51,8 +47,6 @@ foreach ($category as &$c) {
 }
 
 //2016-10-26-yanru-begin
-//对根据商品列表对商品分类用于分类展示
-//商品中根据用户设置好的商品类别进行分类获取
 $kinds_list = mysqld_selectall("SELECT * FROM " . table('goods_kinds')." ORDER BY kinds_level ", array(), 'kinds_level');
 /*$has_kinds_list = mysqld_selectall("SELECT * FROM " . table('shop_goods')." WHERE  isrecommand = 1 and status = 1 and kinds != 0 ORDER BY displayorder DESC, sales DESC ");
 $kinds_goods_list = array();

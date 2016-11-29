@@ -27,6 +27,13 @@ if('kinds' == $_GP['do']) {
                 mysqld_insert('goods_kinds', $data);
             } else {
                 $data = array('kinds_name' => $_GP['kinds_name']);
+                if (!empty($_FILES['kinds_thumb']['tmp_name'])) {
+                    $upload = file_upload($_FILES['kinds_thumb']);
+                    if (is_error($upload)) {
+                        message($upload['message'], '', 'error');
+                    }
+                    $data['kinds_thumb'] = $upload['path'];
+                }
                 mysqld_update('goods_kinds', $data, array('kinds_level' => $kinds['kinds_level']));
             }
             message('操作成功！', web_url('kinds'), 'success');
