@@ -612,11 +612,18 @@ if(is_login_account())
 //    }
     //array_multisort($mim_price,SORT_NUMERIC,SORT_DESC,$id,SORT_STRING,SORT_ASC,$bonus_list);
 
-    for($i=0; $i<=count($bonus_list); $i++){
-        if($bonus_list[$i]['min_goods_amount'] <= $totalprice  && $bonus_list[$i+1]['min_goods_amount'] > $totalprice){
+    for($i=0; $i<count($bonus_list); $i++){
+        if($i!=count($bonus_list)-1){
+            if($bonus_list[$i]['min_goods_amount'] <= $totalprice  && $bonus_list[$i+1]['min_goods_amount'] > $totalprice){
+                $temp_bonus = $bonus_list[$i];
+                unset($bonus_list[$i]);
+                array_unshift($bonus_list, $temp_bonus);
+                break;
+            }
+        }else{
             $temp_bonus = $bonus_list[$i];
-            unset($bonus_list[$i]);
             array_unshift($bonus_list, $temp_bonus);
+            unset($bonus_list[$i]);
             break;
         }
     }
