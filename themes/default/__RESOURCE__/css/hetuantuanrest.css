@@ -133,3 +133,22 @@ body {
 .font-41 {
     color:#414141;
 }
+
+/*.dropdown-reset {*/
+    /*padding: 0;*/
+/*}*/
+
+.dropdown-reset li {
+    /*padding: 5px 15px;*/
+    text-align: center;
+    background: lightgrey;
+}
+
+.dropdown-reset li.able-click{
+    background: white;
+}
+
+.dropdown-reset li.divider {
+    padding: 0;
+    margin: 0;
+}
