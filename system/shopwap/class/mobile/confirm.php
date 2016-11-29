@@ -291,8 +291,8 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
 $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 {$paymentconfig} order by `order` desc");
    
 if (checksubmit('submit')) {
-    //if($direct)
-    if($direct&&!empty($item['isverify']))
+    if($direct)
+//    if($direct&&!empty($item['isverify']))
     {
         if (empty($_GP['verify_address_name'])) {
             message('请填写联系人！');
