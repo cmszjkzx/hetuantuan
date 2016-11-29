@@ -1603,7 +1603,7 @@ function video_upload($file, $type = 'video') {
         return error(-1, '没有上传内容');
     }
     //$limit=5000;压缩后tmp图片大小设置
-    $limit=10;//相当于10M
+    $limit=128;//相当于10M/128M
     $extention = pathinfo($file['name'], PATHINFO_EXTENSION);
     $extention = strtolower($extention);
     if(empty($type)||$type=='video')
