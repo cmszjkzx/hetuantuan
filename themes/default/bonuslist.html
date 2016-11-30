@@ -170,7 +170,7 @@
                 <li class="bjprit coupon-style-0" style="background-image:<!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @-->url('__RESOURCE__/images/ic_bonus_bg_unsable.png')<!--@php }else{ @--> url('__RESOURCE__/images/ic_bonus_bg_usable.png') <!--@php }@--> <!--@php }else{ @-->     url('__RESOURCE__/images/ic_bonus_bg_unsable.png')   <!--@php }@-->;background-repeat:no-repeat;background-size: cover;height: 6.35rem">
                     <a class="clearfix" href="#">
                         <p style="text-align: center;font-size: 0.45rem;color: white;line-height: 0.7rem"><!--@php echo date('Y.m.d', $bonus['use_end_date']).' 到期'; @--></p>
-                        <h4 class="bjprshna bjf14" style="text-align: center;font-size: 1rem;margin-top: 1rem"> <!--@php echo $bonus['type_name']; @--></h4>
+                        <h4 class="bjprshna bjf14 color-3c" style="text-align: center;font-size: 1rem;margin-top: 1rem"> <!--@php echo $bonus['type_name']; @--></h4>
                         <h4 class="bjprshna bjf14" style="text-align: center;font-size: 1.4rem;position: absolute;bottom: 0.2rem;width: 100%;color: white"> <!--@php echo round($bonus['type_money']); @-->元</h4>
                     </a>
                 </li>
