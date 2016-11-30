@@ -538,6 +538,10 @@ CREATE TABLE `hetuantuan_shop_adv` (
   `thumb` varchar(255) DEFAULT '',
   `displayorder` int(11) DEFAULT '0',
   `enabled` int(11) DEFAULT '0',
+-- -- ----------------------------
+-- 2016-11-29-yanru
+  `hasbonus` varchar(255) DEFAULT '' COMMENT '判断是否有优惠券,非空存储优惠券ID',
+-- ----------------------------
   PRIMARY KEY (`id`),
   KEY `indx_enabled` (`enabled`),
   KEY `indx_displayorder` (`displayorder`)

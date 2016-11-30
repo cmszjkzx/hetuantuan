@@ -190,10 +190,12 @@
 <h3 class="blue">	<span style="font-size:18px;"><strong>订单总数：<?php echo $total ?></strong></span></h3>
 			<ul class="nav nav-tabs" >
 	<li style="width:10%" <?php  if($status == -99) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99))?>">全部</a></li>
-	<li style="width:10%" <?php  if($status == 0) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款</a></li>
-	<li style="width:10%" <?php  if($status == 1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">待发货</a></li>
-	<li style="width:10%" <?php  if($status == 2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待收货</a></li>
-	<li style="width:10%" <?php  if($status == 3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">已完成</a></li>
+	<li style="width:10%" <?php  if($status == 0) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款未超时</a></li>
+	<li style="width:10%" <?php  if($status == 1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">已超时</a></li>
+	<li style="width:10%" <?php  if($status == 2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待发货</a></li>
+	<li style="width:10%" <?php  if($status == 3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">待收货</a></li>
+                <li style="width:10%" <?php  if($status == 4) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 4))?>">已收货待评价</a></li>
+                <li style="width:10%" <?php  if($status == 5) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 5))?>">已完成</a></li>
 	<li style="width:10%" <?php  if($status == -1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -1))?>">已关闭</a></li>
 		<li style="width:10%" <?php  if($status == -2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -2))?>">退款中</a></li>
 	<li style="width:10%" <?php  if($status == -3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -3))?>">换货中</a></li>		
@@ -237,10 +239,12 @@
 			
 					<td><?php  echo $item['price'];?> 元 <?php  if($item['hasbonus']>0) { ?><span class="label label-success">惠<?php echo $item['bonusprice'];?></span><?php  }?></td>
 					<td>
-															<?php  if($item['status'] == 0) { ?><span class="label label-warning" >待付款</span><?php  } ?>
-						<?php  if($item['status'] == 1) { ?><span class="label label-danger" >待发货</span><?php  } ?>
-						<?php  if($item['status'] == 2) { ?><span class="label label-warning">待收货</span><?php  } ?>
-						<?php  if($item['status'] == 3) { ?><span class="label label-success" >已完成</span><?php  } ?>
+                        <?php  if($item['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
+						<?php  if($item['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
+						<?php  if($item['status'] == 2) { ?><span class="label label-warning">待发货</span><?php  } ?>
+						<?php  if($item['status'] == 3) { ?><span class="label label-success" >待收货</span><?php  } ?>
+                        <?php  if($item['status'] == 4) { ?><span class="label label-success">已收货待评价</span><?php  } ?>
+                        <?php  if($item['status'] == 5) { ?><span class="label label-success" >已完成</span><?php  } ?>
 						<?php  if($item['status'] == -1) { ?><span class="label label-success">已关闭</span><?php  } ?>
 						<?php  if($item['status'] == -2) { ?><span class="label label-danger">退款中</span><?php  } ?>
 						<?php  if($item['status'] == -3) { ?><span class="label label-danger">换货中</span><?php  } ?>

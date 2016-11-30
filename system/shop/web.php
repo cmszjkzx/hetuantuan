@@ -58,6 +58,11 @@ class shopAddons  extends BjSystemModule {
  	public function do_specitem() {
 		$this->__web(__FUNCTION__);
  	}
+ 	//2016-11-29-yanru-begin
+    public function do_adv_bonus_selected() {
+        $this->__web(__FUNCTION__);
+    }
+    //end
   	public function setOrderCredit($openid,$id , $minus = true,$remark='') {
   	    $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id=:id",array(":id"=>$id));
   	 		
