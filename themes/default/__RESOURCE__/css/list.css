@@ -173,6 +173,7 @@ ul {
     padding: 0 1px 0 1px;
     /*margin-top: 10%;*/
     width: 100%;
+    height: inherit;
 }
 
 .os_box_list .txt {
