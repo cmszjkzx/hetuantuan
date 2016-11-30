@@ -6,6 +6,7 @@
     <meta http-equiv="cleartype" content="on">
     <title>我的优惠券</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
     <style>
         .content {
             width: 100%;
@@ -43,7 +44,7 @@
             z-index: 10;
         }
         .bjprcali {
-            margin: 0 20px 0 10px;
+            margin: 0 1.25rem 0 1.25rem;
             padding-left:0px;
         }
         ol, ul {
@@ -62,7 +63,6 @@
             background: #fff;
             border: 1px solid #e5e5e5;
             border-left: 0;
-            border-radius: 5px;
             margin-bottom: 10px;
             height: 92px;
             position: relative;
@@ -94,9 +94,6 @@
         }
         .bjprcali .bjprlpar .inner {
             padding: 10px;
-        }
-        .bjf14 {
-            font-size: 14px !important;
         }
         .bjprcali .bjprlpar .bjprcava {
             font-size: 35px;
@@ -149,6 +146,7 @@
     </style>
     <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
     <link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
+    <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
 </head>
 
 <body>
@@ -169,14 +167,21 @@
                 <img style="max-width: 100%;height: auto;width: auto\9;" src="__RESOURCE__/recouse/images/zwuyhq.png"/>
                 <!--@php  } @-->
                 <!--@php  foreach($bonuslist as $bonus) { @-->
-                <li class="bjprit coupon-style-0">
+                <li class="bjprit coupon-style-0" style="background-image:<!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @-->url('__RESOURCE__/images/ic_bonus_bg_unsable.png')<!--@php }else{ @--> url('__RESOURCE__/images/ic_bonus_bg_usable.png') <!--@php }@--> <!--@php }else{ @-->     url('__RESOURCE__/images/ic_bonus_bg_unsable.png')   <!--@php }@-->;background-repeat:no-repeat;background-size: cover;height: 6.35rem">
                     <a class="clearfix" href="#">
-                        <div class="bjprlpar" style="background: -webkit-gradient(linear, 0 0, 0 100%, from(<!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @--> #BABABA<!--@php }else{ @--> #fe324e <!--@php }@--> <!--@php }else{ @-->     #03FCB0   <!--@php }@-->  ), to(<!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @--> #8F908F<!--@php }else{ @--> #fe6264 <!--@php }@--> <!--@php }else{ @-->     #1DFDB9   <!--@php }@-->  ));
-  background: -moz-linear-gradient(top, <!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @--> #BABABA<!--@php }else{ @--> #fe324e <!--@php }@--> <!--@php }else{ @-->     #03FCB0   <!--@php }@-->  , <!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @--> #8F908F<!--@php }else{ @--> #fe6264 <!--@php }@--> <!--@php }else{ @-->     #1DFDB9   <!--@php }@-->  );">
+                        <p style="text-align: center;font-size: 0.45rem;color: white;height: 0.7rem"><!--@php echo date('Y-m-d', $bonus['use_end_date']); @--></p>
+                        <h4 class="bjprshna bjf14" style="text-align: center;font-size: 1rem;margin-top: 1rem"> <!--@php echo $bonus['type_name']; @--></h4>
+                        <h4 class="bjprshna bjf14" style="text-align: center;font-size: 1.4rem;position: absolute;bottom: 0.2rem;width: 100%;color: white"> <!--@php echo round($bonus['type_money']); @-->元</h4>
+                    </a>
+                </li>
+                <!--<li class="bjprit coupon-style-0">
+                    <a class="clearfix" href="#">
+                        <div class="bjprlpar" style="background: -webkit-gradient(linear, 0 0, 0 100%, from(&lt;!&ndash;@php if($bonus['isuse']==0){  @&ndash;&gt;  &lt;!&ndash;@php if($bonus['use_end_date']<=time()){  @&ndash;&gt; #BABABA&lt;!&ndash;@php }else{ @&ndash;&gt; #fe324e &lt;!&ndash;@php }@&ndash;&gt; &lt;!&ndash;@php }else{ @&ndash;&gt;     #03FCB0   &lt;!&ndash;@php }@&ndash;&gt;  ), to(&lt;!&ndash;@php if($bonus['isuse']==0){  @&ndash;&gt;  &lt;!&ndash;@php if($bonus['use_end_date']<=time()){  @&ndash;&gt; #8F908F&lt;!&ndash;@php }else{ @&ndash;&gt; #fe6264 &lt;!&ndash;@php }@&ndash;&gt; &lt;!&ndash;@php }else{ @&ndash;&gt;     #1DFDB9   &lt;!&ndash;@php }@&ndash;&gt;  ));
+  background: -moz-linear-gradient(top, &lt;!&ndash;@php if($bonus['isuse']==0){  @&ndash;&gt;  &lt;!&ndash;@php if($bonus['use_end_date']<=time()){  @&ndash;&gt; #BABABA&lt;!&ndash;@php }else{ @&ndash;&gt; #fe324e &lt;!&ndash;@php }@&ndash;&gt; &lt;!&ndash;@php }else{ @&ndash;&gt;     #03FCB0   &lt;!&ndash;@php }@&ndash;&gt;  , &lt;!&ndash;@php if($bonus['isuse']==0){  @&ndash;&gt;  &lt;!&ndash;@php if($bonus['use_end_date']<=time()){  @&ndash;&gt; #8F908F&lt;!&ndash;@php }else{ @&ndash;&gt; #fe6264 &lt;!&ndash;@php }@&ndash;&gt; &lt;!&ndash;@php }else{ @&ndash;&gt;     #1DFDB9   &lt;!&ndash;@php }@&ndash;&gt;  );">
                             <div class="inner">
-                                <h4 class="bjprshna bjf14"> <!--@php echo $bonus['type_name']; @--></h4>
+                                <h4 class="bjprshna bjf14"> &lt;!&ndash;@php echo $bonus['type_name']; @&ndash;&gt;</h4>
                                 <div class="bjprcava">
-                                    <span>￥</span><i><!--@php echo $bonus['type_money']; @--></i>
+                                    <span>￥</span><i>&lt;!&ndash;@php echo $bonus['type_money']; @&ndash;&gt;</i>
                                 </div>
                                 <div class="bjprcon bjf12">
                                 </div>
@@ -186,17 +191,17 @@
                             <div class="inner">
                                 <div>
                                     <p>使用期限</p>
-                                    <p><!--@php echo date('Y-m-d', $bonus['use_start_date']); @--></p>
-                                    <p><!--@php echo date('Y-m-d', $bonus['use_end_date']); @--></p>
+                                    <p>&lt;!&ndash;@php echo date('Y-m-d', $bonus['use_start_date']); @&ndash;&gt;</p>
+                                    <p>&lt;!&ndash;@php echo date('Y-m-d', $bonus['use_end_date']); @&ndash;&gt;</p>
                                 </div>
                                 <div class="bjprusst bjf16">
-                                    <!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @--> 已过期<!--@php }else{ @--> 未使用 <!--@php }@--> <!--@php }else{ @-->     已使用   <!--@php }@-->                             </div>
+                                    &lt;!&ndash;@php if($bonus['isuse']==0){  @&ndash;&gt;  &lt;!&ndash;@php if($bonus['use_end_date']<=time()){  @&ndash;&gt; 已过期&lt;!&ndash;@php }else{ @&ndash;&gt; 未使用 &lt;!&ndash;@php }@&ndash;&gt; &lt;!&ndash;@php }else{ @&ndash;&gt;     已使用   &lt;!&ndash;@php }@&ndash;&gt;                             </div>
                             </div>
                         </div>
                         <i class="expired-icon"></i>
                         <i class="left-dot-line"></i>
                     </a>
-                </li>
+                </li>-->
                 <!--@php  } @-->
             </ul>
         </div>
