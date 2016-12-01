@@ -97,23 +97,24 @@
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder" style="background-color: #EFEFEF">
 	<!--<div class="myoder-hd">-->
-	<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;if ($starttime < $limittime){@-->
+	<!--@php if($item['status'] == 0){$starttime = time()-$item['createtime'];$limittime = 30*60;@-->
 	<div class="weui-cells weui-cells_form" style="text-align: center">
 		<div class="weui-cell">
+			<!--@php if ($starttime < $limittime){@-->
 			<span>
 				您未付款，订单将于
-				<strong id="RemainM"></strong>
+				<span id="RemainM"></span>
 				分
-				<strong id="RemainS"></strong>
+				<span id="RemainS"></span>
 				秒后自动关闭
 			</span>
 			<!--@php }else { @-->
 			<span>
 				您的订单已超时请重新下单
 			</span>
+			<!--@php } @-->
 		</div>
 	</div>
-		<!--@php } @-->
 	<!--@php } else if($item['status'] == 1){@-->
 	<div class="weui-cells weui-cells_form" style="text-align: center">
 		<div class="weui-cell">
