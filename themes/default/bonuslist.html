@@ -163,8 +163,12 @@
         <!-- 无优惠券情况下展示 -->
         <div class="bjprclbx">
             <ul class="bjprcali">
-			 <!--@php  if(count($bonuslist)<=0) { @-->	  
-                <img style="max-width: 100%;height: auto;width: auto;" src="__RESOURCE__/recouse/images/zwuyhq.png"/>
+			 <!--@php  if(count($bonuslist)<=0) { @-->
+                <div class="myoder" style='text-align:center;color:#aaa;padding:30px;margin: 0 -1rem'>
+                    <img src="__RESOURCE__/images/pic_o1_01.png" style="width: 9rem"/><br/><br/>
+                    <span class="avatar-notice">主人，您还没有优惠券T.T</span>
+                    <a  href="<!--@php  echo mobile_url('getbonus', array('id' => 7))@-->" class="btntoshop" style="color: white">跑步去领优惠券</a>
+                </div>
                 <!--@php  } @-->
                 <!--@php  foreach($bonuslist as $bonus) { @-->
                 <li class="bjprit coupon-style-0" style="background-image:<!--@php if($bonus['isuse']==0){  @-->  <!--@php if($bonus['use_end_date']<=time()){  @-->url('__RESOURCE__/images/ic_bonus_bg_unsable.png')<!--@php }else{ @--> url('__RESOURCE__/images/ic_bonus_bg_usable.png') <!--@php }@--> <!--@php }else{ @-->     url('__RESOURCE__/images/ic_bonus_bg_unsable.png')   <!--@php }@-->;background-repeat:no-repeat;background-size: cover;height: 6.35rem">
