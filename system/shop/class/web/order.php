@@ -91,6 +91,25 @@ if ($operation == 'display')
         require_once 'report.php';
         exit;
     }
+    //2016-12-2-yanru-begin-expressorder
+    if (!empty($_GP['getexcel']))
+    {
+        if (!empty($_FILES['expressorder']['tmp_name'])) {
+            $upload = express_order_upload($_FILES['expressorder']);
+            if (is_error($upload)) {
+                message($upload['message'], '', 'error');
+            }
+            $data['expressorder'] = $upload['path'];
+        }
+        $order_list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE status = 2 ORDER BY  createtime DESC ");
+        foreach ( $order_list as $id => $item)
+        {
+            $order_list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
+        }
+        require_once 'readexcle.php';
+        exit;
+    }
+    //end
     $payments = mysqld_selectall("SELECT * FROM " . table('payment') . " WHERE enabled = 1");
     $hasaddon11=false;
     $addon11=mysqld_select("SELECT * FROM " . table('modules') . " WHERE name = 'addon11' limit 1");

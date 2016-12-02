@@ -1644,6 +1644,53 @@ function video_upload($file, $type = 'video') {
 }
 //end
 
+//2016-12-2-yanru-begin
+function express_order_upload($file, $type = 'file') {
+    if(empty($file))
+    {
+        return error(-1, '没有上传内容');
+    }
+    //$limit=5000;压缩后tmp图片大小设置
+    $limit=128;//相当于10M/128M
+    $extention = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $extention = strtolower($extention);
+    if(empty($type)||$type=='file')
+    {
+        $extentions=array('xls', 'xlsx');
+    }
+    if($type=='music')
+    {
+        $extentions=array('mp3','mp4');
+    }
+    if($type=='other')
+    {
+        $extentions=array('gif', 'jpg', 'jpeg', 'png','mp3','mp4','ogv', 'webm', 'doc');
+    }
+    if(!in_array(strtolower($extention), $extentions))
+    {
+        return error(-1, '不允许上传此类文件');
+    }
+    if($limit * 1024 * 1024 < filesize($file['tmp_name']))
+    {
+        return error(-1, "上传的文件超过大小限制，请上传小于 ".$limit."M 的文件");
+    }
+    $result = array();
+    $path = '/attachment/';
+    $result['path'] = "{$extention}/" . date('Y/m/');
+    mkdirs(WEB_ROOT . $path . $result['path']);
+    do {
+        $filename = random(15) . ".{$extention}";
+    } while(is_file(SYSTEM_WEBROOT . $path . $filename));
+    $result['path'] .= $filename;
+    $filename = WEB_ROOT . $path . $result['path'];
+    if(!file_move($file['tmp_name'], $filename))
+    {
+        return error(-1, '保存上传文件失败');
+    }
+    $result['success'] = true;
+    return $result;
+}
+//end
 
 function http_get($url) {
 	$ch = curl_init();
