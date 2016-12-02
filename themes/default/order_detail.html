@@ -7,11 +7,15 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
-	<script type="text/javascript" src="__RESOURCE__/script/jquery-1.7.2.min.js"></script>
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/script/common.js"></script>
-	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/bootstrap.css">
-	<script type="text/javascript" src="__RESOURCE__/script/bootstrap.js"></script>
-	<script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
 	<link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
 	<link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
 	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
@@ -474,6 +478,25 @@
 	</div>
 </div>
 
+<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">我要评价</a>
+
+<div class="modal fade bs-evaluate-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm" style="margin: 5rem 2rem">
+		<div class="modal-content">
+			<div class="modal-header" style="border: none;padding: 0.75rem 0.925rem 0 0.925rem">
+				<span id="myModalLabel" class="font-28">
+					我要说:
+				</span>
+			</div>
+			<div class="modal-body" style="padding: 0 0.75rem">
+				<textarea type="text" name="fname" style="background-color: #f6f6f6;border: none;border-radius: 0.5rem;height: 6.75rem;padding: 5px 10px;resize: none;width: 100%"></textarea>
+			</div>
+			<div class="modal-footer" style="text-align: center;border: none;padding: 0.375rem">
+				<button class="btn btn-primary font-28" data-dismiss="modal" aria-hidden="true" style="line-height: 2.15rem;width: 5rem;padding: 0;background-color: #FFAE01;border: none">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!--@php  include page('footer');@-->
 <script>
