@@ -291,9 +291,9 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
 $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 {$paymentconfig} order by `order` desc");
    
 if (checksubmit('submit')) {
-    if($direct)
-//    if($direct&&!empty($item['isverify']))
-    {
+//    if($direct)
+////    if($direct&&!empty($item['isverify']))
+//    {
         if (empty($_GP['verify_address_name'])) {
             message('请填写联系人！');
         }
@@ -302,13 +302,13 @@ if (checksubmit('submit')) {
         }
         $address['realname']=$_GP['verify_address_name'];
         $address['mobile']=$_GP['verify_address_tell'];
-    }else
-    {
-        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
-        if (empty($address)) {
-            message('抱歉，请您填写收货地址！');
-        }
-    }
+//    }else
+//    {
+//        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
+//        if (empty($address)) {
+//            message('抱歉，请您填写收货地址！');
+//        }
+//    }
     /*2016-11-14-yanru
     *if (empty($_GP['dispatch'])) {
         message('请选择配送方式！');
