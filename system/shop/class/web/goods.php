@@ -154,6 +154,9 @@ if ($operation == 'post') {
         if (empty($_GP['goodsname'])) {
             message('请输入商品名称！');
         }
+        if (empty($_GP['goodsband'])) {
+            message('请输入商品品牌！');
+        }
         if (empty($_GP['pcate'])) {
             message('请选择商品分类！');
         }
@@ -176,6 +179,7 @@ if ($operation == 'post') {
             'status' => intval($_GP['status']),
             'displayorder' => intval($_GP['displayorder']),
             'title' => $_GP['goodsname'],
+            'band' => $_GP['goodsband'],
             'description' => $_GP['description'],
             'content' => htmlspecialchars_decode($_GP['content']),
             'express' => $_GP['express'],

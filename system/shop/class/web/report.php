@@ -93,7 +93,7 @@ if($report=='orderreport')
 //                ->setCellValue('O'.$i, $itemgoods['total'])
 //                ->setCellValue('P'.$i,$itemgoods['goodstotal']);
                 ->setCellValue('A'.$i, $item['ordersn'])
-                ->setCellValue('B'.$i, '')
+                ->setCellValue('B'.$i, $itemgoods['band'])
                 ->setCellValue('C'.$i, $itemgoods['title'])
                 ->setCellValue('D'.$i, $itemgoods['optionname'])
                 ->setCellValue('E'.$i, $itemgoods['total'])

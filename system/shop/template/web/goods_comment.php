@@ -23,7 +23,7 @@
 											      	<td style="text-align:center;"><?php  echo empty($item['realname'])?$item['mobile']:$item['realname'];?></td>
 										                 	<td style="text-align:center;"><?php  echo $item['ordersn'];?></td>
 											      	   	<td style="text-align:center;"><?php  echo $item['title'].(empty($item['optionname'])?'':'['.$item['optionname'].']'); ?></td>
-												<td style="text-align:center;"><?php  echo empty($item['rate'])?'差评':($item['rate']==2?'好评':'中评');?></td>
+												<td style="text-align:center;"><?php  echo empty($item['rate'])?'差评':($item['rate']==2?'好评':($item['rate']==-1?'无等级':'中评'));?></td>
                                         	<td style="text-align:center;"><?php  echo $item['comment'];?></td>
 										<td style="text-align:center;">
 						<a  class="btn btn-xs btn-info" href="<?php  echo web_url('goods_comment', array('id' => $item['id'], 'op' => 'delete'))?>" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-edit"></i>&nbsp;删&nbsp;除&nbsp;</a></a>

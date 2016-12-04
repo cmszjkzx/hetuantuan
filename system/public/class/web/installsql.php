@@ -669,6 +669,10 @@ CREATE TABLE `hetuantuan_shop_goods` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否上架，0为否，1为是',
   `displayorder` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '商品名称',
+-- ----------------------------
+-- 2016-12-4-yanru
+   `band` varchar(100) NOT NULL DEFAULT '' COMMENT '商品品牌',
+-- ----------------------------
   `thumb` varchar(255) DEFAULT '' COMMENT '商品主图',
   `description` varchar(1000) NOT NULL DEFAULT '' COMMENT '商品分享描述',
   `content` text NOT NULL COMMENT '商品详细描述',
@@ -717,6 +721,10 @@ CREATE TABLE `hetuantuan_shop_goods_comment` (
   `orderid` int(10) DEFAULT NULL,
   `ordersn` varchar(20) DEFAULT NULL,
   `openid` varchar(50) DEFAULT NULL,
+-- ----------------------------
+-- 2016-12-4-yanru
+  `weixin_openid` varchar(50) DEFAULT NULL,
+-- ----------------------------
   `comment` text,
   `rate` int(1) DEFAULT '0' COMMENT '0差评 1中评 2好评',
   `goodsid` int(10) DEFAULT NULL,
@@ -815,6 +823,10 @@ DROP TABLE IF EXISTS `hetuantuan_shop_order`;
 CREATE TABLE `hetuantuan_shop_order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `openid` varchar(50) NOT NULL,
+-- ----------------------------
+-- 2016-12-4-yanru
+  `weixin_openid` varchar(50) NOT NULL,
+-- ----------------------------
   `ordersn` varchar(20) NOT NULL,
   `credit` int(10) NOT NULL DEFAULT '0',
   `price` decimal(10,2) NOT NULL DEFAULT '0.00',
@@ -825,9 +837,9 @@ CREATE TABLE `hetuantuan_shop_order` (
   `paytypename` varchar(50) NOT NULL DEFAULT '微信支付',
   `transid` varchar(50) NOT NULL DEFAULT '0' COMMENT '外部单号(微支付单号等)',
   `remark` varchar(1000) NOT NULL DEFAULT '',
-  `expresscom` varchar(30) NOT NULL,
-  `expresssn` varchar(50) NOT NULL,
-  `express` varchar(30) NOT NULL,
+  `expresscom` varchar(255) NOT NULL,
+  `expresssn` varchar(255) NOT NULL,
+  `express` varchar(255) NOT NULL,
   `addressid` int(10) unsigned NOT NULL,
   `goodsprice` decimal(10,2) DEFAULT '0.00',
   `dispatchprice` decimal(10,2) DEFAULT '0.00',

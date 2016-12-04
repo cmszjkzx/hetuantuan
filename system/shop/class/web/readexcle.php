@@ -41,25 +41,69 @@ $sheet = $PHPExcel->getSheet(0);//读取第一个工作表
 $allRow = $sheet->getHighestRow();//取得总行数
 $allColum = $sheet->getHighestColumn();//取得总列数
 $allColum = PHPExcel_Cell::columnIndexFromString($allColum);//字母列转换为数字列 如:AA变为27
+
+//读取常用的物流公司表，用于订单物流跟踪------
+$express_file_path = WEB_ROOT."/express/wuliu.xlsx";
+if(!file_exists($express_file_path)){
+    message('请准备常用物流公司文件!');
+}
+$express_extension = strtolower(pathinfo($express_file_path, PATHINFO_EXTENSION));
+if ($express_extension =='xlsx') {
+    $express_reader = new PHPExcel_Reader_Excel2007();
+    $express_PHPExcel = $express_reader ->load($express_file_path);
+} else if ($express_extension =='xls') {
+    $express_reader = new PHPExcel_Reader_Excel5();
+    $express_PHPExcel = $express_reader ->load($express_file_path);
+} else if ($express_extension=='csv') {
+    $express_reader = new PHPExcel_Reader_CSV();
+    //默认输入字符集
+    $express_reader->setInputEncoding('UTF-8');
+    //默认的分隔符
+    $express_reader->setDelimiter(',');
+    //载入文件
+    $express_PHPExcel = $express_reader->load($express_file_path);
+}
+$express_sheet = $express_PHPExcel->getSheet(0);//读取第一个工作表
+$express_allRow = $express_sheet->getHighestRow();//取得总行数
+$express_allColum = $express_sheet->getHighestColumn();//取得总列数
+$express_allColum = PHPExcel_Cell::columnIndexFromString($express_allColum);//字母列转换为数字列 如:AA变为27
+//------
+
+
 /* 循环读取每个单元格的数据 */
 for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
     $order_id = $sheet->getCellByColumnAndRow(0, $row)->getValue();
-    foreach ($order_list as $order){
-        $order_express_name = "";
-        $order_express_id = "";
-        if($order_id == $order['ordersn']){
+    for($i = 0; $i < count($order_list); $i++){
+        if($order_id == $order_list[$i]['ordersn']){
+            $order_express_name = "";
+            $order_express_id = "";
             $title = $sheet->getCellByColumnAndRow(2, $row)->getValue();
             $option_name = $sheet->getCellByColumnAndRow(3, $row)->getValue();
             $express_name = $sheet->getCellByColumnAndRow(11, $row)->getValue();
             $express_id = $sheet->getCellByColumnAndRow(12, $row)->getValue();
-            foreach ($order['ordergoods'] as $goods){
-                if(0 == strcmp($title, $goods['title']) && 0 == strcmp($option_name, $goods['optionname'])){
-                    $order['expresscom'] = $order['expresscom']."_".$express_name;
-                    $order['expresssn'] = $order['expresssn']."_".$express_id;
+            $express;
+            for($express_row = 1; $express_row <= $express_allRow; $express_row++){
+                $express_string = $express_sheet->getCellByColumnAndRow(1, $express_row)->getValue();
+                if(stristr($express_string, $express_name)){
+                    $express = $express_sheet->getCellByColumnAndRow(0, $express_row)->getValue();
+                    break;
                 }
             }
+            for($j = 0; $j < count($order_list[$i]['ordergoods']); $j++){
+                if(0 == strcmp($title, $order_list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $order_list[$i]['ordergoods'][$j]['optionname'])){
+                    $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express_name.";";
+                    $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express_id.";";
+                    $order_list[$i]['express'] = $order_list[$i]['express'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express.";";
+                }
+            }
+            $order_update = array(
+                "status" => 3,
+                "expresscom" => $order_list[$i]['expresscom'],
+                "expresssn" => $order_list[$i]['expresssn'],
+                "express" => $order_list[$i]['express']
+            );
+            mysqld_update("shop_order", $order_update, array("id" => $order_list[$i]['id']));
         }
     }
 }
-$count = 0;
-exit;
+message("导入成功，已更新订单!",create_url('site',array('name' => 'shop','do' => 'order')),"success");

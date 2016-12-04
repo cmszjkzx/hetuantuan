@@ -15,6 +15,12 @@
 			<input type="text" name="goodsname" id="goodsname" maxlength="100" class="span7"  value="<?php  echo $item['title'];?>" />
 		</div>
 	</div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-left" > 商品品牌：</label>
+        <div class="col-sm-9">
+            <input type="text" name="goodsband" id="goodsband" maxlength="100" class="span7"  value="<?php  echo $item['band'];?>" />
+        </div>
+    </div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label no-padding-left" > 货号：</label>
 		<div class="col-sm-9">
