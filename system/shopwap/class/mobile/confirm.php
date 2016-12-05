@@ -605,26 +605,30 @@ if(is_login_account())
             }
         }
     }
-//2016-11-28-yanru-begin
-    //先排序
-//    foreach ($bonus_list as $key=>$value){
-//        $mim_price[$key] = $value['min_goods_amount'];
-//    }
-    //array_multisort($mim_price,SORT_NUMERIC,SORT_DESC,$id,SORT_STRING,SORT_ASC,$bonus_list);
 
+    //2016-11-28-yanru-begin先排序
+    foreach ($bonus_list as $bonus){
+        $mim_price[] = $bonus['min_goods_amount'];
+    }
+    array_multisort($mim_price,$bonus_list);
+
+    $bonus_length = count($bonus_list);
     for($i=0; $i<count($bonus_list); $i++){
         if($i!=count($bonus_list)-1){
             if($bonus_list[$i]['min_goods_amount'] <= $totalprice  && $bonus_list[$i+1]['min_goods_amount'] > $totalprice){
                 $temp_bonus = $bonus_list[$i];
-                unset($bonus_list[$i]);
-                array_unshift($bonus_list, $temp_bonus);
+                for($j=$i; $j>0; $j--){
+                    $bonus_list[$j] = $bonus_list[$j-1];
+                }
+                $bonus_list[0] = $temp_bonus;
                 break;
             }
-        }else{
+        }else if($bonus_list[$i]['min_goods_amount'] <= $totalprice){
             $temp_bonus = $bonus_list[$i];
-            array_unshift($bonus_list, $temp_bonus);
-            unset($bonus_list[$i]);
-            break;
+            for($j=$i; $j>0; $j--){
+                $bonus_list[$j] = $bonus_list[$j-1];
+            }
+            $bonus_list[0] = $temp_bonus;
         }
     }
     //end
