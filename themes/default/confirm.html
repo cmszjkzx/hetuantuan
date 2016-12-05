@@ -405,10 +405,8 @@
         location.href = '<!--@php  echo mobile_url('address', array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'
     }
     function check(){
-        debugger;
         var value = $("#dLabel-name").attr('value');
         $("#bonus-input").val(value);
-        alert($("#bonus-input").val());
         if($("#address-area").css('display') == 'none'){
             alert("请添加收货地址!");
             return false;
