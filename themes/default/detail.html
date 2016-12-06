@@ -117,13 +117,15 @@
                    <p class="goodprice text-ellipsis font-30 color-3c" style="width: 7rem;margin: 0">
                        <!--@php  echo $goods['title'];@-->
                    </p>
-                   <p class="goodprice" style="margin: 0">
+                   <p class="goodprice" style="margin: 0" id="marketprice1">
                        ￥<!--@php  echo $marketprice;@-->
                    </p>
                </div>
             </div>
             <div class="media-right">
-                <button style="padding-top: 35px;padding-right: 10px;line-height: 30px" type="button" class="close" data-dismiss="modal"><img src="__RESOURCE__/images/ic_close_down.png" style="height: 1rem;width: 1rem"></button>
+                <button style="padding-top: 35px;padding-right: 10px;line-height: 30px" type="button" class="close" data-dismiss="modal">
+                    <img src="__RESOURCE__/images/ic_close_down.png" style="height: 1rem;width: 1rem" onclick="closecart()">
+                </button>
             </div>
         </div>
 
@@ -171,6 +173,7 @@
                         <!--@php  if($stock!=-1) { @-->
                         库存:<span id="goodstotail"><!--@php  echo $stock;@--></span>
                         <!--@php  }else{ @-->库存:0<!--@php  } @-->件
+                        <input type="hidden" id="optiontotal" name="optiontotal" value=""/>
                     </p>
 
                     <div class="goods_number clearfix">
@@ -181,7 +184,7 @@
 						    <span class="input-group-btn">
 						        <button type="button" value="-" class="btn btn-default ic-minus" onClick="chgNum(-1);"></button>
 						    </span>
-						    <input type="text" class="form-control ic-input" id="total" name="number" value="1" style="height:inherit;text-align: center"/>
+						    <input type="text" class="form-control ic-input" id="total" name="number" value="0" style="height:inherit;text-align: center"/>
 						     <span class="input-group-btn">
 						        <button type="button" value="+" class="btn btn-default ic-plus" onClick="chgNum(1);"></button>
 						    </span>
@@ -250,6 +253,7 @@
         <!--@php  } @-->
         var total = $("#total").val();
         location.href = '<!--@php  echo mobile_url('confirm',array('id'=>$goods['id']),true);@-->'+"&optionid=" + $("#optionid").val() + "&total=" + total;
+        $("#total").val(0);
     }
 
     //添加到购物车
@@ -290,24 +294,78 @@
                 $('#globalId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
                 $('#carId').css({'width':'22px', 'height':'16px', 'line-height':'16px'}).html(s.total).animate({'width':'15px', 'height':'16px', 'line-height':'20px'}, 'slow');
 
-                //2016-11-25-yanru-begin
-                <!--@php  if(is_array($specs)) { foreach($specs as $spec) { if(is_array($spec['items'])) { foreach($spec['items'] as $o) { @-->
-                //var specid = $(".option,.optionimg").attr("specid");
-                //var oid = $(".option,.optionimg").attr("oid");
-                var specid = <!--@php  echo $spec['id'] @-->;
-                var oid = <!--@php  echo $spec['id'] @-->;
-                $(".optionid_" + specid).val(oid);
-                $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
-                <!--@php } } }} @-->
-                //end
+                var select_option = new Array();
+                $("input[name^='optionid']").each(
+                    function(){
+                        select_option.push($(this).val())
+                    });
+                var select_option_class = new Array();
+                $("input[name^='optionid']").each(
+                    function(){
+                        select_option_class.push($(this).attr('class'))
+                    });
+                var select_sepecid = new Array();
+                $("span[class$='current']").each(
+                    function(){
+                        select_sepecid.push($(this).attr('specid'))
+                    });
+                var select_number = select_sepecid.length;
+                for (var i=0; i<select_number; i++){
+                    var specid = select_sepecid[i];
+                    var oid = select_option[i];
+                    $(".optionid_" + specid).val(oid);
+                    $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
+                }
                 $('#xzmodal').modal('hide');
                 $(".optionid").val("");
+                $("#total").val(0);
                 ret.no = $(".optionid").attr("title");
             };
         });
     }
 
-
+    function closecart(){
+        //debugger;
+        var ret = option_selected();
+        var val = $("#xzmodal").attr("class");
+        var array = val.split(" ");
+        if(ret.no!=''){
+            if(array[1] == "in"){
+                tip("请选择" + ret.no + "!",true);
+            }else{
+                $('#xzmodal').modal('show');
+            }
+            return;
+        };
+        var select_option = new Array();
+        $("input[name^='optionid']").each(
+            function(){
+            select_option.push($(this).val())
+            });
+        var select_option_class = new Array();
+        $("input[name^='optionid']").each(
+            function(){
+                select_option_class.push($(this).attr('class'))
+            });
+        var select_sepecid = new Array();
+        $("span[class$='current']").each(
+            function(){
+                select_sepecid.push($(this).attr('specid'))
+            });
+        var select_number = select_sepecid.length;
+        for (var i=0; i<select_number; i++){
+            var specid = select_sepecid[i];
+            var oid = select_option[i];
+            $(".optionid_" + specid).val(oid);
+            $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
+        }
+        $('#xzmodal').modal('hide');
+        $(".optionid").val("");
+        $("#total").val(0);
+        var option_total = <!--@php  echo $stock@-->;
+        $("#goodstotail").html(option_total);
+        ret.no = $(".optionid").attr("title");
+    }
 
     function option_selected(){
         var ret= {
@@ -334,12 +392,10 @@
     var specs =<!--@php  echo json_encode($specs)@-->;
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
 
-
     $(".option,.optionimg").click(function () {
         var specid = $(this).attr("specid");
         var oid = $(this).attr("oid");
         $(".optionid_" + specid).val(oid);
-
         $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
         $(this).addClass("current").attr("sel", "true");
         var optionid = "";
@@ -352,9 +408,7 @@
             var len = options.length;
             for (var i = 0; i < len; i++) {
                 var o = options[i];
-
                 var ids = ret.all.join("_");
-
                 if (o.specs == ids) {
                     optionid = o.id;
                     stock = o.stock;
@@ -362,15 +416,15 @@
                     productprice = o.productprice;
                     break;
                 }
-
             }
             $("#optionid").val(optionid);
             <!--@php  if($stock!=-1) { @-->
-            $("#goodstotail").html(stock);
+            $("#goodstotail").html(stock-1);
+            $("#total").val(1);
+            $("#optiontotal").val(stock);
             <!--@php  } @-->
-            $("#marketprice").html(marketprice);
+            $("#marketprice1").html("￥"+marketprice);
             $("#marketprice2").html(marketprice);
-
             $("#productprice").html(productprice);
             if (productprice <= 0) {
                 $("#productpricecontainer").hide();
@@ -382,9 +436,6 @@
     });
 </script>
 <!--规格选择JS End-->
-
-
-
     <!--商品评价、详情、同类推荐JS Start-->
     <script type="text/javascript">
         TouchSlide({
@@ -533,13 +584,34 @@
         }
     }
     function chgNum(a) {
+        var ret = option_selected();
+        var val = $("#xzmodal").attr("class");
+        var array = val.split(" ");
+        if(ret.no!=''){
+            if(array[1] == "in"){
+                tip("请选择" + ret.no + "!",true);
+            }else{
+                $('#xzmodal').modal('show');
+            }
+            return;
+        };
+        var total = parseInt($("#goodstotail").text());
+        var option_total = $("#optiontotal").val();
         var number = $$("#total");
         var p = parseInt(number.value);
         if (a == 1) {
-            if (p < 1038) number.value = ++p;
+            if(total > 0){
+                if (p < 1038) number.value = ++p;
+                var temp_total = total-1;
+                $("#goodstotail").html(temp_total);
+            }
         }
         else {
-            if (p > 1) number.value = --p;
+            if(total < option_total-1){
+                if (p > 1) number.value = --p;
+                var temp_total = total+1;
+                $("#goodstotail").html(temp_total);
+            }
         }
     }
 </script>
