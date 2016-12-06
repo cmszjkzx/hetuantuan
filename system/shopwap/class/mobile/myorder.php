@@ -365,9 +365,10 @@ else
     $psize = 20;
 
     $status = intval($_GP['status']);
-    if(!empty($weixin_openid)){
-        $where = "weixin_openid = '".$weixin_openid."'";
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $where = "weixin_openid = '".$weixin_openid."'";
+//    }else
+    if(!empty($openid)){
         $where = "openid = '".$openid."'";
     }
     ;
