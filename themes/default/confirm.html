@@ -123,17 +123,17 @@
         <!--@php  //} } @-->
         <!--</ul>
     </div>-->
-        <div class="infobox">
+       <!-- <div class="infobox">
             <h2>支付方式</h2>
             <ul class="payStyle">
-                <!--@php  $ischecked=true;   if(is_array($payments)) { foreach($payments as $d) { @-->
-                <!--@php  if(empty($item['isverify'])||(!empty($item['isverify'])&&$d['online']==1)) { @-->
-                <li><label><input name='payment'  type="radio"  value="<!--@php echo $d['code']@-->" <!--@php echo $ischecked?'checked="checked"':'';$ischecked=false;  @--> /><img src="__RESOURCE__/recouse/images/icon-<!--@php echo $d['code']@-->.png"  /><!--@php echo $d['name']@--></label></li>
-                <!--@php  } @-->
-                <!--@php  } } @-->
+                &lt;!&ndash;@php  $ischecked=true;   if(is_array($payments)) { foreach($payments as $d) { @&ndash;&gt;
+                &lt;!&ndash;@php  if(empty($item['isverify'])||(!empty($item['isverify'])&&$d['online']==1)) { @&ndash;&gt;
+                <li><label><input name='payment'  type="radio"  value="&lt;!&ndash;@php echo $d['code']@&ndash;&gt;" &lt;!&ndash;@php echo $ischecked?'checked="checked"':'';$ischecked=false;  @&ndash;&gt; /><img src="__RESOURCE__/recouse/images/icon-&lt;!&ndash;@php echo $d['code']@&ndash;&gt;.png"  />&lt;!&ndash;@php echo $d['name']@&ndash;&gt;</label></li>
+                &lt;!&ndash;@php  } @&ndash;&gt;
+                &lt;!&ndash;@php  } } @&ndash;&gt;
 
             </ul>
-        </div>
+        </div>-->
 
         <div class="my-memvers">
             <div class="member-browse">
@@ -236,7 +236,7 @@
 
                     <div class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" style="width:10.7rem;font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 20px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;margin: -5px;">
-                            <span id="dLabel-name" value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->" attr-value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->">
+                            <span id="dLabel-name" value="<!--@php  if( $bonus_list[0]['canbeuse']==1) echo $bonus_list[0]['bonus_sn'] @-->" attr-value="<!--@php  echo $bonus_list[0]['bonus_sn'] @-->">
                                 <!--@php  if( $bonus_list[0]['canbeuse']==1) { @-->
                                 <!--@php  echo $bonus_list[0]['bonus_name'] @-->
                                 <!--@php  } else { @-->
@@ -330,8 +330,8 @@
             <span class="font-26" style="line-height: 2.5rem;float: right;margin-right: 0.5rem">总计：
                     <span class="color-FFAE01">
                         &yen;</span><span class="color-FFAE01" id="total-sum">
-                    <!--@php  if(is_array($bonus_list) && count($bonus_list) > 0 && $bonus_list[1]['canbeuse']==1) { @-->
-                    <!--@php  echo $totalprice + $dispatchprice - $bonus_list[1]['type_money'];@-->
+                    <!--@php  if(is_array($bonus_list) && count($bonus_list) > 0 && $bonus_list[0]['canbeuse']==1) { @-->
+                    <!--@php  echo $totalprice + $dispatchprice - $bonus_list[0]['type_money'];@-->
                     <!--@php  } else { @-->
                     <!--@php  echo $totalprice + $dispatchprice;@-->
                     <!--@php  }  @-->
