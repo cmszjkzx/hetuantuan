@@ -76,7 +76,7 @@
 							if($order['status']==0)
 							{
 								
-							mysqld_update('shop_order', array('status'=>1,'paytime'=>time()), array('id' =>  $order['id']));
+							mysqld_update('shop_order', array('status'=>2,'paytime'=>time()), array('id' =>  $order['id']));
 							updateOrderStock($order['id']);
 							
 									$paylog_weixin['presult']='success';
