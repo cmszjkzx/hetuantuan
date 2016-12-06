@@ -171,7 +171,7 @@ if ($operation == 'detail')
             updateOrderStock($orderid);
         }
         mysqld_update('shop_order', array(
-            'status' => 2,
+            'status' => 3,
             'express' => $express,
             'expresscom' => $_GP['expresscom'],
             'expresssn' => $_GP['expresssn'],
@@ -188,7 +188,7 @@ if ($operation == 'detail')
             updateOrderStock($orderid,false);
         }
         mysqld_update('shop_order',
-            array('status' => 1,
+            array('status' => 2,
                 'remark'=>$_GP['remark']),
             array('id' => $orderid));
         message('取消发货操作成功！', refresh(), 'success');
