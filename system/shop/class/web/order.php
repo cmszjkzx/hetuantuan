@@ -151,7 +151,7 @@ if ($operation == 'detail')
             
     if (checksubmit('confrimpay'))
     {
-        mysqld_update('shop_order', array('status' => 1,'remark'=>$_GP['remark']), array('id' => $orderid));
+        mysqld_update('shop_order', array('status' => 2,'remark'=>$_GP['remark']), array('id' => $orderid));
         require(WEB_ROOT.'/system/common/extends/class/shop/class/web/order_5.php');
         message('确认订单付款操作成功！', refresh(), 'success');
     }
