@@ -393,7 +393,7 @@
                 $('#address-realname').text(data.userName);
                 $('#address-mobile').text(data.telNumber);
                 $('#address-text').text(data.provinceName + data.cityName + data.detailInfo);
-                $('#verify_address_name').val(data.provinceName + data.cityName + data.detailInfo);
+                $('#verify_address_name').val(data.userName);
                 $('#verify_address_tell').val(data.telNumber);
             },
             cancel: function () {

@@ -73,8 +73,11 @@
 					{
 						if($order['status']==0)
 						{
-							
-						mysqld_update('shop_order', array('status'=>1,'paytime'=>time()), array('id' =>  $order['id']));
+							/*微信支付完成回调接口
+							  支付成功状态由1改为2
+							  20161206  by 杨东
+							*/
+						mysqld_update('shop_order', array('status'=>2,'paytime'=>time()), array('id' =>  $order['id']));
 	      		updateOrderStock($order['id']);
 	      		
 								$paylog_weixin['presult']='success';
