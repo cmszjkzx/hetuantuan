@@ -82,8 +82,8 @@
                                     <div class="img" style="flex: 1;width: inherit;height: 6.325rem;overflow: hidden">
                                         <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php echo $item['thumb']@-->" class="good-img" style="margin-top: -1.2rem"
                                         usesrc="1" alt="">
-                                        <!--@php if(($item['ishot'] == 1)||($item['isrecommand'] == 1)) {@-->
-                                        <img src="<!--@php echo '__RESOURCE__/images/la_dang_ji_re_mai.png'@-->" style="position: absolute;top: 0;left: 0;width: 12.5%"
+                                        <!--@php if(($item['ishot'] == 1)||($item['isjingping'] == 1)) {@-->
+                                        <img src="<!--@php if ($item['ishot'] == 1) echo '__RESOURCE__/images/la_dang_ji_re_mai.png'; else echo '__RESOURCE__/images/is_recomend.png'@-->" style="position: absolute;top: 0;left: 0;width: 12.5%"
                                              usesrc="1" alt="">
                                         <!--@php }@-->
                                     </div>
