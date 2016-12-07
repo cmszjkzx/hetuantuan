@@ -99,7 +99,7 @@ if (!empty($id))
 //                $totaltotal=$g['total'];
 //            }
     $totaltotal += $item['total'];
-            
+
     //========促销活动===============
     $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
 
@@ -128,7 +128,7 @@ if (!empty($id))
             }
         }
     }
-            
+
     $direct = true;
     $returnurl = mobile_url("confirm", array("id" => $id, "optionid" => $optionid, "total" => $total));
 }
@@ -137,8 +137,8 @@ if (!$direct) {
     $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE  session_id = '".$openid."'");
     if (!empty($list)) {
 
-         $totalprice=0;
-         $totaltotal=0;
+        $totalprice=0;
+        $totaltotal=0;
 
         foreach ($list as &$g) {
             $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $g['goodsid']));
@@ -177,7 +177,7 @@ if (!$direct) {
             $totaltotal += $item['total'];
             //end
         }
-                
+
         $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
 
         //2016-11-27-yanru-begin
@@ -226,10 +226,10 @@ foreach ($addressdispatchs as $addressdispatch) {
         if(!in_array ($d['express'],$dispatchcode))
         {
             $dispatch[$dispatchIndex]=$d;
-      	    $dispatchcode[$dispatchIndex]=$d['express'];
-      	    $dispatchIndex=$dispatchIndex+1;
-      	}
-    }	 	
+            $dispatchcode[$dispatchIndex]=$d['express'];
+            $dispatchIndex=$dispatchIndex+1;
+        }
+    }
 }
 
 foreach ($dispatch as &$d) {
@@ -279,19 +279,19 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
     }
 }
 $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 {$paymentconfig} order by `order` desc");
-   
+
 if (checksubmit('submit')) {
 //    if($direct)
 ////    if($direct&&!empty($item['isverify']))
 //    {
-        if (empty($_GP['verify_address_name'])) {
-            message('请填写联系人！');
-        }
-        if (empty($_GP['verify_address_tell'])) {
-            message('请填写联系电话！');
-        }
-        $address['realname']=$_GP['verify_address_name'];
-        $address['mobile']=$_GP['verify_address_tell'];
+    if (empty($_GP['verify_address_name'])) {
+        message('请填写联系人！');
+    }
+    if (empty($_GP['verify_address_tell'])) {
+        message('请填写联系电话！');
+    }
+    $address['realname']=$_GP['verify_address_name'];
+    $address['mobile']=$_GP['verify_address_tell'];
 //    }else
 //    {
 //        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
@@ -333,19 +333,19 @@ if (checksubmit('submit')) {
             if(!empty($use_bonus['bonus_id']))
             {
                 $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
-	           	if(!empty($bonus_type['type_id']))
-	           	{
+                if(!empty($bonus_type['type_id']))
+                {
                 }else
-	           	{
-	           	 	message("优惠券已过期，请选择'无'可继续购买操作。");
-	           	}
+                {
+                    message("优惠券已过期，请选择'无'可继续购买操作。");
+                }
             }else
             {
                 message("未找到相关优惠券");
             }
         }
     }
-        	
+
     $dispatchid = intval($_GP['dispatch']);
     $dispatchitem = mysqld_select("select sendtype,express from ".table('shop_dispatch')." where id=:id limit 1",array(":id"=>$dispatchid));
     $dispatchprice = 0;
@@ -373,7 +373,7 @@ if (checksubmit('submit')) {
     {
         message("没有获取到付款方式");
     }
-   			
+
     $paytype=$this->getPaytypebycode($payment['code']);
     $data = array(
         'openid' => $openid,
@@ -419,7 +419,7 @@ if (checksubmit('submit')) {
                 if(!empty($bonus_type['type_id']))
                 {
                     $hasbonus=1;
-		           	$bonusprice=$bonus_type['type_money'];
+                    $bonusprice=$bonus_type['type_money'];
                     mysqld_update('bonus_user',array('isuse'=>1,'order_id'=>$orderid,'used_time'=>time()),array('bonus_id'=>$use_bonus['bonus_id']));
                     mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice-$bonusprice,'hasbonus'=>$hasbonus,'bonusprice'=>$bonusprice),array('id'=>$orderid));
                 }else
@@ -430,7 +430,7 @@ if (checksubmit('submit')) {
             }
         }
     }
-            
+
     //插入订单商品
     foreach ($allgoods as $row) {
         if (empty($row)) {
@@ -452,7 +452,7 @@ if (checksubmit('submit')) {
         $ccate = $row['ccate'];
         mysqld_insert('shop_order_goods', $d);
         $ogid = mysqld_insertid();
-                   
+
         require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_1.php');
     }
     require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_2.php');
@@ -493,22 +493,22 @@ if(is_login_account())
 //                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
 //                    }
 //                }else {
-                    if(!empty($openid)){
-                        //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                        $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                        foreach ($bonus_users as $bonus_user) {
-                            if($bonus_type['min_goods_amount'] > $totalprice){
-                                $canbeuse = 0;
-                            }else{
-                                $canbeuse = 1;
-                            }
-                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
+                if(!empty($openid)){
+                    //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
+                    foreach ($bonus_users as $bonus_user) {
+                        if($bonus_type['min_goods_amount'] > $totalprice){
+                            $canbeuse = 0;
+                        }else{
+                            $canbeuse = 1;
+                        }
+                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
                         }
                     }
                 //}
                 //end
             }
-  			if($bonus_type['send_type']==1)
+            if($bonus_type['send_type']==1)
             {
 
                 foreach ($allgoods as $good) {
@@ -525,10 +525,10 @@ if(is_login_account())
                         }
                         //end
                         if(!empty($bonus_user['bonus_id']))
-  						{
+                        {
                             $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
-  						}else
-  						{
+                        }else
+                        {
                             $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
                             $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
                             while(!empty($bonus_user['bonus_id']))
@@ -537,14 +537,14 @@ if(is_login_account())
                                 $bonus_user = mysqld_select("SELECT * FROM " . table('bonus_user')."where bonus_sn='".$bonus_sn."'" );
                             }
                             $data=array('createtime'=>time(),
-  								'openid'=>$openid,
+                                'openid'=>$openid,
                                 //2016-11-24-yanru-begin
                                 'weixin_openid'=>$weixin_openid,
                                 //end
-  								'bonus_sn'=>$bonus_sn,
-			  					'deleted'=>0,
-			  					'isuse'=>0,
-  								'bonus_type_id'=>$bonus_type['type_id']);
+                                'bonus_sn'=>$bonus_sn,
+                                'deleted'=>0,
+                                'isuse'=>0,
+                                'bonus_type_id'=>$bonus_type['type_id']);
                             mysqld_insert('bonus_user',$data);
                             $bonus_list[]=array("bonus_sn"=>$bonus_sn,"bonus_name"=>$bonus_type['type_name']);
                         }
@@ -584,7 +584,7 @@ if(is_login_account())
                         'isuse'=>0,
                         'bonus_type_id'=>$bonus_type['type_id']);
                     mysqld_insert('bonus_user',$data);
-  								
+
                     $bonus_list[]=array("bonus_sn"=>$bonus_sn,"bonus_name"=>$bonus_type['type_name']);
                 }
             }
