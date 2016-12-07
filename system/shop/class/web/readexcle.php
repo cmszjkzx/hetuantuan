@@ -13,7 +13,8 @@ date_default_timezone_set('Asia/ShangHai');
 require_once WEB_ROOT.'/includes/lib/phpexcel/PHPExcel.php';
 require_once WEB_ROOT.'/includes/lib/phpexcel/PHPExcel/IOFactory.php';
 
-$file_path = WEB_ROOT.'/attachment/'.$data['expressorder'];
+//$file_path = WEB_ROOT.'/attachment/'.$data['expressorder'];
+$file_path = WEB_ROOT.'/attachment/'.$upload['path'];
 if(!file_exists($file_path)){
     message('没有找到上传文件！');
 }

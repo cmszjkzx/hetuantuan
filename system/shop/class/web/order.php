@@ -115,7 +115,6 @@ if ($operation == 'display')
             if (is_error($upload)) {
                 message($upload['message'], '', 'error');
             }
-            $data['expressorder'] = $upload['path'];
         }
         $order_list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE status = 2 ORDER BY  createtime DESC ");
         foreach ( $order_list as $id => $item)
