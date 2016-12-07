@@ -292,6 +292,10 @@ if (checksubmit('submit')) {
     }
     $address['realname']=$_GP['verify_address_name'];
     $address['mobile']=$_GP['verify_address_tell'];
+    $address['province']=$_GP['verify_address_province'];
+    $address['city']=$_GP['verify_address_city'];
+    $address['area']=$_GP['verify_address_country'];
+    $address['address']=$_GP['verify_address_detail'];
 //    }else
 //    {
 //        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
