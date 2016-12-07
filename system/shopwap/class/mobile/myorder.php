@@ -259,9 +259,6 @@ elseif ($op == 'confirm')
 else if ($op == 'detail')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-//    }else
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
     }
@@ -273,20 +270,7 @@ else if ($op == 'detail')
     {
         $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
     }
-//    if(!empty($weixin_openid)){
-//        if($item['paytype']!=$this->getPaytypebycode($item['paytypecode']))
-//        {
-//            mysqld_update('shop_order', array('paytype' => $this->getPaytypebycode($item['paytypecode'])), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-//        }
-//        //2016-11-17-yanru-begin-change status 0 to 1 begin
-//        if(0==$item['status'] && ($today - 30*60 > $item['createtime']))
-//        {
-//            mysqld_update('shop_order', array('status' => 1), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-//        }
-//        //end
-//    }else
+
     if(!empty($openid)){
         if($item['paytype']!=$this->getPaytypebycode($item['paytypecode']))
         {
@@ -377,9 +361,7 @@ else
     $psize = 20;
 
     $status = intval($_GP['status']);
-//    if(!empty($weixin_openid)){
-//        $where = "weixin_openid = '".$weixin_openid."'";
-//    }else
+
     if(!empty($openid)){
         $where = "openid = '".$openid."'";
     }
@@ -412,11 +394,16 @@ else
         foreach ($list as &$row)
         {
             //2016-12-4-yanru-begin
-//            $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
-//                . " WHERE o.orderid='{$row['id']}'");
             $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
                 . " WHERE o.orderid='{$row['id']}'");
             $order_iscomment = 1;
+            //2016-12-7-yanru-begin-可能会存在BUG，但是暂时没有出现
+            if($row['status'] == 0){
+                if (30*60 < time()-$row['createtime']){
+                    $row['status'] = 1;
+                    mysqld_update("shop_order", array("status" => 1), array("id" => $row['id']));
+                }
+            }
             //end
             foreach ($goods as &$item)
             {

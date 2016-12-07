@@ -293,7 +293,17 @@
 	<div class="myoder-express">
 		<div class="pull-right" style="margin-right: 0.5rem">
 			<div class="price">
-				<span class="font-22 color-7f">(含物流)</span><span class="font-26 color-3c">合计:</span><span class="font-26 color-FFAE01">￥
+
+				<!--@php  if($item['issendfree'] == 0){@-->
+				<!--@php  if(is_array($usable_promotion)) { foreach($usable_promotion as $pro) { @-->
+				<!--@php  echo "( ".$pro['pname']." )";@-->
+				<!--@php  }  } @-->
+				<!--@php  echo "￥".$dispatchprice;}else {@-->
+				<!--@php  echo "免运费";}@-->
+
+				<span class="font-22 color-7f">(含物流)</span>
+				<span class="font-26 color-3c">合计:</span>
+				<span class="font-26 color-FFAE01">￥
 				<!--@php  if($item['dispatchprice']<=0) { @-->
 				<!--@php  echo $item['price'];@-->
 				<!--@php  } else { @-->

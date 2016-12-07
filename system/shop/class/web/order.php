@@ -75,6 +75,16 @@ if ($operation == 'display')
     }
 					
     $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
+
+    if(!empty($list)){
+        foreach ($list as &$temp){
+            if($temp['status'] == 0 && 30*60 < (time()-$temp['createtime'])){
+                $temp['status'] = 1;
+                mysqld_update("shop_order", array("status" => 1), array("id" => $temp['id']));
+            }
+        }
+    }
+
     $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('shop_order') . " WHERE 1=1  $condition");
     $pager = pagination($total, $pindex, $psize);
     foreach ( $list as $id => $item)
@@ -83,9 +93,10 @@ if ($operation == 'display')
 //            $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  weixin_openid=:weixin_openid ",array(':weixin_openid' => $item['weixin_openid']));;
 //        }else
         if(!empty($item['openid'])){
-            $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  openid=:openid ",array(':openid' => $item['openid']));;
+            $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  openid=:openid ",array(':openid' => $item['openid']));
         }
     }
+
     if (!empty($_GP['report']))
     {
         foreach ( $list as $id => $item)
