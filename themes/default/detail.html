@@ -329,13 +329,34 @@
     }
 
     function closecart(){
-        //debugger;
+        debugger;
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");
         if(ret.no!=''){
             if(array[1] == "in"){
-                tip("请选择" + ret.no + "!",true);
+                var select_option = new Array();
+                $("input[name^='optionid']").each(
+                    function(){
+                        select_option.push($(this).val())
+                    });
+                var select_option_class = new Array();
+                $("input[name^='optionid']").each(
+                    function(){
+                        select_option_class.push($(this).attr('class'))
+                    });
+                var select_sepecid = new Array();
+                $("span[class$='current']").each(
+                    function(){
+                        select_sepecid.push($(this).attr('specid'))
+                    });
+                var select_number = select_sepecid.length;
+                for (var i=0; i<select_number; i++){
+                    var specid = select_sepecid[i];
+                    var oid = select_option[i];
+                    $(".optionid_" + specid).val(oid);
+                    $(".options_" + specid + "  span").removeClass("current").attr("sel", "false");
+                }
             }else{
                 $('#xzmodal').modal('show');
             }
