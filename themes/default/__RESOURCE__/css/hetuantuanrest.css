@@ -88,7 +88,8 @@ body {
     width: 12.5rem;
     border-radius: 0.525rem;
     background-color: #FFAE01;
-    color: white
+    color: white;
+    border: none;
 }
 
 .font-30 {
