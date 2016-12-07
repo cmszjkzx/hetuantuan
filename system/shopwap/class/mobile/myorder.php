@@ -365,6 +365,9 @@ else
     $psize = 20;
 
     $status = intval($_GP['status']);
+    /*  by 杨东
+        不以$weixin_openid为唯一标识，以 $openid为唯一标识
+     */
 //    if(!empty($weixin_openid)){
 //        $where = "weixin_openid = '".$weixin_openid."'";
 //    }else
