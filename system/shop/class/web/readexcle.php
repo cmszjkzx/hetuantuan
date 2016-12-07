@@ -82,28 +82,30 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
             $option_name = $sheet->getCellByColumnAndRow(3, $row)->getValue();
             $express_name = $sheet->getCellByColumnAndRow(11, $row)->getValue();
             $express_id = $sheet->getCellByColumnAndRow(12, $row)->getValue();
-            $express;
-            for($express_row = 1; $express_row <= $express_allRow; $express_row++){
-                $express_string = $express_sheet->getCellByColumnAndRow(1, $express_row)->getValue();
-                if(stristr($express_string, $express_name)){
-                    $express = $express_sheet->getCellByColumnAndRow(0, $express_row)->getValue();
-                    break;
+            if(!empty($express_name) && !empty($express_id)){
+                $express;
+                for($express_row = 1; $express_row <= $express_allRow; $express_row++){
+                    $express_string = $express_sheet->getCellByColumnAndRow(1, $express_row)->getValue();
+                    if(stristr($express_string, $express_name)){
+                        $express = $express_sheet->getCellByColumnAndRow(0, $express_row)->getValue();
+                        break;
+                    }
                 }
-            }
-            for($j = 0; $j < count($order_list[$i]['ordergoods']); $j++){
-                if(0 == strcmp($title, $order_list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $order_list[$i]['ordergoods'][$j]['optionname'])){
-                    $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express_name.";";
-                    $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express_id.";";
-                    $order_list[$i]['express'] = $order_list[$i]['express'].$order_list[$i]['ordergoods'][$j]['goodssn']."_".$express.";";
+                for($j = 0; $j < count($order_list[$i]['ordergoods']); $j++){
+                    if(0 == strcmp($title, $order_list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $order_list[$i]['ordergoods'][$j]['optionname'])){
+                        $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$order_list[$i]['ordergoods'][$j]['title']."_".$express_name.";";
+                        $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$order_list[$i]['ordergoods'][$j]['title']."_".$express_id.";";
+                        $order_list[$i]['express'] = $order_list[$i]['express'].$order_list[$i]['ordergoods'][$j]['title']."_".$express.";";
+                    }
                 }
+                $order_update = array(
+                    "status" => 3,
+                    "expresscom" => $order_list[$i]['expresscom'],
+                    "expresssn" => $order_list[$i]['expresssn'],
+                    "express" => $order_list[$i]['express']
+                );
+                mysqld_update("shop_order", $order_update, array("id" => $order_list[$i]['id']));
             }
-            $order_update = array(
-                "status" => 3,
-                "expresscom" => $order_list[$i]['expresscom'],
-                "expresssn" => $order_list[$i]['expresssn'],
-                "express" => $order_list[$i]['express']
-            );
-            mysqld_update("shop_order", $order_update, array("id" => $order_list[$i]['id']));
         }
     }
 }

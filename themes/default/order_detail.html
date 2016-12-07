@@ -141,9 +141,16 @@
 	<!--@php } else if($item['status'] >= 3){@-->
 	<div class="weui-cell weui-cells_form" style="text-align: center">
 		<div class="weui-cell">
-			<!--@php if(!empty($item_order_express)) { foreach ($item_order_express as $order_express) { @-->
+			<!--@php if(count($item_order_express) > 1) {foreach ($item_order_express as $order_express) { @-->
 			<span>
 				商品编号:<!--@php echo $order_express['goodssn'] @-->;
+				快递公司:<!--@php echo $order_express['expresscom'] @-->;
+				运单编号:<!--@php echo $order_express['expresssn'] @-->;
+				<br>
+				<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $order_express['express'] @-->&postid=<!--@php echo $order_express['expresssn'] @-->#result">[查看物流信息]</a>
+			</span>
+			<!--@php } } else if(count($item_order_express) == 1){ foreach ($item_order_express as $order_express) { @-->
+			<span>
 				快递公司:<!--@php echo $order_express['expresscom'] @-->;
 				运单编号:<!--@php echo $order_express['expresssn'] @-->;
 				<br>
