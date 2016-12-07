@@ -200,7 +200,7 @@ if ($op == 'returnpay')
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
     $dispatch = mysqld_select("select id,dispatchname,sendtype from " . table('shop_dispatch') . " where id=:id limit 1", array(":id" => $item['dispatch']));
-
+           
     if (empty($item))
     {
         message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
@@ -323,7 +323,7 @@ else if ($op == 'detail')
 
     $dispatch = mysqld_select("select id,dispatchname,sendtype from " . table('shop_dispatch') . " where id=:id limit 1", array(":id" => $item['dispatch']));
     $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 order by `order` desc");
-
+  
     if($item['status'] >= 3){
         //2016-12-4-yanru-begin
         $temp_expresscom = explode(";", $item['expresscom']);
