@@ -12,9 +12,10 @@ $order_iscomment = 1;
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
     if (empty($item)||$item['status']<0)
@@ -30,9 +31,10 @@ if ($op == 'cancelsend')
     {
         message('请确认是否受到货物！');
     }
-    if(!empty($weixin_openid)){
-        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid));
+//    }else
+    if(!empty($openid)){
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
     $_GP['status'] = 99;
@@ -41,9 +43,10 @@ if ($op == 'cancelsend')
 if ($op == 'returngood')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
 
@@ -69,9 +72,10 @@ if ($op == 'returngood')
     $opname="退货";
     if (checksubmit("submit"))
     {
-        if(!empty($weixin_openid)){
-            mysqld_update('shop_order', array('status' => -4,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-        }else if(!empty($openid)){
+//        if(!empty($weixin_openid)){
+//            mysqld_update('shop_order', array('status' => -4,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//        }else
+        if(!empty($openid)){
             mysqld_update('shop_order', array('status' => -4,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
         message('申请退货成功，请等待审核！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
@@ -82,13 +86,14 @@ if ($op == 'returngood')
 if ($op == 'resendgood')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
     $dispatch = mysqld_select("select id,dispatchname,sendtype from " . table('shop_dispatch') . " where id=:id limit 1", array(":id" => $item['dispatch']));
-           
+
     if(!empty($item['updatetime']))
     {
         if(($item['updatetime'])<(time()-($rebacktime * 24 * 60 * 60)))
@@ -110,9 +115,10 @@ if ($op == 'resendgood')
     $opname="换货";
     if (checksubmit("submit"))
     {
-        if(!empty($weixin_openid)){
-            mysqld_update('shop_order', array('status' =>  -3,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-        }else if(!empty($openid)){
+//        if(!empty($weixin_openid)){
+//            mysqld_update('shop_order', array('status' =>  -3,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//        }else
+        if(!empty($openid)){
             mysqld_update('shop_order', array('status' =>  -3,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
         message('申请换货成功，请等待审核！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
@@ -187,13 +193,14 @@ if ($op == 'returncomment')
 if ($op == 'returnpay')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
     $dispatch = mysqld_select("select id,dispatchname,sendtype from " . table('shop_dispatch') . " where id=:id limit 1", array(":id" => $item['dispatch']));
-           
+
     if (empty($item))
     {
         message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
@@ -205,9 +212,10 @@ if ($op == 'returnpay')
         {
             message('货到付款订单不能进行退款操作!', refresh(), 'error');
         }
-        if(!empty($weixin_openid)){
-            mysqld_update('shop_order', array('status' => -2,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-        }else if(!empty($openid)){
+//        if(!empty($weixin_openid)){
+//            mysqld_update('shop_order', array('status' => -2,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//        }else
+        if(!empty($openid)){
             mysqld_update('shop_order', array('status' => -2,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
         require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/myorder_2.php');
@@ -219,9 +227,10 @@ if ($op == 'returnpay')
 elseif ($op == 'confirm')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
     if (empty($order))
@@ -234,9 +243,10 @@ elseif ($op == 'confirm')
 //        $this->setOrderCredit($openid,$order['id'],true,'订单:'.$order['ordersn'].'收货新增积分');
 //    }
     //end
-    if(!empty($weixin_openid)){
-        mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//    }else
+    if(!empty($openid)){
         mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
 //    $settings=globaSetting();
@@ -244,14 +254,15 @@ elseif ($op == 'confirm')
 //    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/myorder_1.php');
 //    message('确认收货完成！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
     $url = WEBSITE_ROOT.mobile_url('myorder',array('status' => 99));
-   header("location:".WEBSITE_ROOT.mobile_url('myorder',array('status' => 99)));
+    header("location:".WEBSITE_ROOT.mobile_url('myorder',array('status' => 99)));
 }
 else if ($op == 'detail')
 {
     $orderid = intval($_GP['orderid']);
-    if(!empty($weixin_openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
+//    }else
+    if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
     }
     if (empty($item))
@@ -262,20 +273,21 @@ else if ($op == 'detail')
     {
         $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
     }
-    if(!empty($weixin_openid)){
-        if($item['paytype']!=$this->getPaytypebycode($item['paytypecode']))
-        {
-            mysqld_update('shop_order', array('paytype' => $this->getPaytypebycode($item['paytypecode'])), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-        }
-        //2016-11-17-yanru-begin-change status 0 to 1 begin
-        if(0==$item['status'] && ($today - 30*60 > $item['createtime']))
-        {
-            mysqld_update('shop_order', array('status' => 1), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
-        }
-        //end
-    }else if(!empty($openid)){
+//    if(!empty($weixin_openid)){
+//        if($item['paytype']!=$this->getPaytypebycode($item['paytypecode']))
+//        {
+//            mysqld_update('shop_order', array('paytype' => $this->getPaytypebycode($item['paytypecode'])), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
+//        }
+//        //2016-11-17-yanru-begin-change status 0 to 1 begin
+//        if(0==$item['status'] && ($today - 30*60 > $item['createtime']))
+//        {
+//            mysqld_update('shop_order', array('status' => 1), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
+//            $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE weixin_openid = '".$weixin_openid."' and id='{$orderid}' limit 1");
+//        }
+//        //end
+//    }else
+    if(!empty($openid)){
         if($item['paytype']!=$this->getPaytypebycode($item['paytypecode']))
         {
             mysqld_update('shop_order', array('paytype' => $this->getPaytypebycode($item['paytypecode'])), array('id' => $orderid, 'openid' => $openid ));
@@ -311,7 +323,7 @@ else if ($op == 'detail')
 
     $dispatch = mysqld_select("select id,dispatchname,sendtype from " . table('shop_dispatch') . " where id=:id limit 1", array(":id" => $item['dispatch']));
     $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 order by `order` desc");
-  
+
     if($item['status'] >= 3){
         //2016-12-4-yanru-begin
         $temp_expresscom = explode(";", $item['expresscom']);
@@ -365,9 +377,6 @@ else
     $psize = 20;
 
     $status = intval($_GP['status']);
-    /*  by 杨东
-        不以$weixin_openid为唯一标识，以 $openid为唯一标识
-     */
 //    if(!empty($weixin_openid)){
 //        $where = "weixin_openid = '".$weixin_openid."'";
 //    }else

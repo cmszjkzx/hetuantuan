@@ -62,6 +62,12 @@ foreach ($allspecs as &$s) {
 unset($s);
 //处理规格项
 $options = mysqld_selectall("select * from " . table('shop_goods_option') . " where goodsid=:id order by id asc", array(':id' => $goodsid));
+foreach ($options as $option_temp){
+    if($option_temp['marketprice'] > $goods_max_price)
+        $goods_max_price = $option_temp['marketprice'];
+    if($option_temp['marketprice'] < $goods_min_price)
+        $goods_min_price = $option_temp['marketprice'];
+}
 //排序好的specs
 $specs = array();
 //找出数据库存储的排列顺序

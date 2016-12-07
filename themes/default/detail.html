@@ -31,76 +31,76 @@
     </style>
 </head>
 <body>
-    <div style="position: fixed;top: 0.25rem;z-index: 100;width: 100%">
-        <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-right: 0.4rem" href="<!--@php  echo mobile_url('shopindex')@-->"><img style="width:1rem;height: 1rem;" src="__RESOURCE__/images/ic_home_pressed.png"></a>
-        <a style="float: left;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-left: 0.4rem" href="<!--@php  echo mobile_url('mycart')@-->"><img style="width:1rem;height:1rem" src="__RESOURCE__/images/ic_shopping_cart_pressed.png"></a>
-    </div>
-    <div class="container">
-        <div class="row">
-            <!-- banner轮播Start -->
-            <div id="focus" class="focus">
-                <div class="hd">
-                    <ul>
-                    </ul>
-                </div>
-                <div class="bd">
-                    <ul>
-                        <!--@php  if(is_array($piclist)) { foreach($piclist as $row) { @-->
-                        <li><img
-                                src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $row['attachment'];@-->"/>
-                        </li>
-                        <!--@php  } } @-->
-                    </ul>
-                </div>
+<div style="position: fixed;top: 0.25rem;z-index: 100;width: 100%">
+    <a style="float: right;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-right: 0.4rem" href="<!--@php  echo mobile_url('shopindex')@-->"><img style="width:1rem;height: 1rem;" src="__RESOURCE__/images/ic_home_pressed.png"></a>
+    <a style="float: left;width: 2.1rem;height: 2.1rem;border-radius: 1.05rem;background-color: white;padding: 0.55rem;margin-left: 0.4rem" href="<!--@php  echo mobile_url('mycart')@-->"><img style="width:1rem;height:1rem" src="__RESOURCE__/images/ic_shopping_cart_pressed.png"></a>
+</div>
+<div class="container">
+    <div class="row">
+        <!-- banner轮播Start -->
+        <div id="focus" class="focus">
+            <div class="hd">
+                <ul>
+                </ul>
             </div>
-            <script type="text/javascript">
-                TouchSlide({
-                    slideCell: "#focus",
-                    titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-                    mainCell: ".bd ul",
-                    delayTime: 600,
-                    interTime: 4000,
-                    effect: "leftLoop",
-                    autoPlay: true,//自动播放
-                    autoPage: true, //自动分页
-                    switchLoad: "_src" //切换加载，真实图片路径为"_src"
-                });
-            </script>
-            <!-- banner轮播End -->
-            <div class="goodtitle">
-                <div style="font-size: 0.75rem;color: #3C3C3C">
-                    <!--@php  echo $goods['title'];@-->
-                </div>
+            <div class="bd">
+                <ul>
+                    <!--@php  if(is_array($piclist)) { foreach($piclist as $row) { @-->
+                    <li><img
+                            src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $row['attachment'];@-->"/>
+                    </li>
+                    <!--@php  } } @-->
+                </ul>
             </div>
+        </div>
+        <script type="text/javascript">
+            TouchSlide({
+                slideCell: "#focus",
+                titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell: ".bd ul",
+                delayTime: 600,
+                interTime: 4000,
+                effect: "leftLoop",
+                autoPlay: true,//自动播放
+                autoPage: true, //自动分页
+                switchLoad: "_src" //切换加载，真实图片路径为"_src"
+            });
+        </script>
+        <!-- banner轮播End -->
+        <div class="goodtitle">
+            <div style="font-size: 0.75rem;color: #3C3C3C">
+                <!--@php  echo $goods['title'];@-->
+            </div>
+        </div>
 
-            <div class="goodprice col-xs-12">
-                <strong id="marketprice" class="goodprice">￥<!--@php  echo $marketprice;@--></strong>
-            </div>
+        <div class="goodprice col-xs-12">
+            <strong id="marketprice" class="goodprice"><!--@php  echo "￥".$goods_min_price. " - ￥" .$goods_max_price;@--></strong>
+        </div>
 
-            <div class="goodxl col-xs-12">
-                <div class="col-xs-6" style="padding-left: 0px;padding-top: 0.4rem;padding-bottom:0.25rem;font-size: 0.6rem;color: #7F7F7F">
-                    已出售：<!--@php  echo $goods['sales'];@--> 笔
-                </div>
+        <div class="goodxl col-xs-12">
+            <div class="col-xs-6" style="padding-left: 0px;padding-top: 0.4rem;padding-bottom:0.25rem;font-size: 0.6rem;color: #7F7F7F">
+                已出售：<!--@php  echo $goods['sales'];@--> 笔
             </div>
         </div>
     </div>
-    <div class="container" style="padding-left: 0px;padding-right: 0px;">
-        <!-- 商品详情和评价 Start  -->
-        <div class="con"><!-- 高度自适应需添加外层 -->
-            <p class="sub-title">商品详情</p>
-            <ul  style="padding-bottom:2.5rem;">
-                <!--@php if(!empty($goods['videopath'])) {@-->
-                <div class="vid-wrapper">
-                    <video type="video/mp4" controls="controls" codecs="avc1.42E01E, mp4a.40.2" src="<?php echo WEBSITE_ROOT;?>attachment/<?php  echo $goods['videopath'];?>"></video>
-                </div>
-                <!--@php }@-->
-                <br/>
-                <li style="width: 100%">
-                    <!--@php  echo $goods['content'];@-->
-                </li>
-            </ul>
-        </div>
+</div>
+<div class="container" style="padding-left: 0px;padding-right: 0px;">
+    <!-- 商品详情和评价 Start  -->
+    <div class="con"><!-- 高度自适应需添加外层 -->
+        <p class="sub-title">商品详情</p>
+        <ul  style="padding-bottom:2.5rem;">
+            <!--@php if(!empty($goods['videopath'])) {@-->
+            <div class="vid-wrapper">
+                <video type="video/mp4" controls="controls" codecs="avc1.42E01E, mp4a.40.2" src="<?php echo WEBSITE_ROOT;?>attachment/<?php  echo $goods['videopath'];?>"></video>
+            </div>
+            <!--@php }@-->
+            <br/>
+            <li style="width: 100%">
+                <!--@php  echo $goods['content'];@-->
+            </li>
+        </ul>
     </div>
+</div>
 <div class="modal" id="xzmodal" tabindex="-1" aria-labelledby="myModalLabel" role="dialog" style="top: auto" aria-hidden="true" data-backdrop="true">
     <div class="modal-dialog">
         <div class="media" style="padding-left: 15px;position: relative;margin-bottom: -74px;z-index: 2000;">
@@ -108,19 +108,19 @@
                 <img class="img-thumbnail media-object" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'] @-->" style="width:4.5rem;height:4.5rem;border: solid 1px #D9D9D9;border-radius:0;padding: 2px;background-color: white">
             </div>
             <div class="media-body">
-               <div class="media-heading" style="padding-top: 30px">
-                   <!--<div class="goodtitle">
-                       <div style="font-size: 0.75rem;color: #3C3C3C">
-                           &lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;
-                       </div>
-                   </div>-->
-                   <p class="goodprice text-ellipsis font-30 color-3c" style="width: 7rem;margin: 0">
-                       <!--@php  echo $goods['title'];@-->
-                   </p>
-                   <p class="goodprice" style="margin: 0" id="marketprice1">
-                       ￥<!--@php  echo $marketprice;@-->
-                   </p>
-               </div>
+                <div class="media-heading" style="padding-top: 30px">
+                    <!--<div class="goodtitle">
+                        <div style="font-size: 0.75rem;color: #3C3C3C">
+                            &lt;!&ndash;@php  echo $goods['title'];@&ndash;&gt;
+                        </div>
+                    </div>-->
+                    <p class="goodprice text-ellipsis font-30 color-3c" style="width: 7rem;margin: 0">
+                        <!--@php  echo $goods['title'];@-->
+                    </p>
+                    <p class="goodprice" style="margin: 0" id="marketprice1">
+                        ￥<!--@php  echo $marketprice;@-->
+                    </p>
+                </div>
             </div>
             <div class="media-right">
                 <button style="padding-top: 35px;padding-right: 10px;line-height: 30px" type="button" class="close" data-dismiss="modal">
@@ -180,15 +180,15 @@
                         <p class="name">购买数量：</p>
 
 
-						<div class="input-group ic-input-group" style="margin-top: 0.6rem">
+                        <div class="input-group ic-input-group" style="margin-top: 0.6rem">
 						    <span class="input-group-btn">
 						        <button type="button" value="-" class="btn btn-default ic-minus" onClick="chgNum(-1);"></button>
 						    </span>
-						    <input type="text" class="form-control ic-input" id="total" name="number" value="0" style="height:inherit;text-align: center"/>
-						     <span class="input-group-btn">
+                            <input type="text" class="form-control ic-input" id="total" name="number" value="0" style="height:inherit;text-align: center"/>
+                            <span class="input-group-btn">
 						        <button type="button" value="+" class="btn btn-default ic-plus" onClick="chgNum(1);"></button>
 						    </span>
-						</div>
+                        </div>
 
                     </div>
                 </form>
@@ -204,26 +204,25 @@
     </div>
 </div>
 
-    <div style="display: flex;height: 2.4rem;background: white;border-top: solid 1px #EFEFEF;margin-right: -15px;position: fixed;bottom: 0;width: 100%">
-        <!--我注释掉的部分  by  杨东-->
-        <!--<a style="flex: 1">
-            <div style="margin: 0 auto;text-align: center">
-                <img src="__RESOURCE__/images/ic_contact_service_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
-                <span style="font-size: 0.5rem;color: #9e9e9e">联系客服</span>
-            </div>
-        </a>-->
-        <a style="flex: 1"  onclick='addtocart()'>
-            <div style="margin: 0 auto;text-align: center">
-                <img src="__RESOURCE__/images/ic_shopping_cart_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
-                <span style="font-size: 0.5rem;color: #9e9e9e">加入购物车</span>
-            </div>
-        </a>
-        <a style="flex: 1;background-color: #FDAD2A" href="javascript:void()" onclick='buy()'>
-            <div style="margin: 0 auto;text-align: center;padding-top: 0.7rem">
-                <span style="font-size: 0.7rem;color: white;">买</span>
-            </div>
-        </a>
-    </div>
+<div style="display: flex;height: 2.4rem;background: white;border-top: solid 1px #EFEFEF;margin-right: -15px;position: fixed;bottom: 0;width: 100%">
+    <!--<a style="flex: 1">
+        <div style="margin: 0 auto;text-align: center">
+            <img src="__RESOURCE__/images/ic_contact_service_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+            <span style="font-size: 0.5rem;color: #9e9e9e">联系客服</span>
+        </div>
+    </a>-->
+    <a style="flex: 1"  onclick='addtocart()'>
+        <div style="margin: 0 auto;text-align: center">
+            <img src="__RESOURCE__/images/ic_shopping_cart_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
+            <span style="font-size: 0.5rem;color: #9e9e9e">加入购物车</span>
+        </div>
+    </a>
+    <a style="flex: 1;background-color: #FDAD2A" href="javascript:void()" onclick='buy()'>
+        <div style="margin: 0 auto;text-align: center;padding-top: 0.7rem">
+            <span style="font-size: 0.7rem;color: white;">买</span>
+        </div>
+    </a>
+</div>
 
 
 <script type="text/javascript">
@@ -320,6 +319,10 @@
                 $('#xzmodal').modal('hide');
                 $(".optionid").val("");
                 $("#total").val(0);
+                <!--@php $stock--; @-->
+                var option_total = <!--@php  echo $stock @-->;
+                $("#goodstotail").html(option_total);
+                var len = options.length;
                 ret.no = $(".optionid").attr("title");
             };
         });
@@ -341,7 +344,7 @@
         var select_option = new Array();
         $("input[name^='optionid']").each(
             function(){
-            select_option.push($(this).val())
+                select_option.push($(this).val())
             });
         var select_option_class = new Array();
         $("input[name^='optionid']").each(
@@ -437,90 +440,90 @@
     });
 </script>
 <!--规格选择JS End-->
-    <!--商品评价、详情、同类推荐JS Start-->
-    <script type="text/javascript">
-        TouchSlide({
-            slideCell: "#tabBox1",
+<!--商品评价、详情、同类推荐JS Start-->
+<script type="text/javascript">
+    TouchSlide({
+        slideCell: "#tabBox1",
 
-            endFun: function (i) { //高度自适应
-                var bd = document.getElementById("tabBox1-bd");
-                bd.parentNode.style.height = bd.children[i].children[0].offsetHeight + "px";
-               if (i > 0)bd.parentNode.style.transition = "200ms";//添加动画效果
-            }
-
-        });</script>
-    <!--商品评价、详情、同类推荐JS End-->
-
-
-
-
-    <!--秒杀倒计时JS satart-->
-    <script language='javascript'>
-        var total_time_<!--@php  echo $goods['id'];@--> = <!--@php  echo $goods['timelast'];@-->;
-        var int_time_<!--@php  echo $goods['id'];@--> = setInterval(function () {
-            d(<!--@php  echo $goods['id'];@-->);
-        }, 1000);
-    </script>
-
-    <script type="text/javascript">
-
-
-        function d(id) {
-            eval("total_time_" + id + "--");
-            var total_time = eval("total_time_" + id);
-
-            var days = parseInt(total_time / 86400)
-
-            var remain = parseInt(total_time % 86400);
-            var hours = parseInt(remain / 3600)
-            var remain = parseInt(remain % 3600);
-
-            var mins = parseInt(remain / 60);
-            var secs = parseInt(remain % 60);
-
-            if (total_time <= 0) {
-                $("#time_" + id).html("时间到了");
-                var int_time = eval("int_time_" + id);
-                window.clearInterval(int_time);
-
-            } else {
-
-                var ret = "";
-                if (days > 0) {
-                    days = days + "";
-                    if (days.length <= 1) {
-                        days = "0" + days;
-                    }
-                    ret += days + " 天 ";
-                }
-                if (hours > 0) {
-                    hours = hours + "";
-                    if (hours.length <= 1) {
-                        hours = "0" + hours;
-                    }
-                    ret += hours + ":";
-                }
-                if (mins > 0) {
-                    mins = mins + "";
-                    if (mins.length <= 1) {
-                        mins = "0" + mins;
-                    }
-                    ret += mins + ":";
-                }
-
-                secs = secs + "";
-                if (secs.length <= 1) {
-                    secs = "0" + secs;
-                }
-                ret += secs;
-
-
-                $("#time_" + id).html(ret);
-            }
+        endFun: function (i) { //高度自适应
+            var bd = document.getElementById("tabBox1-bd");
+            bd.parentNode.style.height = bd.children[i].children[0].offsetHeight + "px";
+            if (i > 0)bd.parentNode.style.transition = "200ms";//添加动画效果
         }
 
-    </script>
-    <!--秒杀倒计时JS End-->
+    });</script>
+<!--商品评价、详情、同类推荐JS End-->
+
+
+
+
+<!--秒杀倒计时JS satart-->
+<script language='javascript'>
+    var total_time_<!--@php  echo $goods['id'];@--> = <!--@php  echo $goods['timelast'];@-->;
+    var int_time_<!--@php  echo $goods['id'];@--> = setInterval(function () {
+        d(<!--@php  echo $goods['id'];@-->);
+    }, 1000);
+</script>
+
+<script type="text/javascript">
+
+
+    function d(id) {
+        eval("total_time_" + id + "--");
+        var total_time = eval("total_time_" + id);
+
+        var days = parseInt(total_time / 86400)
+
+        var remain = parseInt(total_time % 86400);
+        var hours = parseInt(remain / 3600)
+        var remain = parseInt(remain % 3600);
+
+        var mins = parseInt(remain / 60);
+        var secs = parseInt(remain % 60);
+
+        if (total_time <= 0) {
+            $("#time_" + id).html("时间到了");
+            var int_time = eval("int_time_" + id);
+            window.clearInterval(int_time);
+
+        } else {
+
+            var ret = "";
+            if (days > 0) {
+                days = days + "";
+                if (days.length <= 1) {
+                    days = "0" + days;
+                }
+                ret += days + " 天 ";
+            }
+            if (hours > 0) {
+                hours = hours + "";
+                if (hours.length <= 1) {
+                    hours = "0" + hours;
+                }
+                ret += hours + ":";
+            }
+            if (mins > 0) {
+                mins = mins + "";
+                if (mins.length <= 1) {
+                    mins = "0" + mins;
+                }
+                ret += mins + ":";
+            }
+
+            secs = secs + "";
+            if (secs.length <= 1) {
+                secs = "0" + secs;
+            }
+            ret += secs;
+
+
+            $("#time_" + id).html(ret);
+        }
+    }
+
+</script>
+<!--秒杀倒计时JS End-->
 
 
 <script language='javascript'>

@@ -19,6 +19,7 @@ if ($op == 'add') {
     }
     $marketprice = $goods['marketprice'];
     $goodsOptionStock=0;
+    $goodsStock=$goods['total'];
     $goodsOptionStock=$goods['total'];
     if (!empty($optionid)) {
         $option = mysqld_select("select marketprice,stock from " . table('shop_goods_option') . " where id=:id limit 1", array(":id" => $optionid));
@@ -48,6 +49,12 @@ if ($op == 'add') {
             'optionid' => $optionid
         );
         mysqld_insert('shop_cart', $data);
+//        $goodsStock--;
+//        $goodsOptionStock--;
+//        $goods_new_stock = array('total' => $goodsStock);
+//        $option_new_stock = array('stock' => $goodsOptionStock);
+//        mysqld_update('shop_goods', $goods_new_stock, array('id' => $goodsid));
+//        mysqld_update('shop_goods_option', $option_new_stock, array('id' => $optionid));
     } else {
         //累加最多限制购买数量
         $t = $total + $row['total'];

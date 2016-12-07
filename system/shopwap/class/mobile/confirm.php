@@ -7,7 +7,7 @@ if ( is_use_weixin() ) {
 
     $dzdtitle = $settings['shop_title'];
 
-    $dzdpic = WEBSITE_ROOT.'/attachment/'.$settings['shop_logo'];
+    $dzdpic = WEBSITE_ROOT.'attachment/'.$settings['shop_logo'];
 
     $shopwap_weixin_share = weixin_share('confirm',array(),$dzdtitle,$dzdpic,$dzddes,$settings);
 }
@@ -52,11 +52,12 @@ $returnurl = ""; //当前连接
 $issendfree=0;//这里有问题不应该所有都是免运费，而是满多少才减去运费
 
 //这里是通过openid获取默认地址，需要改成优先以weixin_openid
-if(!empty($weixin_openid)){
-    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and weixin_openid = :weixin_openid and deleted=0 limit 1", array(':weixin_openid' => $weixin_openid));
-}else if(!empty($openid)){
-    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
-}
+//if(!empty($weixin_openid)){
+//    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and weixin_openid = :weixin_openid and deleted=0 limit 1", array(':weixin_openid' => $weixin_openid));
+//}else if(!empty($openid)){
+//    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
+//}
+$defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
 
 if (!empty($id))
 {
@@ -73,31 +74,20 @@ if (!empty($id))
     if (!empty($optionid)) {
         $option = mysqld_select("select title,marketprice,weight,stock from " . table("shop_goods_option") . " where id=:id", array(":id" => $optionid));
         if ($option) {
-//            $item['optionid'] = $optionid;
-//            $item['title'] = $item['title'];
-//            $item['optionname'] = $option['title'];
-//            $item['marketprice'] = $option['marketprice'];
-//            $item['weight'] = $option['weight'];
             $item['optionid'] = $optionid;
             $item['title'] = $item['title'];
             $item['optionname'] = $option['title'];
             //2016-11-13-yanru-begin
-            //$item['marketprice'] = $option['marketprice'];
-            //$item['weight'] = $option['weight'];
-            $item['optionmarketprice'] = $option['marketprice'];
-            $item['optionweight'] = $option['weight'];
+            $item['goodmarketprice'] = $item['marketprice'];
+            $item['goodweight'] = $item['weight'];
+            $item['marketprice'] = $option['marketprice'];
+            $item['weight'] = $option['weight'];
             //end
         }
     }
-//    $item['stock'] = $item['total'];
-//    $item['total'] = $total;
-//    $item['totalprice'] = $total * $item['marketprice'];
-//    $item['credit'] = $total* $item['credit'];
-//    $allgoods[] = $item;
-//    $totalprice+= $item['totalprice'];
     $item['stock'] = $item['total'];//一级商品的总数变成库存
     $item['total'] = $total;//把购买商品的总数变成传递的总数
-    $item['totalprice'] = $total * $item['optionmarketprice'];
+    $item['totalprice'] = $total * $item['marketprice'];
     //$item['credit'] = $g['total'] * $item['credit'];
     $item['totalcredit'] = $total * $item['credit'];
     $allgoods[] = $item;
@@ -165,15 +155,15 @@ if (!$direct) {
                 $item['title'] = $item['title'];
                 $item['optionname'] = $option['title'];
                 //2016-11-13-yanru-begin
-                //$item['marketprice'] = $option['marketprice'];
-                //$item['weight'] = $option['weight'];
-                $item['optionmarketprice'] = $option['marketprice'];
-                $item['optionweight'] = $option['weight'];
+                $item['goodmarketprice'] = $item['marketprice'];
+                $item['goodweight'] = $item['weight'];
+                $item['marketprice'] = $option['marketprice'];
+                $item['weight'] = $option['weight'];
                 //end
             }
             $item['stock'] = $item['total'];//一级商品的总数变成库存
             $item['total'] = $g['total'];//把购买商品的总数变成传递的总数
-            $item['totalprice'] = $g['total'] * $item['optionmarketprice'];
+            $item['totalprice'] = $g['total'] * $item['marketprice'];
             //$item['credit'] = $g['total'] * $item['credit'];
             $item['totalcredit'] = $g['total'] * $item['credit'];
             $allgoods[] = $item;
@@ -251,7 +241,7 @@ foreach ($dispatch as &$d) {
 //        {
 //            $issendfree=1;
 //        }
-        $weight += $g['optionweight'] * $g['total'];
+        $weight += $g['weight'] * $g['total'];
         if($g['issendfree']==1)
         {
             $issendfree=1;
@@ -387,6 +377,7 @@ if (checksubmit('submit')) {
     $paytype=$this->getPaytypebycode($payment['code']);
     $data = array(
         'openid' => $openid,
+        'weixin_openid' => $weixin_openid,
         'ordersn' => $ordersns,
         'price' => $goodsprice + $dispatchprice,
         'dispatchprice' => $dispatchprice,
@@ -490,18 +481,18 @@ if(is_login_account())
 //                foreach ($bonus_users as $bonus_user) {
 //                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
 //                }
-                if(!empty($weixin_openid)){
-                    //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
-                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
-                    foreach ($bonus_users as $bonus_user) {
-                        if($bonus_type['min_goods_amount'] > $totalprice){
-                            $canbeuse = 0;
-                        }else{
-                            $canbeuse = 1;
-                        }
-                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
-                    }
-                }else {
+//                if(!empty($weixin_openid)){
+//                    //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+//                    $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.weixin_openid=:weixin_openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+//                    foreach ($bonus_users as $bonus_user) {
+//                        if($bonus_type['min_goods_amount'] > $totalprice){
+//                            $canbeuse = 0;
+//                        }else{
+//                            $canbeuse = 1;
+//                        }
+//                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
+//                    }
+//                }else {
                     if(!empty($openid)){
                         //$bonus_users= mysqld_selectall("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                         $bonus_users= mysqld_selectall("select bonususer.*,  bonustype.min_goods_amount, bonustype.type_money from " . table("bonus_user")."bonususer left join".table('bonus_type')."bonustype on bonususer.bonus_type_id = bonustype.type_id where bonususer.deleted=0 and  bonususer.isuse=0 and bonususer.bonus_type_id=:bonus_type_id and bonususer.openid=:openid",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
@@ -514,7 +505,7 @@ if(is_login_account())
                             $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
                         }
                     }
-                }
+                //}
                 //end
             }
   			if($bonus_type['send_type']==1)
@@ -526,12 +517,11 @@ if(is_login_account())
                     {
                         //2016-11-24-yanru-begin
                         //$bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                        if(!empty($weixin_openid)){
-                            $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
-                        }else {
-                            if(!empty($openid)){
-                                $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                            }
+//                        if(!empty($weixin_openid)){
+//                            $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+//                        }else
+                        if(!empty($openid)){
+                            $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                         }
                         //end
                         if(!empty($bonus_user['bonus_id']))
@@ -565,12 +555,11 @@ if(is_login_account())
             {
                 //2016-11-24-yanru-begin
                 //$bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                if(!empty($weixin_openid)){
-                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
-                }else {
-                    if(!empty($openid)){
-                        $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
-                    }
+//                if(!empty($weixin_openid)){
+//                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and weixin_openid=:weixin_openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":weixin_openid" => $weixin_openid));
+//                }else
+                if(!empty($openid)){
+                    $bonus_user= mysqld_select("select * from " . table("bonus_user")." where deleted=0 and  isuse=0 and bonus_type_id=:bonus_type_id and openid=:openid limit 1",array(":bonus_type_id"=>$bonus_type['type_id'], ":openid" => $openid));
                 }
                 //end
                 if(!empty($bonus_user['bonus_id']))
@@ -607,10 +596,13 @@ if(is_login_account())
     }
 
     //2016-11-28-yanru-begin先排序
+    $mim_price = array();
     foreach ($bonus_list as $bonus){
         $mim_price[] = $bonus['min_goods_amount'];
     }
-    array_multisort($mim_price,$bonus_list);
+    if(is_array($mim_price)){
+        array_multisort($mim_price,$bonus_list);
+    }
 
     $bonus_length = count($bonus_list);
     for($i=0; $i<count($bonus_list); $i++){
