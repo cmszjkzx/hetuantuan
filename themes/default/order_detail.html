@@ -297,29 +297,28 @@
         </div>-->
 		<!--@php  } } @-->
 	</div>
+
 	<div class="myoder-express">
 		<div class="pull-right" style="margin-right: 0.5rem">
 			<div class="price">
-
-				<!--@php  if($item['issendfree'] == 0){@-->
-				<!--@php  if(is_array($usable_promotion)) { foreach($usable_promotion as $pro) { @-->
-				<!--@php  echo "( ".$pro['pname']." )";@-->
-				<!--@php  }  } @-->
-				<!--@php  echo "￥".$dispatchprice;}else {@-->
-				<!--@php  echo "免运费";}@-->
-
-				<span class="font-22 color-7f">(含物流)</span>
 				<span class="font-26 color-3c">合计:</span>
-				<span class="font-26 color-FFAE01">￥
+				<span class="font-26 color-FFAE01">
+					<!--@php  if($item['hasbonus']>0) { @-->
+					<span class="font-22 color-7f">
+						(已优惠
+						<!--@php echo $item['bonusprice'] @-->
+						元)
+					</span>
+					<!--@php  }  @-->
 				<!--@php  if($item['dispatchprice']<=0) { @-->
+					<span class="font-22 color-7f">(含运费)</span>
 				<!--@php  echo $item['price'];@-->
 				<!--@php  } else { @-->
-				<!--@php  echo $item['price'];@-->
-				<!--(运费 &lt;!&ndash;@php  echo $item['dispatchprice'];@&ndash;&gt; 元) -->
+					(运费
+					<!--@php  echo $item['dispatchprice'] @-->
+					元)
+					<!--@php  echo $item['price'];@-->
 				<!--@php  } @-->
-				<!--@php  if($item['hasbonus']>0) { @-->
-				<!-- <span style="color:green"> ( 已优惠：&lt;!&ndash;@php  echo $item['bonusprice'];@&ndash;&gt; 元)</span>-->
-				<!--@php  }  @-->
 				</span>
 			</div>
 		</div>

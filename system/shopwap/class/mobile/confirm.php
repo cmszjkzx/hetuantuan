@@ -51,18 +51,12 @@ $direct = false; //是否是直接购买
 $returnurl = ""; //当前连接
 $issendfree=0;//这里有问题不应该所有都是免运费，而是满多少才减去运费
 
-//这里是通过openid获取默认地址，需要改成优先以weixin_openid
-//if(!empty($weixin_openid)){
-//    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and weixin_openid = :weixin_openid and deleted=0 limit 1", array(':weixin_openid' => $weixin_openid));
-//}else if(!empty($openid)){
-//    $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
-//}
 $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
 
 if (!empty($id))
 {
     $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
-    if($item['issendfree']==1||$item['isverify']==1)
+    if($item['issendfree']==1||$item['isverify']==1)//判断商品是否是免邮和热卖
     {
         $issendfree=1;
     }

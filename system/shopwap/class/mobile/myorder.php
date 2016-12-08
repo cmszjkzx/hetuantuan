@@ -12,9 +12,7 @@ $order_iscomment = 1;
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
@@ -31,9 +29,7 @@ if ($op == 'cancelsend')
     {
         message('请确认是否受到货物！');
     }
-//    if(!empty($weixin_openid)){
-//        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid));
-//    }else
+
     if(!empty($openid)){
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
@@ -43,9 +39,7 @@ if ($op == 'cancelsend')
 if ($op == 'returngood')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
@@ -72,9 +66,6 @@ if ($op == 'returngood')
     $opname="退货";
     if (checksubmit("submit"))
     {
-//        if(!empty($weixin_openid)){
-//            mysqld_update('shop_order', array('status' => -4,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//        }else
         if(!empty($openid)){
             mysqld_update('shop_order', array('status' => -4,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
@@ -86,9 +77,7 @@ if ($op == 'returngood')
 if ($op == 'resendgood')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
@@ -115,9 +104,6 @@ if ($op == 'resendgood')
     $opname="换货";
     if (checksubmit("submit"))
     {
-//        if(!empty($weixin_openid)){
-//            mysqld_update('shop_order', array('status' =>  -3,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//        }else
         if(!empty($openid)){
             mysqld_update('shop_order', array('status' =>  -3,'isrest'=>1,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
@@ -193,9 +179,7 @@ if ($op == 'returncomment')
 if ($op == 'returnpay')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':weixin_openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
@@ -212,9 +196,7 @@ if ($op == 'returnpay')
         {
             message('货到付款订单不能进行退款操作!', refresh(), 'error');
         }
-//        if(!empty($weixin_openid)){
-//            mysqld_update('shop_order', array('status' => -2,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//        }else
+
         if(!empty($openid)){
             mysqld_update('shop_order', array('status' => -2,'rsreson' => $_GP['rsreson']), array('id' => $orderid, 'openid' => $openid ));
         }
@@ -227,9 +209,7 @@ if ($op == 'returnpay')
 elseif ($op == 'confirm')
 {
     $orderid = intval($_GP['orderid']);
-//    if(!empty($weixin_openid)){
-//        $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND weixin_openid = :weixin_openid", array(':id' => $orderid, ':openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
     }
@@ -243,9 +223,7 @@ elseif ($op == 'confirm')
 //        $this->setOrderCredit($openid,$order['id'],true,'订单:'.$order['ordersn'].'收货新增积分');
 //    }
     //end
-//    if(!empty($weixin_openid)){
-//        mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'weixin_openid' => $weixin_openid ));
-//    }else
+
     if(!empty($openid)){
         mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
@@ -268,7 +246,29 @@ else if ($op == 'detail')
     }
     if($item['hasbonus'])
     {
-        $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
+        if($item['status']==1){
+            $bonusprice=0;
+            $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name, bonus_type.type_money FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
+            $data = array('isuse'=>0,
+                'used_time'=>0,
+                'order_id'=>0);
+            if(!empty($bonuslist)){
+                foreach ($bonuslist as $bonus){
+                    $bonusprice += $bonus['type_money'];
+                    mysqld_update('bonus_user', $data, array('bonus_id'=>$bonus['bonus_id']));
+                }
+            }
+        }else{
+            $bonusprice=0;
+            //$bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
+            //2016-12-8-yanru-获取订单优惠券信息
+            $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name, bonus_type.type_money FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
+            if(!empty($bonuslist)){
+                foreach ($bonuslist as $bonus){
+                    $bonusprice += $bonus['type_money'];
+                }
+            }
+        }
     }
 
     if(!empty($openid)){

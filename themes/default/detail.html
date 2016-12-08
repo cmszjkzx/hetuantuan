@@ -74,7 +74,11 @@
         </div>
 
         <div class="goodprice col-xs-12">
+            <!--@php if(!empty($option)) { @-->
             <strong id="marketprice" class="goodprice"><!--@php  echo "￥".$goods_min_price. " - ￥" .$goods_max_price;@--></strong>
+            <!--@php } else { @-->
+            <strong id="marketprice" class="goodprice"><!--@php  echo "￥".$goods['marketprice'];@--></strong>
+            <!--@php } @-->
         </div>
 
         <div class="goodxl col-xs-12">
