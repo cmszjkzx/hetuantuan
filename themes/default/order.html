@@ -142,7 +142,7 @@
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 3) { @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
+		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认收货吗？');">
 			确认收货
 		</a>
 		<!--@php  } @-->

@@ -224,16 +224,19 @@ elseif ($op == 'confirm')
 //        $this->setOrderCredit($openid,$order['id'],true,'订单:'.$order['ordersn'].'收货新增积分');
 //    }
     //end
-
-    if(!empty($openid)){
-        mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
-    }
 //    $settings=globaSetting();
 //
 //    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/myorder_1.php');
 //    message('确认收货完成！', mobile_url('myorder',array('status' => intval($_GP['fromstatus']))), 'success');
-    $url = WEBSITE_ROOT.mobile_url('myorder',array('status' => 99));
+    $comment_goods = mysqld_select("SELECT * FROM " . table('shop_goods_comment') . " WHERE ordersn = :ordersn AND openid = :openid", array(':ordersn' => $order['ordersn'], ':openid' => $openid ));
+    if(!empty($order)){
+        if(empty($comment_goods))
+            mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+        else
+            mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+    }
     header("location:".WEBSITE_ROOT.mobile_url('myorder',array('status' => 99)));
+    exit;
 }
 else if ($op == 'detail')
 {
@@ -379,7 +382,7 @@ else
     }
     else if($status == 3)
     {
-        $where.=" and ( status=3 or status=4)";
+        $where.=" and ( status=3)";
     }
     else
     {
