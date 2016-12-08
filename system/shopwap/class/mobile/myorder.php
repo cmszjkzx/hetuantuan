@@ -33,8 +33,9 @@ if ($op == 'cancelsend')
     if(!empty($openid)){
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
-    $_GP['status'] = 99;
     //message('该订单不可取消');
+    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
+    exit;
 }
 if ($op == 'returngood')
 {
@@ -378,7 +379,7 @@ else
     }
     else if($status == 3)
     {
-        $where.=" and ( status=3 or status=4 or status=5 )";
+        $where.=" and ( status=3 or status=4)";
     }
     else
     {
