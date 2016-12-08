@@ -250,7 +250,7 @@
 		<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
 		<li class="member-browse-li" style="border-bottom: 1px solid #ebebeb;background-color: white">
 			<div class="member-browser-pro-list" >
-				<a class="member-browser-pro-a">
+				<a class="member-browser-pro-a" href="<!--@php echo mobile_url('detail', array('id' => $g['id']))@-->">
 				<span class="pro-img">
 					<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $g['thumb'];@-->">
 				</span>

@@ -39,7 +39,6 @@
 		<!--@php  $goods = $item['goods']@-->
 		<span id="stock_<!--@php  echo $item['id'];@-->" style='display:none'><!--@php  echo $goods['total'];@--></span>
 		<div class="shopcart-item" id='item_<!--@php  echo $item['id'];@-->' style='height:<!--@php  if(!empty($goods['optionname'])) { @-->5rem;<!--@php  } else { @-->120px<!--@php  } @-->'>
-		<!--<div style="float: right;height: 5rem">dkkkf</div>-->
 		<div style="float: right;margin-right: 10px">
 			<a href="javascript:;" onclick="removeCart(<!--@php  echo $item['id'];@-->)" class="shopcart-item-remove" style="display: block;text-align: right">删除</a>
 			<div class="ic-input-group input-group" style="margin-top: 1.35rem">
@@ -58,22 +57,14 @@
 			<div class="price" style="display: none">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['optionmarketprice'];@--></span> 元</div>
 
 			<div class="price" style="margin-top: 0.7rem">￥<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
-			<!--<div class="input-group">
-				<span class="input-group-btn">
-					<button class="btn btn-default btn-sm" type="button" onclick="reduceNum(&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;)"><i class="icon-minus"></i></button>
-				</span>
-				<input type="tel" class="form-control input-sm pricetotal goodsnum" style="border-left:0;" value="&lt;!&ndash;@php  echo $item['total'];@&ndash;&gt;" price="&lt;!&ndash;@php  echo $goods['marketprice'];@&ndash;&gt;" pricetotal="&lt;!&ndash;@php  echo $item['totalprice'];@&ndash;&gt;" id="goodsnum_&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;" cartid='&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;' maxbuy="999" />
-				<span class="input-group-btn">
-					<button class="btn btn-default btn-sm" type="button" onclick="addNum(&lt;!&ndash;@php  echo $item['id'];@&ndash;&gt;,999)"><i class="icon-plus"></i></button>
-				</span>
-			</div>-->
-
 		</div>
-		<!--<img style="height: inherit;width:80px;display: inline;float: right;margin-right: 10px" src="&lt;!&ndash;@php echo WEBSITE_ROOT;@&ndash;&gt;/attachment/&lt;!&ndash;@php  echo $goods['thumb'];@&ndash;&gt;">-->
 		<div style="height: inherit;width:4.5rem;display: inline;float: right;margin-right: 10px">
+			<a href="<!--@php echo mobile_url('detail', array('id' => $item['goodsid']))@-->" style="width: 100%;height: 100%">
 			<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->">
+			</a>
 		</div>
 	</div>
+
 
 	<!--@php  $n++;@-->
 	<!--@php  } } @-->
