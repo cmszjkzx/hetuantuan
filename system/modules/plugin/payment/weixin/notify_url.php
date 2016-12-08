@@ -77,7 +77,7 @@
 							  支付成功状态由1改为2
 							  20161206  by 杨东
 							*/
-						mysqld_update('shop_order', array('status'=>2,'paytime'=>time()), array('id' =>  $order['id']));
+						mysqld_update('shop_order', array('status'=>2,'paytime'=>time(),'transid'=>$transaction_id), array('id' =>  $order['id']));
 	      		updateOrderStock($order['id']);
 	      		
 								$paylog_weixin['presult']='success';
