@@ -57,6 +57,7 @@
 <div class="myoder">
 	<div class="myoder-hd">
 		<span class="pull-left font-20 color-3c">订单编号：<!--@php  echo $item['ordersn'];@--></span>
+        <input type="hidden" name="parentid" value="<!--@pphp  echo $item['ordersn'];@-->"/>
 		<span class="pull-right  font-20 color-FFAE01"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
             <!--@php  if($item['status'] == 0) { @--><span>等待买家付款</span><!--@php  } @-->
             <!--@php  if($item['status'] == 1) { @--><span>订单关闭</span><!--@php  } @-->
@@ -136,9 +137,42 @@
 		<!--@php  } @-->
 
 		<!--@php  if($item['iscomment'] == 0 && $item['status'] >= 3) { @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'detail', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm">
-			我要评价
-		</a>
+
+        <!--<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">-->
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal">
+            我要评价
+        </a>
+		<div class="modal fade bs-evaluate-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm" style="margin: 5rem 2rem">
+				<div class="modal-content">
+					<div class="modal-header" style="border: none;padding: 0.75rem 0.925rem 0 0.925rem">
+				<span id="myModalLabel" class="font-28">
+					我要说:
+				</span>
+					</div>
+					<div class="modal-body" style="padding: 0 0.75rem">
+						<textarea type="text" id="comment" name="comment" style="background-color: #f6f6f6;border: none;border-radius: 0.5rem;height: 6.75rem;padding: 5px 10px;resize: none;width: 100%"></textarea>
+					</div>
+					<div class="modal-footer" style="text-align: center;border: none;padding: 0.375rem">
+						<button class="btn btn-primary font-28" data-dismiss="modal" aria-hidden="true" style="line-height: 2.15rem;width: 5rem;padding: 0;background-color: #FFAE01;border: none">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+            $('button').on('click',function(){
+                //debugger;
+                var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->';
+                var order_comment = $('#comment').val();
+                $.post(url,{comment:order_comment},function(s){
+                    if(s.result==0){
+                        tip("评论失败!",true);
+                    }else{
+                        tip("评论成功!",true);
+                    }
+                });
+            })
+		</script>
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 3) { @-->
@@ -160,7 +194,6 @@
 
 </div>
 <!--@php  } } @--></div>
-
 
 <!--@php  include page('footer');@-->	
 <!--@php //include themePage('footer');@-->
