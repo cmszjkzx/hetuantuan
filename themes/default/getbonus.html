@@ -25,6 +25,30 @@
             }
             return true;
         }
+        function tip(msg, autoClose) {
+            var div = $("#poptip");
+            var content = $("#poptip_content");
+            if (div.length <= 0) {
+                div = $("<div id='poptip'></div>").appendTo(document.body);
+                content = $("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+            }
+            else {
+                content.html(msg);
+                content.show();
+                div.show();
+            }
+            if (autoClose) {
+                setTimeout(function () {
+                    content.fadeOut(3000);
+                    div.fadeOut(3000);
+
+                }, 1000);
+            }
+        }
+        function tip_close() {
+            $("#poptip").fadeOut(3000);
+            $("#poptip_content").fadeOut(3000);
+        }
     </script>
 </head>
 <body style="background-color: #EFEFEF">

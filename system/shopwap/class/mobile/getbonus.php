@@ -32,6 +32,8 @@ if(!empty($_GP['id'])){
                             'isuse' => 0,
                             'bonus_type_id' => $bonusid);
                         mysqld_insert('bonus_user', $data);
+                    } else {
+                        echo "<script>tip('您已领取过',true)</script>";
                     }
                 }
                 header("location: " . mobile_url('bonus'));
@@ -63,6 +65,8 @@ if(!empty($_GP['id'])){
                             'isuse' => 0,
                             'bonus_type_id' => $bonusid);
                         mysqld_insert('bonus_user', $data);
+                    } else {
+                        echo "<script>tip('您已领取过',true)</script>";
                     }
                 }
                 header("location: " . mobile_url('bonus'));
