@@ -80,6 +80,14 @@ if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
     }
 }*/
 //end
+/*
+ * 购物车数量
+ * */
+$list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE   session_id = '".get_member_account(false)['openid']."'");
+$cartNum=0;
+foreach ($list as $t) {
+    $cartNum += $t['total'];
+}
 
 $isdzd=false;
        
