@@ -117,6 +117,7 @@
 	</div>
 	<!--@php  } @-->
 
+	<!--@php  if($item['status'] != 2) { @-->
 	<div class="myoder-total">
 		<!--@php  if($item['status'] >= 0 && $item['status'] <= 5 && $item['status'] != 2) { @-->
 		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
@@ -191,6 +192,7 @@
 		<!--@php  } } @-->
 
 	</div>
+	<!--@php  } @-->
 
 </div>
 <!--@php  } } @--></div>
