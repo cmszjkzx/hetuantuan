@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="__RESOURCE__/css/list.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
+    <script type="text/javascript" src="__RESOURCE__/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
-    <script>
+    <script type="text/javascript">
         function doValidate() {
 //            var chineseReg = /^[\u4E00-\u9FA5]{2,4}$/;
 //            if(!chineseReg.test(document.bonusform.name.value)) {
@@ -16,21 +17,39 @@
 //                document.bonusform.name.focus();
 //                return false;
 //            }
+            //debugger;
             var phoneNumReg = /^1[3|4|5|7|8]\d{9}$/
             <!--表示以1开头，第二位可能是3/4/5/7/8等的任意一个，在加上后面的\d表示数字[0-9]的9位，总共加起来11位结束。-->
-            if(!phoneNumReg.test(document.bonusform.phone.value)) {
-                alert('手机号码有误，请重填，手机号码11位数字，目前支持前两位13、14、15、16、17、18手机号码');
-                document.bonusform.phone.focus();
+            var phone = $("#phone").val();
+            if (!phoneNumReg.test($("#phone").val())) {
+                tip('手机号码有误，请重新填写，谢谢支持!',true);
+                $("#phone").focus();
+                //tip_close();
                 return false;
             }
-            return true;
+            var id = <!--@php echo $id @-->;
+            var url='<!--@php echo mobile_url('getbonus', array('op'=>'submit'));@-->'+"&phone=" + $("#phone").val()+"&id="+id;
+            $.getJSON(url, function(s){
+                if (s.result == 1) {
+                    tip("你已经领取优惠券，可不要贪心哦!",true);
+                }
+                setTimeout(function(){
+                    setTimeout(function(){
+                        location.href = '<!--@php  echo mobile_url('bonus');@-->';
+                    }, 2000);
+                }, 2000);
+            });
+            //return true;
         }
+    </script>
+
+    <script language='javascript'>
         function tip(msg, autoClose) {
             var div = $("#poptip");
             var content = $("#poptip_content");
             if (div.length <= 0) {
                 div = $("<div id='poptip'></div>").appendTo(document.body);
-                content = $("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+                content = $("<div id='poptip_content' style='text-align:center'>" + msg + "</div>").appendTo(document.body);
             }
             else {
                 content.html(msg);
@@ -54,12 +73,12 @@
 <body style="background-color: #EFEFEF">
 <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->" style="width: 100%;height: 9.4rem">
 
-<form action="" method="post" name="bonusform" class="form-horizontal" role="form" onsubmit="return doValidate()">
+<!--<form action="" method="post" name="bonusform" class="form-horizontal" role="form" onsubmit="return doValidate()">-->
     <div class="weui-cells weui-cells_form" style="margin-top: 1rem">
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label font-28 color-3c">员工手机</label></div>
             <div class="weui-cell__bd">
-                <input name="phone" class="weui-input font-26 color-3c" type="number" pattern="[0-9]*" placeholder="输入手机号">
+                <input id="phone" name="phone" class="weui-input font-26 color-3c" type="number" pattern="[0-9]*" placeholder="输入手机号">
             </div>
         </div>
         <!--<div class="weui-cell weui-cell_vcode">
@@ -74,7 +93,8 @@
             </div>
         </div>-->
     </div>
-    <button type="submit" name="submit" value="试试手气" class="btntoshop" style="color: white;width: 17.5rem;font-size: 0.8rem">试试手气</button>
-</form>
+    <a  href="javascript:void(0)" class="btntoshop" style="color: white;width: 17.5rem" onclick="doValidate()">试试手气</a>
+    <!--<button type="submit" name="submit" value="试试手气" class="btntoshop" style="color: white;width: 17.5rem;font-size: 0.8rem">试试手气</button>
+</form>-->
 </body>
 </html>

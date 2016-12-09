@@ -448,7 +448,7 @@
             }
             $("#optionid").val(optionid);
             <!--@php  if($stock!=-1) { @-->
-            $("#goodstotail").html(stock-1);
+            $("#goodstotail").html(stock);
             $("#total").val(1);
             $("#optiontotal").val(stock);
             <!--@php  } @-->
@@ -613,6 +613,7 @@
         }
     }
     function chgNum(a) {
+        //debugger;
         var ret = option_selected();
         var val = $("#xzmodal").attr("class");
         var array = val.split(" ");
@@ -625,22 +626,22 @@
             return;
         };
         var total = parseInt($("#goodstotail").text());
-        var option_total = $("#optiontotal").val();
+        //var option_total = $("#optiontotal").val();
         var number = $$("#total");
         var p = parseInt(number.value);
         if (a == 1) {
-            if(total > 0){
-                if (p < 1038) number.value = ++p;
-                var temp_total = total-1;
-                $("#goodstotail").html(temp_total);
-            }
+            //if(total > 0){
+            if (p < 1038) number.value = ++p;
+            //var temp_total = total-1;
+            //$("#goodstotail").html(temp_total);
+            //}
         }
         else {
-            if(total < option_total-1){
-                if (p > 1) number.value = --p;
-                var temp_total = total+1;
-                $("#goodstotail").html(temp_total);
-            }
+            //if(total < option_total-1){
+            if (p > 1) number.value = --p;
+            //var temp_total = total+1;
+            //$("#goodstotail").html(temp_total);
+            //}
         }
     }
 </script>
