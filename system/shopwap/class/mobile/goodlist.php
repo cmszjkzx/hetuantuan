@@ -89,6 +89,17 @@
 				{
 					$profile['flag']=0;
 				}
+
+/*
+* 购物车数量
+* */
+$cartlist = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE   session_id = '".get_member_account(false)['openid']."'");
+$cartNum=0;
+foreach ($cartlist as $t) {
+    $cartNum += $t['total'];
+}
+
+$isdzd=false;
 				
 	
         include themePage('goodlist');
