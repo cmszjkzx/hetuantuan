@@ -57,7 +57,7 @@
 <div class="myoder">
 	<div class="myoder-hd">
 		<span class="pull-left font-20 color-3c">订单编号：<!--@php  echo $item['ordersn'];@--></span>
-        <input type="hidden" name="parentid" value="<!--@pphp  echo $item['ordersn'];@-->"/>
+		<input type="hidden" name="parentid" value="<!--@pphp  echo $item['ordersn'];@-->"/>
 		<span class="pull-right  font-20 color-FFAE01"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
             <!--@php  if($item['status'] == 0) { @--><span>等待买家付款</span><!--@php  } @-->
             <!--@php  if($item['status'] == 1) { @--><span>订单关闭</span><!--@php  } @-->
@@ -138,10 +138,10 @@
 
 		<!--@php  if($item['iscomment'] == 0 && $item['status'] >= 3) { @-->
 
-        <!--<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">-->
+		<!--<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">-->
 		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal">
-            我要评价
-        </a>
+			我要评价
+		</a>
 		<div class="modal fade bs-evaluate-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm" style="margin: 5rem 2rem">
 				<div class="modal-content">
@@ -160,18 +160,18 @@
 			</div>
 		</div>
 		<script>
-            $('button').on('click',function(){
-                //debugger;
-                var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->';
-                var order_comment = $('#comment').val();
-                $.post(url,{comment:order_comment},function(s){
-                    if(s.result==0){
-                        tip("评论失败!",true);
-                    }else{
-                        tip("评论成功!",true);
-                    }
-                });
-            })
+			$('button').on('click',function(){
+				//debugger;
+				var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->';
+				var order_comment = $('#comment').val();
+				$.post(url,{comment:order_comment},function(s){
+					if(s.result==0){
+						tip("评论失败!",true);
+					}else{
+						tip("评论成功!",true);
+					}
+				});
+			})
 		</script>
 		<!--@php  } @-->
 
@@ -194,6 +194,7 @@
 
 </div>
 <!--@php  } } @--></div>
+
 
 <!--@php  include page('footer');@-->	
 <!--@php //include themePage('footer');@-->
