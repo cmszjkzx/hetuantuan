@@ -17,6 +17,8 @@
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/script/common.js"></script>
 	<link rel="stylesheet" href="__RESOURCE__/css/weui.css" type="text/css"/>
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
 	<link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
 	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
@@ -93,10 +95,6 @@
 
 </style>
 
-
-<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
-<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
-
 <body>
 <!--<div class="myoder" style='padding-bottom: 10px;'>-->
 <div class="myoder" style="background-color: #EFEFEF">
@@ -139,25 +137,22 @@
 		</div>
 	</div>
 	<!--@php } else if($item['status'] >= 3){@-->
-	<div class="weui-cell weui-cells_form" style="text-align: center">
-		<div class="weui-cell">
-			<!--@php if(count($item_order_express) > 1) {foreach ($item_order_express as $order_express) { @-->
-			<span>
-				商品编号:<!--@php echo $order_express['goodssn'] @-->;
-				快递公司:<!--@php echo $order_express['expresscom'] @-->;
-				运单编号:<!--@php echo $order_express['expresssn'] @-->;
-				<br>
-				<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $order_express['express'] @-->&postid=<!--@php echo $order_express['expresssn'] @-->#result">[查看物流信息]</a>
-			</span>
-			<!--@php } } else if(count($item_order_express) == 1){ foreach ($item_order_express as $order_express) { @-->
-			<span>
-				快递公司:<!--@php echo $order_express['expresscom'] @-->;
-				运单编号:<!--@php echo $order_express['expresssn'] @-->;
-				<br>
-				<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $order_express['express'] @-->&postid=<!--@php echo $order_express['expresssn'] @-->#result">[查看物流信息]</a>
-			</span>
-			<!--@php } } @-->
+	<div class="weui-cells">
+		<!--@php foreach ($item_order_express as $order_express) { @-->
+		<div class="weui-cell weui-cell_access">
+			<img src="__RESOURCE__/images/ic_express.png" style="width: 1.5rem;height: 1.1rem">
+			<div class="weui-cell__bd" style="margin-left: 1rem">
+				<!--@php if(count($item_order_express) > 1) { @-->
+				商品编号:<!--@php echo $order_express['goodssn'] @-->
+				<!--@php } @-->
+				快递公司:<!--@php echo $order_express['expresscom'] @--><br>
+				单号:<!--@php echo $order_express['expresssn'] @-->
+			</div>
+			<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $order_express['express'] @-->&postid=<!--@php echo $order_express['expresssn'] @-->#result" class="weui-cell__ft font-28 color-3c"><span style="margin-top: -5px">查看物流</span></a>
+			<!--<a href="http://m.kuaidi100.com/index_all.html?type=&lt;!&ndash;@php echo $order_express['express'] @&ndash;&gt;&postid=&lt;!&ndash;@php echo $order_express['expresssn'] @&ndash;&gt;#result" class="pull-right color-3c">[查看物流信息]</a>-->
 		</div>
+			<!--@php  } @-->
+
 	</div>
 	<!--@php } @-->
 	<!--</div>-->
