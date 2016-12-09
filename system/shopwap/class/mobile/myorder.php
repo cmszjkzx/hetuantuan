@@ -8,7 +8,7 @@ $op = $_GP['op'];
 $settings=globaSetting();
 $rebacktime=intval($settings['shop_postsale']);
 $today = time();
-$order_iscomment = 1;
+$order_iscomment = 0;
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
@@ -175,6 +175,8 @@ if ($op == 'returncomment')
             mysqld_update('shop_order', array('status' => 5), array('id' => $orderid, 'ordersn' => $ordersn));
         }
     }
+    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
+    exit;
     //end
 }
 if ($op == 'returnpay')
@@ -235,7 +237,7 @@ elseif ($op == 'confirm')
         else
             mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
-    header("location:".WEBSITE_ROOT.mobile_url('myorder',array('status' => 99)));
+    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
     exit;
 }
 else if ($op == 'detail')
@@ -302,8 +304,8 @@ else if ($op == 'detail')
             $g['option'] = $option;
         }
         //2016-12-4-yanru-begin
-        if($g['iscomment'] == 0)
-            $order_iscomment = 0;
+        if($g['iscomment'] == 1)
+            $order_iscomment = 1;
         //end
     }
     $item['iscomment'] = $order_iscomment;//2016-12-4-yanru
@@ -397,10 +399,9 @@ else
     {
         foreach ($list as &$row)
         {
-            //2016-12-4-yanru-begin
+            //2016-12-4-yanru-begin-获取订单商品的评价字段，判断是否已经评价
             $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
                 . " WHERE o.orderid='{$row['id']}'");
-            $order_iscomment = 1;
             //2016-12-7-yanru-begin-可能会存在BUG，但是暂时没有出现
             if($row['status'] == 0){
                 if (30*60 < time()-$row['createtime']){
@@ -426,8 +427,8 @@ else
                 }
 
                 //2016-12-4-yanru-begin
-                if($item['iscomment'] == 0)
-                    $order_iscomment = 0;
+                if($item['iscomment'] == 1)
+                    $order_iscomment = 1;
                 //end
             }
             unset($item);
