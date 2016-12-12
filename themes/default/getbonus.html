@@ -27,7 +27,7 @@
                 //tip_close();
                 return false;
             }
-            var id = <!--@php echo $id @-->;
+            var id = <!--@php echo (empty($do) ? 0 : $do) @-->;
             var url='<!--@php echo mobile_url('getbonus', array('op'=>'submit'));@-->'+"&phone=" + $("#phone").val()+"&id="+id;
             $.getJSON(url, function(s){
                 if (s.result == 1) {
@@ -41,9 +41,7 @@
             });
             //return true;
         }
-    </script>
 
-    <script language='javascript'>
         function tip(msg, autoClose) {
             var div = $("#poptip");
             var content = $("#poptip_content");
