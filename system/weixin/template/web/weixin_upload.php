@@ -93,7 +93,7 @@
             <span style="font-size:12px">(建议图片宽不超过640px)</span>
         </label>
         <div class="col-sm-9">
-            <textarea  id="content" name="content">
+            <textarea  id="content" name="content" style="width: 400px; height: 300px; text-align: left;">
             </textarea>
         </div>
     </div>
@@ -113,22 +113,4 @@
     </div>
 </form>
 
-<script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/ueditor/ueditor.config.js?x=201508021"></script>
-<script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/ueditor/ueditor.all.min.js?x=141"></script>
-<script type="text/javascript">var ue = UE.getEditor('content');</script>
-
-<script language="javascript">
-    //ueditor
-    function fillform()
-    {
-        if(ue.queryCommandState( 'source' )==1)
-        {
-            document.getElementById("container").value=ue.getContent();
-        }else
-        {
-            document.getElementById("container").value=ue.body.innerHTML;
-        }
-        return true;
-    }
-</script>
 <?php  include page('footer');?>

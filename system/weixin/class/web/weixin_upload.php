@@ -7,6 +7,9 @@
  */
 ?>
 <?php
+$access_token = get_weixin_token();
+//$url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={$access_token}";
+//$return = $this->get_all_media($url);
 if(checksubmit()){
     if (!empty($_FILES['material']['tmp_name'])) {
         $upload = material_upload($_FILES['material']);
@@ -46,7 +49,8 @@ if(checksubmit()){
         if(empty($_GP['content_source_url'])){
             message("请输入原文地址!");
         }
-        $data['articles'] = array('title'=>$_GP['title'],
+        $_GP['content'] = "this is a test!";
+        $data = array('title'=>$_GP['title'],
             'thumb_media_id'=>$_GP['thumb_media_id'],
             'author'=>$_GP['author'],
             'digest'=>$_GP['digest'],
@@ -57,15 +61,13 @@ if(checksubmit()){
     }else{
         message("请选择是否为永久素材!");
     }
-    $return= $this->uploadMaterial($data, $_GP['status']);
-    if($return==true)
-    {
-        message('修改成功', 'refresh', 'success');
-    }else
-    {
-        message($return);
-    }
+    $return= $this->uploadMaterial($data, $_GP['status'],$access_token);
 }
-
+if($return==true)
+{
+    message('修改成功', 'refresh', 'success');
+}else
+{
+    message($return);
+}
 include page('weixin_upload');
-

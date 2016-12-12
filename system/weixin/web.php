@@ -43,11 +43,11 @@ class weixinAddons  extends BjSystemModule {
         $this->__web(__FUNCTION__);
     }
 
-    public function uploadMaterial($data, $status){
+    public function uploadMaterial($data, $status, $access_token){
 		    //http://www.cnblogs.com/binblogs/p/5207207.html
         if(0 == $status){
             $uDat = $data['media'];
-            $access_token = get_weixin_token();
+            //$access_token = get_weixin_token();
             $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token={$access_token}&type={$data['type']}";
             $upload_curl = curl_init();
             $timeout = 5;
@@ -69,13 +69,25 @@ class weixinAddons  extends BjSystemModule {
             //$content = http_post($url, $uDat);
             return $this->menuResponseParse($result);
         }else if(1 == $status){
-            $data = json_encode($data);
-            $data = str_replace("\\", "", $data);
-            $token = get_weixin_token();
-            $url = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={$token}";
-            $content = http_post($url, $data);
+            $uDat['articles'][] = $data;
+            $uDat = json_encode($uDat);
+            $uDat = str_replace("\\", "", $uDat);
+            //$access_token = get_weixin_token();
+            $url = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={$access_token}";
+            $content = http_post($url, $uDat);
             return $this->menuResponseParse($content);
         }
+    }
+
+    public function get_all_media($url){
+        $type = "image";
+        $data = array("type"=>$type,
+            "offset"=>0,
+            "count"=>20
+        );
+        $data = json_encode($data);
+        $content = http_post($url,$data);
+        return $this->menuResponseParse($content);
     }
     //end
 	
