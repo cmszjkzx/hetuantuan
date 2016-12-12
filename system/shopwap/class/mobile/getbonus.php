@@ -46,6 +46,7 @@ if(empty($_GP['op'])){
             }
         }
     }
-    header("location: " . mobile_url('bonus'));
+    //header("location: " . mobile_url('bonus'));
+    header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'bonus')));
     exit;
 }

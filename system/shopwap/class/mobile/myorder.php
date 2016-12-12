@@ -8,7 +8,6 @@ $op = $_GP['op'];
 $settings=globaSetting();
 $rebacktime=intval($settings['shop_postsale']);
 $today = time();
-$order_iscomment = 0;
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
@@ -153,10 +152,12 @@ if ($op == 'returncomment')
 //    exit;
 
     //2016-12-4-yanru-begin
+    $result = 0;
     if(!empty($_GP['comment'])){
         $orderid = intval($_GP['orderid']);
         $ordersn = $_GP['ordersn'];
         $order_temp = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND ordersn = :ordersn", array(':id' => $orderid, ':ordersn' => $ordersn ));
+        $order_status = $order_temp['status'];
         $order_shop_goods = mysqld_selectall("SELECT * FROM " . table('shop_order_goods') . " WHERE orderid = :orderid ", array(':orderid' => $orderid));
         foreach ($order_shop_goods as $goods){
             mysqld_update('shop_order_goods', array('iscomment' => 1), array('id' => $goods['id'], 'orderid' => $goods['orderid'] ));
@@ -171,13 +172,17 @@ if ($op == 'returncomment')
                 'goodsid' => $goods['goodsid']);
             mysqld_insert('shop_goods_comment', $comment_date);
         }
-        if($order_temp['status'] == 4){
+        if($order_status == 4){
             mysqld_update('shop_order', array('status' => 5), array('id' => $orderid, 'ordersn' => $ordersn));
+            $order_status = 5;
         }
+        $result = 1;
     }
-    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
+    die(json_encode(array('result' => $result,
+        'do'=>$_GP['do'],
+        'name'=>$_GP['name'],
+        'status'=>$order_status)));
     exit;
-    //end
 }
 if ($op == 'returnpay')
 {
@@ -242,6 +247,7 @@ elseif ($op == 'confirm')
 }
 else if ($op == 'detail')
 {
+    $order_iscomment = 0;
     $orderid = intval($_GP['orderid']);
     if(!empty($openid)){
         $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
@@ -399,6 +405,7 @@ else
     {
         foreach ($list as &$row)
         {
+            $order_iscomment = 0;
             //2016-12-4-yanru-begin-获取订单商品的评价字段，判断是否已经评价
             $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
                 . " WHERE o.orderid='{$row['id']}'");

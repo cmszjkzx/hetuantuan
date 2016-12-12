@@ -57,7 +57,7 @@
 <div class="myoder">
 	<div class="myoder-hd">
 		<span class="pull-left font-20 color-3c">订单编号：<!--@php  echo $item['ordersn'];@--></span>
-		<input type="hidden" name="parentid" value="<!--@pphp  echo $item['ordersn'];@-->"/>
+		<input type="hidden" name="parentid" value="<!--@php  echo $item['ordersn'];@-->"/>
 		<span class="pull-right  font-20 color-FFAE01"><!--@php  //echo date('Y-m-d H:i', $item['createtime'])@-->
             <!--@php  if($item['status'] == 0) { @--><span>等待买家付款</span><!--@php  } @-->
             <!--@php  if($item['status'] == 1) { @--><span>订单关闭</span><!--@php  } @-->
@@ -161,18 +161,55 @@
 			</div>
 		</div>
 		<script>
+            var count = 0;
 			$('button').on('click',function(){
 				//debugger;
-				var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->';
 				var order_comment = $('#comment').val();
-				$.post(url,{comment:order_comment},function(s){
-					if(s.result==0){
-						tip("评论失败!",true);
-					}else{
-						tip("评论成功!",true);
-					}
-				});
-			})
+                var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->'+'&comment='+order_comment;
+                count++;
+                //$.post(url,{comment:order_comment},function(s){
+				if(count==1){
+                    $.getJSON(url,function(s){
+                        if(s.result==0){
+                            tip("评论失败!",true);
+                            count=0;
+                        }else{
+                            tip("评论成功!",true);
+                            count=0;
+                            setTimeout(function(){
+                                setTimeout(function(){
+                                    var rement_url = 'index.php?mod=mobile&op=&name='+s.name+'&status='+s.status+'&do='+s.do;
+                                    location.href = rement_url;
+                                }, 2000);
+                            }, 2000);
+                        }
+                    });
+				}
+			});
+            function tip(msg, autoClose) {
+                var div = $("#poptip");
+                var content = $("#poptip_content");
+                if (div.length <= 0) {
+                    div = $("<div id='poptip'></div>").appendTo(document.body);
+                    content = $("<div id='poptip_content' style='text-align:center'>" + msg + "</div>").appendTo(document.body);
+                }
+                else {
+                    content.html(msg);
+                    content.show();
+                    div.show();
+                }
+                if (autoClose) {
+                    setTimeout(function () {
+                        content.fadeOut(3000);
+                        div.fadeOut(3000);
+
+                    }, 1000);
+                }
+            }
+            function tip_close() {
+                $("#poptip").fadeOut(3000);
+                $("#poptip_content").fadeOut(3000);
+            }
 		</script>
 		<!--@php  } @-->
 
