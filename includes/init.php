@@ -1692,6 +1692,65 @@ function express_order_upload($file, $type = 'file') {
 }
 //end
 
+//2016-12-11-yanru-begin
+function material_upload($file, $type = 'file') {
+    if(empty($file))
+    {
+        return error(-1, '没有上传内容');
+    }
+    $extention = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $extention = strtolower($extention);
+    if(empty($type)||$type=='file')
+    {
+        $limit=2* 1024 * 1024;
+        $extentions=array('gif', 'jpg', 'jpeg', 'png','bmp');
+    }
+    if($type=='video')
+    {
+        $limit=10* 1024 * 1024;
+        $extentions=array('mp4');
+    }
+    if($type=='thumb')
+    {
+        $limit=64* 1024;
+        $extentions=array('JPG');
+    }
+    if($type=='voice')
+    {
+        $limit=2* 1024 * 1024;
+        $extentions=array('mp3', 'wma', 'wav', 'amr');
+    }
+    if($type=='image')
+    {
+        $limit=2* 1024 * 1024;
+        $extentions=array('gif', 'jpg', 'jpeg', 'png','bmp');
+    }
+    if(!in_array(strtolower($extention), $extentions))
+    {
+        return error(-1, '不允许上传此类文件');
+    }
+    if($limit < filesize($file['tmp_name']))
+    {
+        return error(-1, "上传的文件超过大小限制");
+    }
+    $result = array();
+    $path = '/attachment/';
+    $result['path'] = "weixin_upload/" . date('Y/m/');
+    mkdirs(WEB_ROOT . $path . $result['path']);
+    do {
+        $filename = random(15) . ".{$extention}";
+    } while(is_file(SYSTEM_WEBROOT . $path . $filename));
+    $result['path'] .= $filename;
+    $filename = WEB_ROOT . $path . $result['path'];
+    if(!file_move($file['tmp_name'], $filename))
+    {
+        return error(-1, '保存上传文件失败');
+    }
+    $result['success'] = true;
+    return $result;
+}
+//end
+
 function http_get($url) {
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);

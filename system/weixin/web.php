@@ -37,6 +37,47 @@ class weixinAddons  extends BjSystemModule {
 	{
 		$this->__web(__FUNCTION__);
 	}
+	//2016-12-11-yanru-begin
+    public function do_weixin_upload()
+    {
+        $this->__web(__FUNCTION__);
+    }
+
+    public function uploadMaterial($data, $status){
+		    //http://www.cnblogs.com/binblogs/p/5207207.html
+        if(0 == $status){
+            $uDat = $data['media'];
+            $access_token = get_weixin_token();
+            $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token={$access_token}&type={$data['type']}";
+            $upload_curl = curl_init();
+            $timeout = 5;
+            $real_path = "{$_SERVER['DOCUMENT_ROOT']}"."/hetuantuan"."{$uDat['filename']}";
+            //$real_path=str_replace("/", "//", $real_path);
+            $upload_data = array("media" => "@{$real_path}", 'form-data' => $uDat);
+            curl_setopt($upload_curl, CURLOPT_URL, $url);
+            curl_setopt($upload_curl, CURLOPT_POST, true);
+            curl_setopt($upload_curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($upload_curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt ( $upload_curl, CURLOPT_SAFE_UPLOAD, false);
+            if (stripos ( $url, "https://" ) !== false) {
+                curl_setopt ($upload_curl, CURLOPT_SSL_VERIFYPEER, false );
+                curl_setopt ($upload_curl, CURLOPT_SSL_VERIFYHOST, false);
+            }
+            curl_setopt($upload_curl, CURLOPT_POSTFIELDS, $upload_data);
+            $result = curl_exec($upload_curl);
+            curl_close($upload_curl);
+            //$content = http_post($url, $uDat);
+            return $this->menuResponseParse($result);
+        }else if(1 == $status){
+            $data = json_encode($data);
+            $data = str_replace("\\", "", $data);
+            $token = get_weixin_token();
+            $url = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={$token}";
+            $content = http_post($url, $data);
+            return $this->menuResponseParse($content);
+        }
+    }
+    //end
 	
 	
 		private function menuResponseParse($content) {
@@ -45,9 +86,14 @@ class weixinAddons  extends BjSystemModule {
 		}
 		$dat = $content;
 		$result = @json_decode($dat, true);
-		if(is_array($result) && $result['errcode'] == '0') {
-			return true;
-		} else {
+		//2016-12-12-yanru
+//		if(is_array($result) && $result['errcode'] == '0') {
+//			return true;
+//		}
+            //end
+            if(is_array($result) && $result['errcode'] == '0' || empty($result['errcode'])) {
+                return true;
+		}else {
 			if(is_array($result)) {
 				return  message("微信公众平台返回错误. 错误代码: {$result['errcode']} 错误信息: {$result['errmsg']} 错误描述: " . $this->error_code($result['errcode']));
 			} else {
