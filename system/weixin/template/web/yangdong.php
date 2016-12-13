@@ -58,17 +58,12 @@
     function weixin_upload(){
         var data = $('#data').val();
         var url = $('#url').val();
-        //var return_url = 'index.php?mod=site&name=weixin&do=yangdong&op=submit'+'&data='+data+'&url='+url;
         var return_url = 'index.php?mod=site&name=weixin&do=yangdong&op=submit';
-        $.post(return_url,{data:data, url:url},function(s){
-                if(s.result==0){
-                    return false;
-                }else{
-                    var re = s.return_json;
-                    $("#result").val("");
-                    $("#result").val(re);
-                }
-            });
+        $.post(return_url,{data:data, url:url},function(result){
+            alert(result);
+            $("#result").val("");
+            $("#result").val(result);
+        });
     }
 </script>
 

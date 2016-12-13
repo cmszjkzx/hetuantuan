@@ -27,8 +27,7 @@ if('submit' == $_GP['op']) {
 //        }else{
 //            die(json_encode(array('result' => 1, 'return' => $return_json)));
 //        }
-        //$return_json=$data;
-        die(json_encode(array('result' => 1, 'return_json' => $return_json)));
+        die(json_encode($return_json));
     }
 }
 include page('yangdong');
