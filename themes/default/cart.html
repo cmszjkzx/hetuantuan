@@ -19,6 +19,67 @@
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/jquery.touchwipe.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/swipe.js"></script>
 </head>
+<style>
+	input[type=checkbox],input[type=radio]{
+		-webkit-appearance: none;
+		appearance: none;
+		width: 1rem;
+		height: 1rem;
+		margin: 0;
+		cursor: pointer;
+		vertical-align: bottom;
+		/*background: #fff;*/
+		background-image: url('__RESOURCE__/images/ic_di_bu_lan_.png');
+		background-size:cover;
+		/*background-position: 50% center;*/
+		/*background-repeat:no-repeat;*/
+		/*border: 1px solid green;*/
+		/*-webkit-border-radius: 1px;*/
+		/*-moz-border-radius: 1px;*/
+		/*border-radius: 3px;*/
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	input[type=checkbox]:active,input[type=radio]:active {
+		/*border-color: green;*/
+		/*background: #ebebeb;*/
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		background-size:cover;
+	}
+
+	input[type=checkbox]:hover {
+		/*border-color: #c6c6c6;*/
+		/*-webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);*/
+		/*-moz-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);*/
+		/*box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);*/
+	}
+
+	input[type=checkbox]:checked,input[type=radio]:checked {
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		background-size:cover;
+	}
+
+	input[type=checkbox]:checked::after {
+		/*content: url('__RESOURCE__/images/ic_di_bu_lan.png');*/
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		background-size:cover;
+		width: 1rem;
+		height: 1rem;
+		display: block;
+		position: absolute;
+		top: -5px;
+		right: 0px;
+		left: -5px
+	}
+
+	input[type=checkbox]:focus {
+		outline: none;
+		border-color: green;
+	}
+</style>
 
 <body style="padding-top:0px; ">
 <div class="main">
@@ -63,6 +124,7 @@
 			<img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $goods['thumb'];@-->">
 			</a>
 		</div>
+		<input type="checkbox" checked="true" class="check_item" id="check_<!--@php  echo $item['id'];@-->" style="margin-top: 1.6rem">
 	</div>
 
 
@@ -104,6 +166,24 @@
 				updateCart(id,1);
 			}
 
+		});
+		$(".check_item").click(function(){
+			console.log($(this).attr('id'));
+//			$(this).attr('checked',false);
+			console.log($(this).attr('checked'));
+			var check;
+			if ($(this).attr('checked')){
+				//勾选
+				check = 1;
+			} else {
+				//不勾选
+				check = 0;
+			}
+			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->' + "&id=" + $(this).attr('id') + "$ischeked=" + check;
+			$.getJSON(url, function(s){
+
+			});
+			canculate();
 		})
 
 	})
@@ -118,6 +198,20 @@
 			});
 		}
 	}
+//	function itemCheck() {
+//		alert($(this));
+//		console.log($(this));
+//		console.log($(this).attr('type'));
+//		var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'remove'))@-->' + "&id=" + id;
+//		$.getJSON(url, function(s){
+//			$("#item_" + s.cartid).remove();
+//			if($(".shopcart-item").length<=0){
+//				$("#cartempty").show();
+//				$("#cartfooter").hide();
+//			}
+//			canculate();
+//		});
+//	}
 	function removeCart(id){
 		if (confirm('您确定要删除此商品吗？')) {
 //			alert("正在处理数据...");
