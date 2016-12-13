@@ -117,7 +117,7 @@
 			<!--@php  if(!empty($goods['optionname'])) { @--><div class="price" style="margin-top: 0.25rem"><span><!--@php  echo $goods['optionname'];@--></span></div><!--@php  } @-->
 			<div class="price" style="display: none">单价：<span id="singleprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $goods['optionmarketprice'];@--></span> 元</div>
 
-			<div class="price" style="margin-top: 0.7rem">￥<span class='singletotalprice' id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
+			<div class="price" style="margin-top: 0.7rem">￥<span class='singletotalprice' ischecked="true" id="goodsprice_<!--@php  echo $item['id'];@-->"><!--@php  echo $item['totalprice'];@--></span> 元</div>
 		</div>
 		<div style="height: inherit;width:4.5rem;display: inline;float: right;margin-right: 10px">
 			<a href="<!--@php echo mobile_url('detail', array('id' => $item['goodsid']))@-->" style="width: 100%;height: 100%">
@@ -174,15 +174,17 @@
 			var check;
 			if ($(this).attr('checked')){
 				//勾选
+				$('#goodsprice_'+$(this).attr('id').substr(6)).attr('ischecked',true);
 				check = 1;
 			} else {
 				//不勾选
 				check = 0;
+				$('#goodsprice_'+$(this).attr('id').substr(6)).attr('ischecked',false);
 			}
-			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->' + "&id=" + $(this).attr('id') + "$ischeked=" + check;
-			$.getJSON(url, function(s){
-
-			});
+			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->' + "&id=" + $(this).attr('id').substr(6) + "$ischeked=" + check;
+//			$.getJSON(url, function(s){
+//
+//			});
 			canculate();
 		})
 
@@ -272,9 +274,9 @@
 
 		var total = 0;
 		$(".singletotalprice").each(function(){
-
-			total+=parseFloat( $(this).html() );
-
+			if($(this).attr('ischecked') == 'true'){
+				total+=parseFloat( $(this).html() );
+			}
 		});
 		total=total.toFixed(2);
 		$("#pricetotal").html(total);
