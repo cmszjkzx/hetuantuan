@@ -286,7 +286,7 @@
                 <?php if ($order['status']==-2||$order['status']==-3||$order['status']==-4){ ?>
                     <button type="submit" class="btn span2" name="cancelreturn" onclick="return confirm('此订单要退回申请吗？'); return false;" value="cancelreturn">退回申请</button>
                 <?php  } ?>
-                <?php  if($order['status']>=0||($order['status']<-1&&$order['status']>-5)) { ?>
+                <?php  if($order['status']>=0||($order['status']<-1&&$order['status']>=-6)) { ?>
                     <button type="submit" class="btn span2" name="close" onclick="return confirm('永久关闭此订单吗？'); return false;" value="close">关闭订单</button>
                 <?php  } ?>
                 <?php  if($hasaddon16) { ?>
