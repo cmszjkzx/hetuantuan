@@ -42,6 +42,10 @@ class weixinAddons  extends BjSystemModule {
     {
         $this->__web(__FUNCTION__);
     }
+    public function do_yangdong()
+    {
+        $this->__web(__FUNCTION__);
+    }
 
     public function uploadMaterial($data, $status, $access_token){
 		    //http://www.cnblogs.com/binblogs/p/5207207.html

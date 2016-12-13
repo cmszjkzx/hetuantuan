@@ -84,6 +84,13 @@
                     素材上传
                 </a>
             </li>
+
+            <li>
+                <a onclick="navtoggle('微信设置 - > 杨东专用 ')"  href="<?php  echo create_url('site', array('name' => 'weixin','do' => 'yangdong'))?>" target="main" >
+                    <i class="icon-double-angle-right"></i>
+                    杨东专用
+                </a>
+            </li>
         </ul>
     </li>
 <?php  } ?>

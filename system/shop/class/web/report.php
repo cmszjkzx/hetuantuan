@@ -107,7 +107,7 @@ if($report=='orderreport')
                 ->setCellValue('M'.$i, '')
                 ->setCellValue('N'.$i, '')
                 ->setCellValue('O'.$i, '')
-                ->setCellValue('P'.$i, '');
+                ->setCellValue('P'.$i, $item['remark']);
             $i++;
         }
     }
@@ -128,7 +128,7 @@ if($report=='orderreport')
     $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(35);
     $objPHPExcel->getActiveSheet()->setTitle('订单统计');
 }
 
