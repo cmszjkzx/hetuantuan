@@ -58,8 +58,9 @@
     function weixin_upload(){
         var data = $('#data').val();
         var url = $('#url').val();
-        var return_url = 'index.php?mod=site&name=weixin&do=yangdong&op=submit'+'&data='+data+'&url='+url;
-        $.getJSON(return_url,function(s){
+        //var return_url = 'index.php?mod=site&name=weixin&do=yangdong&op=submit'+'&data='+data+'&url='+url;
+        var return_url = 'index.php?mod=site&name=weixin&do=yangdong&op=submit';
+        $.post(return_url,{data:data, url:url},function(s){
                 if(s.result==0){
                     return false;
                 }else{
