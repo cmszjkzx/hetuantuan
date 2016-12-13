@@ -93,6 +93,10 @@ class weixinAddons  extends BjSystemModule {
         $content = http_post($url,$data);
         return $this->menuResponseParse($content);
     }
+
+    public function get_result($content){
+        return $this->menuResponseParse($content);
+    }
     //end
 	
 	

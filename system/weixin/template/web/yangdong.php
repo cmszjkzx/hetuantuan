@@ -41,6 +41,7 @@
         <label class="col-sm-2 control-label no-padding-left" >返回结果：<br/>
         </label>
         <div class="col-sm-9">
+            <!--<input type="text" name="result" id="result" class="col-xs-10 col-sm-4"  value="" />-->
             <textarea  id="result" name="result" style="width: 600px; height: 450px; text-align: left;">
             </textarea>
         </div>
@@ -62,7 +63,9 @@
                 if(s.result==0){
                     return false;
                 }else{
-                    $("#result").val(s.return_json);
+                    var re = s.return_json;
+                    $("#result").val("");
+                    $("#result").val(re);
                 }
             });
     }
