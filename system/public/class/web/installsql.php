@@ -564,7 +564,7 @@ CREATE TABLE `hetuantuan_shop_cart` (
   `optionid` int(10) DEFAULT '0',
 -- ----------------------------
 -- 2016-12-13-yanru
-  `ischecked` int(1) NOT NULL DEFAULT '0' COMMENT '是否勾选',
+  `ischecked` int(1) NOT NULL DEFAULT '1' COMMENT '是否勾选',
 -- ----------------------------
   `marketprice` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
@@ -680,7 +680,10 @@ CREATE TABLE `hetuantuan_shop_goods` (
   `thumb` varchar(255) DEFAULT '' COMMENT '商品主图',
   `description` varchar(1000) NOT NULL DEFAULT '' COMMENT '商品分享描述',
   `content` text NOT NULL COMMENT '商品详细描述',
-  `express` text NOT NULL COMMENT '快递详细描述',
+-- ----------------------------
+-- 2016-12-4-yanru
+  `express` varchar(1000) NOT NULL DEFAULT '' COMMENT '快递详细描述/商品页面简介描述',
+-- ----------------------------
   `service` text NOT NULL COMMENT '服务详细描述',
   `goodssn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
   `weight` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '重量',
