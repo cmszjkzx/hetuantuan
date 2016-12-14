@@ -32,14 +32,20 @@
             $.getJSON(url, function(s){
                 if (s.result == 1) {
                     tip("你已经领取优惠券，可不要贪心哦!",true);
-                }else{
-                    tip("优惠券已领取，快去使用吧!",true);
-                }
-                setTimeout(function(){
                     setTimeout(function(){
-                        location.href = '<!--@php  echo mobile_url('bonus');@-->';
+                        setTimeout(function(){
+                            location.href = '<!--@php  echo mobile_url('bonus');@-->';
+                        }, 2000);
                     }, 2000);
-                }, 2000);
+                }else{
+                    tip("优惠券已领取，快去使用吧!");
+                    tip_close();
+                    setTimeout(function(){
+                        setTimeout(function(){
+                            location.href = '<!--@php  echo mobile_url('bonus');@-->';
+                        }, 1000);
+                    }, 1000);
+                }
             });
             //return true;
         }
@@ -65,8 +71,8 @@
             }
         }
         function tip_close() {
-            $("#poptip").fadeOut(3000);
-            $("#poptip_content").fadeOut(3000);
+            $("#poptip").fadeOut(1000);
+            $("#poptip_content").fadeOut(1000);
         }
     </script>
 </head>
