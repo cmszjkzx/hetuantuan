@@ -257,9 +257,9 @@ $openid   = base64_decode($_COOKIE[$cookieid]);
 					}
         $access_token = "";
         $code         = $_GP['code'];
-//        $url          = WEBSITE_ROOT . 'index.php?' . $_SERVER['QUERY_STRING'];
-            $url          = 'http://hetuantuan.ngrok.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
-//                $url          = 'http://9198e902.ngrok.io/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
+        $url          = WEBSITE_ROOT . 'index.php?' . $_SERVER['QUERY_STRING'];
+//            $url          = 'http://hetuantuan.ngrok.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
+//                $url          = 'http://h73vv.free.natapp.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
 
 
     if (empty($code)) {
@@ -495,8 +495,9 @@ function is_use_weixin()
 		{
 			return false;
 		}
-	if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!== false)&&empty($no_access)) {
-		
+//	if ((strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!== false)&&empty($no_access)) {
+	if (empty($no_access)) {
+
 		return true;
 	}
 	return false;
