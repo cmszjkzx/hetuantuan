@@ -38,13 +38,13 @@
                         }, 2000);
                     }, 2000);
                 }else{
-                    tip("优惠券已领取，快去使用吧!");
+                    tip("优惠券已领取，正在跳转中!");
                     tip_close();
                     setTimeout(function(){
                         setTimeout(function(){
                             location.href = '<!--@php  echo mobile_url('bonus');@-->';
-                        }, 1000);
-                    }, 1000);
+                        }, 800);
+                    }, 800);
                 }
             });
             //return true;
