@@ -29,7 +29,7 @@
 		cursor: pointer;
 		vertical-align: bottom;
 		/*background: #fff;*/
-		background-image: url('__RESOURCE__/images/ic_di_bu_lan_.png');
+		background: url('__RESOURCE__/images/ic_di_bu_lan_.png') no-repeat;
 		background-size:cover;
 		/*background-position: 50% center;*/
 		/*background-repeat:no-repeat;*/
@@ -37,20 +37,24 @@
 		/*-webkit-border-radius: 1px;*/
 		/*-moz-border-radius: 1px;*/
 		/*border-radius: 3px;*/
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
+		/*-webkit-box-sizing: border-box;*/
+		/*-moz-box-sizing: border-box;*/
+		/*box-sizing: border-box;*/
 		position: relative;
 	}
 
 	input[type=checkbox]:active,input[type=radio]:active {
 		/*border-color: green;*/
 		/*background: #ebebeb;*/
-		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		-webkit-appearance: none;
+		appearance: none;
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png') no-repeat;
 		background-size:cover;
 	}
 
 	input[type=checkbox]:hover {
+		-webkit-appearance: none;
+		appearance: none;
 		/*border-color: #c6c6c6;*/
 		/*-webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);*/
 		/*-moz-box-shadow: inset 0 2px 2px rgba(0,0,0,0.1);*/
@@ -58,13 +62,17 @@
 	}
 
 	input[type=checkbox]:checked,input[type=radio]:checked {
-		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		-webkit-appearance: none;
+		appearance: none;
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png') no-repeat;
 		background-size:cover;
 	}
 
 	input[type=checkbox]:checked::after {
 		/*content: url('__RESOURCE__/images/ic_di_bu_lan.png');*/
-		background: url('__RESOURCE__/images/ic_di_bu_lan.png');
+		-webkit-appearance: none;
+		appearance: none;
+		background: url('__RESOURCE__/images/ic_di_bu_lan.png') no-repeat;
 		background-size:cover;
 		width: 1rem;
 		height: 1rem;
@@ -76,8 +84,10 @@
 	}
 
 	input[type=checkbox]:focus {
-		outline: none;
-		border-color: green;
+		-webkit-appearance: none;
+		appearance: none;
+		/*outline: none;*/
+		/*border-color: green;*/
 	}
 
 	a.disabled {
