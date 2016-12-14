@@ -31,6 +31,18 @@ if ($op == 'cancelsend')
 
     if(!empty($openid)){
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
+        //2016-12-14-yanru-begin
+        if($item['status']==0 || $item['status']==1)
+        {
+            if($item['hasbonus']) {
+                $data = array('isuse' => 0,
+                    'used_time' => 0,
+                    'order_id' => 0);
+                mysqld_update('bonus_user', $data, array('order_id' => $item['id'], 'openid'=>$openid));
+            }
+
+        }
+        //end
     }
     //message('该订单不可取消');
     header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
