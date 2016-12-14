@@ -33,8 +33,8 @@ define('RESOURCE_ROOT', WEBSITE_ROOT.'assets/');
 define('SYSTEM_ROOT', WEB_ROOT.'/system/');	
 define('CUSTOM_ROOT', WEB_ROOT.'/custom/');	
 define('ADDONS_ROOT', WEB_ROOT.'/addons/');
-defined('DEVELOPMENT') or define('DEVELOPMENT',1);
-defined('SQL_DEBUG') or define('SQL_DEBUG', 1);
+defined('DEVELOPMENT') or define('DEVELOPMENT',0);
+defined('SQL_DEBUG') or define('SQL_DEBUG', 0);
 define('WEB_SESSION_ACCOUNT', SESSION_PREFIX."web_account");
 define('MAGIC_QUOTES_GPC', (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) || @ini_get('magic_quotes_sybase'));
 if(!session_id())
