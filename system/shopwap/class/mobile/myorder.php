@@ -29,20 +29,21 @@ if ($op == 'cancelsend')
         message('请确认是否受到货物！');
     }
 
+    //2016-12-14-yanru-begin
+    if($item['status']==0 || $item['status']==1)
+    {
+        if($item['hasbonus']) {
+            $data = array('isuse' => 0,
+                'used_time' => 0,
+                'order_id' => 0);
+            mysqld_update('bonus_user', $data, array('order_id' => $item['id'], 'openid'=>$openid));
+        }
+
+    }
+    //end
+
     if(!empty($openid)){
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
-        //2016-12-14-yanru-begin
-        if($item['status']==0 || $item['status']==1)
-        {
-            if($item['hasbonus']) {
-                $data = array('isuse' => 0,
-                    'used_time' => 0,
-                    'order_id' => 0);
-                mysqld_update('bonus_user', $data, array('order_id' => $item['id'], 'openid'=>$openid));
-            }
-
-        }
-        //end
     }
     //message('该订单不可取消');
     header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
@@ -261,9 +262,10 @@ else if ($op == 'detail')
 {
     $order_iscomment = 0;
     $orderid = intval($_GP['orderid']);
-    if(!empty($openid)){
-        $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
+    if(empty($openid)){
+       message('抱歉，您还没有登录！', mobile_url('confirm'));
     }
+    $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE openid = '".$openid."' and id='{$orderid}' limit 1");
     if (empty($item))
     {
         message('抱歉，您的订单不存或是已经被取消！', mobile_url('myorder'), 'error');
