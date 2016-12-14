@@ -227,6 +227,13 @@ public function verifyorder($openid,$ordersn)
                     );
                 return $this->respNews($news,$message);
             }
+            if($reply['ruletype']==3)
+            {
+                $reply['mediaid'] = htmlspecialchars_decode($reply['description']);
+//                $reply['content'] = str_replace(array('<br>', '&nbsp;'), array("\n", ' '), $reply['content']);
+//                $reply['content'] = strip_tags($reply['content'], '<a>');
+                return $this->respImage($reply['mediaid'],$message);
+            }
 
             return $this->respService($message);
 		}
