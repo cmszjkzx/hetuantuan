@@ -89,9 +89,6 @@ if ($operation == 'display')
     $pager = pagination($total, $pindex, $psize);
     foreach ( $list as $id => $item)
     {
-//        if(!empty($item['weixin_openid'])){
-//            $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  weixin_openid=:weixin_openid ",array(':weixin_openid' => $item['weixin_openid']));;
-//        }else
         if(!empty($item['openid'])){
             $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  openid=:openid ",array(':openid' => $item['openid']));
         }

@@ -27,6 +27,11 @@ if('submit' == $_GP['op']) {
 //        }else{
 //            die(json_encode(array('result' => 1, 'return' => $return_json)));
 //        }
+        $order = array("\r\n", "\n", "\r");
+        $return_json = str_replace($order,'',$return_json);
+        $return_json = strtr($return_json, array(' '=>''));
+        $return_json = stripslashes($return_json);
+        //$return_json=str_replace("\\","",$return_json);
         die(json_encode($return_json));
     }
 }

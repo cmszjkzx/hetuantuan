@@ -91,7 +91,7 @@ if ($op == 'add') {
     $id = $_GP['id'];
     $id = substr($id, 6);
     if(1 == $ischecked){
-        mysqld_update('shop_cart', array('ischecked'=>1), array('id'=>$id, 'session_id'=>$openid, ));
+        mysqld_update('shop_cart', array('ischecked'=>1), array('id'=>$id, 'session_id'=>$openid));
     }
     if(0 == $ischecked){
         mysqld_update('shop_cart', array('ischecked'=>0), array('id'=>$id, 'session_id'=>$openid));
@@ -104,10 +104,10 @@ if ($op == 'add') {
     if (!empty($list)) {
         foreach ($list as &$item) {
 //            $goods = mysqld_select("SELECT  title, thumb, marketprice, total FROM " . table('shop_goods') . " WHERE id=:id limit 1", array(":id" => $item['goodsid']));
-//            //属性
 //            $option = mysqld_select("select title,marketprice,stock from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $item['optionid']));
+
+            mysqld_update('shop_cart', array('ischecked'=>1), array('id'=>$item['id'], 'session_id'=>$item['session_id']));
             $goods = mysqld_select("SELECT * FROM " . table('shop_goods') . " WHERE id=:id limit 1", array(":id" => $item['goodsid']));
-            //属性
             $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $item['optionid']));
             if ($option) {
                 //$goods['title'] = $goods['title'];

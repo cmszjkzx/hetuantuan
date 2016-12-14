@@ -77,7 +77,7 @@
 				<?php  if($item['istime']==1) { ?>  <label data='<?php  echo $item['istime'];?>' class='label label-info' >促销</label><?php  } ?>
 				<?php  if($item['issendfree']==1) { ?> <label data='<?php  echo $item['issendfree'];?>' class='label label-info'>包邮</label><?php  } ?>
 				<?php  if($item['isrecommand']==1) { ?> <label data='<?php  echo $item['isrecommand'];?>' class='label label-info'>首页推荐</label><?php  } ?>
-				<?php  if($item['isnew']==1) { ?> <label data='<?php  echo $item['isnew'];?>' class='label label-info'>新品</label><?php  } ?>
+				<?php  if($item['isnew']==1) { ?> <label data='<?php  echo $item['isnew'];?>' class='label label-info'>进口商品</label><?php  } ?>
 				<?php  if($item['isfirst']==1) { ?> <label data='<?php  echo $item['isfirst'];?>' class='label label-info'>首发</label><?php  } ?>
 				<?php  if($item['ishot']==1) { ?> <label data='<?php  echo $item['ishot'];?>' class='label label-info'>热卖</label><?php  } ?>
 				<?php  if($item['isjingping']==1) { ?> <label data='<?php  echo $item['isjingping'];?>' class='label label-info'>精品</label><?php  } ?>

@@ -63,7 +63,7 @@
             alert(result);
             $("#result").val("");
             $("#result").val(result);
-        });
+        },"json");
     }
 </script>
 

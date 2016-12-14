@@ -21,12 +21,12 @@ wx.config({
         'onMenuShareQZone',
       ]
 });
-wx.error(function(res){	
-	if('<?php echo $shopwap_weixin_share['signature']?>'!='')
+wx.error(function(res){
+    if('<?php echo $shopwap_weixin_share['signature']?>'!='')
 	{
 		if(res.errMsg='config:invalid signature')
 		{
-	        alert(res.errMsg);
+	        //alert(res.errMsg);
 		}
 	}
 });	
