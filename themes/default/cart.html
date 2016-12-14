@@ -168,56 +168,71 @@
 
 		});
         $(".check_item").click(function(){
-            //debugger;
-            console.log($(this).attr('id'));
-//			$(this).attr('checked',false);
-            console.log($(this).attr('checked'));
-            //2016-12-13-yanru
-            var object = $(this).parent();
-            //var singletotalprice = parseInt(object.find('.singletotalprice').text().replace(/[^0-9]/ig,""));
-            //var singletotalprice = parseFloat(object.find('.singletotalprice').text().substring(1));
-            var singletotalprice = getfloat(object.find('.singletotalprice').text());
-            //end
-            var check;
-            if ($(this).attr('checked')){
-                check = 1;
-            } else {
-                check = 0;
-            }
+			var check;
+			if ($(this).attr('checked')){
+				//勾选
+				$('#goodsprice_'+$(this).attr('id').substr(6)).attr('ischecked',true);
+				check = 1;
+			} else {
+				//不勾选
+				check = 0;
+				$('#goodsprice_'+$(this).attr('id').substr(6)).attr('ischecked',false);
+			}
+//			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->' + "&id=" + $(this).attr('id').substr(6) + "$ischeked=" + check;
             var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->'+"&id="+$(this).attr('id')+"&ischeked="+check;
-            $.getJSON(url, function(s){
-                //debugger;
-                //var total = parseInt($("#pricetotal").text().replace(/[^0-9]/ig,""));
-                //var total = parseFloat($("#pricetotal").text().substring(1));
-                var total = getfloat($("#pricetotal").text());
-                if(s.result == 1){
-                    if(check == 1){
-                        var newtotal = total+singletotalprice;
-                        $("#pricetotal").html("￥"+String(newtotal));
-                    }
-                    else{
-                        var newtotal = total-singletotalprice;
-                        $("#pricetotal").html("￥"+String(newtotal));
-                    }
-                }else{
-                    tip("状态更新失败", true)
-                }
-            });
-            //canculate();
-        });
-    });
-    //2016-12-14-yanru
-    function getfloat(tempstring){
-        //debugger;
-        var str = tempstring.split("");
-        var length = tempstring.length;
-        var nextstr="";
-        for(var i=0; i<length; i++){
-            if((str[i]>=0 && str[i]<=9)|| "."==str[i])
-                nextstr+=str[i];
-        }
-        return parseFloat(nextstr);
-    }
+            $.getJSON(url, function(s){});
+			canculate();
+		})
+
+	})
+//			$(this).attr('checked',false);
+//            console.log($(this).attr('checked'));
+//            //2016-12-13-yanru
+//            var object = $(this).parent();
+//            //var singletotalprice = parseInt(object.find('.singletotalprice').text().replace(/[^0-9]/ig,""));
+//            //var singletotalprice = parseFloat(object.find('.singletotalprice').text().substring(1));
+//            var singletotalprice = getfloat(object.find('.singletotalprice').text());
+//            //end
+//            var check;
+//            if ($(this).attr('checked')){
+//                check = 1;
+//            } else {
+//                check = 0;
+//            }
+//            var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'check'))@-->'+"&id="+$(this).attr('id')+"&ischeked="+check;
+//            $.getJSON(url, function(s){
+//                //debugger;
+//                //var total = parseInt($("#pricetotal").text().replace(/[^0-9]/ig,""));
+//                //var total = parseFloat($("#pricetotal").text().substring(1));
+//                var total = getfloat($("#pricetotal").text());
+//                if(s.result == 1){
+//                    if(check == 1){
+//                        var newtotal = total+singletotalprice;
+//                        $("#pricetotal").html("￥"+String(newtotal));
+//                    }
+//                    else{
+//                        var newtotal = total-singletotalprice;
+//                        $("#pricetotal").html("￥"+String(newtotal));
+//                    }
+//                }else{
+//                    tip("状态更新失败", true)
+//                }
+//            });
+//            //canculate();
+//        });
+//    });
+//    //2016-12-14-yanru
+//    function getfloat(tempstring){
+//        //debugger;
+//        var str = tempstring.split("");
+//        var length = tempstring.length;
+//        var nextstr="";
+//        for(var i=0; i<length; i++){
+//            if((str[i]>=0 && str[i]<=9)|| "."==str[i])
+//                nextstr+=str[i];
+//        }
+//        return parseFloat(nextstr);
+//    }
     //end
 	function clearCart(){
 		if (confirm('确定要清空购物车吗？')) {
