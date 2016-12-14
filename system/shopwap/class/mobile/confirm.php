@@ -128,7 +128,8 @@ if (!empty($id))
 }
 if (!$direct) {
     //如果不是直接购买（从购物车购买）
-    $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE  session_id = '".$openid."'");
+    //$list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE  session_id = '".$openid."'");
+    $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE ischecked = 1 and session_id = '".$openid."'");
     if (!empty($list)) {
 
         $totalprice=0;
@@ -456,7 +457,8 @@ if (checksubmit('submit')) {
     require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_2.php');
     //清空购物车
     if (!$direct) {
-        mysqld_delete("shop_cart", array( "session_id" => $openid));
+        //mysqld_delete("shop_cart", array("session_id" => $openid));
+        mysqld_delete("shop_cart", array("ischecked"=>1, "session_id" => $openid));
     }
     clearloginfrom();
     header("Location:".mobile_url('pay', array('orderid' => $orderid,'topay'=>'1')) );
