@@ -562,6 +562,10 @@ CREATE TABLE `hetuantuan_shop_cart` (
   `session_id` varchar(50) NOT NULL,
   `total` int(10) unsigned NOT NULL,
   `optionid` int(10) DEFAULT '0',
+-- ----------------------------
+-- 2016-12-13-yanru
+  `ischecked` int(1) NOT NULL DEFAULT '0' COMMENT '是否勾选',
+-- ----------------------------
   `marketprice` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `idx_openid` (`session_id`)

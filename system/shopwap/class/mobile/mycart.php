@@ -85,7 +85,20 @@ if ($op == 'add') {
     $num = intval($_GP['num']);
     mysqld_query("update " . table('shop_cart') . " set total=$num where id=:id", array(":id" => $id));
     die(json_encode(array("result" => 1)));
-} else {
+} else if($op == 'check'){
+    //2016-12-13-yanru
+    $ischecked = $_GP['ischeked'];
+    $id = $_GP['id'];
+    $id = substr($id, 6);
+    if(1 == $ischecked){
+        mysqld_update('shop_cart', array('ischecked'=>1), array('id'=>$id, 'session_id'=>$openid, ));
+    }
+    if(0 == $ischecked){
+        mysqld_update('shop_cart', array('ischecked'=>0), array('id'=>$id, 'session_id'=>$openid));
+    }
+    die(json_encode(array("result" => 1)));
+    //end
+}else {
     $list = mysqld_selectall("SELECT * FROM " . table('shop_cart') . " WHERE   session_id = '".$openid."'");
     $totalprice = 0;
     if (!empty($list)) {
