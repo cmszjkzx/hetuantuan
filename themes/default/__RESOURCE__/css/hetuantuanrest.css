@@ -136,7 +136,7 @@ body {
 }
 
 /*.dropdown-reset {*/
-    /*padding: 0;*/
+/*padding: 0;*/
 /*}*/
 
 .dropdown-reset li {
@@ -157,4 +157,35 @@ body {
 
 label{
     font-weight: 100;
+}
+
+.display_flex {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+}
+
+.display_flex_item {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+}
+
+.display_flex_item_nav {
+    -webkit-box-flex: 7.2;
+    -moz-box-flex: 7.2;
+    -webkit-flex: 7.2;
+    -ms-flex: 7.2;
+    flex: 7.2;
+    display: block;
 }

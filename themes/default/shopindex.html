@@ -56,13 +56,13 @@
             </script>
         </div>
     </div>
-    <div class="paixu paixu_index" style="display: flex;display: -ms-flexbox;display: -webkit-flex;border-top: solid 0.25rem #EFEFEF;">
+    <div class="paixu paixu_index" style="display: flex;border-top: solid 0.25rem #EFEFEF;">
         <ul class="tab" style="display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;flex: 7.2;-webkit-box-flex: 7.2;-moz-box-flex: 7.2;">
             <!--@php if(!empty($kinds_list)){ foreach($kinds_list as $list) {@-->
             <li class="click on" style="display:inline-block;width:3.6rem;">
                 <a href="<!--@php  echo create_url('mobile', array('do'=>$_GP['do'], 'name'=>$_GP['modul'], 'kinds'=>$list['kinds_level']));@-->" style="margin: 0 auto;width: 100%">
-                <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $list['kinds_thumb'];?>" style="margin: 0.5rem auto 0 auto;display: block;height: 1.25rem;width: 1.25rem">
-                <span style="margin-top: 0.2rem;color: #343434"><!--@php echo $list['kinds_name']@--></span>
+                    <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $list['kinds_thumb'];?>" style="margin: 0.5rem auto 0 auto;display: block;height: 1.25rem;width: 1.25rem">
+                    <span style="margin-top: 0.2rem;color: #343434"><!--@php echo $list['kinds_name']@--></span>
                 </a>
             </li>
             <!--@php }} @-->
@@ -75,34 +75,34 @@
                 <div class="home-categories">
                     <div class="category-container" style="background-color:#ffffff;">
                         <ul class="goods_list">
-                        <!--@php foreach($category as $row){ @-->
-                        <!--@php foreach($row['list'] as $item){ @-->
+                            <!--@php foreach($category as $row){ @-->
+                            <!--@php foreach($row['list'] as $item){ @-->
                             <li class="SeckillOne">
-                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item" style="display: flex;display: -ms-flexbox;display: -webkit-flex">
-                                    <div class="img" style="flex: 1;-webkit-box-flex: 1;-moz-box-flex: 1;width: inherit;height: 6.325rem;overflow: hidden">
+                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item display_flex">
+                                    <div class="img display_flex_item" style="height: 6.325rem;overflow: hidden; ">
                                         <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php echo $item['thumb']@-->" class="good-img" style="margin-top: -1.2rem"
-                                        usesrc="1" alt="">
+                                             usesrc="1" alt="">
                                         <!--@php if(($item['ishot'] == 1)||($item['isjingping'] == 1)) {@-->
                                         <img src="<!--@php if ($item['ishot'] == 1) echo '__RESOURCE__/images/la_dang_ji_re_mai.png'; else echo '__RESOURCE__/images/is_recomend.png'@-->" style="position: absolute;top: 0;left: 0;width: 12.5%"
                                              usesrc="1" alt="">
                                         <!--@php }@-->
                                     </div>
-                                    <div style="flex: 1;-webkit-box-flex: 1;-moz-box-flex: 1;border-left: solid 1px #EFEFEF;">
-                                    <div class="txt" style="bottom: 3.5rem"><!--@php echo $item['title'];@--></div>
-                                        <div class="buy text-ellipsis" style="bottom: 2.3rem;max-width: 8rem">
-                                        <!--@php echo $item['express'];@-->
+                                    <div class="display_flex_item" style="border-left: solid 1px #EFEFEF;">
+                                        <div class="txt" style="top: 1rem"><!--@php echo $item['title'];@--></div>
+                                        <div class="buy" style="top: 2.5rem;max-width: 8rem;text-align: right;color: #888585;font-weight: 100">
+                                            <!--@php echo $item['express'];@-->
                                         </div>
-                                    <div class="buy">
+                                        <div class="buy">
                                         <span>
                                         <!--@php echo $item['marketprice'];@-->元
                                         </span>
-                                    </div>
+                                        </div>
                                     </div>
                                 </a>
                             </li>
 
-                        <!--@php } @-->
-                        <!--@php } @-->
+                            <!--@php } @-->
+                            <!--@php } @-->
                         </ul>
 
                     </div>
@@ -112,24 +112,24 @@
                 </div>
             </div>
         </div>
-    <!--@php  include page('footer');@-->
-</div>
+        <!--@php  include page('footer');@-->
+    </div>
     <!--@php include themePage('footer');@-->
 
 
     <script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $("#submit").click(function () {
-            if ($("#search_word").val()) {
-                $("#searchForm").submit();
-            } else {
-                alert("请输入关键词！");
-                return false;
-            }
+        jQuery(document).ready(function ($) {
+            $("#submit").click(function () {
+                if ($("#search_word").val()) {
+                    $("#searchForm").submit();
+                } else {
+                    alert("请输入关键词！");
+                    return false;
+                }
+            });
+
+
         });
-
-
-    });
-</script>
+    </script>
 </body>
 </html>
