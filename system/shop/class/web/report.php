@@ -55,6 +55,9 @@ if($report=='orderreport')
         ->setCellValue('N1', '签收情况')
         ->setCellValue('O1', '订单完成状况')
         ->setCellValue('P1', '备注');
+    $objPHPExcel->getActiveSheet()->getStyle('A')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+    $objPHPExcel->getActiveSheet()->getStyle('M')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+    $objPHPExcel->getActiveSheet()->getStyle('L')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
     $i=2;
     $index=0;
     $countmoney=0;
@@ -120,8 +123,8 @@ if($report=='orderreport')
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(5);
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(5);
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(5);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(5);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(5);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(50);
     $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
@@ -133,7 +136,6 @@ if($report=='orderreport')
 }
 
 $objPHPExcel->setActiveSheetIndex(0);
-
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="report_'.time().'.xlsx"');

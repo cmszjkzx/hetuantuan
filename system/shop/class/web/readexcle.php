@@ -82,10 +82,14 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
             $option_name = $sheet->getCellByColumnAndRow(3, $row)->getValue();
             $express_name = $sheet->getCellByColumnAndRow(11, $row)->getValue();
             $express_id = $sheet->getCellByColumnAndRow(12, $row)->getValue();
+            if($express_name instanceof PHPExcel_RichText)
+                $express_name = $express_name->__toString();
             if(!empty($express_name) && !empty($express_id)){
                 $express;
                 for($express_row = 1; $express_row <= $express_allRow; $express_row++){
                     $express_string = $express_sheet->getCellByColumnAndRow(1, $express_row)->getValue();
+                    if($express_string instanceof PHPExcel_RichText)
+                        $express_string = $express_string->__toString();
                     if(stristr($express_string, $express_name)){
                         $express = $express_sheet->getCellByColumnAndRow(0, $express_row)->getValue();
                         break;
@@ -109,4 +113,4 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
         }
     }
 }
-message("导入成功，已更新订单!",create_url('site',array('name' => 'shop','do' => 'order')),"success");
+message("导入成功，已更新订单!",create_url('site',array('name' => 'shop','do' => 'order', 'status'=>99)),"success");
