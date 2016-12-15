@@ -163,14 +163,14 @@
                     <?php  include page('expressdata');?>
                     <?php   if(!empty($order['express'])&&$order['express']!="-1"){ echo $expressarray[$order['express']];}?>
 				</td>
-				<th ><label for="">快递编号：</label></th>
+                <th ><label for="">商品编号：</label></th>
+                <?php foreach ($item_order_express as $order_express) {?>
 				<td>
-                    <?php  echo $order['expresssn']?>
-                    <?php  if(!empty($order['express'])&&$order['express']!="-1"){?>
-                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $order['express']?>&postid=<?php  echo $order['expresssn']?>#input"  >
+                    <?php echo $order_express['goodssn']?>
+                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $order_express['expresscom']?>&postid=<?php  echo $order_express['expresssn']?>#input"  >
                         [查看物流信息]
-                        <?php } ?>
 				</td>
+                <?php } ?>
 			</tr>
         <?php  } ?>
     </table>

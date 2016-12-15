@@ -156,6 +156,53 @@ if ($operation == 'detail')
     $goods = mysqld_selectall("SELECT g.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.price as orderprice FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
         . " WHERE o.orderid='{$orderid}'");
     $order['goods'] = $goods;
+
+    //2016-12-15-yanru-begin-后台订单状态查询
+    $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id", array(':id' => $orderid));
+    if($item['status'] >= 3){
+        //2016-12-4-yanru-begin
+        $temp_expresscom = explode(";", $item['expresscom']);
+        array_pop($temp_expresscom);
+        $item_expresscom = array();
+        foreach ($temp_expresscom as $goods_expresscom){
+            $item_expresscom[] = explode("_", $goods_expresscom);
+        }
+
+        $temp_expresssn = explode(";", $item['expresssn']);
+        array_pop($temp_expresssn);
+        $item_expresssn = array();
+        foreach ($temp_expresssn as $goods_expresssn){
+            $item_expresssn[] = explode("_", $goods_expresssn);
+        }
+
+        $temp_express = explode(";", $item['express']);
+        array_pop($temp_express);
+        $item_express = array();
+        foreach ($temp_express as $goods_express){
+            $item_express[] = explode("_", $goods_express);
+        }
+
+        $item_order_express = array();
+        for($i = 0; $i < count($item_express); $i++){
+            if(!empty($item_order_express)){
+                foreach ($item_order_express as $temp_order_express){
+                    if(
+                        0 != strcmp($item_express[$i][0], $temp_order_express['goodssn']) &&
+                        (
+                            (0 != strcmp($item_express[$i][1], $temp_order_express['express'])) ||
+                            (0 != strcmp($item_expresssn[$i][1], $temp_order_express['expresssn']) && 0 == strcmp($item_express[$i][1], $temp_order_express['express']))
+                        )
+                    ){
+                        $item_order_express[] = array("goodssn"=>$item_express[$i][0], "expresscom"=>$item_expresscom[$i][1], "expresssn"=>$item_expresssn[$i][1], "express"=>$item_express[$i][1]);
+                    }
+                }
+            }else {
+                $item_order_express[] = array("goodssn" => $item_express[$i][0], "expresscom" => $item_expresscom[$i][1], "expresssn" => $item_expresssn[$i][1], "express" => $item_express[$i][1]);
+            }
+        }
+        //end
+    }
+    //end
             
     if (checksubmit('confrimpay'))
     {
