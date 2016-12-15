@@ -319,8 +319,8 @@ else if ($op == 'detail')
         //属性
         $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id limit 1", array(":id" => $g['optionid']));
         if ($option) {
-            //$g['title'] = "[" . $option['title'] . "]" . $g['title'];
-            //$g['marketprice'] = $option['marketprice'];
+            $g['title'] = $g['title']."[" . $option['title'] . "]";
+            $g['marketprice'] = $option['marketprice'];
             $g['option'] = $option;
         }
         //2016-12-4-yanru-begin

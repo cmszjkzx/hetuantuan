@@ -144,9 +144,9 @@
 			<div class="weui-cell__bd" style="margin-left: 1rem">
 				<!--@php if(count($item_order_express) > 1) { @-->
 				商品编号:<!--@php echo $order_express['goodssn'] @-->
-				<!--@php } @-->
 				快递公司:<!--@php echo $order_express['expresscom'] @--><br>
 				单号:<!--@php echo $order_express['expresssn'] @-->
+				<!--@php } @-->
 			</div>
 			<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $order_express['express'] @-->&postid=<!--@php echo $order_express['expresssn'] @-->#result" class="weui-cell__ft font-28 color-3c"><span style="margin-top: -5px">查看物流</span></a>
 			<!--<a href="http://m.kuaidi100.com/index_all.html?type=&lt;!&ndash;@php echo $order_express['express'] @&ndash;&gt;&postid=&lt;!&ndash;@php echo $order_express['expresssn'] @&ndash;&gt;#result" class="pull-right color-3c">[查看物流信息]</a>-->
@@ -229,18 +229,6 @@
 		</div>
 	</div>
 
-	<!--<div class="myoder-express">
-		<span class="pull-left">订单编号：
-			&lt;!&ndash;@php  echo $item['ordersn'];@&ndash;&gt;
-		</span>
-		<br>
-		<span class="pull-left">支付交易号：
-		</span>
-		<br>
-		<span class="pull-left">下单时间：
-			&lt;!&ndash;@php  echo date('Y-m-d H:i', $item['createtime'])@&ndash;&gt;
-		</span>
-	</div>-->
 	<div style="margin-top: 1.5rem">
 		<!--@php  if(is_array($goods)) { foreach($goods as $g) { @-->
 		<li class="member-browse-li" style="border-bottom: 1px solid #ebebeb;background-color: white">
@@ -265,7 +253,7 @@
 							<!--@php  echo $g['unit'];@--><!--@php  } @-->
 					</span>
 						<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
-						￥<!--@php  echo $item['goodsprice'];@-->
+						￥<!--@php  echo $g['marketprice'];@-->
 					</span>
 					</p>
 				</a>
