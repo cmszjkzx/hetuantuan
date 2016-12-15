@@ -26,3 +26,5 @@ index.php
 system/common/lib/lib_weixin.php
 
 system/common/lib/lib_weixin.php
+
+config/config.php
