@@ -56,8 +56,8 @@
             </script>
         </div>
     </div>
-    <div class="paixu paixu_index" style="display: flex;border-top: solid 0.25rem #EFEFEF;">
-        <ul class="tab" style="display: inline;white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;flex: 7.2;-webkit-box-flex: 7.2;-moz-box-flex: 7.2;">
+    <div class="paixu paixu_index" style="border-top: solid 0.25rem #EFEFEF;">
+        <ul class="tab" style="white-space: nowrap;overflow-x:scroll;float:left;overflow-y:hidden;width: 87%">
             <!--@php if(!empty($kinds_list)){ foreach($kinds_list as $list) {@-->
             <li class="click on" style="display:inline-block;width:3.6rem;">
                 <a href="<!--@php  echo create_url('mobile', array('do'=>$_GP['do'], 'name'=>$_GP['modul'], 'kinds'=>$list['kinds_level']));@-->" style="margin: 0 auto;width: 100%">
@@ -67,7 +67,9 @@
             </li>
             <!--@php }} @-->
         </ul>
-        <a style="flex: 1;-webkit-box-flex: 1;-moz-box-flex: 1;text-align: center;margin: 0 auto;line-height: 2.8rem;border-left: 1px solid #e6e6e6;" href="<!--@php  echo mobile_url('goodlist')@-->"><img src="__RESOURCE__/images/ic_magnifier.png" style="height: 1.25rem;width: 1.25rem"></a>
+        <div style="width: 13%;display: inline-block;margin: 0 auto;border-left: 1px solid #e6e6e6;">
+             <a style="line-height: 2.8rem;" href="<!--@php  echo mobile_url('goodlist')@-->"><img src="__RESOURCE__/images/ic_magnifier.png" style="height: 1.25rem;width: 1.25rem;margin-left: 10px"></a>
+        </div>
     </div>
     <div class="row">
         <div id="home-page">
@@ -78,8 +80,8 @@
                             <!--@php foreach($category as $row){ @-->
                             <!--@php foreach($row['list'] as $item){ @-->
                             <li class="SeckillOne">
-                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item display_flex">
-                                    <div class="img display_flex_item" style="height: 6.325rem;overflow: hidden; ">
+                                <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item">
+                                    <div class="img" style="height: 6.325rem;overflow: hidden;width: 50%;display: inline-block">
                                         <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php echo $item['thumb']@-->" class="good-img" style="margin-top: -1.2rem"
                                              usesrc="1" alt="">
                                         <!--@php if(($item['ishot'] == 1)||($item['isjingping'] == 1)) {@-->
@@ -87,7 +89,7 @@
                                              usesrc="1" alt="">
                                         <!--@php }@-->
                                     </div>
-                                    <div class="display_flex_item" style="border-left: solid 1px #EFEFEF;">
+                                    <div class="" style="height: 6.325rem;border-left: solid 1px #EFEFEF;width: 50%;display: inline-block;float: right">
                                         <div class="txt" style="top: 1rem"><!--@php echo $item['title'];@--></div>
                                         <div class="buy" style="top: 2.5rem;max-width: 8rem;text-align: right;color: #888585;font-weight: 100">
                                             <!--@php echo $item['express'];@-->
