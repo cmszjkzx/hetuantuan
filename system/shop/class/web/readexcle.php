@@ -97,9 +97,13 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                 }
                 for($j = 0; $j < count($order_list[$i]['ordergoods']); $j++){
                     if(0 == strcmp($title, $order_list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $order_list[$i]['ordergoods'][$j]['optionname'])){
-                        $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$order_list[$i]['ordergoods'][$j]['title']."_".$express_name.";";
-                        $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$order_list[$i]['ordergoods'][$j]['title']."_".$express_id.";";
-                        $order_list[$i]['express'] = $order_list[$i]['express'].$order_list[$i]['ordergoods'][$j]['title']."_".$express.";";
+                        if(empty($order_list[$i]['ordergoods'][$j]['optionname']))
+                            $tmp = 'inserttemp';
+                        else
+                            $tmp = $order_list[$i]['ordergoods'][$j]['optionname'];
+                        $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$tmp."_".$express_name.";";
+                        $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$tmp."_".$express_id.";";
+                        $order_list[$i]['express'] = $order_list[$i]['express'].$tmp."_".$express.";";
                     }
                 }
                 $order_update = array(

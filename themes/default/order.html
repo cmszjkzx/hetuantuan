@@ -130,7 +130,11 @@
         <script>
             function getDelete(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-				var options = {
+                var nowStutas = $(".cur").text();
+                if("全部" == nowStutas){
+                    url += "&returnid="+99;
+				}
+                var options = {
 					//width: "200px", 	//默认为页面宽度的80%
 					//title: "提示", 			//标题默认为提示
 					content: "您确认要删除订单吗？",	//提示内容
@@ -159,7 +163,11 @@
 		<script>
             function getCanncel(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-				var options = {
+                var nowStutas = $(".cur").text();
+                if("全部" == nowStutas){
+                    url += "&returnid="+99;
+                }
+                var options = {
 					//width: width+"px", 	//默认为页面宽度的80%
 					//title: "提示", 			//标题默认为提示
 					content: "您确认要取消订单吗？",	//提示内容
@@ -225,7 +233,11 @@
 		<script>
             function getConfirm(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-				var options = {
+                var nowStutas = $(".cur").text();
+                if("全部" == nowStutas){
+                    url += "&returnid="+99;
+                }
+                var options = {
 					//width: width+"px", 	//默认为页面宽度的80%
 					//title: "提示", 			//标题默认为提示
 					content: "您确认已收货？",	//提示内容

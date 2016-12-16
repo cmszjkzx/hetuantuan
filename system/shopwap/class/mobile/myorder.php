@@ -50,7 +50,10 @@ if ($op == 'cancelsend')
     }
     //message('该订单不可取消');
     //2016-12-16-yanru
-    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
+    if(empty($_GP['returnid']))
+        header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
+    else
+        header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$_GP['returnid'])));
     exit;
     //die(json_encode(array('message'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
 }
@@ -262,7 +265,11 @@ elseif ($op == 'confirm')
             mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
     //2016-12-16-yanru
-    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$order['status'])));
+    //header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$order['status'])));
+    if(empty($_GP['returnid']))
+        header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
+    else
+        header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$_GP['returnid'])));
     exit;
 
 //    die(json_encode(array('reslut'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$status)));
