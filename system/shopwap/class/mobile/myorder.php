@@ -50,9 +50,9 @@ if ($op == 'cancelsend')
     }
     //message('该订单不可取消');
     //2016-12-16-yanru
-//    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
-//    exit;
-    die(json_encode(array('message'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
+    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
+    exit;
+    //die(json_encode(array('message'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
 }
 if ($op == 'returngood')
 {
@@ -238,7 +238,6 @@ elseif ($op == 'confirm')
 
     if(!empty($openid)){
         $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
-        $status = $order['status'];
     }
     if (empty($order))
     {
@@ -263,11 +262,10 @@ elseif ($op == 'confirm')
             mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
     //2016-12-16-yanru
-//    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
-//    exit;
-    if(empty($status))
-        $status = 99;
-    die(json_encode(array('reslut'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$status)));
+    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$order['status'])));
+    exit;
+
+//    die(json_encode(array('reslut'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$status)));
 }
 else if ($op == 'detail')
 {
@@ -422,7 +420,8 @@ else
         $where.=" and status=$status";
     }
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, array(), 'id');
-    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY status ASC, createtime DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, array(), 'id');
+    //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY status ASC, createtime DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, array(), 'id');
+    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY status ASC, createtime DESC ", array(), 'id');
     $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('shop_order') . " WHERE  $where ");
     $pager = pagination($total, $pindex, $psize);
 
