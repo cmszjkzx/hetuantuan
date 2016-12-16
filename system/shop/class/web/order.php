@@ -53,8 +53,12 @@ if ($operation == 'display')
     {
         $condition .= " AND address_mobile  LIKE '%{$_GP['address_mobile']}%'";
     }
-    if ($status != '-99') {
+    //2016-12-16-yanru-新增状态9是已收货，状态4和5的集合
+    if ($status != '-99' && $status != 9) {
         $condition .= " AND status = '" . intval($status) . "'";
+    }
+    if ($status == 9){
+        $condition .= " and ( status = 4 or status = 5)";
     }
     if ($status == '3') {
         $condition .= " and ( status = 3 or status = -5 or status = -6)";
