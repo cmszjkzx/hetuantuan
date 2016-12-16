@@ -14,6 +14,8 @@
 	<script type="text/javascript" src="__RESOURCE__/script/angular.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/font-awesome.min.css" />
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/common.mobile.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/my_dialog.css">
+	<script type="text/javascript" src="__RESOURCE__/js/jq_mydialog.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/script/jquery.touchwipe.js"></script>
@@ -275,19 +277,43 @@
 //		});
 //	}
 	function removeCart(id){
-		if (confirm('您确定要删除此商品吗？')) {
-//			alert("正在处理数据...");
-			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'remove'))@-->' + "&id=" + id;
-			$.getJSON(url, function(s){
-				$("#item_" + s.cartid).remove();
-				if($(".shopcart-item").length<=0){
-					$("#cartempty").show();
-					$("#cartfooter").hide();
-				}
+		var options = {
+			//width: "200px", 	//默认为页面宽度的80%
+			//title: "提示", 			//标题默认为提示
+			content: "您确认要删除订单吗？",	//提示内容
+			//cancel_btn_title: "取消", 	//取消按钮的文本
+			//confirm_btn_title: "确认",	//确认按钮的文本
+			cancel_btn_click: function (e){	//取消按钮点击事件
+				$.myconfirm("getDialog").mydialog("hide");
+			},
+			confirm_btn_click: function (e){	//确认按钮点击事件
+				var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'remove'))@-->' + "&id=" + id;
+				$.myconfirm("getDialog").mydialog("hide");
+				$.getJSON(url, function(s){
+					$("#item_" + s.cartid).remove();
+					if($(".shopcart-item").length<=0){
+						$("#cartempty").show();
+						$("#cartfooter").hide();
+					}
 //				tip_close();
-				canculate();
-			});
-		}
+					canculate();
+				});
+			}
+		};
+		$.myconfirm(options);
+//		if (confirm('您确定要删除此商品吗？')) {
+////			alert("正在处理数据...");
+//			var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'remove'))@-->' + "&id=" + id;
+//			$.getJSON(url, function(s){
+//				$("#item_" + s.cartid).remove();
+//				if($(".shopcart-item").length<=0){
+//					$("#cartempty").show();
+//					$("#cartfooter").hide();
+//				}
+////				tip_close();
+//				canculate();
+//			});
+//		}
 	}
 	function updateCart(id,num){
 
