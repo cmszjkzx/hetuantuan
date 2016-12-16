@@ -15,6 +15,9 @@
 	<script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/style/font-awesome.min.css" />
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/common.mobile.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/base.css">
+	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/my_dialog.css">
+	<script type="text/javascript" src="__RESOURCE__/js/jq_mydialog.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/script/cascade.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/default/script/jquery.touchwipe.js"></script>
 	<script type="text/javascript" src="__RESOURCE__/mobile/default/script/swipe.js"></script>
@@ -127,7 +130,21 @@
         <script>
             function getDelete(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-                showDelete(url, "您确认要删除订单吗？");
+				var options = {
+					//width: "200px", 	//默认为页面宽度的80%
+					//title: "提示", 			//标题默认为提示
+					content: "您确认要删除订单吗？",	//提示内容
+					//cancel_btn_title: "取消", 	//取消按钮的文本
+					//confirm_btn_title: "确认",	//确认按钮的文本
+					cancel_btn_click: function (e){	//取消按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+					},
+					confirm_btn_click: function (e){	//确认按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+						location.href = url;
+					}
+				};
+				$.myconfirm(options);
             }
         </script>
 		<!--@php  } @-->
@@ -142,11 +159,41 @@
 		<script>
             function getCanncel(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-                showCanncel(url, "您确认要取消订单吗？");
+				var options = {
+					//width: width+"px", 	//默认为页面宽度的80%
+					//title: "提示", 			//标题默认为提示
+					content: "您确认要取消订单吗？",	//提示内容
+					//cancel_btn_title: "取消", 	//取消按钮的文本
+					//confirm_btn_title: "确认",	//确认按钮的文本
+					cancel_btn_click: function (e){	//取消按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+					},
+					confirm_btn_click: function (e){	//确认按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+						location.href = url;
+					}
+				};
+				$.myconfirm(options);
+//                showCanncel(url, "您确认要取消订单吗？");
             }
             function getPay(obj){
                 var url = "<!--@php echo mobile_url('pay').'&paymentcode=weixin'@-->"+"&orderid="+obj;
-                showPay(url, "您确认要支付订单吗？");
+				var options = {
+					//width: width+"px", 	//默认为页面宽度的80%
+					//title: "提示", 			//标题默认为提示
+					content: "您确认要支付订单吗？",	//提示内容
+					//cancel_btn_title: "取消", 	//取消按钮的文本
+					//confirm_btn_title: "确认",	//确认按钮的文本
+					cancel_btn_click: function (e){	//取消按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+					},
+					confirm_btn_click: function (e){	//确认按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+						location.href = url;
+					}
+				};
+				$.myconfirm(options);
+//                showPay(url, "您确认要支付订单吗？");
             }
 		</script>
 		<!--@php  } }@-->
@@ -178,7 +225,22 @@
 		<script>
             function getConfirm(obj){
                 var url = "<!--@php  echo mobile_url('myorder', array('op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
-                showConfirm(url,"您确认已收货？");
+				var options = {
+					//width: width+"px", 	//默认为页面宽度的80%
+					//title: "提示", 			//标题默认为提示
+					content: "您确认已收货？",	//提示内容
+					//cancel_btn_title: "取消", 	//取消按钮的文本
+					//confirm_btn_title: "确认",	//确认按钮的文本
+					cancel_btn_click: function (e){	//取消按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+					},
+					confirm_btn_click: function (e){	//确认按钮点击事件
+						$.myconfirm("getDialog").mydialog("hide");
+						location.href = url;
+					}
+				};
+				$.myconfirm(options);
+//                showConfirm(url,"您确认已收货？");
             }
 		</script>
 		<!--@php  } @-->
