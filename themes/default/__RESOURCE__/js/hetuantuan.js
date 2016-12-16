@@ -71,15 +71,15 @@ showDelete = function(url, msg){
 
     $('#is_yes').on('click',function(){
         $.getJSON(url,function(s){
-            debugger;
+            //debugger;
             if(isNaN(s.result)){
-                tip("您的订单已删除, 现在正在跳转!",true);
+                tip("您的订单已删除, 正在刷新页面!",true);
                 setTimeout(function(){
                     setTimeout(function(){
                         var rement_url = 'index.php?mod=mobile&op=&name='+s.name+'&status='+s.status+'&do='+s.do;
                         location.href = rement_url;
-                    }, 2000);
-                }, 2000);
+                    }, 800);
+                }, 800);
             }else{
                 tip(s.result,true);
             }
@@ -120,13 +120,13 @@ showCanncel = function(url, msg){
         $.getJSON(url,function(s){
             //debugger;
             if(isNaN(s.result)){
-                tip("您的订单已取消，现在正在跳转!",true);
+                tip("您的订单已取消，正在刷新页面!",true);
                 setTimeout(function(){
                     setTimeout(function(){
                         var rement_url = 'index.php?mod=mobile&op=&name='+s.name+'&status='+s.status+'&do='+s.do;
                         location.href = rement_url;
-                    }, 2000);
-                }, 2000);
+                    }, 800);
+                }, 800);
             }else{
                 tip(s.result,true);
             }
@@ -202,13 +202,13 @@ showConfirm = function(url, msg){
         $.getJSON(url,function(s){
             //debugger;
             if(isNaN(s.result)){
-                tip("操作已成功，现在正在跳转!",true);
+                tip("操作已成功，正在刷新页面!",true);
                 setTimeout(function(){
                     setTimeout(function(){
                         var rement_url = 'index.php?mod=mobile&op=&name='+s.name+'&status='+s.status+'&do='+s.do;
                         location.href = rement_url;
-                    }, 2000);
-                }, 2000);
+                    }, 800);
+                }, 800);
             }else{
                 tip(s.result,true);
             }
@@ -237,8 +237,8 @@ function tip(msg, autoClose) {
     }
     if (autoClose) {
         setTimeout(function () {
-            content.fadeOut(3000);
-            div.fadeOut(3000);
+            content.fadeOut(1000);
+            div.fadeOut(1000);
 
         }, 1000);
     }

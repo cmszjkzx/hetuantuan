@@ -121,31 +121,31 @@
 	<!--@php  if($item['status'] != 2) { @-->
 	<div class="myoder-total">
 		<!--@php  if($item['status'] > 0 && $item['status'] <= 5 && $item['status'] != 2) { @-->
-        <a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getDelete();">
+        <a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getDelete(<!--@php  echo $item['id']@-->);">
             删除订单
         </a>
         <script>
-            function getDelete(){
-                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+            function getDelete(obj){
+                var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
                 showDelete(url, "您确认要删除订单吗？");
             }
         </script>
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 0) { $limittime = $item['createtime'] + 30*60;if($limittime > time()) {$item['status'] == 1; @-->
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getCanncel();">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getCanncel(<!--@php  echo $item['id']@-->);">
 			取消订单
 		</a>
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getPay();">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getPay(<!--@php  echo $item['id']@-->);">
 			立即支付
 		</a>
 		<script>
-            function getCanncel(){
-                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+            function getCanncel(obj){
+                var url = "<!--@php  echo mobile_url('myorder', array('op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
                 showCanncel(url, "您确认要取消订单吗？");
             }
-            function getPay(){
-                var url = "<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->";
+            function getPay(obj){
+                var url = "<!--@php echo mobile_url('pay').'&paymentcode=weixin'@-->"+"&orderid="+obj;
                 showPay(url, "您确认要支付订单吗？");
             }
 		</script>
@@ -160,24 +160,24 @@
 		<!--@php  if($item['iscomment'] == 0 && $item['status'] >= 3) { @-->
 
 		<!--<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">-->
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getComment();">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getComment(<!--@php  echo $item['id']@-->);">
 			我要评价
 		</a>
         <script>
-            function getComment(){
-                var url = "<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))) @-->";
+            function getComment(obj){
+                var url = "<!--@php echo mobile_url('myorder', array('ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))) @-->"+"&orderid="+obj;
                 showComment(url);
             }
         </script>
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 3) { @-->
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getConfirm();">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getConfirm(<!--@php  echo $item['id']@-->);">
 			确认收货
 		</a>
 		<script>
-            function getConfirm(){
-                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+            function getConfirm(obj){
+                var url = "<!--@php  echo mobile_url('myorder', array('op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->"+"&orderid="+obj;
                 showConfirm(url,"您确认已收货？");
             }
 		</script>
