@@ -8,6 +8,7 @@ $op = $_GP['op'];
 $settings=globaSetting();
 $rebacktime=intval($settings['shop_postsale']);
 $today = time();
+$return_message;
 if ($op == 'cancelsend')
 {
     $orderid = intval($_GP['orderid']);
@@ -17,7 +18,8 @@ if ($op == 'cancelsend')
     }
     if (empty($item)||$item['status']<0)
     {
-        message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
+        //message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
+        $return_message = '抱歉，您的订单不存在!';
     }
     //if(($item['paytype']==3&&$item['status']==1)||$item['status']==0)
     //{
@@ -26,7 +28,8 @@ if ($op == 'cancelsend')
     //}
     if($item['status']==3)
     {
-        message('请确认是否受到货物！');
+        //message('请确认是否受到货物！');
+        $return_message = '请确认是否受到货物!';
     }
 
     //2016-12-14-yanru-begin
@@ -46,8 +49,10 @@ if ($op == 'cancelsend')
         mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
     //message('该订单不可取消');
-    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
-    exit;
+    //2016-12-16-yanru
+//    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
+//    exit;
+    die(json_encode(array('message'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$item['status'])));
 }
 if ($op == 'returngood')
 {
@@ -233,10 +238,12 @@ elseif ($op == 'confirm')
 
     if(!empty($openid)){
         $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND openid = :openid", array(':id' => $orderid, ':openid' => $openid ));
+        $status = $order['status'];
     }
     if (empty($order))
     {
-        message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
+        //message('抱歉，您的订单不存在或是已经被取消！', mobile_url('myorder'), 'error');
+        $return_message = '抱歉，您的订单不存在或是已经被取消!';
     }
     //2016-11-17-yanru-下面是用户增加积分功能暂时屏蔽
 //    if (empty($order['isrest']))
@@ -255,8 +262,12 @@ elseif ($op == 'confirm')
         else
             mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
     }
-    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
-    exit;
+    //2016-12-16-yanru
+//    header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>99)));
+//    exit;
+    if(empty($status))
+        $status = 99;
+    die(json_encode(array('reslut'=>$return_message,'do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$status)));
 }
 else if ($op == 'detail')
 {

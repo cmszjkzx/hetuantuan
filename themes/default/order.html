@@ -28,6 +28,7 @@
 	    .my_nav a:before{width:1px;height:20px;position:absolute;left:-1px;top:50%;margin-top:-10px;background:#ddd}
 	    .my_nav li.cur a{padding-bottom:0;border-bottom:1px solid #FFAE01;color:#FFAE01}
     </style>
+    <script type="text/javascript" src="__RESOURCE__/js/hetuantuan.js"></script>
     <link type="text/css" rel="stylesheet" href="__RESOURCE__/mobile/style/style.css">
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css">
 	<link type="text/css" rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css">
@@ -120,18 +121,34 @@
 	<!--@php  if($item['status'] != 2) { @-->
 	<div class="myoder-total">
 		<!--@php  if($item['status'] > 0 && $item['status'] <= 5 && $item['status'] != 2) { @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要删除订单吗？'); " >
-			删除订单
-		</a>
+        <a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getDelete();">
+            删除订单
+        </a>
+        <script>
+            function getDelete(){
+                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+                showDelete(url, "您确认要删除订单吗？");
+            }
+        </script>
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 0) { $limittime = $item['createtime'] + 30*60;if($limittime > time()) {$item['status'] == 1; @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认要取消订单吗？'); " >
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getCanncel();">
 			取消订单
 		</a>
-		<a href="<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->" class="btn btn-success pull-right btn-sm">
-            立即支付
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="return getPay();">
+			立即支付
 		</a>
+		<script>
+            function getCanncel(){
+                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'cancelsend', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+                showCanncel(url, "您确认要取消订单吗？");
+            }
+            function getPay(){
+                var url = "<!--@php echo mobile_url('pay', array('orderid' => $item['id'])).'&paymentcode=weixin'@-->";
+                showPay(url, "您确认要支付订单吗？");
+            }
+		</script>
 		<!--@php  } }@-->
 
 		<!--@php  if($item['iscomment'] == 1 && $item['status'] >= 3) { @-->
@@ -143,83 +160,27 @@
 		<!--@php  if($item['iscomment'] == 0 && $item['status'] >= 3) { @-->
 
 		<!--<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target=".bs-evaluate-modal-sm">-->
-		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getComment();">
 			我要评价
 		</a>
-		<div class="modal fade bs-evaluate-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-sm" style="margin: 5rem 2rem">
-				<div class="modal-content">
-					<div class="modal-header" style="border: none;padding: 0.75rem 0.925rem 0 0.925rem">
-				<span id="myModalLabel" class="font-28">
-					我要说:
-				</span>
-					</div>
-					<div class="modal-body" style="padding: 0 0.75rem">
-						<textarea type="text" id="comment" name="comment" style="background-color: #f6f6f6;border: none;border-radius: 0.5rem;height: 6.75rem;padding: 5px 10px;resize: none;width: 100%"></textarea>
-					</div>
-					<div class="modal-footer" style="text-align: center;border: none;padding: 0.375rem">
-						<button class="btn btn-primary font-28" data-dismiss="modal" aria-hidden="true" style="line-height: 2.15rem;width: 5rem;padding: 0;background-color: #FFAE01;border: none">提交</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<script>
-            var count = 0;
-			$('button').on('click',function(){
-				//debugger;
-				var order_comment = $('#comment').val();
-                var url = '<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))); @-->'+'&comment='+order_comment;
-                count++;
-                //$.post(url,{comment:order_comment},function(s){
-				if(count==1){
-                    $.getJSON(url,function(s){
-                        if(s.result==0){
-                            tip("评论失败!",true);
-                            count=0;
-                        }else{
-                            tip("评论成功!",true);
-                            count=0;
-                            setTimeout(function(){
-                                setTimeout(function(){
-                                    var rement_url = 'index.php?mod=mobile&op=&name='+s.name+'&status='+s.status+'&do='+s.do;
-                                    location.href = rement_url;
-                                }, 2000);
-                            }, 2000);
-                        }
-                    });
-				}
-			});
-            function tip(msg, autoClose) {
-                var div = $("#poptip");
-                var content = $("#poptip_content");
-                if (div.length <= 0) {
-                    div = $("<div id='poptip'></div>").appendTo(document.body);
-                    content = $("<div id='poptip_content' style='text-align:center'>" + msg + "</div>").appendTo(document.body);
-                }
-                else {
-                    content.html(msg);
-                    content.show();
-                    div.show();
-                }
-                if (autoClose) {
-                    setTimeout(function () {
-                        content.fadeOut(3000);
-                        div.fadeOut(3000);
-
-                    }, 1000);
-                }
+        <script>
+            function getComment(){
+                var url = "<!--@php echo mobile_url('myorder', array('orderid' => $item['id'], 'ordersn'=>$item['ordersn'], 'op' => 'returncomment', 'fromstatus' => intval($_GP['fromstatus']))) @-->";
+                showComment(url);
             }
-            function tip_close() {
-                $("#poptip").fadeOut(3000);
-                $("#poptip_content").fadeOut(3000);
-            }
-		</script>
+        </script>
 		<!--@php  } @-->
 
 		<!--@php  if($item['status'] == 3) { @-->
-		<a href="<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->" class="btn btn-success pull-right btn-sm"  onclick="return confirm('您确认收货吗？');">
+		<a  style="margin-right:10px" href="" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#myModal" onclick="getConfirm();">
 			确认收货
 		</a>
+		<script>
+            function getConfirm(){
+                var url = "<!--@php  echo mobile_url('myorder', array('orderid' => $item['id'], 'op' => 'confirm', 'fromstatus' => intval($_GP['fromstatus'])))@-->";
+                showConfirm(url,"您确认已收货？");
+            }
+		</script>
 		<!--@php  } @-->
 
 		<!--@php if($_CMS['addons_bj_hx']){ if($item['status']!=3&&$item['status']>0&&!empty($item['isverify'])) { @-->
