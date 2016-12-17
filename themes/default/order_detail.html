@@ -243,14 +243,14 @@
 						<!--</span>-->
 
 						<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
-						<!--@php  echo $g[option]['title'];@-->
-				x
+						<!--@php  if(!empty($g[option]['title'])) { echo $g[option]['title'];@-->x
+							<!--@php } @-->
 							<!--@php  echo $g['total'];@-->
 							<!--@php  if($g['unit']) { @-->
 							<!--@php  echo $g['unit'];@--><!--@php  } @-->
 					</span>
 						<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
-						￥<!--@php  echo $g['marketprice'];@-->
+						￥<!--@php  echo $g['marketprice']*$g['total'];@-->
 					</span>
 					</p>
 				</a>

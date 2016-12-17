@@ -95,10 +95,12 @@
 					<!--</span>-->
 
 					<span class="pro-price font-26 color-7f" style="display: block;margin-top: 0.3rem">
-						<!--@php  echo $goods['attribute_title'];@--> × <!--@php  echo $goods['total'];@-->
+						<!--@php  if(!empty($goods['attribute_title'])) { echo $goods['attribute_title'];@--> ×
+						<!--@php  } @-->
+						<!--@php  echo $goods['total'];@-->
 					</span>
 					<span class='goodsprice font-26 color-3c' style="display:block; margin-top: 0.5rem">
-						￥<!--@php  echo $goods['attribute_price'];@-->
+						￥<!--@php  echo $goods['attribute_price'] * $goods['total'];@-->
 						<!--@php  //if($goods['unit']) { @-->
 						<!--/-->
 						<!--@php  //echo $goods['unit'];@-->

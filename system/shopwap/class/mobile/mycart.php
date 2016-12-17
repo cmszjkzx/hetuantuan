@@ -114,6 +114,10 @@ if ($op == 'add') {
                 $goods['optionname'] = $option['title'];
                 $goods['optionmarketprice'] = $option['marketprice'];
                 $goods['optionstock'] = $option['stock'];
+            }else{
+                $goods['optionname'] = $goods['title'];
+                $goods['optionmarketprice'] = $goods['marketprice'];
+                $goods['optionstock'] = $goods['stock'];
             }
             $item['goods'] = $goods;
             $item['totalprice'] = (floatval($goods['optionmarketprice']) * intval($item['total']));
