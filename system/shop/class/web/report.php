@@ -47,14 +47,15 @@ if($report=='orderreport')
         ->setCellValue('F1', '单价')
         ->setCellValue('G1', '总价')
         ->setCellValue('H1', '含税总价')
-        ->setCellValue('I1', '收货人')
-        ->setCellValue('J1', '收货人电话')
-        ->setCellValue('K1', '收货地址')
-        ->setCellValue('L1', '物流公司')
-        ->setCellValue('M1', '物流单号')
-        ->setCellValue('N1', '签收情况')
-        ->setCellValue('O1', '订单完成状况')
-        ->setCellValue('P1', '备注');
+        ->setCellValue('I1', '商品进价')
+        ->setCellValue('J1', '收货人')
+        ->setCellValue('K1', '收货人电话')
+        ->setCellValue('L1', '收货地址')
+        ->setCellValue('M1', '物流公司')
+        ->setCellValue('N1', '物流单号')
+        ->setCellValue('O1', '签收情况')
+        ->setCellValue('P1', '订单完成状况')
+        ->setCellValue('Q1', '备注');
     $objPHPExcel->getActiveSheet()->getStyle('A')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
     $objPHPExcel->getActiveSheet()->getStyle('M')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
     $objPHPExcel->getActiveSheet()->getStyle('L')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
@@ -103,14 +104,15 @@ if($report=='orderreport')
                 ->setCellValue('F'.$i, $itemgoods['price'])
                 ->setCellValue('G'.$i, $itemgoods['goodstotal'])
                 ->setCellValue('H'.$i, $itemgoods['goodstotal'])
-                ->setCellValue('I'.$i, $item['address_realname'])
-                ->setCellValue('J'.$i, $item['address_mobile'])
-                ->setCellValue('K'.$i, $item['address_province'].$item['address_city'].$item['address_area'].$item['address_address'])
-                ->setCellValue('L'.$i, '')
+                ->setCellValue('I'.$i, $itemgoods['productprice'])
+                ->setCellValue('J'.$i, $item['address_realname'])
+                ->setCellValue('K'.$i, $item['address_mobile'])
+                ->setCellValue('L'.$i, $item['address_province'].$item['address_city'].$item['address_area'].$item['address_address'])
                 ->setCellValue('M'.$i, '')
                 ->setCellValue('N'.$i, '')
                 ->setCellValue('O'.$i, '')
-                ->setCellValue('P'.$i, $item['remark']);
+                ->setCellValue('P'.$i, '')
+                ->setCellValue('Q'.$i, $item['remark']);
             $i++;
         }
     }
@@ -124,14 +126,15 @@ if($report=='orderreport')
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(5);
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(5);
     $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(50);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(50);
     $objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(15);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(35);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(35);
     $objPHPExcel->getActiveSheet()->setTitle('订单统计');
 }
 

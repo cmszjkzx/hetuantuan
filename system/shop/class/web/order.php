@@ -102,7 +102,14 @@ if ($operation == 'display')
     {
         foreach ( $list as $id => $item)
         {
-            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
+            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                ."goodsoption on ordersgoods.optionname = goodsoption.title where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",
+                array(':oid' => $item['id']));;
         }
         $report='orderreport';
         require_once 'report.php';
