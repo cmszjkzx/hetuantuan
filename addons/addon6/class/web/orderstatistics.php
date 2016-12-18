@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2015 http://www.hetuantuan.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: °Ù¼Òcms <QQ:1987884799> <http://www.hetuantuan.com>
+// | Author: ï¿½Ù¼ï¿½cms <QQ:1987884799> <http://www.hetuantuan.com>
 // +----------------------------------------------------------------------
 $condition = "";
  $pindex = max(1, intval($_GP['page']));
@@ -43,11 +43,12 @@ $condition = "";
      }
  if($isstatus == 1)
 {
-     $conditionOrderStatus = "and orders.status>=1";
-     }else
-    {
-     $conditionOrderStatus = "and orders.status=3";
-     }
+     $conditionOrderStatus = "and orders.status>=2";
+
+}else
+ {
+     $conditionOrderStatus = "and orders.status>3";
+ }
  if(!empty($_GP['orderstatisticsEXP01']))
     {
     
@@ -58,9 +59,21 @@ $condition = "";
 
 
  foreach ($list as $id => $displayorder){
-     $list[$id]['ordergoods'] = mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ", array(':oid' => $list[$id]['id']));;
+     $profit = 0;
+     //$list[$id]['ordergoods'] = mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ", array(':oid' => $list[$id]['id']));;
+     $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+         " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+         . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+         . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+         ."goodsoption on ordersgoods.optionname = goodsoption.title where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",
+         array(':oid' => $list[$id]['id']));
+     foreach ($list[$id]['ordergoods'] as $good){
+         $profit += $good['price']-$good['productprice'];
      }
-
+     $list[$id]['profit'] = $profit;
+ }
 
  $total = mysqld_selectcolumn("select count(t1.id) from (SELECT orders.* from " . table('shop_order') . " orders where 1=1 $conditionOrderStatus order by orders.createtime  desc) t1 where 1=1  $condition  ");
  $pager = pagination($total, $pindex, $psize);

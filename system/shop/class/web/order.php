@@ -109,7 +109,7 @@ if ($operation == 'display')
                 . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
                 . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
                 ."goodsoption on ordersgoods.optionname = goodsoption.title where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",
-                array(':oid' => $item['id']));;
+                array(':oid' => $item['id']));
         }
         $report='orderreport';
         require_once 'report.php';
