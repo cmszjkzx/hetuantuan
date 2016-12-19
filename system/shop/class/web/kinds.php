@@ -15,7 +15,11 @@ if('kinds' == $_GP['do']) {
     if ($operation == 'detail') {
         $condition = "kinds_level = " . intval($_GP['kinds_level']);
         $kinds = mysqld_select("SELECT * FROM " . table('goods_kinds') . " WHERE $condition");
-
+        if(!empty($kinds['kinds_thumb'])){
+            $thumb_path = explode("_", $kinds['kinds_thumb']);
+            $kinds['kinds_thumb_before'] = $thumb_path[0];
+            $kinds['kinds_thumb_after'] = $thumb_path[1];
+        }
         if (checksubmit('submit')) {
             if (empty($_GP['kinds_level'])) {
                 message("商品类别编号不能为空!");
@@ -26,14 +30,23 @@ if('kinds' == $_GP['do']) {
                     'kinds_name' => $_GP['kinds_name']);
                 mysqld_insert('goods_kinds', $data);
             } else {
-                $data = array('kinds_name' => $_GP['kinds_name']);
-                if (!empty($_FILES['kinds_thumb']['tmp_name'])) {
-                    $upload = file_upload($_FILES['kinds_thumb']);
+                $thumbPath = '';
+                if (!empty($_FILES['kinds_thumb_before']['tmp_name'])) {
+                    $upload = file_upload($_FILES['kinds_thumb_before']);
                     if (is_error($upload)) {
                         message($upload['message'], '', 'error');
                     }
-                    $data['kinds_thumb'] = $upload['path'];
+                    $thumbPath = $thumbPath.$upload['path'];
                 }
+                if (!empty($_FILES['kinds_thumb_after']['tmp_name'])) {
+                    $upload = file_upload($_FILES['kinds_thumb_after']);
+                    if (is_error($upload)) {
+                        message($upload['message'], '', 'error');
+                    }
+                    $thumbPath = $thumbPath."_".$upload['path'];
+                }
+                $data = array('kinds_name' => $_GP['kinds_name'],
+                    'kinds_thumb' => $thumbPath);
                 mysqld_update('goods_kinds', $data, array('kinds_level' => $kinds['kinds_level']));
             }
             message('操作成功！', web_url('kinds'), 'success');

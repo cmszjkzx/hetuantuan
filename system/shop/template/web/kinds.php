@@ -32,16 +32,33 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label no-padding-left" >商品类别图片：</label>
+        <label class="col-sm-2 control-label no-padding-left" >商品类别图片(点击前)：</label>
         <div class="col-sm-9">
             <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
-                    <?php  if(!empty($kinds['kinds_thumb'])) { ?>
-                        <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $kinds['kinds_thumb'];?>" alt="" onerror="$(this).remove();">
+                    <?php  if(!empty($kinds['kinds_thumb_before'])) { ?>
+                        <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $kinds['kinds_thumb_before'];?>" alt="" onerror="$(this).remove();">
                     <?php  } ?>
                 </div>
                 <div>
-                    <input name="kinds_thumb" id="kinds_thumb" type="file" />
+                    <input name="kinds_thumb_before" id="kinds_thumb_before" type="file" />
+                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除图片</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-left" >商品类别图片（点击后）：</label>
+        <div class="col-sm-9">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                    <?php  if(!empty($kinds['kinds_thumb_after'])) { ?>
+                        <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $kinds['kinds_thumb_after'];?>" alt="" onerror="$(this).remove();">
+                    <?php  } ?>
+                </div>
+                <div>
+                    <input name="kinds_thumb_after" id="kinds_thumb_after" type="file" />
                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除图片</a>
                 </div>
             </div>
