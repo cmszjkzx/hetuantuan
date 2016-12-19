@@ -257,8 +257,8 @@ $openid   = base64_decode($_COOKIE[$cookieid]);
 					}
         $access_token = "";
         $code         = $_GP['code'];
-//        $url          = WEBSITE_ROOT . 'index.php?' . $_SERVER['QUERY_STRING'];
-            $url          = 'http://ruyanfly.ngrok.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
+        $url          = WEBSITE_ROOT . 'index.php?' . $_SERVER['QUERY_STRING'];
+//            $url          = 'http://ruyanfly.ngrok.cc/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
 //                $url          = 'http://9198e902.ngrok.io/hetuantuan/index.php?' . $_SERVER['QUERY_STRING'];
 
 
