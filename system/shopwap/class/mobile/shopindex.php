@@ -59,6 +59,13 @@ foreach ($category as &$c) {
 
 //2016-10-26-yanru-begin
 $kinds_list = mysqld_selectall("SELECT * FROM " . table('goods_kinds')." ORDER BY kinds_level ", array(), 'kinds_level');
+foreach ($kinds_list as &$kinds){
+    if(!empty($kinds['kinds_thumb'])){
+        $thumb_path = explode("_", $kinds['kinds_thumb']);
+        $kinds['kinds_thumb_before'] = $thumb_path[0];
+        $kinds['kinds_thumb_after'] = $thumb_path[1];
+    }
+}
 /*$has_kinds_list = mysqld_selectall("SELECT * FROM " . table('shop_goods')." WHERE  isrecommand = 1 and status = 1 and kinds != 0 ORDER BY displayorder DESC, sales DESC ");
 $kinds_goods_list = array();
 foreach ($kinds_list as $tlo) {
