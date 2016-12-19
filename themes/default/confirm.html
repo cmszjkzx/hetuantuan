@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="__RESOURCE__/recouse/css/confirm.css?v=111" />
     <link rel="stylesheet" href="__RESOURCE__/css/weui.css" />
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" />
+    <link rel="stylesheet" href="__RESOURCE__/css/my_dialog.css" />
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
@@ -19,6 +20,7 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+    <script type="text/javascript" src="__RESOURCE__/js/jq_mydialog.js"></script>
     <!--<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>-->
     <style>
         body{padding-bottom:55px;}
@@ -425,7 +427,12 @@
             },
             cancel: function () {
                 // 用户取消拉出地址
-                alert('failed');
+                $.myalert({
+                    content: '地址获取失败',
+                    confirm_btn_click: function (e){	//确认按钮点击事件
+                        $.myalert("getDialog").mydialog("hide");
+                    }
+                });
             }});
     }
     function changeAddress(){
@@ -441,13 +448,25 @@
             var personName = $("#personname").val();
             var isOK = IdentityCodeValid(personID);
             if(!isOK){
-                alert('身份证号有误，请重新填写，谢谢支持!');
+                $.myalert({
+                    content: '身份证号有误，请重新填写，谢谢支持!',
+                    confirm_btn_click: function (e){	//确认按钮点击事件
+                        $.myalert("getDialog").mydialog("hide");
+                    }
+                });
+//                alert();
                 //$("#personid").focus();
                 return false;
             }
             isOK = NameValid(personName);
             if(!isOK){
-                alert('姓名有误，请重新填写，谢谢支持!');
+                $.myalert({
+                    content: '姓名有误，请重新填写，谢谢支持!',
+                    confirm_btn_click: function (e){	//确认按钮点击事件
+                        $.myalert("getDialog").mydialog("hide");
+                    }
+                });
+//                alert('姓名有误，请重新填写，谢谢支持!');
                 //$("#personname").focus();
                 return false;
             }
@@ -457,7 +476,13 @@
         var value = $("#dLabel-name").attr('value');
         $("#bonus-input").val(value);
         if($("#address-area").css('display') == 'none'){
-            alert("请添加收货地址!");
+            $.myalert({
+                content: '请添加收货地址!',
+                confirm_btn_click: function (e){	//确认按钮点击事件
+                    $.myalert("getDialog").mydialog("hide");
+                }
+            });
+//            alert("请添加收货地址!");
             return false;
         }
         var isdispatch=false;
