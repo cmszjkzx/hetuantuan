@@ -29,7 +29,7 @@ if ($operation == 'display') {
                 if ($isexpress!='-1' && empty($_GP['expressno'.$k])) {
                     message('订单'.$item['ordersn'].'没有快递单号，请填写完整！');
                 }
-                if($item['status']!=1)
+                if($item['status'] > 2 || $item['status'] < 0)
                 {
                     message('订单'.$item['ordersn'].'状态不是待发货状态，请重新点击”批量发货“后进行操作。');
                 }
@@ -47,7 +47,7 @@ if ($operation == 'display') {
                     updateOrderStock($k);
                 }
                 mysqld_update('shop_order', array(
-                    'status' => 2,
+                    'status' => 3,
                     'express' => $express,
                     'expresscom' => $_GP['expresscom'.$k],
                     'expresssn' => $_GP['expressno'.$k],
