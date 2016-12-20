@@ -184,11 +184,11 @@ if($report=='orderstatistics')
                 ->setCellValue('L'.$i, $itemgoods['price'])
                 ->setCellValue('M'.$i, $itemgoods['productprice'])
                 ->setCellValue('N'.$i, $itemgoods['total'])
-                ->setCellValue('O'.$i, round(($itemgoods['total']*$itemgoods['price']),2))
-                ->setCellValue('P'.$i, round(($itemgoods['price']-$itemgoods['productprice']),2));
+                ->setCellValue('O'.$i, $itemgoods['total']*$itemgoods['price'])
+                ->setCellValue('P'.$i, $itemgoods['price']-$itemgoods['productprice']);
 
             $countmoney3=$countmoney3+round(($itemgoods['total']*$itemgoods['price']),2);
-            $countmoney4=$countmoney4+$itemgoods['price']-$itemgoods['productprice'];
+            $countmoney4=$countmoney4+$itemgoods['productprice'];
             //$itemdline=$itemdline+1;
 
             $i++;
@@ -223,7 +223,7 @@ $objBorderA5->getBottom()->getColor()->setARGB('FFFF0000');
         ->setCellValue('D'.$i, " ".$countmoney2)
         ->setCellValue('E'.$i, "商品总价：")
         ->setCellValue('F'.$i, " ".$countmoney3)
-        ->setCellValue('G'.$i, "总利润：".$countmoney4);
+        ->setCellValue('G'.$i, "总利润：".round(($countmoney1-$countmoney4),2));
 //$objPHPExcel->getActiveSheet()->getStyle('A'.$i.':P'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
  
     $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFont()->setBold(true);
