@@ -89,8 +89,8 @@
 			
 			this.element = options.confirm_box;
 			var width = $(document).width();
-			width = width * 0.53;
-			var defaults = {width: width+"px", cancelButton: true, confirmButton: true, title: "提示", 
+			width = width * 0.65;
+			var defaults = {width: width+"px", cancelButton: true, confirmButton: true,
 				cancel_btn_title: "取消", confirm_btn_title: "确认",
 				cancel_btn_click: function (e){
 					_this.element[my_dialog_plug_name]("hide");
