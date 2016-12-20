@@ -256,7 +256,7 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 					if(res.err_msg == 'get_brand_wcpay_request:ok') {
 						location.search += '&isok=1';
 					} else {
-//							alert('微信支付未完成');  
+//							alert('微信支付未完成');
 					
 						history.go(-1);
 					}
