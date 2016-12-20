@@ -184,8 +184,8 @@ if($report=='orderstatistics')
                 ->setCellValue('L'.$i, $itemgoods['price'])
                 ->setCellValue('M'.$i, $itemgoods['productprice'])
                 ->setCellValue('N'.$i, $itemgoods['total'])
-                ->setCellValue('O'.$i, $itemgoods['total']*$itemgoods['price'])
-                ->setCellValue('P'.$i, $itemgoods['price']-$itemgoods['productprice']);
+                ->setCellValue('O'.$i, round(($itemgoods['total']*$itemgoods['price']),2))
+                ->setCellValue('P'.$i, round(($itemgoods['price']-$itemgoods['productprice']),2));
 
             $countmoney3=$countmoney3+round(($itemgoods['total']*$itemgoods['price']),2);
             $countmoney4=$countmoney4+$itemgoods['price']-$itemgoods['productprice'];
