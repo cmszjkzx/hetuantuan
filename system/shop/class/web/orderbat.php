@@ -6,8 +6,8 @@ if ($operation == 'display') {
 //    $condition .= " AND status = '" . intval($status) . "'";
 //    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ");
 //    $total = mysqld_selectcolumn("SELECT count(*) FROM " . table('shop_order') . " WHERE 1=1 $condition ");
-    $list = mysqld_selectall("SELECT myorder.* FROM " . table('shop_order') . " myorder left join ".table('shop_order_goods')." mygoods on myorder.id=mygoods.orderid WHERE mygoods.optionid=0 AND (myorder.status = 0 or myorder.status = 1)");
-    $total = mysqld_selectcolumn("SELECT count(myorder.*) FROM " . table('shop_order') . " myorder left join ".table('shop_order_goods')." mygoods on myorder.id=mygoods.orderid WHERE mygoods.optionid=0 AND (myorder.status = 0 or myorder.status = 1)");
+    $list = mysqld_selectall("SELECT myorder.* FROM " . table('shop_order') . " myorder left join ".table('shop_order_goods')." mygoods on myorder.id=mygoods.orderid WHERE mygoods.optionid=0 AND myorder.status = 2");
+    $total = mysqld_selectcolumn("SELECT count(myorder.*) FROM " . table('shop_order') . " myorder left join ".table('shop_order_goods')." mygoods on myorder.id=mygoods.orderid WHERE mygoods.optionid=0 AND myorder.status = 2");
 
 
     $dispatchs = mysqld_selectall("SELECT * FROM " . table('shop_dispatch') );
