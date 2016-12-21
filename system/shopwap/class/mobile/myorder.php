@@ -428,7 +428,7 @@ else
     }
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, array(), 'id');
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY status ASC, createtime DESC LIMIT " . ($pindex - 1) * $psize . ',' . $psize, array(), 'id');
-    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY status ASC, createtime DESC ", array(), 'id');
+    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE $where ORDER BY createtime DESC, status ASC ", array(), 'id');
     $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('shop_order') . " WHERE  $where ");
     $pager = pagination($total, $pindex, $psize);
 

@@ -215,10 +215,12 @@ if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
 					'paySign' : '<?php echo $jsApiParameters['paySign'];?>'
 				}, function(res) {
 					if(res.err_msg == 'get_brand_wcpay_request:ok') {
-						location.search += '&isok=1';
+						//location.search += '&isok=1';
+                        location.href="<?php echo WEBSITE_ROOT;?>index.php?mod=mobile&name=shopwap&do=myorder&status=99";
 					} else {
 //						alert('微信支付未完成');
-						history.go(-1);
+						//history.go(-1);
+                        location.href="<?php echo WEBSITE_ROOT;?>index.php?mod=mobile&name=shopwap&do=myorder&status=99";
 					}
 				}
 			);
