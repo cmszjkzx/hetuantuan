@@ -9,7 +9,8 @@ if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
 	}
 }
 if($_GP['isok'] == '1') {
-	message('支付成功！',WEBSITE_ROOT.mobile_url('myorder', array('status' => 99)),'success');
+	//message('支付成功！',WEBSITE_ROOT.mobile_url('myorder', array('status' => 99)),'success');
+    header("location:".WEBSITE_ROOT.create_url('mobile',array('status' => 99,'do' => 'myorder')));
 }
 $payment = mysqld_select("SELECT * FROM " . table('payment') . " WHERE  enabled=1 and code='weixin' limit 1");
 $configs=unserialize($payment['configs']);
