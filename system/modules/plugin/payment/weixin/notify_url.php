@@ -87,7 +87,8 @@
 						mysqld_insert('paylog', array('typename'=>'支付成功','pdate'=>$xml,'ptype'=>'success','paytype'=>'weixin'));
 	        require_once WEB_ROOT.'/system/shopwap/class/mobile/order_notice_mail.php';  
 	             mailnotice($orderid);
-						message('支付成功！',WEBSITE_ROOT.mobile_url('myorder',array('status'=>1)),'success');
+						//message('支付成功！',WEBSITE_ROOT.mobile_url('myorder',array('status'=>1)),'success');
+                            header("location:".WEBSITE_ROOT.create_url('mobile',array('status' => 99,'do' => 'myorder')));
 						}else
 						{
 										
