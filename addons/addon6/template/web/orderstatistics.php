@@ -101,6 +101,9 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
             <th width="85"  >订单号</th>
             <th width="41" >下单时间</th>
             <th width="41" >总订单金额</th>
+            <th width="41" >优惠券</th>
+            <th width="41" >成本</th>
+            <th width="41" >手续费</th>
             <th width="41" >订单利润</th>
             <th width="42" >付款方式</th>
             <th width="42" >收货人</th>
@@ -120,6 +123,9 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
                         <?php  echo $item['dispatchprice'];?>)
                     <?php  } ?>
                 </td>
+                <td><?php  echo $item['bonusprice'];?></td>
+                <td><?php  echo $item['cost'];?></td>
+                <td><?php  echo $item['weixinprice'];?></td>
                 <td><?php  echo $item['profit'];?></td>
                 <td><?php  if($item['paytype'] == 1) { ?>
                         <span class="label label-important">余额支付</span>

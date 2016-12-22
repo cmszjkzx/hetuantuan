@@ -108,7 +108,9 @@ if($report=='orderstatistics')
         ->setCellValue('M1', '商品进价')
         ->setCellValue('N1', '购买数量')
         ->setCellValue('O1', '商品总价')
-        ->setCellValue('P1', '商品利润');
+        ->setCellValue('P1', '优惠券价格')
+        ->setCellValue('Q1', '商品利润')
+        ->setCellValue('R1', '微信手续费');
     $objPHPExcel->getActiveSheet()->getStyle('A')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
     $i=2;
     $index=0;
@@ -116,6 +118,8 @@ if($report=='orderstatistics')
     $countmoney2=0;
     $countmoney3=0;
     $countmoney4=0;
+    $allbonusprice=0;
+    $allweixinprice=0;
 
     foreach($list as $item){
         $countmoney1=$countmoney1+$item['price'];
@@ -142,6 +146,8 @@ if($report=='orderstatistics')
             $paytype='货到付款';
         }
         $countmoney2=$countmoney2+$priceother;
+        $allbonusprice=$allbonusprice+$item['bonusprice'];
+        $allweixinprice=$allweixinprice+round(($item['price']*0.0006),2);
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $item['ordersn'])
             ->setCellValue('B'.$i, date('Y-m-d  H:i:s',$item['createtime']))
@@ -150,8 +156,9 @@ if($report=='orderstatistics')
             ->setCellValue('E'.$i, $paytype)
             ->setCellValue('F'.$i, $item['tdrealname'])
             ->setCellValue('G'.$i, $item['tdaddress'])
-            ->setCellValue('H'.$i, $item['tdmobile']);
-
+            ->setCellValue('H'.$i, $item['tdmobile'])
+            ->setCellValue('P'.$i, $item['bonusprice'])
+            ->setCellValue('R'.$i, round(($item['price']*0.0006),2));
         $itemdatas=array();
 		$itemdline=0;
         foreach($item['ordergoods'] as $itemgoods){
@@ -185,7 +192,7 @@ if($report=='orderstatistics')
                 ->setCellValue('M'.$i, $itemgoods['productprice'])
                 ->setCellValue('N'.$i, $itemgoods['total'])
                 ->setCellValue('O'.$i, $itemgoods['total']*$itemgoods['price'])
-                ->setCellValue('P'.$i, $itemgoods['price']-$itemgoods['productprice']);
+                ->setCellValue('Q'.$i, $itemgoods['price']-$itemgoods['productprice']);
 
             $countmoney3=$countmoney3+round(($itemgoods['total']*$itemgoods['price']),2);
             $countmoney4=$countmoney4+$itemgoods['productprice'];
@@ -214,16 +221,27 @@ $objBorderA5->getBottom()->getColor()->setARGB('FFFF0000');
  $objPHPExcel->getActiveSheet()->getStyle('A'.$i.':O'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
  */
         //$i++;
-}					
+}
+//2016-12-22-yanru : 因为最后一个订单存在问题，所以导出必须修改其中内容
+$objPHPExcel->setActiveSheetIndex(0)
+    ->setCellValue('K'.($i-3), '500克')
+    ->setCellValue('M'.($i-3), 30)
+    ->setCellValue('M'.($i-2), 30)
+    ->setCellValue('M'.($i-1), 27)
+    ->setCellValue('Q'.($i-3), 9)
+    ->setCellValue('Q'.($i-2), 10)
+    ->setCellValue('Q'.($i-1), 12);
+    $modify_price = 120;
+    //end
  	
     $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('A'.$i, "共计".$index."单")
-        ->setCellValue('B'.$i, "订单总额：".$countmoney1)
+        ->setCellValue('B'.$i, "订单总额：".round($countmoney1,2))
         ->setCellValue('C'.$i, "运费：")
         ->setCellValue('D'.$i, " ".$countmoney2)
         ->setCellValue('E'.$i, "商品总价：")
-        ->setCellValue('F'.$i, " ".$countmoney3)
-        ->setCellValue('G'.$i, "总利润：".round(($countmoney1-$countmoney4),2));
+        ->setCellValue('F'.$i, " ".round($countmoney3,2))
+        ->setCellValue('G'.$i, "优惠券总价格：".$allbonusprice."  微信手续总费用：".round($allweixinprice,2)."  总利润：".(round(($countmoney1-$countmoney4),2)-$allbonusprice-$allweixinprice+$modify_price));
 //$objPHPExcel->getActiveSheet()->getStyle('A'.$i.':P'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
  
     $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFont()->setBold(true);
@@ -243,6 +261,8 @@ $objBorderA5->getBottom()->getColor()->setARGB('FFFF0000');
     $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(10);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(10);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(10);
     $objPHPExcel->getActiveSheet()->setTitle('订单统计');
 }
 
