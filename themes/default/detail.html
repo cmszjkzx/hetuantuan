@@ -205,7 +205,7 @@
             <div class="modal-footer" style="border: none;padding:0">
                 <div class="col-xs-12" style="padding-left: 0px;padding-right: 0px;">
                     <a id="add-cart" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0;border: none;border-radius: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='addtocart($(this).attr("id"))'>加入购物车</a>
-                    <a id="buy-now" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0;border: none;border-radius: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='buy()'>立即购买</a>
+                    <a id="buy-now" style="background-color:#FFA906;color: #ffffff;height:2.5rem;line-height: 2.5rem;padding: 0;border: none;border-radius: 0" class="btn btn-default btn-block bradius0 ptb10" href="javascript:void()" onclick='buy($(this).attr("id"))'>立即购买</a>
                 </div>
             </div>
         </div>
@@ -219,13 +219,13 @@
             <span style="font-size: 0.5rem;color: #9e9e9e">联系客服</span>
         </div>
     </a>-->
-    <a class="display_flex_item" id="select-option" onclick='addtocart($(this).attr("id"))'>
+    <a class="display_flex_item" id="add-option" onclick='addtocart($(this).attr("id"))'>
         <div style="margin: 0 auto;text-align: center">
             <img src="__RESOURCE__/images/ic_shopping_cart_normal.png" style="margin:0.25rem auto 0 auto;display: block;width: 1.1rem;height: 1.1rem">
             <span style="font-size: 0.5rem;color: #9e9e9e">加入购物车</span>
         </div>
     </a>
-    <a class="display_flex_item" style="background-color: #FDAD2A;height: inherit" href="javascript:void()" onclick='buy()'>
+    <a class="display_flex_item" id="buy-option" style="background-color: #FDAD2A;height: inherit" href="javascript:void()" onclick='buy($(this).attr("id"))'>
         <div style="margin: 0 auto;text-align: center;padding-top: 0.7rem">
             <span style="font-size: 0.9rem;color: white;">买</span>
         </div>
@@ -236,7 +236,9 @@
 <script type="text/javascript">
     //立即购买
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
-    function buy(){
+    function buy(object){
+        if("buy-now" != object)
+            closecart();
         $('#buy-now').show();
         $('#add-cart').hide();
         var ret = option_selected();
