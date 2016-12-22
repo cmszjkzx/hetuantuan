@@ -78,8 +78,8 @@
     <section class="accounts">
         <div class="infobox">
             <!--<h2>收货信息</h2>-->
-            <div style="height: 3rem;margin-right: 0.75rem">
-                <a type="button" onclick="openAddress()" style="display: inline;margin-left: 0.6rem;margin-top:1rem;float: left;">
+            <div style="height: 3rem;margin-right: 0.75rem" onclick="openAddress()" >
+                <a type="button" style="display: inline;margin-left: 0.6rem;margin-top:1rem;float: left;">
                     <img style="width: 0.95rem;height: 0.95rem;" src="__RESOURCE__/images/ic_location.png"><span id="location-text" class="font-28 color-93" style="margin-left: 0.7rem;">选择收货地址</span>
                 </a>
                 <div id="address-area" style="float: right;margin-top: 0.2rem;width: 15rem;display: none;margin-right: 0.25rem" class="font-26 color-41">
@@ -90,7 +90,7 @@
                         <!--@php  echo $defaultAddress['mobile'];@-->
                         </span>
                     </div>
-                    <div style="margin-top: 0.25rem;width: 10rem">
+                    <div style="margin-top: 0.3rem;width: 10rem">
                     <span id="address-text" class="text-ellipsis">
                     收货地址：
                         <!--@php  echo $defaultAddress['province'].$defaultAddress['city'].$defaultAddress['area'].$defaultAddress['address'];@-->
