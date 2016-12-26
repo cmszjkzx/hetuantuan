@@ -306,6 +306,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-left" >商品名称：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="expresssn" class="span5" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-left" > 快递公司：</label>
                         <div class="col-sm-9">
                             <select name="express" id='express'>
