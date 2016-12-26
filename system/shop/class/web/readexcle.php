@@ -74,8 +74,8 @@ $express_allColum = PHPExcel_Cell::columnIndexFromString($express_allColum);//�
 /* 循环读取每个单元格的数据 */
 for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
     $order_id = $sheet->getCellByColumnAndRow(0, $row)->getValue();
-    for($i = 0; $i < count($order_list); $i++){
-        if($order_id == $order_list[$i]['ordersn']){
+    for($i = 0; $i < count($list); $i++){
+        if($order_id == $list[$i]['ordersn']){
             $order_express_name = "";
             $order_express_id = "";
             $title = $sheet->getCellByColumnAndRow(2, $row)->getValue();
@@ -95,24 +95,25 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                         break;
                     }
                 }
-                for($j = 0; $j < count($order_list[$i]['ordergoods']); $j++){
-                    if(0 == strcmp($title, $order_list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $order_list[$i]['ordergoods'][$j]['optionname'])){
-                        if(empty($order_list[$i]['ordergoods'][$j]['optionname']))
-                            $tmp = 'inserttemp';
-                        else
-                            $tmp = $order_list[$i]['ordergoods'][$j]['optionname'];
-                        $order_list[$i]['expresscom'] =  $order_list[$i]['expresscom'].$tmp."_".$express_name.";";
-                        $order_list[$i]['expresssn'] = $order_list[$i]['expresssn'].$tmp."_".$express_id.";";
-                        $order_list[$i]['express'] = $order_list[$i]['express'].$tmp."_".$express.";";
+                for($j = 0; $j < count($list[$i]['ordergoods']); $j++){
+                    if(0 == strcmp($title, $list[$i]['ordergoods'][$j]['title']) && 0 == strcmp($option_name, $list[$i]['ordergoods'][$j]['optionname'])){
+//                        if(empty($list[$i]['ordergoods'][$j]['optionname']))
+//                            $tmp = 'inserttemp';
+//                        else
+//                            $tmp = $list[$i]['ordergoods'][$j]['optionname'];
+                        $tmp = $list[$i]['ordergoods'][$j]['goodsid']."@".$list[$i]['ordergoods'][$j]['optionid'];
+                        $list[$i]['expresscom'] =  $list[$i]['expresscom'].$tmp."_".$express_name.";";
+                        $list[$i]['expresssn'] = $list[$i]['expresssn'].$tmp."_".$express_id.";";
+                        $list[$i]['express'] = $list[$i]['express'].$tmp."_".$express.";";
                     }
                 }
                 $order_update = array(
                     "status" => 3,
-                    "expresscom" => $order_list[$i]['expresscom'],
-                    "expresssn" => $order_list[$i]['expresssn'],
-                    "express" => $order_list[$i]['express']
+                    "expresscom" => $list[$i]['expresscom'],
+                    "expresssn" => $list[$i]['expresssn'],
+                    "express" => $list[$i]['express']
                 );
-                mysqld_update("shop_order", $order_update, array("id" => $order_list[$i]['id']));
+                mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
             }
         }
     }

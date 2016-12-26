@@ -22,46 +22,62 @@ if ($operation == 'display')
     $status = !isset($_GP['status']) ? 1 : $_GP['status'];
     $sendtype = !isset($_GP['sendtype']) ? 0 : $_GP['sendtype'];
     $condition = '';
+    $band_condition = '';//2016-12-25-yanru
     $param_ordersn=$_GP['ordersn'];
     //shop_order字段
     if (!empty($_GP['ordersn']))
     {
         $condition .= " AND ordersn LIKE '%{$_GP['ordersn']}%'";
+        $band_condition .= " AND shoporders.ordersn LIKE '%{$_GP['ordersn']}%'";//2016-12-25-yanru
     }
 
     if (!empty($_GP['paytype']))
     {
         $condition .= " AND paytypecode ='".$_GP['paytype']."'";
+        $band_condition .= " AND shoporders.paytypecode ='".$_GP['paytype']."'";//2016-12-25-yanru
     }
     if (!empty($_GP['dispatch']))
     {
         $condition .= " AND dispatch =".intval($_GP['dispatch']);
+        $band_condition .= " AND shoporders.dispatch =".intval($_GP['dispatch']);//2016-12-25-yanru
     }
     if (!empty($_GP['endtime']))
     {
         $condition .= " AND createtime  <= ". strtotime($_GP['endtime']);
+        $band_condition .= " AND shoporders.createtime  <= ". strtotime($_GP['endtime']);//2016-12-25-yanru
     }
     if (!empty($_GP['begintime']))
     {
         $condition .= " AND createtime  >= ". strtotime($_GP['begintime']);
+        $band_condition .= " AND shoporders.createtime  >= ". strtotime($_GP['begintime']);//2016-12-25-yanru
     }
     if (!empty($_GP['address_realname']))
     {
         $condition .= " AND address_realname  LIKE '%{$_GP['address_realname']}%'";
+        $band_condition .= " AND shoporders.address_realname  LIKE '%{$_GP['address_realname']}%'";//2016-12-25-yanru
     }
     if (!empty($_GP['address_mobile']))
     {
         $condition .= " AND address_mobile  LIKE '%{$_GP['address_mobile']}%'";
+        $band_condition .= " AND shoporders.address_mobile  LIKE '%{$_GP['address_mobile']}%'";//2016-12-25-yanru
     }
     //2016-12-16-yanru-新增状态9是已收货，状态4和5的集合
-    if ($status != '-99' && $status != 9) {
+    if ($status != '-99' && $status != 9 && $status != 10) {
         $condition .= " AND status = '" . intval($status) . "'";
+        $band_condition .= " AND shoporders.status = '" . intval($status) . "'";//2016-12-25-yanru
     }
-    if ($status == 9){
+    if ($status == '9'){
         $condition .= " and ( status = 4 or status = 5)";
+        $band_condition .= " and ( shoporders.status = 4 or shoporders.status = 5)";//2016-12-25-yanru
+    }
+    //2016-12-25-yanru-新增状态10是表示需要更新快递信息的订单，状态2和3的集合
+    if ($status == '10'){
+        $condition .= " and ( status = 2 or status = 3)";
+        $band_condition .= " and ( shoporders.status = 2 or shoporders.status = 3)";//2016-12-25-yanru
     }
     if ($status == '3') {
         $condition .= " and ( status = 3 or status = -5 or status = -6)";
+        $band_condition .= " and ( shoporders.status = 3 or shoporders.status = -5 or shoporders.status = -6)";//2016-12-25-yanru
     }
     $dispatchs = mysqld_selectall("SELECT * FROM " . table('shop_dispatch') );
     $dispatchdata=array();
@@ -77,8 +93,23 @@ if ($operation == 'display')
     {
         $selectCondition="";
     }
-					
-    $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
+
+    //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
+    //2016-12-25-yanru-新增根据商品品牌获取订单
+    if(!empty($_GP['band'])){
+        if("其他" == $_GP['band']){
+            $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
+                ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime DESC ".$selectCondition, array(':band' => ''));
+        }
+        else{
+            $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
+                ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime DESC ".$selectCondition, array(':band' => $_GP['band']));
+        }
+    }else{
+        $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
+    }
 
     if(!empty($list)){
         foreach ($list as &$temp){
@@ -105,11 +136,55 @@ if ($operation == 'display')
             $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
                 " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
                 as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
-                if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
                 . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
                 . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
-                ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",
+                ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime asc ",
                 array(':oid' => $item['id']));
+
+            //2016-12-26-yanru-begin-导出的时候加上订单的发货快递信息
+            $temp_expresscom = explode(";", $item['expresscom']);
+            array_pop($temp_expresscom);
+            $item_expresscom = array();
+            foreach ($temp_expresscom as $goods_expresscom){
+                $item_expresscom[] = explode("_", $goods_expresscom);
+            }
+
+            $temp_expresssn = explode(";", $item['expresssn']);
+            array_pop($temp_expresssn);
+            $item_expresssn = array();
+            foreach ($temp_expresssn as $goods_expresssn){
+                $item_expresssn[] = explode("_", $goods_expresssn);
+            }
+
+            $temp_express = explode(";", $item['express']);
+            array_pop($temp_express);
+            $item_express = array();
+            foreach ($temp_express as $goods_express){
+                $item_express[] = explode("_", $goods_express);
+            }
+
+            for($i = 0; $i < count($item_express); $i++){
+                for($j = 0; $j < count($list[$id]['ordergoods']); $j++){
+                    //$item_order_express[] = array("goodssn" => $item_express[$i][0], "expresscom" => $item_expresscom[$i][1], "expresssn" => $item_expresssn[$i][1], "express" => $item_express[$i][1]);
+                    if(strpos($item_express[$i][0], "@")){
+                        $temp_goodoption = explode("@", $item_express[$i][0]);
+                        if($list[$id]['ordergoods'][$j]['goodsid']==$temp_goodoption[0] && $list[$id]['ordergoods'][$j]['optionid']==$temp_goodoption[1]){
+                            $list[$id]['ordergoods'][$j]['expresscom'] = $item_expresscom[$i][1];
+                            $list[$id]['ordergoods'][$j]['expresssn'] = $item_expresssn[$i][1];
+                            $list[$id]['ordergoods'][$j]['express'] = $item_express[$i][1];
+                        }
+                        //$item_order_express[] = array("goodssn"=>"", "goodsid"=>$temp_goodoption[0], "optionid"=>$temp_goodoption[1], "expresscom"=>$item_expresscom[$i][1], "expresssn"=>$item_expresssn[$i][1], "express"=>$item_express[$i][1]);
+                    }else{
+                        if($list[$id]['ordergoods'][$j]['optionname']==$item_express[$i][0]||"inserttemp"==$item_express[$i][0]){
+                            $list[$id]['ordergoods'][$j]['expresscom'] = $item_expresscom[$i][1];
+                            $list[$id]['ordergoods'][$j]['expresssn'] = $item_expresssn[$i][1];
+                            $list[$id]['ordergoods'][$j]['express'] = $item_express[$i][1];
+                        }
+                    }
+                }
+            }
+            //end
         }
         $report='orderreport';
         require_once 'report.php';
@@ -123,14 +198,31 @@ if ($operation == 'display')
             if (is_error($upload)) {
                 message($upload['message'], '', 'error');
             }
+        }else{
+            message("请导入物流信息文件！");
         }
-        $order_list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE status = 2 ORDER BY  createtime DESC ");
-        foreach ( $order_list as $id => $item)
+//        $order_list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE status = 2 ORDER BY  createtime DESC ");
+//        foreach ( $order_list as $id => $item)
+//        {
+//            $order_list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
+//        }
+        foreach ( $list as $id => $item)
         {
-            $order_list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
+            //2016-12-26-yanru-begin-每次更新物流信息，修改存储信息，现在存储订单规格编号及对应的商品编号
+            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,ordersgoods.goodsid, ordersgoods.optionid from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
+            $list[$id]['expresscom'] = "";
+            $list[$id]['expresssn'] = "";
+            $list[$id]['express'] = "";
+            //end
         }
         require_once 'readexcle.php';
         exit;
+    }
+    //2016-12-25-yanru-新增获取所有商品品牌信息
+    $bands = mysqld_selectall("SELECT distinct(band) FROM ".table('shop_goods'));
+    for($i=0; $i < count($bands); $i++){
+        if(empty($bands[$i]['band']))
+            $bands[$i]['band'] = "其他";
     }
     //end
     $payments = mysqld_selectall("SELECT * FROM " . table('payment') . " WHERE enabled = 1");

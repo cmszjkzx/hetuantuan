@@ -145,7 +145,7 @@
                         <option value="<?php  echo $item["id"];?>" <?php  echo $item['id']==$_GP['dispatch']?'selected':'';?>><?php  echo $item['dispatchname']?></option>
                   	<?php  } } ?>
                 </select>
-			</td>	
+			</td>
         </tr>
         <tr>
             <td style="vertical-align: middle;font-size: 14px;font-weight: bold;">收货人姓名：</td>
@@ -156,6 +156,17 @@
             <td >
                 <input name="address_mobile" type="text" value="<?php  echo $_GP['address_mobile'];?>" />
 			</td>	
+        </tr>
+        <tr>
+            <td style="vertical-align: middle;font-size: 14px;font-weight: bold;">商品品牌：</td>
+            <td >
+                <select style="margin-right:15px;" id="band" name="band" >
+                    <option value="" <?php  echo empty($_GP['band'])?'selected':'';?>>--未选择--</option>
+                    <?php  if(is_array($bands)) { foreach($bands as $item) { ?>
+                        <option value="<?php  echo $item['band'];?>" <?php  echo $item['band']==$_GP['band']?'selected':'';?>><?php  echo $item['band']?></option>
+                    <?php  } } ?>
+                </select>
+            </td>
         </tr>
         <tr>
             <td ></td>
@@ -188,8 +199,9 @@
 	<li style="width:10%" <?php  if($status == 0) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款未超时</a></li>
 	<li style="width:10%" <?php  if($status == 1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">已超时</a></li>
 	<li style="width:10%" <?php  if($status == 2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待发货</a></li>
-	<li style="width:10%" <?php  if($status == 3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">待收货</a></li>
-    <li style="width:10%" <?php  if($status == 4 || $status == 5) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9))?>">已收货</a></li>
+    <li style="width:10%" <?php  if($status == 10) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 10))?>">导入快递</a></li>
+    <li style="width:10%" <?php  if($status == 3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">待收货</a></li>
+    <li style="width:10%" <?php  if($status == 9) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9))?>">已收货</a></li>
     <li style="width:10%" <?php  if($status == 4) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 4))?>">已收货待评价</a></li>
     <li style="width:10%" <?php  if($status == 5) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 5))?>">已完成</a></li>
 	<li style="width:10%" <?php  if($status == -1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -1))?>">已关闭</a></li>
