@@ -164,10 +164,10 @@
                     <?php   if(!empty($order['express'])&&$order['express']!="-1"){ echo $expressarray[$order['express']];}?>
 				</td>
                 <th ><label for="">商品编号：</label></th>
-                <?php foreach ($item_order_express as $order_express) {?>
+                <?php foreach ($goods as $good) {?>
 				<td>
-                    <?php echo $order_express['goodssn']?>
-                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $order_express['expresscom']?>&postid=<?php  echo $order_express['expresssn']?>#input"  >
+                    <?php echo $good['title']?>
+                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $good['expresscom']?>&postid=<?php  echo $good['expresssn']?>#input"  >
                         [查看物流信息]
 				</td>
                 <?php } ?>

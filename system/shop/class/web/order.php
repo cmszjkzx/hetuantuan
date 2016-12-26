@@ -256,7 +256,7 @@ if ($operation == 'detail')
             $dispatchdata[$disitem['id']]=$disitem;
         }
     }
-    $goods = mysqld_selectall("SELECT g.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.price as orderprice FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+    $goods = mysqld_selectall("SELECT g.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
         . " WHERE o.orderid='{$orderid}'");
     $order['goods'] = $goods;
 
@@ -284,23 +284,43 @@ if ($operation == 'detail')
         foreach ($temp_express as $goods_express){
             $item_express[] = explode("_", $goods_express);
         }
-
-        $item_order_express = array();
-        for($i = 0; $i < count($item_express); $i++){
-            if(!empty($item_order_express)){
-                foreach ($item_order_express as $temp_order_express){
-                    if(
-                        0 != strcmp($item_express[$i][0], $temp_order_express['goodssn']) &&
-                        (
-                            (0 != strcmp($item_express[$i][1], $temp_order_express['express'])) ||
-                            (0 != strcmp($item_expresssn[$i][1], $temp_order_express['expresssn']) && 0 == strcmp($item_express[$i][1], $temp_order_express['express']))
-                        )
-                    ){
-                        $item_order_express[] = array("goodssn"=>$item_express[$i][0], "expresscom"=>$item_expresscom[$i][1], "expresssn"=>$item_expresssn[$i][1], "express"=>$item_express[$i][1]);
+//
+//        $item_order_express = array();
+//        for($i = 0; $i < count($item_express); $i++){
+//            if(!empty($item_order_express)){
+//                foreach ($item_order_express as $temp_order_express){
+//                    if(
+//                        0 != strcmp($item_express[$i][0], $temp_order_express['goodssn']) &&
+//                        (
+//                            (0 != strcmp($item_express[$i][1], $temp_order_express['express'])) ||
+//                            (0 != strcmp($item_expresssn[$i][1], $temp_order_express['expresssn']) && 0 == strcmp($item_express[$i][1], $temp_order_express['express']))
+//                        )
+//                    ){
+//                        $item_order_express[] = array("goodssn"=>$item_express[$i][0], "expresscom"=>$item_expresscom[$i][1], "expresssn"=>$item_expresssn[$i][1], "express"=>$item_express[$i][1]);
+//                    }
+//                }
+//            }else {
+//                $item_order_express[] = array("goodssn" => $item_express[$i][0], "expresscom" => $item_expresscom[$i][1], "expresssn" => $item_expresssn[$i][1], "express" => $item_express[$i][1]);
+//            }
+//        }
+        if(!empty($item_express)){
+            for($i = 0; $i < count($item_express); $i++){
+                for($j = 0; $j < count($goods); $j++){
+                    if(strpos($item_express[$i][0], "@")){
+                        $temp_goodoption = explode("@", $item_express[$i][0]);
+                        if($goods[$j]['goodsid']==$temp_goodoption[0] && $goods[$j]['optionid']==$temp_goodoption[1]){
+                            $goods[$j]['expresscom'] = $item_expresscom[$i][1];
+                            $goods[$j]['expresssn'] = $item_expresssn[$i][1];
+                            $goods[$j]['express'] = $item_express[$i][1];
+                        }
+                    }else{
+                        if($goods[$j]['optionname']==$item_express[$i][0]||"inserttemp"==$item_express[$i][0]){
+                            $goods[$j]['expresscom'] = $item_expresscom[$i][1];
+                            $goods[$j]['expresssn'] = $item_expresssn[$i][1];
+                            $goods[$j]['express'] = $item_express[$i][1];
+                        }
                     }
                 }
-            }else {
-                $item_order_express[] = array("goodssn" => $item_express[$i][0], "expresscom" => $item_expresscom[$i][1], "expresssn" => $item_expresssn[$i][1], "express" => $item_express[$i][1]);
             }
         }
         //end

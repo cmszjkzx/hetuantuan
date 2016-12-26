@@ -328,7 +328,7 @@ else if ($op == 'detail')
         //end
     }
     $goodsid = mysqld_selectall("SELECT goodsid,total FROM " . table('shop_order_goods') . " WHERE orderid = '{$orderid}'", array(), 'goodsid');
-    $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment,o.id as ogsid,o.goodsid as goodsid FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+    $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice,o.total,o.optionid,o.iscomment,o.id as ogsid,o.goodsid as goodsid,o.optionname as optionname FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
         . " WHERE o.orderid='{$orderid}'");
     foreach ($goods as &$g)
     {
@@ -373,7 +373,7 @@ else if ($op == 'detail')
             $item_express[] = explode("_", $goods_express);
         }
 
-        $temp_test = array_combine($item_expresscom, $item_expressn, $item_express);
+//        $temp_test = array_combine($item_expresscom, $item_expressn, $item_express);
 //        $item_order_express = array();
 //        for($i = 0; $i < count($item_express); $i++){
 //            if(!empty($item_order_express)){
