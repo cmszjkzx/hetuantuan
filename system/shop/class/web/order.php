@@ -133,14 +133,36 @@ if ($operation == 'display')
     {
         foreach ( $list as $id => $item)
         {
-            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
-                " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+            if(empty($_GP['band'])){
+                $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                    " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
                 as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
                 ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
-                . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
-                . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
-                ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime asc ",
-                array(':oid' => $item['id']));
+                    . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                    . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                    ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime asc ",
+                    array(':oid' => $item['id']));
+            } else{
+                if("其他"==$_GP['band']){
+                    $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                        " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                        . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                        . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                        ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band='' order by ordersgoods.createtime asc ",
+                        array(':oid' => $item['id']));
+                }else{
+                    $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                        " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                        . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                        . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                        ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band=:band order by ordersgoods.createtime asc ",
+                        array(':oid' => $item['id'], ':band' => $_GP['band']));
+                }
+            }
 
             //2016-12-26-yanru-begin-导出的时候加上订单的发货快递信息
             $temp_expresscom = explode(";", $item['expresscom']);
@@ -209,10 +231,7 @@ if ($operation == 'display')
         foreach ( $list as $id => $item)
         {
             //2016-12-26-yanru-begin-每次更新物流信息，修改存储信息，现在存储订单规格编号及对应的商品编号
-            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,ordersgoods.goodsid, ordersgoods.optionid from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));;
-            $list[$id]['expresscom'] = "";
-            $list[$id]['expresssn'] = "";
-            $list[$id]['express'] = "";
+            $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') . " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,ordersgoods.goodsid, ordersgoods.optionid from " . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods') . " goods on goods.id=ordersgoods.goodsid  where  ordersgoods.orderid=:oid order by ordersgoods.createtime  desc ",array(':oid' => $item['id']));
             //end
         }
         require_once 'readexcle.php';

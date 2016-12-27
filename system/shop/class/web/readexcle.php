@@ -76,8 +76,8 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
     $order_id = $sheet->getCellByColumnAndRow(0, $row)->getValue();
     for($i = 0; $i < count($list); $i++){
         if($order_id == $list[$i]['ordersn']){
-            $order_express_name = "";
-            $order_express_id = "";
+//            $order_express_name = "";
+//            $order_express_id = "";
             $title = $sheet->getCellByColumnAndRow(2, $row)->getValue();
             $option_name = $sheet->getCellByColumnAndRow(3, $row)->getValue();
             $express_name = $sheet->getCellByColumnAndRow(12, $row)->getValue();
@@ -85,7 +85,6 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
             if($express_name instanceof PHPExcel_RichText)
                 $express_name = $express_name->__toString();
             if(!empty($express_name) && !empty($express_id)){
-                $express;
                 for($express_row = 1; $express_row <= $express_allRow; $express_row++){
                     $express_string = $express_sheet->getCellByColumnAndRow(1, $express_row)->getValue();
                     if($express_string instanceof PHPExcel_RichText)
@@ -102,56 +101,57 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
 //                        else
 //                            $tmp = $list[$i]['ordergoods'][$j]['optionname'];
                         $tmp = $list[$i]['ordergoods'][$j]['goodsid']."@".$list[$i]['ordergoods'][$j]['optionid'];
-                        $list[$i]['expresscom'] =  $list[$i]['expresscom'].$tmp."_".$express_name.";";
-                        $list[$i]['expresssn'] = $list[$i]['expresssn'].$tmp."_".$express_id.";";
-                        $list[$i]['express'] = $list[$i]['express'].$tmp."_".$express.";";
+                        if(stristr($list[$i]['expresscom'], $tmp)==false){
+                            $list[$i]['expresscom'] =  $list[$i]['expresscom'].$tmp."_".$express_name.";";
+                            $list[$i]['expresssn'] = $list[$i]['expresssn'].$tmp."_".$express_id.";";
+                            $list[$i]['express'] = $list[$i]['express'].$tmp."_".$express.";";
+                            $order_update = array(
+                                "status" => 3,
+                                "expresscom" => $list[$i]['expresscom'],
+                                "expresssn" => $list[$i]['expresssn'],
+                                "express" => $list[$i]['express']
+                            );
+                            mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
+                            $notice = array(
+                                "touser" => $list[$i]['weixin_openid'],
+                                "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
+                            );
+                            $first = array(
+                                "value" => "您的商品已发货！",
+                                "color" => "#173177"
+                            );
+                            $keyword1 = array(
+                                "value" => $list[$i]['ordergoods'][$j]['title'],
+                                "color" => "#173177"
+                            );
+                            $keyword2 = array(
+                                "value" => $list[$i]['ordersn'],
+                                "color" => "#173177"
+                            );
+                            $keyword3 = array(
+                                "value" => "和团团商城",
+                                "color" => "#173177"
+                            );
+                            $remark = array(
+                                "value" => "欢迎再次购买！",
+                                "color" => "#173177"
+                            );
+                            $noticeDat = array(
+                                "first" => $first,
+                                "keyword1" => $keyword1,
+                                "keyword2" => $keyword2,
+                                "keyword3" => $keyword3,
+                                "remark" => $remark
+                            );
+                            $notice["data"] = $noticeDat;
+                            $dat = json_encode($notice);
+                            $dat = urldecode($dat);
+                            $token = get_weixin_token();
+                            $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
+                            $content = http_post($url, $dat);
+                        }
                     }
                 }
-                $order_update = array(
-                    "status" => 3,
-                    "expresscom" => $list[$i]['expresscom'],
-                    "expresssn" => $list[$i]['expresssn'],
-                    "express" => $list[$i]['express']
-                );
-                mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
-                $notice = array(
-                    //微信openid
-                    "touser" => $list[$i]['weixin_openid'],
-                    "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
-                );
-                $first = array(
-                    "value" => "恭喜你购买成功！",
-                    "color" => "#173177"
-                );
-                $keyword1 = array(
-                    "value" => $list[$i]['ordergoods'][$j]['title'],
-                    "color" => "#173177"
-                );
-                $keyword2 = array(
-                    "value" => $list[$i]['ordersn'],
-                    "color" => "#173177"
-                );
-                $keyword3 = array(
-                    "value" => "和团团商城",
-                    "color" => "#173177"
-                );
-                $remark = array(
-                    "value" => "欢迎再次购买！",
-                    "color" => "#173177"
-                );
-                $noticeDat = array(
-                    "first" => $first,
-                    "keyword1" => $keyword1,
-                    "keyword2" => $keyword2,
-                    "keyword3" => $keyword3,
-                    "remark" => $remark
-                );
-                $notice["data"] = $noticeDat;
-                $dat = json_encode($notice);
-                $dat = urldecode($dat);
-                $token = get_weixin_token();
-                $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
-                $content = http_post($url, $dat);
             }
         }
     }
