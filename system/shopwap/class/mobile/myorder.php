@@ -372,8 +372,6 @@ else if ($op == 'detail')
         foreach ($temp_express as $goods_express){
             $item_express[] = explode("_", $goods_express);
         }
-
-//        $temp_test = array_combine($item_expresscom, $item_expressn, $item_express);
 //        $item_order_express = array();
 //        for($i = 0; $i < count($item_express); $i++){
 //            if(!empty($item_order_express)){
