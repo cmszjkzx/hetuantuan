@@ -114,6 +114,44 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                     "express" => $list[$i]['express']
                 );
                 mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
+                $notice = array(
+                    //微信openid
+                    "touser" => "微信openid",
+                    "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
+                );
+                $first = array(
+                    "value" => "恭喜你购买成功！",
+                    "color" => "#173177"
+                );
+                $keyword1 = array(
+                    "value" => "商品名字",
+                    "color" => "#173177"
+                );
+                $keyword2 = array(
+                    "value" => "订单编号",
+                    "color" => "#173177"
+                );
+                $keyword3 = array(
+                    "value" => "和团团商城",
+                    "color" => "#173177"
+                );
+                $remark = array(
+                    "value" => "欢迎再次购买！",
+                    "color" => "#173177"
+                );
+                $noticeDat = array(
+                    "first" => $first,
+                    "keyword1" => $keyword1,
+                    "keyword2" => $keyword2,
+                    "keyword3" => $keyword3,
+                    "remark" => $remark
+                );
+                $notice["data"] = $noticeDat;
+                $dat = json_encode($notice);
+                $dat = urldecode($dat);
+                $token = get_weixin_token();
+                $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
+                $content = http_post($url, $dat);
             }
         }
     }
