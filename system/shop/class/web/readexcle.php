@@ -129,11 +129,11 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                                 "color" => "#173177"
                             );
                             $keyword3 = array(
-                                "value" => "和团团商城",
+                                "value" => "中国移动和团团",
                                 "color" => "#173177"
                             );
                             $remark = array(
-                                "value" => "欢迎再次购买！",
+                                "value" => "满意您再来哟！",
                                 "color" => "#173177"
                             );
                             $noticeDat = array(
