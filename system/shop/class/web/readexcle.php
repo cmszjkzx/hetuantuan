@@ -116,7 +116,7 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                 mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
                 $notice = array(
                     //微信openid
-                    "touser" => "微信openid",
+                    "touser" => $list[$i]['weixin_openid'],
                     "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
                 );
                 $first = array(
@@ -124,11 +124,11 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                     "color" => "#173177"
                 );
                 $keyword1 = array(
-                    "value" => "商品名字",
+                    "value" => $list[$i]['ordergoods'][$j]['title'],
                     "color" => "#173177"
                 );
                 $keyword2 = array(
-                    "value" => "订单编号",
+                    "value" => $list[$i]['ordersn'],
                     "color" => "#173177"
                 );
                 $keyword3 = array(
