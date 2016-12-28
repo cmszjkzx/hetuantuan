@@ -24,7 +24,7 @@ if ($operation == 'display') {
         {
             foreach ($_GP['check'] as $k ) {
                 $item = mysqld_select("SELECT status,ordersn FROM " . table('shop_order') . " WHERE id = :id", array(':id' => $k));
-						     
+
                 $isexpress=$_GP['express'.$k];
                 if ($isexpress!='-1' && empty($_GP['expressno'.$k])) {
                     message('订单'.$item['ordersn'].'没有快递单号，请填写完整！');
@@ -34,7 +34,7 @@ if ($operation == 'display') {
                     message('订单'.$item['ordersn'].'状态不是待发货状态，请重新点击”批量发货“后进行操作。');
                 }
             }
-						
+
             foreach ($_GP['check'] as $k ) {
                 $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id", array(':id' => $k));
                 $express=$_GP['express'.$k];
@@ -56,9 +56,9 @@ if ($operation == 'display') {
             }
         }
         message('批量发货操作完成,成功处理'.$index.'条订单', refresh(), 'success');
-						
+
     }
     $dispatchlist = mysqld_selectall("SELECT * FROM " . table('dispatch')." where sendtype=0" );
-					
+
     include page('orderbat');
 }
