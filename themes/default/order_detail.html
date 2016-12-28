@@ -143,7 +143,7 @@
 			<img src="__RESOURCE__/images/ic_express.png" style="width: 1.5rem;height: 1.1rem">
 			<div class="weui-cell__bd" style="margin-left: 1rem">
 				快递公司:<!--@php echo $package['expresscom'] @--><br>
-				单号:<!--@php echo $package['expresssn'] @-->
+				单号:<!--@php echo $package['expresssn'] @-->&nbsp;&nbsp;&nbsp;包裹编号:<!--@php echo $package['number'] @-->
 			</div>
 			<a href="http://m.kuaidi100.com/index_all.html?type=<!--@php echo $package['express'] @-->&postid=<!--@php echo $package['expresssn'] @-->#result" class="weui-cell__ft font-28 color-3c"><span style="margin-top: -5px">查看物流</span></a>
 			<!--<a href="http://m.kuaidi100.com/index_all.html?type=&lt;!&ndash;@php echo $order_express['express'] @&ndash;&gt;&postid=&lt;!&ndash;@php echo $order_express['expresssn'] @&ndash;&gt;#result" class="pull-right color-3c">[查看物流信息]</a>-->
@@ -237,6 +237,9 @@
 					<p class="pro-info">
 					<span class="member-browse-name text-ellipsis font-28 color-3c">
 						<!--@php  echo $g['title'];@-->
+						<!--@php if(isset($g['packagenumber'])) { @-->
+					包裹编号:<!--@php  echo $g['packagenumber'];@-->
+						<!--@php } @-->
 					</span>
 						<!--<span class="pro-name">价格：-->
 						<!--@php  //echo $goods['totalprice'];@-->

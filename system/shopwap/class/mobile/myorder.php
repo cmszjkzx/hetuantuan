@@ -412,7 +412,7 @@ else if ($op == 'detail')
                             $goods[$j]['expresscom'] = $item_expresscom[$i][1];
                             $goods[$j]['expresssn'] = $item_expresssn[$i][1];
                             $goods[$j]['express'] = $item_express[$i][1];
-                            $goods[$j]['packagenumber'] = stristr($temp_package, $item_expresssn[$i][1]);
+                            $goods[$j]['packagenumber'] = strpos($temp_package, $item_expresssn[$i][1]);
                         }
                     }
                 }
