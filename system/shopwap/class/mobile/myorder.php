@@ -395,9 +395,16 @@ else if ($op == 'detail')
         $temp_package = "";
         if(!empty($item_express)){
             for($i = 0; $i < count($item_express); $i++){
-                $packages[] = array('number'=>strlen($temp_package), 'expresscom'=>$item_expresscom[$i][1],
-                    'expresssn'=>$item_expresssn[$i][1], 'express'=>$item_express[$i][1]);
-                $temp_package .= $item_expresssn[$i][1].";";
+                if(empty($temp_package)){
+                    $packages[] = array('number'=>intval(strlen($temp_package)/10)+1, 'expresscom'=>$item_expresscom[$i][1],
+                        'expresssn'=>$item_expresssn[$i][1], 'express'=>$item_express[$i][1]);
+                    $temp_package .= $item_expresssn[$i][1].";";
+                }
+                if(stristr($temp_package, $item_expresssn[$i][1]) == false){
+                    $packages[] = array('number'=>intval(strlen($temp_package)/10)+1, 'expresscom'=>$item_expresscom[$i][1],
+                        'expresssn'=>$item_expresssn[$i][1], 'express'=>$item_express[$i][1]);
+                    $temp_package .= $item_expresssn[$i][1].";";
+                }
                 for($j = 0; $j < count($goods); $j++){
                     if(strpos($item_express[$i][0], "@")){
                         $temp_goodoption = explode("@", $item_express[$i][0]);
@@ -405,14 +412,14 @@ else if ($op == 'detail')
                             $goods[$j]['expresscom'] = $item_expresscom[$i][1];
                             $goods[$j]['expresssn'] = $item_expresssn[$i][1];
                             $goods[$j]['express'] = $item_express[$i][1];
-                            $goods[$j]['packagenumber'] = strpos($temp_package, $item_expresssn[$i][1]);
+                            $goods[$j]['packagenumber'] = intval(strpos($temp_package, $item_expresssn[$i][1])/10)+1;
                         }
                     }else{
                         if($goods[$j]['optionname']==$item_express[$i][0]||"inserttemp"==$item_express[$i][0]){
                             $goods[$j]['expresscom'] = $item_expresscom[$i][1];
                             $goods[$j]['expresssn'] = $item_expresssn[$i][1];
                             $goods[$j]['express'] = $item_express[$i][1];
-                            $goods[$j]['packagenumber'] = strpos($temp_package, $item_expresssn[$i][1]);
+                            $goods[$j]['packagenumber'] = intval(strpos($temp_package, $item_expresssn[$i][1])/10)+1;
                         }
                     }
                 }
