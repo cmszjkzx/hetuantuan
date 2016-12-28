@@ -158,7 +158,7 @@ if($report=='orderstatistics')
             ->setCellValue('G'.$i, $item['tdaddress'])
             ->setCellValue('H'.$i, $item['tdmobile'])
             ->setCellValue('P'.$i, $item['bonusprice'])
-            ->setCellValue('R'.$i, round(($item['price']*0.0006),2));
+            ->setCellValue('R'.$i, round(($item['price']*0.006),2));
         $itemdatas=array();
 		$itemdline=0;
         foreach($item['ordergoods'] as $itemgoods){
