@@ -472,7 +472,7 @@ else
         {
             $order_iscomment = 0;
             //2016-12-4-yanru-begin-获取订单商品的评价字段，判断是否已经评价
-            $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice, g.total as stock, o.total, o.optionid, o.iscomment FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+            $goods = mysqld_selectall("SELECT g.id, g.title, g.thumb, g.marketprice, g.total as stock, o.total, o.optionid, o.iscomment, o.optionname FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
                 . " WHERE o.orderid='{$row['id']}'");
             //2016-12-7-yanru-begin-可能会存在BUG，但是暂时没有出现
             if($row['status'] == 0){
@@ -492,7 +492,7 @@ else
                     //$item['title'] = "[" . $option['title'] . "]" . $item['title'];
                     //$item['marketprice'] = $option['marketprice'];
                     $item['attribute_id'] = $option['id'];
-                    $item['attribute_title'] = $option['title'];
+                    //$item['attribute_title'] = $option['title'];
                     $item['attribute_price'] = $option['marketprice'];
                     $item['stock'] = $option['stock'];
                     //end
