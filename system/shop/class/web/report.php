@@ -110,7 +110,7 @@ if($report=='orderreport')
                 ->setCellValue('I'.$i, $item['address_mobile'])
                 ->setCellValue('J'.$i, $item['address_province'].$item['address_city'].$item['address_area'].$item['address_address'])
                 ->setCellValue('K'.$i, $itemgoods['expresscom'])
-                ->setCellValue('L'.$i, $itemgoods['expresssn'])
+                ->setCellValueExplicit('L'.$i, $itemgoods['expresssn'],PHPExcel_Cell_DataType::TYPE_STRING)
                 ->setCellValue('M'.$i, $itemgoods['dispatchprice'])//新增
                 ->setCellValue('N'.$i, '')
                 ->setCellValue('O'.$i, '')
