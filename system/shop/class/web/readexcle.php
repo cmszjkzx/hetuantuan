@@ -80,8 +80,8 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
 //            $order_express_id = "";
             $title = $sheet->getCellByColumnAndRow(2, $row)->getValue();
             $option_name = $sheet->getCellByColumnAndRow(3, $row)->getValue();
-            $express_name = $sheet->getCellByColumnAndRow(12, $row)->getValue();
-            $express_id = $sheet->getCellByColumnAndRow(13, $row)->getValue();
+            $express_name = $sheet->getCellByColumnAndRow(10, $row)->getValue();
+            $express_id = $sheet->getCellByColumnAndRow(11, $row)->getValue();
             if($express_name instanceof PHPExcel_RichText)
                 $express_name = $express_name->__toString();
             if(!empty($express_name) && !empty($express_id)){

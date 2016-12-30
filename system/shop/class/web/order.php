@@ -89,26 +89,32 @@ if ($operation == 'display')
         }
     }
     $selectCondition="LIMIT " . ($pindex - 1) * $psize . ',' . $psize;
-    if (!empty($_GP['report']))
+    if (!empty($_GP['report']) || !empty($_GP['getexcel']))
     {
         $selectCondition="";
     }
 
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
     //2016-12-25-yanru-新增根据商品品牌获取订单
-    if(!empty($_GP['band'])){
-        if("其他" == $_GP['band']){
-            $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
-                " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-                ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime DESC ".$selectCondition, array(':band' => ''));
-        }
-        else{
-            $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
-                " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-                ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime DESC ".$selectCondition, array(':band' => $_GP['band']));
+    if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
+        if(!empty($_GP['band'])){
+            if("其他" == $_GP['band']){
+                $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                    " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
+                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => ''));
+            }
+            else{
+                $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                    " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
+                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => $_GP['band']));
+            }
+        }else{
+            $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime ASC ".$selectCondition);
         }
     }else{
-        $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
+        $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+            " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
+            ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
     }
 
     if(!empty($list)){
@@ -133,36 +139,48 @@ if ($operation == 'display')
     {
         foreach ( $list as $id => $item)
         {
-            if(empty($_GP['band'])){
+            if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
+                if(empty($_GP['band'])){
+                    $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                        " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                        . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                        . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                        ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime desc ",
+                        array(':oid' => $item['id']));
+                } else{
+                    if("其他"==$_GP['band']){
+                        $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                            " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                            . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                            . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                            ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band='' order by ordersgoods.createtime desc ",
+                            array(':oid' => $item['id']));
+                    }else{
+                        $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
+                            " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
+                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
+                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
+                            . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
+                            . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
+                            ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band=:band order by ordersgoods.createtime desc ",
+                            array(':oid' => $item['id'], ':band' => $_GP['band']));
+                    }
+                }
+            }else{
                 $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
                     " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
                 as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
                 ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
                     . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
                     . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
-                    ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime asc ",
-                    array(':oid' => $item['id']));
-            } else{
-                if("其他"==$_GP['band']){
-                    $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
-                        " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
-                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
-                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
-                        . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
-                        . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
-                        ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band='' order by ordersgoods.createtime asc ",
-                        array(':oid' => $item['id']));
-                }else{
-                    $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
-                        " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
-                as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
-                ordersgoods.goodsid,ordersgoods.optionid,if(ordersgoods.optionname is null, goods.productprice, goodsoption.productprice) as productprice from "
-                        . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
-                        . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
-                        ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band=:band order by ordersgoods.createtime asc ",
-                        array(':oid' => $item['id'], ':band' => $_GP['band']));
-                }
+                    ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band=:band order by ordersgoods.createtime desc ",
+                    array(':oid' => $item['id'], ':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
             }
+
 
             //2016-12-26-yanru-begin-导出的时候加上订单的发货快递信息
             $temp_expresscom = explode(";", $item['expresscom']);
