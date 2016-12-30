@@ -89,9 +89,11 @@ if ($operation == 'display')
         }
     }
     $selectCondition="LIMIT " . ($pindex - 1) * $psize . ',' . $psize;
+    $orderby = " DESC ";
     if (!empty($_GP['report']) || !empty($_GP['getexcel']))
     {
         $selectCondition="";
+        $orderby = " ASC ";
     }
 
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
@@ -101,20 +103,20 @@ if ($operation == 'display')
             if("其他" == $_GP['band']){
                 $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => ''));
+                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => ''));
             }
             else{
                 $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => $_GP['band']));
+                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $_GP['band']));
             }
         }else{
-            $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime ASC ".$selectCondition);
+            $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY createtime ".$orderby.$selectCondition);
         }
     }else{
         $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
             " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-            ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY  createtime ASC ".$selectCondition, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+            ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
     }
 
     if(!empty($list)){
