@@ -44,8 +44,8 @@ if($report=='orderreport')
         ->setCellValue('C1', '产品名称')
         ->setCellValue('D1', '规格型号')
         ->setCellValue('E1', '数量')
-        ->setCellValue('F1', '单价')
-        ->setCellValue('G1', '总价')
+        ->setCellValue('F1', '成本价')
+        ->setCellValue('G1', '成本总价')
         //->setCellValue('H1', '含税总价')//不需要
         //->setCellValue('I1', '商品进价')//不需要
         ->setCellValue('H1', '收货人')
@@ -102,8 +102,8 @@ if($report=='orderreport')
                 ->setCellValue('C'.$i, $itemgoods['title'])
                 ->setCellValue('D'.$i, $itemgoods['optionname'])
                 ->setCellValue('E'.$i, $itemgoods['total'])
-                ->setCellValue('F'.$i, $itemgoods['price'])
-                ->setCellValue('G'.$i, $itemgoods['goodstotal'])
+                ->setCellValue('F'.$i, $itemgoods['productprice'])
+                ->setCellValue('G'.$i, round($itemgoods['productprice']*$itemgoods['total'],2))
                 //->setCellValue('H'.$i, $itemgoods['goodstotal'])
                 //->setCellValue('I'.$i, $itemgoods['productprice'])
                 ->setCellValue('H'.$i, $item['address_realname'])
@@ -125,8 +125,8 @@ if($report=='orderreport')
     $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(5);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(5);
-    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(5);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(80);
