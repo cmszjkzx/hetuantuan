@@ -82,6 +82,7 @@ class shopAddons  extends BjSystemModule {
     public function do_kinds() {
         $this->__web(__FUNCTION__);
     }
+    //2017-1-5-yanru-begin
     //end
 }
 

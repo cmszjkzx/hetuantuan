@@ -9,34 +9,74 @@ $needoutchargegold = mysqld_selectcolumn("SELECT count(id) FROM " . table('gold_
 $monthgoodscomment = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_goods_comment') . " WHERE createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
 $monthmember = mysqld_selectcolumn("SELECT count(openid) FROM " . table('member') . " WHERE istemplate=0 and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
         	
-			  	
-$todayordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
-$todayorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
-$monthordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
-$monthorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
-$yearordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
-$yearorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
-      	
-$todayordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
-$todayorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
-$monthordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
-$monthorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
-$yearordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
-$yearorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3   and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
-      	
-$needsend_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=1 "."  ");
-$needsend__price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=1 "."  ");
-$needget_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=2 "."  ");
-$needget__price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=2 "."  ");
-      	
-$returnofgoods_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE  status= -3 "."  ");
-$returnofgoods_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status= -3 "."  ");
-        
-$noneedgoods_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=-4"."  ");
-$noneedgoods_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=-4"."  ");
-        
-$returnofmoney_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=-2 "."  ");
-$returnofmoney_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=-2 "."  ");
+if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']){
+    $todayordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
+    $todayorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
+    $monthordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
+    $monthorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
+    $yearordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
+    $yearorderprice = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
+
+    $todayordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
+    $todayorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ");
+    $monthordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
+    $monthorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3  and createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ");
+    $yearordercount_re = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3 and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
+    $yearorderprice_re = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status<-1 and status!=-3   and createtime >=".strtotime($nowyear."-01-01 00:00:01")." and createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ");
+
+    $needsend_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=1 "."  ");
+    $needsend__price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=1 "."  ");
+    $needget_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=2 "."  ");
+    $needget__price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=2 "."  ");
+
+    $returnofgoods_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE  status= -3 "."  ");
+    $returnofgoods_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status= -3 "."  ");
+
+    $noneedgoods_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=-4"."  ");
+    $noneedgoods_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=-4"."  ");
+
+    $returnofmoney_count = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status=-2 "."  ");
+    $returnofmoney_price = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status=-2 "."  ");
+}else{
+    $todayordercount = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ".table('shop_order')." shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 AND shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." AND shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $todayorderprice = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 AND shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." AND shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $monthordercount = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 AND shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." AND shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $monthorderprice = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM ". table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 and shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $yearordercount = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 and shoporder.createtime >=".strtotime($nowyear."-01-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $yearorderprice = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status>=2 and shoporder.createtime >=".strtotime($nowyear."-01-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $todayordercount_re = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3  and shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $todayorderprice_re = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3  and shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$nowdate." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $monthordercount_re = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3  and shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $monthorderprice_re = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3  and shoporder.createtime >=".strtotime($nowyear."-".$nowmonth."-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-".$nowmonth."-".$lastmonthday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $yearordercount_re = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3 and shoporder.createtime >=".strtotime($nowyear."-01-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $yearorderprice_re = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status<-1 and shoporder.status!=-3   and shoporder.createtime >=".strtotime($nowyear."-01-01 00:00:01")." and shoporder.createtime <=".strtotime($nowyear."-12-".$lastyearday." 23:59:59")."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $needsend_count = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=2 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $needsend__price = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=2 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+    $needget_count = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=3 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+    $needget__price = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=3 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $returnofgoods_count = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status= -3 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+    $returnofgoods_price = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status= -3 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $noneedgoods_count = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=-4"."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+    $noneedgoods_price = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=-4"."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+
+    $returnofmoney_count = mysqld_selectcolumn("SELECT count(ordergoods.orderid) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=-2 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+    $returnofmoney_price = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shopgoods.band = :band AND shoporder.status=-2 "."  ", array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
+}
       
 if(empty($noneedgoods_price))
 {
@@ -125,7 +165,7 @@ for($dateindex=1;$dateindex<=7;$dateindex++)
     $start_time=date("Y-m-d 00:00:01",mktime(0, 0 , 0,date("m"),date("d")-date("w")+$dateindex,date("Y")));
 			  			
     $end_time=date("Y-m-d 23:59:59",mktime(23,59,59,date("m"),date("d")-date("w")+$dateindex,date("Y")));
-    $chart1data = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=1 and createtime >=".strtotime($start_time)." and createtime <=".strtotime($end_time)."  ");
+    $chart1data = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=2 and createtime >=".strtotime($start_time)." and createtime <=".strtotime($end_time)."  ");
     if(empty($chart1data))
     {
         $chart1data="0.00";

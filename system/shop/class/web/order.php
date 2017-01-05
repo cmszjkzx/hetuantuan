@@ -62,7 +62,7 @@ if ($operation == 'display')
         $band_condition .= " AND shoporders.address_mobile  LIKE '%{$_GP['address_mobile']}%'";//2016-12-25-yanru
     }
     //2016-12-16-yanru-新增状态9是已收货，状态4和5的集合
-    if ($status != '-99' && $status != 9 && $status != 10) {
+    if ($status != '-99' && $status != 9 && $status != 10 && $status != 11 && $status != 12) {
         $condition .= " AND status = '" . intval($status) . "'";
         $band_condition .= " AND shoporders.status = '" . intval($status) . "'";//2016-12-25-yanru
     }
@@ -78,6 +78,13 @@ if ($operation == 'display')
     if ($status == '3') {
         $condition .= " and ( status = 3 or status = -5 or status = -6)";
         $band_condition .= " and ( shoporders.status = 3 or shoporders.status = -5 or shoporders.status = -6)";//2016-12-25-yanru
+    }
+    //当是商家登录时判断对应商家的商品是否发货,其中5为待发货,6为待收货
+    if (($status == '11' || $status == '12') && empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
+        if($status == '11')
+            $band_condition .= " AND ordergoods.status = 11 ";//2017-1-3-yanru
+        if($status == '12')
+            $band_condition .= " AND ordergoods.status = 12 ";//2017-1-3-yanru
     }
     $dispatchs = mysqld_selectall("SELECT * FROM " . table('shop_dispatch') );
     $dispatchdata=array();
@@ -114,7 +121,7 @@ if ($operation == 'display')
             $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY createtime ".$orderby.$selectCondition);
         }
     }else{
-        $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+        $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
             " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
             ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
     }
@@ -295,13 +302,17 @@ if ($operation == 'detail')
             $dispatchdata[$disitem['id']]=$disitem;
         }
     }
-    $goods = mysqld_selectall("SELECT g.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
-        . " WHERE o.orderid='{$orderid}'");
-    $order['goods'] = $goods;
+    if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
+        $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+            . " WHERE o.orderid='{$orderid}'");
+    }else{
+        $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+            . " WHERE o.orderid='{$orderid}' AND g.band='{$_CMS[WEB_SESSION_ACCOUNT]['groupName']}'");
+    }
 
     //2016-12-15-yanru-begin-后台订单状态查询
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id", array(':id' => $orderid));
-    if($item['status'] >= 3){
+    if($item['status'] >= 3 && empty($_GP['confirmsend'])){
         //2016-12-4-yanru-begin
         $temp_expresscom = explode(";", $item['expresscom']);
         array_pop($temp_expresscom);
@@ -365,7 +376,8 @@ if ($operation == 'detail')
         //end
     }
     //end
-            
+    $order['goods'] = $goods;
+
     if (checksubmit('confrimpay'))
     {
         mysqld_update('shop_order', array('status' => 2,'remark'=>$_GP['remark']), array('id' => $orderid));
@@ -387,13 +399,107 @@ if ($operation == 'detail')
         {
             updateOrderStock($orderid);
         }
-        mysqld_update('shop_order', array(
-            'status' => 3,
-            'express' => $express,
-            'expresscom' => $_GP['expresscom'],
-            'expresssn' => $_GP['expresssn'],
-            'remark'=>$_GP['remark']),
-            array('id' => $orderid));
+//        mysqld_update('shop_order', array(
+//            'status' => 3,
+//            'express' => $express,
+//            'expresscom' => $_GP['expresscom'],
+//            'expresssn' => $_GP['expresssn'],
+//            'remark'=>$_GP['remark']),
+//            array('id' => $orderid));
+        foreach ($goods as $good){
+            $temp_goods = $good['goodsid']."@".$good['optionid'];
+            $temp_goods_expresscom = $temp_goods."_".$_GP['expresscom'].";";
+            $temp_goods_expresssn = $temp_goods."_".$_GP['expresssn'].";";
+            $temp_goods_express = $temp_goods."_".$express.";";
+            //需要比较下是用strpos还是用stristr
+            if(stristr($order['expresssn'], $temp_goods)==false && stristr($order['express'], $temp_goods)==false){
+                $temp_goods_expresscom = $order['expresscom'].$temp_goods_expresscom;
+                $temp_goods_expresssn = $order['expresssn'].$temp_goods_expresssn;
+                $temp_goods_express = $order['express'].$temp_goods_express;
+                mysqld_update('shop_order_goods', array(
+                    'status' => 12,
+                    'express' => $express,
+                    'expresscom' => $_GP['expresscom'],
+                    'expresssn' => $_GP['expresssn'],),
+                    array('orderid' => $orderid, 'goodsid'=>$good['goodsid']));
+
+                $notice = array(
+                    "touser" => $order['weixin_openid'],
+                    "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
+                );
+                $first = array(
+                    "value" => "您的商品已发货！",
+                    "color" => "#173177"
+                );
+                $keyword1 = array(
+                    "value" => $good['title'].":".$good['optionname'],
+                    "color" => "#173177"
+                );
+                $keyword2 = array(
+                    "value" => $order['ordersn'],
+                    "color" => "#173177"
+                );
+                $keyword3 = array(
+                    "value" => "中国移动和团团",
+                    "color" => "#173177"
+                );
+                $remark = array(
+                    "value" => "满意您再来哟！",
+                    "color" => "#173177"
+                );
+                $noticeDat = array(
+                    "first" => $first,
+                    "keyword1" => $keyword1,
+                    "keyword2" => $keyword2,
+                    "keyword3" => $keyword3,
+                    "remark" => $remark
+                );
+                $notice["data"] = $noticeDat;
+                $dat = json_encode($notice);
+                $dat = urldecode($dat);
+                $token = get_weixin_token();
+                $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
+                $content = http_post($url, $dat);
+
+                $order_update = array(
+                    "status" => 3,
+                    "expresscom" => $temp_goods_expresscom,
+                    "expresssn" => $temp_goods_expresssn,
+                    "express" => $temp_goods_express
+                );
+                mysqld_update("shop_order", $order_update, array("id" => $order['id']));
+            }else{
+                $expresscom_begin = strpos($order['expresscom'], $temp_goods);
+                $expresscom_end = strpos(substr($order['expresscom'], $expresscom_begin), ";");
+                $expresscom_old = substr($order['expresscom'], $expresscom_begin, $expresscom_end+1);
+                $expresscom_change = str_ireplace($expresscom_old,$temp_goods_expresscom,$order['expresscom']);
+
+                $expresssn_begin = strpos($order['expresssn'], $temp_goods);
+                $expresssn_end = strpos(substr($order['expresssn'], $expresssn_begin), ";");
+                $expresssn_old = substr($order['expresssn'], $expresssn_begin, $expresssn_end+1);
+                $expresssn_change = str_ireplace($expresssn_old,$temp_goods_expresssn,$order['expresssn']);
+
+                $express_begin = strpos($order['express'], $temp_goods);
+                $express_end = strpos(substr($order['express'], $express_begin), ";");
+                $express_old = substr($order['express'], $express_begin, $express_end+1);
+                $express_change = str_ireplace($express_old,$temp_goods_express,$order['express']);
+
+                $order_update = array(
+                    "status" => 3,
+                    "expresscom" => $expresscom_change,
+                    "expresssn" => $expresssn_change,
+                    "express" => $express_change
+                );
+                mysqld_update("shop_order", $order_update, array("id" => $order['id']));
+
+                mysqld_update('shop_order_goods', array(
+                    'status' => 12,
+                    'express' => $express,
+                    'expresscom' => $_GP['expresscom'],
+                    'expresssn' => $_GP['expresssn'],),
+                    array('orderid' => $orderid, 'goodsid'=>$good['goodsid']));
+            }
+        }
 
         require(WEB_ROOT.'/system/common/extends/class/shop/class/web/order_4.php');
         message('发货操作成功！', refresh(), 'success');

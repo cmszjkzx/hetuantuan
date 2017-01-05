@@ -156,47 +156,10 @@
                 </td>
             </tr>
         <?php  } ?>
-        <?php  if($order['status']>=3) { ?>
-			<tr>
-                <th ><label for="">	寄送方式：</label></th>
-                <td >
-                    <?php  include page('expressdata');?>
-                    <?php   if(!empty($order['express'])&&$order['express']!="-1"){ echo $expressarray[$order['express']];}?>
-				</td>
-                <th ><label for="">商品编号：</label></th>
-                <?php foreach ($goods as $good) {?>
-				<td>
-                    <?php echo $good['title']?>
-                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $good['expresscom']?>&postid=<?php  echo $good['expresssn']?>#input"  >
-                        [查看物流信息]
-				</td>
-                <?php } ?>
-			</tr>
-        <?php  } ?>
     </table>
     <h3 class="header smaller lighter blue">收货人信息</h3>
     <table class="table ">
-        <tr>
-            <th style="width:150px"><label for="">收货人姓名:</label></th>
-            <td  style="width:250px">
-                <?php  echo $order['address_realname']?>
-            </td>
-				<th ><label for="">收货地址:</label></th>
-            <td >
-                <?php  echo $order['address_province'];?><?php  echo $order['address_city'];?><?php  echo $order['address_area'];?><?php  echo $order['address_address'];?>
-            </td>
-        </tr>
-        <tr>
-            <th  style="width:150px"><label for="">联系电话:</label></th>
-            <td >
-                <?php  echo $order['address_mobile']?>
-            </td>
-            <th ><label for="">订单备注:</label></th>
-            <td >
-                <textarea readonly="readonly" style='width:300px;border: none;' type="text"><?php  echo $order['remark'];?></textarea>
-            </td>
-        </tr>
-        <?php   if(!empty($weixin_wxfans)||!empty($alipay_alifans)) {?>
+        <?php if(!empty($weixin_wxfans)||!empty($alipay_alifans)) {?>
 			<tr>
                 <th  style="width:150px"><label for="">微信账户:</label></th>
 				<td >
@@ -223,7 +186,46 @@
                 </td>
 			</tr>
         <?php  } ?>
+        <tr>
+            <th style="width:150px"><label for="">收货人姓名:</label></th>
+            <td  style="width:250px">
+                <?php  echo $order['address_realname']?>
+            </td>
+            <th ><label for="">收货地址:</label></th>
+            <td >
+                <?php  echo $order['address_province'];?><?php  echo $order['address_city'];?><?php  echo $order['address_area'];?><?php  echo $order['address_address'];?>
+            </td>
+        </tr>
+        <tr>
+            <th  style="width:150px"><label for="">联系电话:</label></th>
+            <td >
+                <?php  echo $order['address_mobile']?>
+            </td>
+            <th ><label for="">订单备注:</label></th>
+            <td >
+                <textarea readonly="readonly" style='width:300px;border: none;' type="text"><?php  echo $order['remark'];?></textarea>
+            </td>
+        </tr>
     </table>
+    <?php if($order['status']>=3) { ?>
+    <h3 class="header smaller lighter blue">物流信息</h3>
+    <table class="table ">
+        <?php foreach ($goods as $good) { if(!empty($good['expresssn'])) { ?>
+            <tr>
+                <th style="width:150px"><label for="">	商品名称：</label></th>
+                <td >
+                    <?php echo $good['title'].$good['optionname']?>
+                </td>
+                <th style="width:150px"><label for="">物流信息：</label></th>
+                <td>
+                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $good['expresssn']?>&postid=<?php  echo $good['expresssn']?>#input"  >
+                        [查看物流信息]
+                    </a>
+                </td>
+            </tr>
+        <?php } } ?>
+    </table>
+    <?php } ?>
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
@@ -233,11 +235,13 @@
             <th >货号</th>
             <th style="color:red;">成交价</th>
             <th >数量</th>
+            <th >订单状态</th>
         </tr>
         </thead>
         <?php  $i=1;?>
         <?php  if(is_array($order['goods'])) { foreach($order['goods'] as $goods) { ?>
             <tr>
+                <input name="ordergoodid" type="hidden" value="<?php  echo $goods['id'];?>">
                 <td><?php  echo $i;$i++?></td>
 				<td><?php  echo $goods['title'];?>
                 </td>
@@ -245,6 +249,13 @@
 				<td><?php  echo $goods['goodssn'];?></td>
                 <td style='color:red;font-weight:bold;'><?php  echo $goods['orderprice'];?></td>
 				<td><?php  echo $goods['total'];?></td>
+                <td>
+                    <?php  if($good['optionstatus'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 11) { ?><span class="label label-warning">待发货</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 13) { ?><span class="label label-success">已完成</span><?php  } ?>
+                </td>
             </tr>
         <?php  } } ?>
     </table>
@@ -259,6 +270,7 @@
         <tr>
             <th  style="width:50px"></th>
             <td>
+                <?php if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']==1) { ?>
                 <?php  if($order['status']==0) { ?>
                     <button type="submit" class="btn btn-danger span2" onclick="return confirm('确认付款此订单吗？'); return false;" name="confrimpay" value="confrimpay">确认付款</button>
                 <?php  } ?>
@@ -294,6 +306,11 @@
                     &nbsp;
                     <a onclick="document.getElementById('print_express_orderid').value='<?php  echo $order['id']?>';$('#modal-expressprint').modal()" href="javascript:;">快递单打印</a>
                 <?php  } ?>
+                <?php } else { if($order['status'] == 2&&empty($order['isverify'])) { ?>
+                    <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">确认发货</button>
+                <?php  } if(($order['status'] == 3&&empty($order['isverify']))){ ?>
+                    <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">修改订单</button>
+                <?php }} ?>
             </td>
         </tr>
     </table>
@@ -306,12 +323,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-left" >商品名称：</label>
-                        <div class="col-sm-9">
-                            <input type="text" name="expresssn" class="span5" />
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-left" > 快递公司：</label>
                         <div class="col-sm-9">
                             <select name="express" id='express'>
@@ -320,7 +331,7 @@
                                     <option value="<?php echo $dispatchitem['code'];?>" data-name="<?php echo $dispatchitem['name'];?>"><?php echo $dispatchitem['name'];?></option>
                                 <?php   } ?>
                             </select>
-                            <input type='hidden' class='input span3' name='expresscom' id='expresscom'  />
+                            <input type='hidden' class='input span3' name='expresscom' id='expresscom' />
                         </div>
                     </div>
                     <div class="form-group">
@@ -357,14 +368,17 @@
         document.getElementById("express").value='<?php  echo $order['dispatchexpress'];?>';
     }
     $(function(){
+        //$("#express").find("option[text='无需快递']").attr("selected",true);
+        $("#express option").eq(0).attr("selected",true);
         <?php  if(!empty($express)) { ?>
         $("#express").val("<?php  echo $express['express_url'];?>");
         $("#expresscom").val(  $("#express").find("option:selected").attr("data-name"));
         <?php  } ?>
         $("#express").change(function(){
+            //debugger;
             var obj = $(this);
             var sel =obj.find("option:selected").attr("data-name");
-            $("#expresscom").val(  sel.val() );
+            $("#expresscom").val(sel);
         });
     })
 </script>

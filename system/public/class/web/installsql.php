@@ -844,9 +844,9 @@ CREATE TABLE `hetuantuan_shop_order` (
   `paytypename` varchar(50) NOT NULL DEFAULT '微信支付',
   `transid` varchar(50) NOT NULL DEFAULT '0' COMMENT '外部单号(微支付单号等)',
   `remark` varchar(1000) NOT NULL DEFAULT '',
-  `expresscom` varchar(255) NOT NULL,
-  `expresssn` varchar(255) NOT NULL,
-  `express` varchar(255) NOT NULL,
+  `expresscom` varchar(50) NOT NULL,
+  `expresssn` varchar(50) NOT NULL,
+  `express` varchar(50) NOT NULL,
   `addressid` int(10) unsigned NOT NULL,
   `goodsprice` decimal(10,2) DEFAULT '0.00',
   `dispatchprice` decimal(10,2) DEFAULT '0.00',
@@ -909,6 +909,12 @@ CREATE TABLE `hetuantuan_shop_order_goods` (
   `createtime` int(10) unsigned NOT NULL,
   `optionname` text,
   `iscomment` int(1) DEFAULT '0' COMMENT '是否已评论0否1是',
+-- ----------------------------
+-- 2016-12-28-yanru-根据后台需求决定在订单商品表里新增物流信息
+   `expresscom` varchar(50) NOT NULL COMMENT '物流公司名称',
+   `expresssn` varchar(50) NOT NULL COMMENT '物流公司快递单号',
+   `express` varchar(50) NOT NULL COMMENT '与快递100对应的物流公司缩写',
+-- ----------------------------
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
