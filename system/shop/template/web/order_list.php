@@ -157,8 +157,12 @@
                 <input name="address_mobile" type="text" value="<?php  echo $_GP['address_mobile'];?>" />
 			</td>	
         </tr>
-        <?php if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']==1) { ?>
         <tr>
+            <td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">微信昵称：</td>
+            <td >
+                <input name="weixin_nickname" type="text" value="<?php  echo $_GP['weixin_nickname'];?>" />
+            </td>
+            <?php if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']==1) { ?>
             <td style="vertical-align: middle;font-size: 14px;font-weight: bold;">商品品牌：</td>
             <td >
                 <select style="margin-right:15px;" id="band" name="band" >
@@ -168,8 +172,8 @@
                     <?php  } } ?>
                 </select>
             </td>
+            <?php } ?>
         </tr>
-        <?php } ?>
         <tr>
             <td ></td>
             <td colspan="3">

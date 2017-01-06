@@ -263,6 +263,10 @@ elseif ($op == 'confirm')
             mysqld_update('shop_order', array('status' => 4,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
         else
             mysqld_update('shop_order', array('status' => 5,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid ));
+        //2017-1-5-yanru-begin-更新该订单下每个商品到货状态
+        mysqld_update('shop_order_goods', array('status' => 13), array('orderid' => $orderid));
+        //end
+
     }
     //2016-12-16-yanru
     //header("location:".create_url('mobile',array('do'=>$_GP['do'],'name'=>$_GP['name'],'op'=>'','status'=>$order['status'])));

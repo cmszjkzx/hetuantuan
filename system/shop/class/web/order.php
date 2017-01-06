@@ -86,6 +86,15 @@ if ($operation == 'display')
         if($status == '12')
             $band_condition .= " AND ordergoods.status = 12 ";//2017-1-3-yanru
     }
+    //2017-1-5-yanru-新增通过微信名查询
+    if(!empty($_GP['weixin_nickname'])){
+        $get_weixin_openid = mysqld_select("select weixin_openid from ".table('weixin_wxfans')." where nickname like '%{$_GP['weixin_nickname']}%'");
+        $condition .= " AND weixin_openid ='".$get_weixin_openid['weixin_openid']."' ";
+        $band_condition .= " AND shoporders.weixin_openid ='".$get_weixin_openid['weixin_openid']."' ";//2016-12-25-yanru
+    }
+    //2017-1-5-yanru-优化代码数据查询
+
+    //end
     $dispatchs = mysqld_selectall("SELECT * FROM " . table('shop_dispatch') );
     $dispatchdata=array();
     if(is_array($dispatchs))

@@ -250,11 +250,11 @@
                 <td style='color:red;font-weight:bold;'><?php  echo $goods['orderprice'];?></td>
 				<td><?php  echo $goods['total'];?></td>
                 <td>
-                    <?php  if($good['optionstatus'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 11) { ?><span class="label label-warning">待发货</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 13) { ?><span class="label label-success">已完成</span><?php  } ?>
+                    <?php  if($order['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
+                    <?php  if($order['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 11 && $order['status'] > 1) { ?><span class="label label-warning">待发货</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 12 && $order['status'] > 1) { ?><span class="label label-success" >待收货</span><?php  } ?>
+                    <?php  if($good['optionstatus'] == 13 && $order['status'] > 1) { ?><span class="label label-success">已完成</span><?php  } ?>
                 </td>
             </tr>
         <?php  } } ?>
