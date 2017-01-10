@@ -228,8 +228,13 @@
 <script type="text/javascript">
     //立即购买
     var hasoption = <!--@php echo $goods['hasoption']=='1'?'true':'false'@-->;
+    var isForSale = <!--@php echo $goods['status']=='1'?'true':'false'@-->;
     function buy(object){
 //        debugger;
+        if(!isForSale){
+            tip("商品已下架",true);
+            return;
+        }
         if($("#xzmodal").is(':hidden'))
             closecart();
         var ret = option_selected();
@@ -260,6 +265,10 @@
     //添加到购物车
     function addtocart(object){
 //        debugger;
+        if(!isForSale){
+            tip("商品已下架",true);
+            return;
+        }
         if($("#xzmodal").is(':hidden'))
             closecart();
         var ret = option_selected();
