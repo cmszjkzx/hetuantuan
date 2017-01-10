@@ -80,7 +80,7 @@ if ($operation == 'display')
         $band_condition .= " and ( shoporders.status = 3 or shoporders.status = -5 or shoporders.status = -6)";//2016-12-25-yanru
     }
     //当是商家登录时判断对应商家的商品是否发货,其中5为待发货,6为待收货
-    if (($status == '11' || $status == '12') && empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
+    if (($status == '11' || $status == '12') && (empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])||!empty($_GP['bandmanage']))){
         if($status == '11')
             $band_condition .= " AND ordergoods.status = 11 ";//2017-1-3-yanru
         if($status == '12')
@@ -115,19 +115,20 @@ if ($operation == 'display')
     //$list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY  createtime DESC ".$selectCondition);
     //2016-12-25-yanru-新增根据商品品牌获取订单
     if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
-        if(!empty($_GP['band'])){
-            if("其他" == $_GP['band']){
-                $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+        if(empty($_GP['band']) && empty($_GP['bandmanage'])){
+            $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY createtime ".$orderby.$selectCondition);
+        }else{
+            $bandname = empty($_GP['band'])?$_GP['bandmanage']:$_GP['band'];
+            if("其他" == $bandname){
+                $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
                     ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => ''));
             }
             else{
-                $list = mysqld_selectall("SELECT shoporders.* FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
-                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $_GP['band']));
+                    ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $bandname));
             }
-        }else{
-            $list = mysqld_selectall("SELECT * FROM " . table('shop_order') . " WHERE 1=1 $condition ORDER BY createtime ".$orderby.$selectCondition);
         }
     }else{
         $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
@@ -158,7 +159,7 @@ if ($operation == 'display')
         foreach ( $list as $id => $item)
         {
             if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
-                if(empty($_GP['band'])){
+                if(empty($_GP['band']) && empty($_GP['bandmanage'])){
                     $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
                         " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
                 as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
@@ -168,7 +169,8 @@ if ($operation == 'display')
                         ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid order by ordersgoods.createtime desc ",
                         array(':oid' => $item['id']));
                 } else{
-                    if("其他"==$_GP['band']){
+                    $bandname = empty($_GP['band'])?$_GP['bandmanage']:$_GP['band'];
+                    if("其他"==$bandname){
                         $list[$id]['ordergoods']=mysqld_selectall("SELECT (select category.name	from" . table('shop_category') .
                             " category where (0=goods.ccate and category.id=goods.pcate) or (0!=goods.ccate and category.id=goods.ccate) ) 
                 as categoryname,goods.thumb,ordersgoods.price,ordersgoods.total,goods.title,ordersgoods.optionname,goods.goodssn,goods.band, 
@@ -185,7 +187,7 @@ if ($operation == 'display')
                             . table('shop_order_goods') . " ordersgoods left join " . table('shop_goods')
                             . " goods on goods.id=ordersgoods.goodsid left join ".table('shop_goods_option')
                             ."goodsoption on ordersgoods.optionid = goodsoption.id where  ordersgoods.orderid=:oid and goods.band=:band order by ordersgoods.createtime desc ",
-                            array(':oid' => $item['id'], ':band' => $_GP['band']));
+                            array(':oid' => $item['id'], ':band' => $bandname));
                     }
                 }
             }else{
@@ -311,9 +313,22 @@ if ($operation == 'detail')
             $dispatchdata[$disitem['id']]=$disitem;
         }
     }
+    //2017-1-9-yanru-begin-后台订单状态优化
     if(!empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])){
-        $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
-            . " WHERE o.orderid='{$orderid}'");
+        if(empty($_GP['band']) && empty($_GP['bandmanage'])){
+            $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+                . " WHERE o.orderid='{$orderid}'");
+        }else{
+            $bandname = empty($_GP['band'])?$_GP['bandmanage']:$_GP['band'];
+            if("其他"==$bandname){
+                $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+                    . " WHERE o.orderid='{$orderid}' AND g.band=''");
+            }else{
+                $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
+                    . " WHERE o.orderid='{$orderid}' AND g.band='{$bandname}'");
+            }
+
+        }
     }else{
         $goods = mysqld_selectall("SELECT o.id,o.total, g.title, g.status,g.thumb, g.goodssn,g.productsn,g.marketprice,o.total,g.type,o.optionname,o.optionid,o.goodsid,o.price as orderprice,o.status as optionstatus FROM " . table('shop_order_goods') . " o left join " . table('shop_goods') . " g on o.goodsid=g.id "
             . " WHERE o.orderid='{$orderid}' AND g.band='{$_CMS[WEB_SESSION_ACCOUNT]['groupName']}'");

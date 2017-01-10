@@ -1,11 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | WE CAN DO IT JUST FREE
-// +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.hetuantuan.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: hetuantuan <QQ:1987884799> <http://www.hetuantuan.com>
-// +----------------------------------------------------------------------
 $this->checkVersion();
 $this->checkAddons();
 			
@@ -29,4 +22,7 @@ foreach($modulelist as $index => $module)
         unset($modulelist[$index]);
     }
 }
+//2017-1-9-yanru-begin-页面提供商家管理页面
+$bands = mysqld_selectall("select distinct if(band!='', band, '其他') as band from ".table('shop_goods'));
+//end
 include page('main');

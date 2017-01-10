@@ -270,7 +270,7 @@
         <tr>
             <th  style="width:50px"></th>
             <td>
-                <?php if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']==1) { ?>
+                <?php if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']==1 && empty($_GP['bandmanage'])) { ?>
                 <?php  if($order['status']==0) { ?>
                     <button type="submit" class="btn btn-danger span2" onclick="return confirm('确认付款此订单吗？'); return false;" name="confrimpay" value="confrimpay">确认付款</button>
                 <?php  } ?>
@@ -306,9 +306,9 @@
                     &nbsp;
                     <a onclick="document.getElementById('print_express_orderid').value='<?php  echo $order['id']?>';$('#modal-expressprint').modal()" href="javascript:;">快递单打印</a>
                 <?php  } ?>
-                <?php } else { if($order['status'] == 2&&empty($order['isverify'])) { ?>
+                <?php } else { if($good['optionstatus'] == 11&&empty($order['isverify'])) { ?>
                     <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">确认发货</button>
-                <?php  } if(($order['status'] == 3&&empty($order['isverify']))){ ?>
+                <?php  } if(($good['optionstatus'] == 12&&empty($order['isverify']))){ ?>
                     <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">修改订单</button>
                 <?php }} ?>
             </td>
