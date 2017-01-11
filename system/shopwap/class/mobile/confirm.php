@@ -60,10 +60,13 @@ $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHE
 if (!empty($id))
 {
     $item = mysqld_select("select * from " . table("shop_goods") . " where id=:id", array(":id" => $id));
-    if($item['issendfree']==1||$item['isverify']==1)//判断商品是否是免邮和热卖
+    //if($item['issendfree']==1||$item['isverify']==1)//判断商品是否是免邮和热卖
+    if($item['issendfree']==1)//2017-1-11只有免邮才可以免邮
     {
         $issendfree=1;
     }
+    if(73==$id || 76==$id)
+        $hasdahuangjia = 1;
     //2016-12-14-yanru-直接购买的时候判断商品是否是进口商品
     if($item['isnew']==1)
     {
@@ -116,7 +119,7 @@ if (!empty($id))
         foreach($promotion as $pro){
             if($pro['promoteType']==1)
             {
-                $usable_promotion[] = $pro;//2016-11-27-yanru
+                $usable_promotion[] = $pro;//2016-11-27-yanru-价格满包邮
                 if(	($item['totalprice'])>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -124,7 +127,7 @@ if (!empty($id))
             }
             else if($pro['promoteType']==0)
             {
-                $usable_promotion[] = $pro;//2016-11-27-yanru
+                $usable_promotion[] = $pro;//2016-11-27-yanru-数量满包邮
                 if($total>=$pro['condition'])
                 {
                     $issendfree=1;
@@ -151,10 +154,13 @@ if (!$direct) {
             $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id ", array(":id" => $g['optionid']));
             if ($option) {
                 //2016-11-25-yanru-begin
-//                if($item['issendfree']==1)
-//                {
-//                    $issendfree=1;//一件商品包邮不会导致订单所有都包邮
-//                }
+                if($item['issendfree']==1)
+                {
+                    $issendfree=1;//一件商品包邮导致订单包邮
+                }
+                //2017-1-11-yanru-begin-判断是否含有大黄家
+                if(73==$g['goodsid'] || 76==$g['goodsid'])
+                    $hasdahuangjia = 1;
                 //end
                 $item['optionid'] = $g['optionid'];
                 $item['title'] = $item['title'];
@@ -368,6 +374,11 @@ if (checksubmit('submit')) {
             }
         }
     }
+    //2017-1-11-yanru-begin-新增不包邮地区
+    $notfreezone = "@黑龙江;吉林;辽宁;山西;青海;西藏;内蒙古;甘肃;新疆@";
+    if(empty(strpos($notfreezone, $address['province'])))
+        $dispatchprice += 10;
+    //end
     $ordersns= date('Ymd') . random(6, 1);
     $randomorder = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE  ordersn=:ordersn limit 1", array(':ordersn' =>$ordersns));
     if(!empty($randomorder['ordersn']))
