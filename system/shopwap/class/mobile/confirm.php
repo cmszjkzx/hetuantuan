@@ -53,6 +53,11 @@ $issendfree=0;//这里有问题不应该所有都是免运费，而是满多少�
 
 //2016-12-14-yanru-购买进口商品需要添加身份证及真实姓名，该字段使用原来的isnew进行判断
 $hasImport = 0;
+//2017-1-11-yanru-判断是否有大黄家
+$hasdahuangjia = 0;
+$haspromotion = 0;
+//2016-11-27-yanru-begin
+$usable_promotion = array();
 //end
 
 $defaultAddress = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE isdefault = 1 and openid = :openid and deleted=0 limit 1", array(':openid' => $openid));
@@ -110,10 +115,6 @@ if (!empty($id))
     //========促销活动===============
     $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
 
-    //2016-11-27-yanru-begin
-    $usable_promotion = array();
-    //end
-
     if(empty($issendfree))
     {
         foreach($promotion as $pro){
@@ -123,6 +124,7 @@ if (!empty($id))
                 if(	($item['totalprice'])>=$pro['condition'])
                 {
                     $issendfree=1;
+                    $haspromotion =1;
                 }
             }
             else if($pro['promoteType']==0)
@@ -131,6 +133,7 @@ if (!empty($id))
                 if($total>=$pro['condition'])
                 {
                     $issendfree=1;
+                    $haspromotion =1;
                 }
             }
         }
@@ -194,10 +197,6 @@ if (!$direct) {
 
         $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
 
-        //2016-11-27-yanru-begin
-        $usable_promotion = array();
-        //end
-
         //========促销活动===============//全场的优惠活动，跟商品无关
         foreach($promotion as $pro){
             if($pro['promoteType']==1)
@@ -206,6 +205,7 @@ if (!$direct) {
                 if(	($totalprice)>=$pro['condition'])
                 {
                     $issendfree=1;
+                    $haspromotion =1;
                 }
             }
             else if($pro['promoteType']==0)
@@ -214,6 +214,7 @@ if (!$direct) {
                 if($totaltotal>=$pro['condition'])
                 {
                     $issendfree=1;
+                    $haspromotion =1;
                 }
             }
         }
@@ -328,7 +329,8 @@ if (checksubmit('submit')) {
     $goodscredit=0;
     foreach ($allgoods as $row) {
         $goodsprice+= $row['totalprice'];
-        if($row['issendfree']==1||$row['type']==1||$row['isverify']==1)
+        //if($row['issendfree']==1||$row['type']==1||$row['isverify']==1)//避免出现问题所以只有当免运费的时候才包邮
+        if($row['issendfree']==1||$row['type']==1)
         {
             $issendfree=1;
         }
@@ -352,6 +354,9 @@ if (checksubmit('submit')) {
                 $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
                 if(!empty($bonus_type['type_id']))
                 {
+                    //2017-1-11-yanru-begin-用户使用优惠券的价格
+                    $bonusprice=$bonus_type['type_money'];
+                    //end
                 }else
                 {
                     message("优惠券已过期，请选择'无'可继续购买操作。");
@@ -375,9 +380,11 @@ if (checksubmit('submit')) {
         }
     }
     //2017-1-11-yanru-begin-新增不包邮地区
-    $notfreezone = "@黑龙江;吉林;辽宁;山西;青海;西藏;内蒙古;甘肃;新疆@";
-    if(empty(strpos($notfreezone, $address['province'])))
-        $dispatchprice += 10;
+    if(1 == $hasdahuangjia){
+        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+            $dispatchprice += 10;
+    }
     //end
     $ordersns= date('Ymd') . random(6, 1);
     $randomorder = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE  ordersn=:ordersn limit 1", array(':ordersn' =>$ordersns));
