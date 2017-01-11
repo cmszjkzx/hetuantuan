@@ -112,37 +112,6 @@
         <input type="hidden" name="goodstype" value="<!--@php  echo $goodstype;@-->" />
         <input type="hidden" name="address" value="<!--@php  echo $defaultAddress['id'];@-->" />
         <input type="hidden" name='dispatch' value="<!--@php  echo $dispatch[0]['id'];@-->"/>
-        <!--<div class="infobox">
-            <h2>配送方式</h2>
-            <ul class="payStyle">-->
-        <!--@php //$ischecked=true; $initdispatchprice=$issendfree==1?0:$d['price']; if(is_array($dispatch)) { foreach($dispatch as $d) { @-->
-        <!--<li>
-            <label>-->
-        <!--<input name='dispatch'  onchange='oncheckboxchange("'-->
-        <!--@php //if($ischecked){$initdispatchprice=$issendfree==1?0:$d['price'];} echo $issendfree==1?0:$d['price']@-->
-        <!--");' type="radio"  value="-->
-        <!--@php  //echo $d['id'];@-->
-        <!--"-->
-        <!--@php //echo $ischecked?'checked="checked"':'';$ischecked=false;  @-->
-        <!-- />
-         <img src="__RESOURCE__/recouse/images/icon-wein.png" />-->
-        <!--@php  //echo $d['dname'];@-->
-        <!--</label>
-    </li>-->
-        <!--@php  //} } @-->
-        <!--</ul>
-    </div>-->
-       <!-- <div class="infobox">
-            <h2>支付方式</h2>
-            <ul class="payStyle">
-                &lt;!&ndash;@php  $ischecked=true;   if(is_array($payments)) { foreach($payments as $d) { @&ndash;&gt;
-                &lt;!&ndash;@php  if(empty($item['isverify'])||(!empty($item['isverify'])&&$d['online']==1)) { @&ndash;&gt;
-                <li><label><input name='payment'  type="radio"  value="&lt;!&ndash;@php echo $d['code']@&ndash;&gt;" &lt;!&ndash;@php echo $ischecked?'checked="checked"':'';$ischecked=false;  @&ndash;&gt; /><img src="__RESOURCE__/recouse/images/icon-&lt;!&ndash;@php echo $d['code']@&ndash;&gt;.png"  />&lt;!&ndash;@php echo $d['name']@&ndash;&gt;</label></li>
-                &lt;!&ndash;@php  } @&ndash;&gt;
-                &lt;!&ndash;@php  } } @&ndash;&gt;
-
-            </ul>
-        </div>-->
 
         <div class="my-memvers">
             <div class="member-browse">
@@ -208,17 +177,6 @@
             </div>
         </div>
         <!--@php } @-->
-
-        <!--<div class="infobox ">
-            <ul id='infoul' class="otherInfo">
-                &lt;!&ndash;<li>备注信息：
-                    <br/>&ndash;&gt;
-                <li>
-                    <textarea name="remark" onchange='oninputchange("detail");' style='resize:none;width:100%;border:none;' type="text" value="" placeholder="给卖家留言（选填）"></textarea>
-                </li>
-                &lt;!&ndash;</li>&ndash;&gt;
-            </ul>
-        </div>-->
 
         <div class="weui-cells" style="overflow: visible">
             <label class="weui-cell weui-check__label">
@@ -308,24 +266,6 @@
                             <li value="0" class="able-click">不使用优惠券</li>
                         </ul>
                     </div>
-
-                    <!--<select class="payStyle" name="bonus" style="font-family: PingFangSC-Regular;border: solid 1px #CCCCCC;text-align: center;border-radius: 15px;appearance:none;-moz-appearance:none;-webkit-appearance:none;padding: 5px 15px;background-color: white;margin: -5px;">
-                        &lt;!&ndash;@php  foreach($bonus_list as $bonus) { @&ndash;&gt;
-                        &lt;!&ndash;@php  if($bonus['send_type']==3) {@&ndash;&gt;
-                        <option value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;">
-                            &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
-                            [
-                            &lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;
-                            ]
-                        </option>
-                        &lt;!&ndash;@php  }else{  @&ndash;&gt;
-                        <option value="&lt;!&ndash;@php echo $bonus['bonus_sn']@&ndash;&gt;">
-                            &lt;!&ndash;@php echo $bonus['bonus_name']@&ndash;&gt;
-                        </option>
-                        &lt;!&ndash;@php  } @&ndash;&gt;
-                        &lt;!&ndash;@php  } @&ndash;&gt;
-                        <option value="">不使用优惠券</option>
-                    </select>-->
                     <!--@php  } else{ @-->
                     <a class="font-26 color-3c" style="padding: 10px 0" href="<!--@php  echo mobile_url('getbonus')@-->">0张优惠券，马上去领 ></a>
                     <!--@php  } @-->
@@ -336,8 +276,8 @@
                     <p class="font-28 color-3c">运费</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <p class="font-28 color-FFAE01">
-                        <!--@php  if($item['issendfree'] == 0){@-->
+                    <p class="font-28 color-FFAE01" id="dispatchprice">
+                        <!--@php  if($issendfree == 0){@-->
                         <!--@php  if(is_array($usable_promotion)) { foreach($usable_promotion as $pro) { @-->
                         <!--@php  echo "( ".$pro['pname']." )";@-->
                         <!--@php  }  } @-->
@@ -405,9 +345,11 @@
 </script>
 
 <script language='javascript'>
+    var bunousMoney = 0;
     $(".dropdown-menu li.able-click").click(function () {
         $("#dLabel-name").text($(this).text());
         $("#dLabel-name").val($(this).val());
+        bunousMoney = $(this).attr("attr-money")||0;
         $("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - ($(this).attr("attr-money")||0));
 //        alert($(this).attr("attr-money"));
     })
@@ -426,6 +368,7 @@
                 $('#verify_address_city').val(data.cityName);
                 $('#verify_address_country').val(data.countryName);
                 $('#verify_address_detail').val(data.detailInfo);
+                calculatefreight(data.provinceName);
             },
             cancel: function () {
                 // 用户取消拉出地址
@@ -437,8 +380,21 @@
                 });
             }});
     }
-    function changeAddress(){
-        location.href = '<!--@php  echo mobile_url('address', array('from'=>'confirm','returnurl'=>urlencode($returnurl)))@-->'
+    function calculatefreight(prov) {
+        if(<!--@php  echo $totalprice ;@--> > 88)
+            return;
+        if(<!--@php  echo $hasdahuangjia;@--> > 0){
+            var notfreezone = "黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省";
+            if(notfreezone.indexOf(prov)>0){
+                <!--@php  $dispatchprice = 10;@-->
+                $("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - bunousMoney);
+                $("#dispatchprice").text('运费:￥'+10.00);
+            }else{
+                <!--@php  $dispatchprice = 0;@-->
+                $("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - bunousMoney);
+                $("#dispatchprice").text('免运费');
+            }
+        }
     }
     function check(){
         //2016-12-14-yanru-提交前需要先验证身份证正确性
