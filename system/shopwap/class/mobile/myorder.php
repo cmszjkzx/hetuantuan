@@ -177,7 +177,8 @@ if ($op == 'returncomment')
     if(!empty($_GP['comment'])){
         $orderid = intval($_GP['orderid']);
         $ordersn = $_GP['ordersn'];
-        $order_temp = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND ordersn = :ordersn", array(':id' => $orderid, ':ordersn' => $ordersn ));
+        //$order_temp = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id AND ordersn = :ordersn", array(':id' => $orderid, ':ordersn' => $ordersn ));
+        $order_temp = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id ", array(':id' => $orderid));
         $order_status = $order_temp['status'];
         $order_shop_goods = mysqld_selectall("SELECT * FROM " . table('shop_order_goods') . " WHERE orderid = :orderid ", array(':orderid' => $orderid));
         foreach ($order_shop_goods as $goods){
@@ -185,7 +186,8 @@ if ($op == 'returncomment')
             $comment_date = array('createtime'=>time(),
                 'optionname'=>$goods['optionname'],
                 'orderid'=>$goods['orderid'],
-                'ordersn'=>$order_temp['ordersn'],
+                //'ordersn'=>$order_temp['ordersn'],
+                'ordersn'=>$ordersn,
                 'openid'=>$order_temp['openid'],
                 'weixin_openid'=>$order_temp['weixin_openid'],
                 'comment'=>$_GP['comment'],
@@ -194,7 +196,8 @@ if ($op == 'returncomment')
             mysqld_insert('shop_goods_comment', $comment_date);
         }
         if($order_status == 4){
-            mysqld_update('shop_order', array('status' => 5), array('id' => $orderid, 'ordersn' => $ordersn));
+            //mysqld_update('shop_order', array('status' => 5), array('id' => $orderid, 'ordersn' => $ordersn));
+            mysqld_update('shop_order', array('status' => 5), array('id' => $orderid));
             $order_status = 5;
         }
         $result = 1;
