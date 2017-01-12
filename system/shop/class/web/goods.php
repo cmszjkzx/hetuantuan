@@ -379,9 +379,10 @@ if ($operation == 'post') {
         $optionids = array();
         for ($k = 0; $k < $len; $k++) {
             $option_id = "";
+            $ids = $option_idss[$k];
             $get_option_id = $_GP['option_id_' . $ids][0];
-             
-            $ids = $option_idss[$k]; $idsarr = explode("_",$ids);
+            //$ids = $option_idss[$k];
+            $idsarr = explode("_",$ids);
             $newids = array();
             foreach($idsarr as $key=>$ida){
                 foreach($spec_items as $it){
