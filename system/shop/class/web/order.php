@@ -72,8 +72,8 @@ if ($operation == 'display')
     }
     //2016-12-25-yanru-新增状态10是表示需要更新快递信息的订单，状态2和3的集合
     if ($status == '10'){
-        $condition .= " and ( status = 2 or status = 3)";
-        $band_condition .= " and ( shoporders.status = 2 or shoporders.status = 3)";//2016-12-25-yanru
+        $condition .= " and ( status >= 2 and status <= 5)";
+        $band_condition .= " and ( shoporders.status >= 2 and shoporders.status <= 5)";//2016-12-25-yanru
     }
     if ($status == '3') {
         $condition .= " and ( status = 3 or status = -5 or status = -6)";
