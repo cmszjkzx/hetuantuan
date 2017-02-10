@@ -193,3 +193,17 @@ label{
     flex: 7.2;
     display: block;
 }
+
+.bangnicai_half {
+    display: inline-block;
+    width: 50%;
+    height: 3rem;
+    float: left;
+    text-align: center;
+    padding-top: 0.8rem;
+}
+
+.tab_chosen {
+    background-color: #FDAD2A;
+    color: white;
+}

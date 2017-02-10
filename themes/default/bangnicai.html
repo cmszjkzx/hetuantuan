@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="__RESOURCE__/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="__RESOURCE__/css/base.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/iconfont.css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/list.css" type="text/css"/>
@@ -13,43 +13,100 @@
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
 </head>
 <body>
-<div class="row">
-    <div class="slider card card-nomb" style="visibility: visible;">
-        <script type="text/javascript" src="__RESOURCE__/js/TouchSlide.1.1.js"></script>
-        <div id="focus" class="focus">
-            <div class="hd">
-                <ul>
-                </ul>
+    <div class="row">
+        <div class="slider card card-nomb" style="visibility: visible;">
+            <script type="text/javascript" src="__RESOURCE__/js/TouchSlide.1.1.js"></script>
+            <div id="focus" class="focus">
+                <div class="hd">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <!--@php  if(is_array($advs)) { foreach($advs as $adv) { @-->
+                        <li>
+                            <!--@php if(empty($adv['link'])) {@-->
+                            <a href="<!--@php echo mobile_url('getbonus', array('id' => $adv['id']))@-->">
+                                <img style="height: 8.35rem" src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg"/>
+                            </a>
+                            <!--@php }@-->
+                        </li>
+                        <!--@php  } } @-->
+                    </ul>
+                </div>
             </div>
-            <div class="bd">
-                <ul>
-                    <!--@php  if(is_array($advs)) { foreach($advs as $adv) { @-->
-                    <li>
-                        <!--@php if(empty($adv['link'])) {@-->
-                        <a href="<!--@php echo mobile_url('getbonus', array('id' => $adv['id']))@-->">
-                            <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $adv['thumb'];@-->"/>
-                        </a>
-                        <!--@php }@-->
-                    </li>
-                    <!--@php  } } @-->
-                </ul>
+            <script type="text/javascript">
+                TouchSlide({
+                    slideCell: "#focus",
+                    titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                    mainCell: ".bd ul",
+                    delayTime: 600,
+                    interTime: 4000,
+                    effect: "leftLoop",
+                    autoPlay: true,//自动播放
+                    autoPage: true, //自动分页
+                    switchLoad: "_src" //切换加载，真实图片路径为"_src"
+                });
+            </script>
+        </div>
+    </div>
+    <div style="border-top: solid 0.1rem #EFEFEF;border-bottom: solid 0.1rem #EFEFEF;height: 3rem;overflow-y: hidden">
+        <a class="bangnicai_half tab_chosen" style="border-right: solid 0.1rem #EFEFEF">心愿收集中</a>
+        <a class="bangnicai_half">已成团</a>
+    </div>
+    <div id="home-page">
+        <div role="main" class="ui-content ">
+            <div class="home-categories">
+                <div class="category-container" style="background-color:#ffffff;">
+                    <ul class="goods_list">
+                        <li class="SeckillOne">
+                            <div class="img" style="height: 8.35rem;overflow: hidden;width: 100%;display: inline-block">
+                                <img src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg" class="good-img"
+                                     usesrc="1" alt="">
+                            </div>
+                            <div style="width: 100%;height: 2rem;position: absolute;bottom: 0;background-color: white;opacity: 0.5;">
+                                <p style="height: 2rem;line-height: 2rem;display: inline-block">加壳党和国家</p>
+                                <a style="float: right;line-height: 2rem;margin-right: 10px" onclick="favorate()"><img style="width: 1rem;height: 1rem" src="__RESOURCE__/images/favorate_off.png"></a>
+                            </div>
+                            <div style="position: absolute;top: 0.2rem;left: 0.2rem">
+                                <img src="__RESOURCE__/images/icon_ss.png" style="width: 0.8rem;height: 0.8rem;padding-bottom: 0.1rem">
+                                <span>还有多少分钟呢，自己瞧吧</span>
+                            </div>
+                        </li>
+                        <li class="SeckillOne">
+                            <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item">
+                                <div class="img" style="height: 6.325rem;overflow: hidden;width: 50%;display: inline-block">
+                                    <img src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg" class="good-img" style="margin-top: -1.2rem"
+                                         usesrc="1" alt="">
+                                </div>
+                                <div class="" style="height: 6.325rem;border-left: solid 1px #EFEFEF;width: 50%;display: inline-block;float: right">
+                                    <div class="txt" style="top: 1rem">大家看看瞧一瞧哦</div>
+                                    <div class="buy" style="top: 2.5rem;max-width: 8rem;text-align: right;color: #888585;font-weight: 100">
+                                        详情描述
+                                    </div>
+                                    <div class="buy">
+                                    <span>
+                                    300元
+                                    </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-more" style="text-align: center"><a
+                        href="<!--@php  echo mobile_url('goodlist');@-->"
+                        style="color:#FFAE01;font-size: 12px">点击查看更多</a></div>
             </div>
         </div>
-        <script type="text/javascript">
-            TouchSlide({
-                slideCell: "#focus",
-                titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-                mainCell: ".bd ul",
-                delayTime: 600,
-                interTime: 4000,
-                effect: "leftLoop",
-                autoPlay: true,//自动播放
-                autoPage: true, //自动分页
-                switchLoad: "_src" //切换加载，真实图片路径为"_src"
-            });
-        </script>
     </div>
-</div>
-
 </body>
+<script type="text/javascript">
+    function favorate(id) {
+        var url = '' + id;
+        $.get(url,function (data) {
+            
+        });
+    }
+</script>
 </html>
