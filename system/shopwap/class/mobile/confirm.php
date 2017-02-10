@@ -55,6 +55,9 @@ $issendfree=0;//这里有问题不应该所有都是免运费，而是满多少�
 $hasImport = 0;
 //2017-1-11-yanru-判断是否有大黄家
 $hasdahuangjia = 0;
+//2017-2-10-yanru-判断是否有马卡龙
+$hasmakeawish = 0;
+//end
 $haspromotion = 0;
 //2016-11-27-yanru-begin
 $usable_promotion = array();
@@ -70,8 +73,12 @@ if (!empty($id))
     {
         $issendfree=1;
     }
+    //2017-1-11-yanru-判断是否有大黄家
     if(73==$id || 76==$id)
         $hasdahuangjia = 1;
+    //2017-2-10-yanru-判断是否有马卡龙
+    if(112==$id)
+        $hasmakeawish = 1;
     //2016-12-14-yanru-直接购买的时候判断商品是否是进口商品
     if($item['isnew']==1)
     {
@@ -164,6 +171,9 @@ if (!$direct) {
                 //2017-1-11-yanru-begin-判断是否含有大黄家
                 if(73==$g['goodsid'] || 76==$g['goodsid'])
                     $hasdahuangjia = 1;
+                //2017-2-10-yanru-判断是否有马卡龙
+                if(112==$g['goodsid'])
+                    $hasmakeawish = 1;
                 //end
                 $item['optionid'] = $g['optionid'];
                 $item['title'] = $item['title'];
@@ -381,6 +391,12 @@ if (checksubmit('submit')) {
     }
     //2017-1-11-yanru-begin-新增不包邮地区
     if(1 == $hasdahuangjia){
+        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+            $dispatchprice += 10;
+    }
+    //2017-2-10-yanru-判断是否有马卡龙
+    if(1 == $hasmakeawish){
         $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
         if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
             $dispatchprice += 10;
