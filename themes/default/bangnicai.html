@@ -23,15 +23,11 @@
                 </div>
                 <div class="bd">
                     <ul>
-                        <!--@php  if(is_array($advs)) { foreach($advs as $adv) { @-->
                         <li>
-                            <!--@php if(empty($adv['link'])) {@-->
-                            <a href="<!--@php echo mobile_url('getbonus', array('id' => $adv['id']))@-->">
-                                <img style="height: 8.35rem" src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg"/>
+                            <a href="">
+                                <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $head_thumb['thumb'];@-->"/>
                             </a>
-                            <!--@php }@-->
                         </li>
-                        <!--@php  } } @-->
                     </ul>
                 </div>
             </div>
@@ -51,8 +47,8 @@
         </div>
     </div>
     <div style="border-top: solid 0.1rem #EFEFEF;border-bottom: solid 0.1rem #EFEFEF;height: 3rem;overflow-y: hidden">
-        <a class="bangnicai_half tab_chosen" style="border-right: solid 0.1rem #EFEFEF">心愿收集中</a>
-        <a class="bangnicai_half">已成团</a>
+        <a class="bangnicai_half tab_chosen" style="border-right: solid 0.1rem #EFEFEF" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'collection'))@-->">心愿收集中</a>
+        <a class="bangnicai_half" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'success'))@-->">已成团</a>
     </div>
     <div id="home-page">
         <div role="main" class="ui-content ">

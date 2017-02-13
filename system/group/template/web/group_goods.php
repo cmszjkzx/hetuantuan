@@ -8,6 +8,8 @@
         新增
     <?php  } ?>商品</h3>
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>/addons/common/js/jquery-ui-1.10.3.min.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo RESOURCE_ROOT;?>/addons/common/css/datetimepicker.css" />
+<script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>/addons/common/js/datetimepicker.js"></script>
 <form action="" method="post" name="theForm" enctype="multipart/form-data" class="form-horizontal" role="form" onsubmit="return fillform()">
     <div class="form-group">
         <label class="col-sm-2 control-label no-padding-left" >广告图：</label>
@@ -36,16 +38,22 @@
     <div class="form-group">
         <label class="col-sm-2 control-label no-padding-left" > 是否参团：</label>
         <div class="col-sm-9">
-            <input type="radio" name="show" value="1" id="isshow1" <?php  if($item['show'] == 1) { ?>checked="true"<?php  } ?> /> 是  &nbsp;&nbsp;
-            <input type="radio" name="show" value="0" id="isshow2"  <?php  if($item['show'] == 0) { ?>checked="true"<?php  } ?> /> 否
+            <input type="radio" name="isshow" value="1" id="isshow1" <?php  if($item['show'] == 1) { ?>checked="true"<?php  } ?> /> 是  &nbsp;&nbsp;
+            <input type="radio" name="isshow" value="0" id="isshow2"  <?php  if($item['show'] == 0) { ?>checked="true"<?php  } ?> /> 否
         </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-left" >参团截止时间：</label>
+        <div class="col-sm-9">
+            <input type="text" readonly="readonly" name="limittime" id="datepicker_limittime" value="<?php  echo date('Y-m-d H:i',empty($item['limittime'])?time():$item['limittime']);?>" /></div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-2 control-label no-padding-left" > 是否上架：</label>
         <div class="col-sm-9">
-            <input type="radio" name="group" value="1" id="isgroup1" <?php  if($item['group'] == 1) { ?>checked="true"<?php  } ?> /> 是  &nbsp;&nbsp;
-            <input type="radio" name="group" value="0" id="isgroup2"  <?php  if($item['group'] == 0) { ?>checked="true"<?php  } ?> /> 否
+            <input type="radio" name="isgroup" value="1" id="isgroup1" <?php  if($item['group'] == 1) { ?>checked="true"<?php  } ?> /> 是  &nbsp;&nbsp;
+            <input type="radio" name="isgroup" value="0" id="isgroup2"  <?php  if($item['group'] == 0) { ?>checked="true"<?php  } ?> /> 否
         </div>
     </div>
 
@@ -109,22 +117,24 @@
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/ueditor/ueditor.all.min.js?x=141"></script>
 <script type="text/javascript">var ue = UE.getEditor('container');</script>
 <script language="javascript">
-    var category = <?php  echo json_encode($children)?>;
-    function fetchChildCategory(cid) {
-        var html = '<option value="0">请选择二级分类</option>';
-        if (!category || !category[cid]) {
-            $('#cate_2').html(html);
-            return false;
-        }
-        for (i in category[cid]) {
-            html += '<option value="'+category[cid][i][0]+'">'+category[cid][i][1]+'</option>';
-        }
-        $('#cate_2').html(html);
-    }
-    fetchChildCategory(document.getElementById("pcate").options[document.getElementById("pcate").selectedIndex].value);
-    <?php if(!empty( $item['ccate'])){?>
-    document.getElementById("cate_2").value="<?php echo $item['ccate']?>";
-    <?php }?>
+    $("#datepicker_limittime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii",
+        minView: "0",
+        //pickerPosition: "top-right",
+        autoclose: true
+    });
+    $("#datepicker_timestart").datetimepicker({
+        format: "yyyy-mm-dd hh:ii",
+        minView: "0",
+        //pickerPosition: "top-right",
+        autoclose: true
+    });
+    $("#datepicker_timeend").datetimepicker({
+        format: "yyyy-mm-dd hh:ii",
+        minView: "0",
+        autoclose: true
+    });
+
     $(function(){
         var i = 0;
         $('#selectimage').click(function() {

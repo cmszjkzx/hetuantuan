@@ -142,6 +142,33 @@
   </li>
 <?php }?>
 
+<?php if(checkrule('group','group')){ ?>
+    <li class="open active">
+        <a href="#" class="dropdown-toggle">
+            <i class="icon-gift"></i>
+            <span class="menu-text"> 团购管理</span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="submenu">
+            <?php if(checkrule('group','group')){ ?>
+                <li>
+                    <a  onclick="navtoggle('团购管理 - > 商品管理')"  href="<?php  echo create_url('site', array('name' => 'group','do' => 'group','op'=>'display'))?>" target="main">
+                        <i class="icon-double-angle-right"></i>商品管理
+                    </a>
+                </li>
+            <?php  } ?>
+
+            <?php if(checkrule('group','group')){ ?>
+                <li>
+                    <a  onclick="navtoggle('团购管理 - > 添加新商品')"  href="<?php  echo create_url('site', array('name' => 'group','do' => 'group','op'=>'post'))?>" target="main">
+                        <i class="icon-double-angle-right"></i>添加新商品
+                    </a>
+                </li>
+            <?php  } ?>
+        </ul>
+    </li>
+<?php  } ?>
+
 <?php if(checkrule('bonus','bonus')||checkrule('promotion','promotion')){ ?>
   <li class="open active">
     <a href="#" class="dropdown-toggle">
