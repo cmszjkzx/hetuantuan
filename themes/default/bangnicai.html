@@ -47,32 +47,34 @@
         </div>
     </div>
     <div style="border-top: solid 0.1rem #EFEFEF;border-bottom: solid 0.1rem #EFEFEF;height: 3rem;overflow-y: hidden">
-        <a class="bangnicai_half tab_chosen" style="border-right: solid 0.1rem #EFEFEF" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'collection'))@-->">心愿收集中</a>
-        <a class="bangnicai_half" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'success'))@-->">已成团</a>
+        <a class="bangnicai_half <!--@php if(empty($option)) echo tab_chosen @-->" style="border-right: solid 0.1rem #EFEFEF" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'collection'))@-->">心愿收集中</a>
+        <a class="bangnicai_half <!--@php if(!empty($option)) echo tab_chosen @-->" href="<!--@php  echo mobile_url('bangnicai',array('op'=>'success'))@-->">已成团</a>
     </div>
     <div id="home-page">
         <div role="main" class="ui-content ">
             <div class="home-categories">
                 <div class="category-container" style="background-color:#ffffff;">
                     <ul class="goods_list">
+                        <!--@php  if(is_array($list)) { if(empty($option)) { foreach($list as $item) { @-->
                         <li class="SeckillOne">
                             <div class="img" style="height: 8.35rem;overflow: hidden;width: 100%;display: inline-block">
-                                <img src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg" class="good-img"
+                                <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb'];@-->" class="good-img"
                                      usesrc="1" alt="">
                             </div>
                             <div style="width: 100%;height: 2rem;position: absolute;bottom: 0;background-color: white;opacity: 0.5;">
                                 <p style="height: 2rem;line-height: 2rem;display: inline-block">加壳党和国家</p>
-                                <a style="float: right;line-height: 2rem;margin-right: 10px" onclick="favorate()"><img style="width: 1rem;height: 1rem" src="__RESOURCE__/images/favorate_off.png"></a>
+                                <a style="float: right;line-height: 2rem;margin-right: 10px" onclick="favorate(<!--@php echo $item['id'] @-->)"><img style="width: 1rem;height: 1rem" src="__RESOURCE__/images/favorate_off.png"></a>
                             </div>
                             <div style="position: absolute;top: 0.2rem;left: 0.2rem">
                                 <img src="__RESOURCE__/images/icon_ss.png" style="width: 0.8rem;height: 0.8rem;padding-bottom: 0.1rem">
                                 <span>还有多少分钟呢，自己瞧吧</span>
                             </div>
                         </li>
+                        <!--@php  } } else { foreach($list as $item) { @-->
                         <li class="SeckillOne">
-                            <a href="<!--@php echo mobile_url('detail', array('id' => $item['id']))@-->" class="item">
+                            <a href="<!--@php echo mobile_url('detail', array('id' => $item['goodsn']))@-->" class="item">
                                 <div class="img" style="height: 6.325rem;overflow: hidden;width: 50%;display: inline-block">
-                                    <img src="http://hetuantuan.huntsort.com//attachment/jpg/2016/12/481819418346533.jpg" class="good-img" style="margin-top: -1.2rem"
+                                    <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb'];@-->" class="good-img" style="margin-top: -1.2rem"
                                          usesrc="1" alt="">
                                 </div>
                                 <div class="" style="height: 6.325rem;border-left: solid 1px #EFEFEF;width: 50%;display: inline-block;float: right">
@@ -88,19 +90,19 @@
                                 </div>
                             </a>
                         </li>
+                        <!--@php } } } else { @-->
+                        <span>测试字段</span>
+                        <!--@php } @-->
                     </ul>
                 </div>
-                <div class="text-more" style="text-align: center"><a
-                        href="<!--@php  echo mobile_url('goodlist');@-->"
-                        style="color:#FFAE01;font-size: 12px">点击查看更多</a></div>
             </div>
         </div>
     </div>
 </body>
 <script type="text/javascript">
     function favorate(id) {
-        var url = '' + id;
-        $.get(url,function (data) {
+        debugger;
+        $.get('<!--@php  echo mobile_url('bangnicai', array('op' => 'addpraise'))@-->', {'id':id,}, function (data) {
             
         });
     }
