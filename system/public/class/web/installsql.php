@@ -1069,7 +1069,8 @@ CREATE TABLE `hetuantuan_group` (
   `isgroup` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否参团，0为否，1为是',
   `goodsn` varchar(50) NOT NULL DEFAULT '' COMMENT '上架货号',
   `praise` varchar(50) NOT NULL DEFAULT '0' COMMENT '获赞数量',
-  `thumb` varchar(255) DEFAULT '' COMMENT '商品主图',
+  `thumb` varchar(255) DEFAULT '' COMMENT '商品参团图',
+  `sucessthumb` varchar(255) DEFAULT '' COMMENT '商品上架图',
   `description` varchar(1000) NOT NULL DEFAULT '' COMMENT '商品分享描述',
   `express` varchar(1000) NOT NULL DEFAULT '' COMMENT '快递详细描述/商品页面简介描述',
   PRIMARY KEY (`id`)

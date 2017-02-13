@@ -72,7 +72,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label no-padding-left" >商品主图：</label>
+        <label class="col-sm-2 control-label no-padding-left" >商品参团图：</label>
         <div class="col-sm-9">
             <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
@@ -82,6 +82,23 @@
                 </div>
                 <div>
                     <input name="thumb" id="thumb" type="file" />
+                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除图片</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-left" >商品上架图：</label>
+        <div class="col-sm-9">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+                    <?php  if(!empty($item['sucessthumb'])) { ?>
+                        <img src="<?php echo WEBSITE_ROOT;?>/attachment/<?php  echo $item['sucessthumb'];?>" alt="" onerror="$(this).remove();">
+                    <?php  } ?>
+                </div>
+                <div>
+                    <input name="sucessthumb" id="sucessthumb" type="file" />
                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除图片</a>
                 </div>
             </div>

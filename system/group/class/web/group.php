@@ -35,6 +35,13 @@ if('post' == $operation){
             }
             $data['thumb'] = $upload['path'];
         }
+        if (!empty($_FILES['sucessthumb']['tmp_name'])) {
+            $upload = file_upload($_FILES['sucessthumb']);
+            if (is_error($upload)) {
+                message($upload['message'], '', 'error');
+            }
+            $data['sucessthumb'] = $upload['path'];
+        }
         if (!empty($_FILES['head_thumb']['tmp_name'])) {
             $upload = file_upload($_FILES['head_thumb']);
             if (is_error($upload)) {
