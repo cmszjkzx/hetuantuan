@@ -56,18 +56,18 @@
                 <div class="category-container" style="background-color:#ffffff;">
                     <ul class="goods_list">
                         <!--@php  if(is_array($list)) { if(empty($option)) { foreach($list as $item) { @-->
-                        <li class="SeckillOne">
+                        <li class="SeckillOne" id="goods_<!--@php  echo $item[id] @-->">
                             <div class="img" style="height: 8.35rem;overflow: hidden;width: 100%;display: inline-block">
                                 <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb'];@-->" class="good-img"
                                      usesrc="1" alt="">
                             </div>
                             <div style="width: 100%;height: 2rem;position: absolute;bottom: 0;background-color: white;opacity: 0.5;">
-                                <p style="height: 2rem;line-height: 2rem;display: inline-block">加壳党和国家</p>
-                                <a style="float: right;line-height: 2rem;margin-right: 10px" onclick="favorate(<!--@php echo $item['id'] @-->)"><img style="width: 1rem;height: 1rem" src="__RESOURCE__/images/favorate_off.png"></a>
+                                <p style="height: 2rem;line-height: 2rem;display: inline-block"><!--@php  echo $item['description'];@--></p>
+                                <a id="doFavorate" style="width: 1rem;height: 0.875rem;float: right;line-height: 2rem;margin-right: 10px;margin-top:10px;background-image: url(__RESOURCE__/images/favorate_off.png);background-size: cover" onclick="favorate(<!--@php echo $item['id'] @-->)"></a>
                             </div>
                             <div style="position: absolute;top: 0.2rem;left: 0.2rem">
-                                <img src="__RESOURCE__/images/icon_ss.png" style="width: 0.8rem;height: 0.8rem;padding-bottom: 0.1rem">
-                                <span>还有多少分钟呢，自己瞧吧</span>
+                                <img src="__RESOURCE__/images/time.png" style="width: 0.8rem;height: 0.8rem;padding-bottom: 0.1rem">
+                                <span id="countdowm">许愿倒计时：</span>
                             </div>
                         </li>
                         <!--@php  } } else { foreach($list as $item) { @-->
@@ -101,10 +101,50 @@
 </body>
 <script type="text/javascript">
     function favorate(id) {
-        debugger;
         $.get('<!--@php  echo mobile_url('bangnicai', array('op' => 'addpraise'))@-->', {'id':id,}, function (data) {
-            
+            console.log(data);
+            var obj =  JSON.parse(data);
+            if (obj.result == 1){
+//                $("#goods_"+id+" #doFavorate").attr('disabled',"true");
+                console.log("#goods_"+id+" #doFavorate");
+                $("#goods_"+id+" #doFavorate").removeAttr('onclick');
+//                $("#goods_"+id+" #doFavorate").html('defff');
+            }
         });
-    }
+    };
+    function timer(parentId,intDiff){
+//        parentId = '1';
+        var id = window.setInterval(function(){
+            var day=0,
+                hour=0,
+                minute=0,
+                second=0;//时间默认值
+            if(intDiff > 0){
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            var time = "许愿倒计时："+day +'天' + hour + '时' + minute + '分' + second + "秒";
+            $('#'+parentId + ' #countdowm').html(time);
+            intDiff--;
+            if (intDiff == 0){
+                window.clearInterval(id);
+            }
+        }, 1000);
+    };
+    $(function(){
+        var list = <!--@php echo json_encode($list) @-->;
+        if (list.length>0){
+            for (var i = 0;i<list.length;i++){
+                var obj = list[i];
+                var id = "goods_" + obj.id;
+                var intDiff = parseInt(obj.limittime - new Date().getTime()/1000);
+                timer(id,intDiff);
+            }
+        }
+    });
 </script>
 </html>
