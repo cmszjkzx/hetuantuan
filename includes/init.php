@@ -145,7 +145,7 @@ if(is_file(WEB_ROOT.'/config/config.php')&&is_file(WEB_ROOT.'/config/install.lin
 {
     require(WEB_ROOT.'/system/common/lib/lib.php');
 }
-$system_module = array('common', 'index', 'member', 'modules', 'public', 'shop', 'shopwap', 'user', 'weixin','bonus','alipay','promotion','sms');
+$system_module = array('common', 'index', 'member', 'modules', 'public', 'shop', 'shopwap', 'user', 'weixin','bonus','alipay','promotion','sms','group');
 if(in_array($modulename, $system_module) )
 {
     $classname = $modulename."Addons";
