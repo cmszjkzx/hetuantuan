@@ -452,7 +452,7 @@ if ($operation == 'detail')
                     "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
                 );
                 $first = array(
-                    "value" => "您的商品已发货！",
+                    "value" => "您的订单物流信息已更新！",
                     "color" => "#173177"
                 );
                 $keyword1 = array(
