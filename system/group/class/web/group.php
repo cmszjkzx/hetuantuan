@@ -29,21 +29,21 @@ if('post' == $operation){
         }
 
         if (!empty($_FILES['thumb']['tmp_name'])) {
-            $upload = file_upload($_FILES['thumb']);
+            $upload = group_upload($_FILES['thumb']);
             if (is_error($upload)) {
                 message($upload['message'], '', 'error');
             }
             $data['thumb'] = $upload['path'];
         }
         if (!empty($_FILES['sucessthumb']['tmp_name'])) {
-            $upload = file_upload($_FILES['sucessthumb']);
+            $upload = group_upload($_FILES['sucessthumb']);
             if (is_error($upload)) {
                 message($upload['message'], '', 'error');
             }
             $data['sucessthumb'] = $upload['path'];
         }
         if (!empty($_FILES['head_thumb']['tmp_name'])) {
-            $upload = file_upload($_FILES['head_thumb']);
+            $upload = group_upload($_FILES['head_thumb']);
             if (is_error($upload)) {
                 message($upload['message'], '', 'error');
             }

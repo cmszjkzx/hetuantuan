@@ -19,8 +19,25 @@ if (empty($_GP['op']) || 'collection'==$_GP['op']){
     $option = 1;
     include themePage('bangnicai');
 }else if ('addpraise' == $_GP['op']){
-    $item = mysqld_select("SELECT praise FROM " . table('group') . " WHERE id = :id", array(':id'=>$_GP['id']));
-    $item['praise']++;
-    mysqld_update('group', array('praise' => $item['praise']), array('id'=>$_GP['id']));
-    die(json_encode(array("result" => 1, "data" => $item['praise'])));
+    $isgroup = mysqld_select("SELECT isgroup FROM " . table('group_user') . " WHERE goodid = :goodid AND weixin_openid = :weixin_openid", array(':goodid'=>$_GP['id'], ':weixin_openid'=>$weixin_openid));
+    if(!empty($isgroup['isgroup'])){
+        $item = mysqld_select("SELECT praise FROM " . table('group') . " WHERE id = :id", array(':id'=>$_GP['id']));
+        $item['praise']--;
+        mysqld_update('group', array('praise' => $item['praise']), array('id'=>$_GP['id']));
+        $isgroup['isgroup'] = 0;
+        mysqld_update('group_user', array('isgroup' => 0), array('goodid'=>$_GP['id'], 'weixin_openid'=>$weixin_openid));
+    }else if(null != $isgroup['isgroup']){
+        $item = mysqld_select("SELECT praise FROM " . table('group') . " WHERE id = :id", array(':id'=>$_GP['id']));
+        $item['praise']++;
+        mysqld_update('group', array('praise' => $item['praise']), array('id'=>$_GP['id']));
+        $isgroup['isgroup'] = 1;
+        mysqld_update('group_user', array('isgroup' => 1), array('goodid'=>$_GP['id'], 'weixin_openid'=>$weixin_openid));
+    }else{
+        $item = mysqld_select("SELECT praise FROM " . table('group') . " WHERE id = :id", array(':id'=>$_GP['id']));
+        $item['praise']++;
+        mysqld_update('group', array('praise' => $item['praise']), array('id'=>$_GP['id']));
+        $isgroup['isgroup'] = 1;
+        mysqld_insert('group_user', array('isgroup' => 1, 'goodid'=>$_GP['id'], 'weixin_openid'=>$weixin_openid, 'openid'=>$openid));
+    }
+    die(json_encode(array("result" => 1, "total" => $item['praise'], 'statue' => $isgroup['isgroup'])));
 }
