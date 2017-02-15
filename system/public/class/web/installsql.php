@@ -1088,7 +1088,7 @@ CREATE TABLE `hetuantuan_group_user` (
   `goodid` varchar(100) NOT NULL DEFAULT '' COMMENT '商品编号',
   `openid` varchar(50) DEFAULT NULL,
   `weixin_openid` varchar(50) DEFAULT NULL,
-  `isgroup` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否参团，0为否，1为是',
+  `ispraise` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否参团，0为否，1为是',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- ----------------------------
