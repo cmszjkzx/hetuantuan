@@ -1064,9 +1064,10 @@ DROP TABLE IF EXISTS `hetuantuan_group`;
 CREATE TABLE `hetuantuan_group` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `goodname` varchar(100) NOT NULL DEFAULT '' COMMENT '商品名称',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否展示，0为否，1为是',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否展示，0为否，1为是',
   `limittime` int(11) DEFAULT '0',
-  `isgroup` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否参团，0为否，1为是',
+  `isgroup` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否参团，0为否，1为是',
+  `isnotice` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否提醒，0为未，1为已',
   `goodsn` varchar(50) NOT NULL DEFAULT '' COMMENT '上架货号',
   `praise` varchar(50) NOT NULL DEFAULT '0' COMMENT '获赞数量',
   `thumb` varchar(255) DEFAULT '' COMMENT '商品参团图',

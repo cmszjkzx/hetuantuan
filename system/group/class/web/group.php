@@ -78,4 +78,44 @@ if('post' == $operation){
 } else if ('delete' == $operation) {
     mysqld_delete('group', array('id' => intval($_GP['id'])));
     include page('group_goods_list');
+}else if ('notice' == $operation) {
+    $list = mysqld_selectall("SELECT weixin_openid FROM ".table('group_user')." WHERE goodid = :goodid AND ispraise=1 ", array(':goodid' => intval($_GP['id'])));
+    if(!empty($list)){
+        foreach ($list as $item){
+            $notice = array(
+                "touser" => $item['weixin_openid'],
+                "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
+            );
+            $first = array(
+                "value" => "您团购的商品已上架！",
+                "color" => "#173177"
+            );
+            $keyword1 = array(
+                "value" => $_GP['goodname'],
+                "color" => "#173177"
+            );
+            $keyword2 = array(
+                "value" => "中国移动和团团",
+                "color" => "#173177"
+            );
+            $remark = array(
+                "value" => "请及时购买哟！",
+                "color" => "#173177"
+            );
+            $noticeDat = array(
+                "first" => $first,
+                "keyword1" => $keyword1,
+                "keyword2" => $keyword2,
+                "remark" => $remark
+            );
+            $notice["data"] = $noticeDat;
+            $dat = json_encode($notice);
+            $dat = urldecode($dat);
+            $token = get_weixin_token();
+            $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
+            $content = http_post($url, $dat);
+        }
+        mysqld_update("group", array("isnotice" => 1), array("id" => $_GP['id']));
+    }
+    header("location:".create_url('site', array('name' => 'group','do' => 'group','op'=>'display')));
 }

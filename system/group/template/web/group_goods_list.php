@@ -31,8 +31,13 @@
 			</td>
 			<td style="text-align:center;">
 				<a  class="btn btn-xs btn-info" href="<?php  echo web_url('group', array('id' => $item['id'], 'op' => 'post'))?>"><i class="icon-edit"></i>&nbsp;编&nbsp;辑&nbsp;</a>&nbsp;&nbsp;
-				<a  class="btn btn-xs btn-info" href="<?php  echo web_url('group', array('id' => $item['id'], 'op' => 'delete'))?>" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-edit"></i>&nbsp;删&nbsp;除&nbsp;</a></a>
-			</td>
+				<a  class="btn btn-xs btn-info" href="<?php  echo web_url('group', array('id' => $item['id'], 'op' => 'delete'))?>" onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="icon-edit"></i>&nbsp;删&nbsp;除&nbsp;</a></a>&nbsp;&nbsp;
+        <?php if(0 == $item['isnotice']){ ?>
+                <a  class="btn btn-xs btn-info" href="<?php  echo web_url('group', array('id' => $item['id'], 'goodname' => $item['goodname'], 'op' => 'notice'))?>" ><i class="icon-edit"></i>&nbsp;通&nbsp;知&nbsp;</a></a>
+        <?php } else { ?>
+                <a  class="btn btn-xs btn-info" ><i class="icon-edit"></i>&nbsp;已&nbsp;通&nbsp;知&nbsp;</a></a>
+        <?php } ?>
+            </td>
 		</tr>
 	<?php  } } ?>
 </table>
