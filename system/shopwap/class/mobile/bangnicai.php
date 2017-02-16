@@ -14,6 +14,9 @@ if (empty($_GP['op']) || 'collection'==$_GP['op']){
  a.description, a.express, SUM(a.ispraise) AS ispraise FROM (SELECT hetuantuan_group.*, IF(hetuantuan_group.id=hetuantuan_group_user.goodid,1,0) 
   AS ispraise from hetuantuan_group, hetuantuan_group_user WHERE hetuantuan_group.isshow=:isshow AND hetuantuan_group.isgroup=:isgroup AND 
   hetuantuan_group_user.weixin_openid=:weixin_openid) a GROUP BY a.id ", array(":isshow"=>1, "isgroup"=>0, ':weixin_openid'=>$weixin_openid));
+    if(empty($list)){
+        $list = mysqld_selectall("SELECT * FROM " . table('group')." WHERE isshow=:isshow AND isgroup=:isgroup ", array(":isshow"=>1, "isgroup"=>0));
+    }
     $option = 0;
     include themePage('bangnicai');
 }else if ('success' == $_GP['op']){
@@ -40,7 +43,7 @@ if (empty($_GP['op']) || 'collection'==$_GP['op']){
         $item['praise']++;
         mysqld_update('group', array('praise' => $item['praise']), array('id'=>$_GP['id']));
         $isgroup['isgroup'] = 1;
-        mysqld_insert('group_user', array('isgroup' => 1, 'goodid'=>$_GP['id'], 'weixin_openid'=>$weixin_openid, 'openid'=>$openid));
+        mysqld_insert('group_user', array('ispraise' => 1, 'goodid'=>$_GP['id'], 'weixin_openid'=>$weixin_openid, 'openid'=>$openid));
     }
     die(json_encode(array("result" => 1, "total" => $item['praise'], 'statue' => $isgroup['isgroup'])));
 }
