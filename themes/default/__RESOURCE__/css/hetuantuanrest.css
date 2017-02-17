@@ -207,3 +207,13 @@ label{
     background-color: #FDAD2A;
     color: white;
 }
+
+.favorate_on {
+    background-image: url("__RESOURCE__/images/favorate_on.png");
+    background-size: cover
+}
+
+.favorate_off {
+    background-image: url("__RESOURCE__/images/favorate_off.png");
+    background-size: cover
+}

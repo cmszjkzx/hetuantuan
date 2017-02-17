@@ -63,7 +63,7 @@
                             </div>
                             <div style="width: 100%;height: 2rem;position: absolute;bottom: 0;background-color: white;opacity: 0.5;">
                                 <p style="height: 2rem;line-height: 2rem;display: inline-block"><!--@php  echo $item['description'];@--></p>
-                                <a id="doFavorate" style="width: 1rem;height: 0.875rem;float: right;line-height: 2rem;margin-right: 10px;margin-top:10px;background-image: url(__RESOURCE__/images/favorate_off.png);background-size: cover" onclick="favorate(<!--@php echo $item['id'] @-->)"></a>
+                                <a id="doFavorate" style="width: 1rem;height: 0.875rem;float: right;line-height: 2rem;margin-right: 10px;margin-top:10px;background-image: url(__RESOURCE__/images/<!--@php if($item['ispraise'] == 0) { @-->favorate_off.png<!--@php }else { @-->favorate_on.png<!--@php } @-->);background-size: cover" <!--@php if($item['ispraise'] == 0) { @--> onclick="favorate(<!--@php echo $item['id'] @-->)" <!--@php } @--> ></a>
                             </div>
                             <div style="position: absolute;top: 0.2rem;left: 0.2rem">
                                 <img src="__RESOURCE__/images/time.png" style="width: 0.8rem;height: 0.8rem;padding-bottom: 0.1rem">
@@ -78,13 +78,13 @@
                                          usesrc="1" alt="">
                                 </div>
                                 <div class="" style="height: 6.325rem;border-left: solid 1px #EFEFEF;width: 50%;display: inline-block;float: right">
-                                    <div class="txt" style="top: 1rem">大家看看瞧一瞧哦</div>
+                                    <div class="txt" style="top: 1rem"><!--@php echo $item['description'] @--></div>
                                     <div class="buy" style="top: 2.5rem;max-width: 8rem;text-align: right;color: #888585;font-weight: 100">
-                                        详情描述
+                                        <!--@php echo $item['express'] @-->
                                     </div>
                                     <div class="buy">
                                     <span>
-                                    300元
+                                    <!--@php echo $item['price'] @-->
                                     </span>
                                     </div>
                                 </div>
@@ -108,7 +108,7 @@
 //                $("#goods_"+id+" #doFavorate").attr('disabled',"true");
                 console.log("#goods_"+id+" #doFavorate");
                 $("#goods_"+id+" #doFavorate").removeAttr('onclick');
-//                $("#goods_"+id+" #doFavorate").html('defff');
+                $("#goods_"+id+" #doFavorate").css('background-image','url(__RESOURCE__/images/favorate_on.png)');
             }
         });
     };
