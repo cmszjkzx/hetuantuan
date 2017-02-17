@@ -65,6 +65,13 @@
     </div>
 
     <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-left" > 上架价格：</label>
+        <div class="col-sm-9">
+            <input type="text" name="price"  value="<?php  echo $item['price'];?>" />
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-sm-2 control-label no-padding-left" > 获赞数量：</label>
         <div class="col-sm-9">
             <input type="text" name="praise"  value="<?php  echo $item['praise'];?>" />

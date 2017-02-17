@@ -18,6 +18,7 @@ if('post' == $operation){
             'limittime' => strtotime($_GP['limittime']),
             'isgroup' => intval($_GP['isgroup']),
             'goodsn' => $_GP['goodsn'],
+            'price' => $_GP['price'],
             'praise' => $_GP['praise'],
             'description' => $_GP['description'],
             'express' => $_GP['express']
