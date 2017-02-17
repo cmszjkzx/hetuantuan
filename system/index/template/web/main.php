@@ -106,7 +106,15 @@
         <i class="icon-gear"></i>
         <span>&nbsp;系统配置&nbsp;</span>
     </a> 
-</li> 
+</li>
+      <!-- 2017-02-17-yanru-begin-新增商家管理 -->
+      <li class="light-blue">
+          <a class="dropdown-toggle"  href="<?php  echo create_url('site',array('name' => 'index','do' => 'main','smenu'=>'bands'))?>" >
+              <i class="icon-group"></i>
+              <span>&nbsp;商&nbsp;家&nbsp;</span>
+          </a>
+      </li>
+      <!--end-->
  </ul>
 </div><!-- /.navbar-header -->
 
@@ -203,9 +211,14 @@
           	  <?php   }?> 
           	  
           	<?php if("extends"==$_GP['smenu']){ ?>
-          	  <?php   require "smenu_extends.php";?> 
-          	  <?php   }?> 
-          	     </ul>
+          	  <?php   require "smenu_extends.php";?>
+          	  <?php   }?>
+<!-- 2017-02-17-yanru-begin-新增商家界面 -->
+            <?php if("bands"==$_GP['smenu']){ ?>
+                <?php   require "smenu_bands.php";?>
+            <?php   }?>
+              <!-- end -->
+          </ul>
             <div class="sidebar-collapse" id="sidebar-collapse">
                 <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
             </div>

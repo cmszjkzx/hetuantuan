@@ -206,26 +206,26 @@
 <ul class="nav nav-tabs" >
     <?php if(empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin']) || !empty($_GP['bandmanage'])){ ?><?php $bandmanage=empty($_GP['bandmanage'])?$_CMS[WEB_SESSION_ACCOUNT]['groupName']:$_GP['bandmanage']; ?>
         <li style="width:10%" <?php  if($status == -99) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99, 'bandmanage' => $bandmanage))?>">全部</a></li>
-        <li style="width:10%" <?php  if($status == 0) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0, 'bandmanage' => $bandmanage))?>">待付款未超时</a></li>
-        <li style="width:10%" <?php  if($status == 1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1, 'bandmanage' => $bandmanage))?>">已超时</a></li>
+        <!--<li style="width:10%" <?php  //if($status == 0) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0, 'bandmanage' => $bandmanage))?>">待付款未超时</a></li>
+        <li style="width:10%" <?php  //if($status == 1) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1, 'bandmanage' => $bandmanage))?>">已超时</a></li>-->
         <li style="width:10%" <?php  if($status == 11) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 11, 'bandmanage' => $bandmanage))?>">待发货</a></li>
         <li style="width:10%" <?php  if($status == 12) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 12, 'bandmanage' => $bandmanage))?>">待收货</a></li>
         <li style="width:10%" <?php  if($status == 9) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9, 'bandmanage' => $bandmanage))?>">已收货</a></li>
     <?php } else { ?>
         <li style="width:10%" <?php  if($status == -99) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99))?>">全部</a></li>
-        <li style="width:10%" <?php  if($status == 0) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款未超时</a></li>
-        <li style="width:10%" <?php  if($status == 1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">已超时</a></li>
+        <!--<li style="width:10%" <?php  //if($status == 0) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款未超时</a></li>
+        <li style="width:10%" <?php  //if($status == 1) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">已超时</a></li>-->
         <li style="width:10%" <?php  if($status == 2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待发货</a></li>
         <li style="width:10%" <?php  if($status == 3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">待收货</a></li>
         <li style="width:10%" <?php  if($status == 9) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9))?>">已收货</a></li>
-        <li style="width:10%" <?php  if($status == 4) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 4))?>">已收货待评价</a></li>
-        <li style="width:10%" <?php  if($status == 5) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 5))?>">已完成</a></li>
+        <!--<li style="width:10%" <?php  //if($status == 4) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 4))?>">已收货待评价</a></li>
+        <li style="width:10%" <?php  //if($status == 5) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 5))?>">已完成</a></li>-->
         <li style="width:10%" <?php  if($status == 10) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 10))?>">导入快递</a></li>
         <li style="width:10%" <?php  if($status == -1) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -1))?>">已关闭</a></li>
-        <li style="width:10%" <?php  if($status == -2) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -2))?>">退款中</a></li>
-        <li style="width:10%" <?php  if($status == -3) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -3))?>">换货中</a></li>
-        <li style="width:10%" <?php  if($status == -4) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -4))?>">退货中</a></li>
-        <li style="width:10%" <?php  if($status == -5) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -5))?>">已退货</a></li>
+        <!--<li style="width:10%" <?php  //if($status == -2) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -2))?>">退款中</a></li>
+        <li style="width:10%" <?php  //if($status == -3) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -3))?>">换货中</a></li>
+        <li style="width:10%" <?php  //if($status == -4) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -4))?>">退货中</a></li>
+        <li style="width:10%" <?php  //if($status == -5) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -5))?>">已退货</a></li>-->
         <li style="width:10%" <?php  if($status == -6) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -6))?>">已退款</a></li>
     <?php } ?>
 </ul>

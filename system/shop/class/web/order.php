@@ -82,9 +82,9 @@ if ($operation == 'display')
     //当是商家登录时判断对应商家的商品是否发货,其中5为待发货,6为待收货
     if (($status == '11' || $status == '12') && (empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])||!empty($_GP['bandmanage']))){
         if($status == '11')
-            $band_condition .= " AND ordergoods.status = 11 ";//2017-1-3-yanru
+            $band_condition .= " AND (shoporders.status = 2 or shoporders.status = 3) AND (ordergoods.status = 11 or ordergoods.status = 0) ";//2017-1-3-yanru
         if($status == '12')
-            $band_condition .= " AND ordergoods.status = 12 ";//2017-1-3-yanru
+            $band_condition .= " AND (shoporders.status = 2 or shoporders.status = 3) AND ordergoods.status = 12 ";//2017-1-3-yanru
     }
     //2017-1-5-yanru-新增通过微信名查询
     if(!empty($_GP['weixin_nickname'])){

@@ -81,26 +81,29 @@
         </ul>
     </li>
 <?php }?>
-<?php if(checkrule('shop','bands')){ ?>
-    <li class="open active">
+
+<!-- 2017-02-17-yanru-begin-单独显示，不再在首页展示 -->
+<?php //if(checkrule('shop','bands')){ ?>
+    <!--<li class="open active">-->
         <!-- 导航第一级 -->
-        <a href="#" class="dropdown-toggle">
+        <!--<a href="#" class="dropdown-toggle">
             <i class="icon-group"></i>
             <span class="menu-text"> 商家管理</span>
 
             <b class="arrow icon-angle-down"></b>
         </a>
         <ul class="submenu">
-            <?php if(checkrule('shop','bands')){ if(!empty($bands)){ foreach ($bands as $band) {?>
-                <li> <a  onclick="navtoggle('商家管理 - > <?php echo $band['band']?>')"  href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99, 'bandmanage' => $band['band'])) ?>" target="main">
+            <?php //if(checkrule('shop','bands')){ if(!empty($bands)){ foreach ($bands as $band) {?>
+                <li> <a  onclick="navtoggle('商家管理 - > <?php //echo $band['band']?>')"  href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99, 'bandmanage' => $band['band'])) ?>" target="main">
                         <i class="icon-double-angle-right"></i>
-                        <?php echo $band['band']?>
+                        <?php //echo $band['band']?>
                     </a>
                 </li>
-            <?php } } } ?>
+            <?php //} } } ?>
         </ul>
-    </li>
-<?php }?>
+    </li>-->
+<?php //}?>
+<!-- end -->
                                     
 <?php  if(is_array($modulelist)) { foreach($modulelist as $module) {
     if($module['name']=='bj_tbk'){
