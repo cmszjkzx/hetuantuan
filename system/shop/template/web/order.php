@@ -218,7 +218,7 @@
                 </td>
                 <th style="width:150px"><label for="">物流信息：</label></th>
                 <td>
-                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $good['expresssn']?>&postid=<?php  echo $good['expresssn']?>#input"  >
+                    <a target="_blank" href="http://m.kuaidi100.com/index_all.html?type=<?php  echo $good['express']?>&postid=<?php  echo $good['expresssn']?>#input"  >
                         [查看物流信息]
                     </a>
                 </td>
@@ -252,9 +252,9 @@
                 <td>
                     <?php  if($order['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
                     <?php  if($order['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 11 && $order['status'] > 1) { ?><span class="label label-warning">待发货</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 12 && $order['status'] > 1) { ?><span class="label label-success" >待收货</span><?php  } ?>
-                    <?php  if($good['optionstatus'] == 13 && $order['status'] > 1) { ?><span class="label label-success">已完成</span><?php  } ?>
+                    <?php  if($order['status']==2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
+                    <?php  if($order['status']==3 && $good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
+                    <?php  if($order['status']>=3 && ($good['optionstatus'] == 13 || $good['optionstatus'] == 0)) { ?><span class="label label-success">已完成</span><?php  } ?>
                 </td>
             </tr>
         <?php  } } ?>
@@ -306,10 +306,10 @@
                     &nbsp;
                     <a onclick="document.getElementById('print_express_orderid').value='<?php  echo $order['id']?>';$('#modal-expressprint').modal()" href="javascript:;">快递单打印</a>
                 <?php  } ?>
-                <?php } else { if($good['optionstatus'] == 11&&empty($order['isverify'])) { ?>
+                <?php } else { if($order['status']==2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0) && empty($order['isverify'])) { ?>
                     <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">确认发货</button>
-                <?php  } if(($good['optionstatus'] == 12&&empty($order['isverify']))){ ?>
-                    <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">修改订单</button>
+                <?php  } if($order['status']==3 && $good['optionstatus'] == 12 && empty($order['isverify'])){ ?>
+                    <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">修改物流</button>
                 <?php }} ?>
             </td>
         </tr>

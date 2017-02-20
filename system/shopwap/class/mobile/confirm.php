@@ -484,6 +484,7 @@ if (checksubmit('submit')) {
         $d = array(
             'goodsid' => $row['id'],
             'orderid' => $orderid,
+            'status' => 11,//插入的初始状态改为11，就是没有发货-2017-02-20-yanru
             'total' => $row['total'],
             'price' => $row['marketprice'],
             'createtime' => time(),

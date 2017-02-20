@@ -210,7 +210,7 @@
         <li style="width:10%" <?php  //if($status == 1) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1, 'bandmanage' => $bandmanage))?>">已超时</a></li>-->
         <li style="width:10%" <?php  if($status == 11) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 11, 'bandmanage' => $bandmanage))?>">待发货</a></li>
         <li style="width:10%" <?php  if($status == 12) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 12, 'bandmanage' => $bandmanage))?>">待收货</a></li>
-        <li style="width:10%" <?php  if($status == 9) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9, 'bandmanage' => $bandmanage))?>">已收货</a></li>
+        <li style="width:10%" <?php  if($status == 9) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 9, 'bandmanage' => $bandmanage))?>">已完成</a></li>
     <?php } else { ?>
         <li style="width:10%" <?php  if($status == -99) { ?> class="active"<?php  } ?>><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -99))?>">全部</a></li>
         <!--<li style="width:10%" <?php  //if($status == 0) { ?> class="active"<?php  //} ?>><a href="<?php  //echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 0))?>">待付款未超时</a></li>
@@ -272,11 +272,11 @@
             <td><?php  if(empty($item['optionprice'])) { echo $item['price']; } else { echo $item['optionprice']; }?> 元 <?php  if($item['hasbonus']>0) { ?><span class="label label-success">惠<?php echo $item['bonusprice'];?></span><?php  }?></td>
             <td>
         <?php if(empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin']) || !empty($_GP['bandmanage'])){ ?>
-            <?php  if($item['optionstatus'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
-            <?php  if($item['optionstatus'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
-            <?php  if($item['optionstatus'] == 11) { ?><span class="label label-warning">待发货</span><?php  } ?>
-            <?php  if($item['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
-            <?php  if($item['optionstatus'] == 13) { ?><span class="label label-success">已完成</span><?php  } ?>
+            <?php  if($item['status']==0 && $item['optionstatus'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php } ?>
+            <?php  if($item['status']==1 && $item['status']>2 && $item['optionstatus'] <= 1) { ?><span class="label label-danger" >已关闭</span><?php } ?>
+            <?php  if($item['status']==2 && ($item['optionstatus'] == 11 || $item['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
+            <?php  if($item['status']==3 && $item['optionstatus'] == 12 ) { ?><span class="label label-success" >待收货</span><?php  } ?>
+            <?php  if($item['status']>=3 && ($item['optionstatus'] == 13 || $item['optionstatus'] == 0)) { ?><span class="label label-success">已完成</span><?php  } ?>
                 <?php } else { ?>
             <?php  if($item['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
             <?php  if($item['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>

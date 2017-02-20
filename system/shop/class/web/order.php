@@ -67,24 +67,24 @@ if ($operation == 'display')
         $band_condition .= " AND shoporders.status = '" . intval($status) . "'";//2016-12-25-yanru
     }
     if ($status == '9'){
-        $condition .= " and ( status = 4 or status = 5)";
-        $band_condition .= " and ( shoporders.status = 4 or shoporders.status = 5)";//2016-12-25-yanru
+        $condition .= " and ( status = 4 or status = 5) ";
+        $band_condition .= " and ( shoporders.status = 4 or shoporders.status = 5) ";//2016-12-25-yanru
     }
     //2016-12-25-yanru-新增状态10是表示需要更新快递信息的订单，状态2和3的集合
     if ($status == '10'){
-        $condition .= " and ( status >= 2 and status <= 5)";
-        $band_condition .= " and ( shoporders.status >= 2 and shoporders.status <= 5)";//2016-12-25-yanru
+        $condition .= " and ( status >= 2 and status <= 5) ";
+        $band_condition .= " and ( shoporders.status >= 2 and shoporders.status <= 5) ";//2016-12-25-yanru
     }
     if ($status == '3') {
-        $condition .= " and ( status = 3 or status = -5 or status = -6)";
-        $band_condition .= " and ( shoporders.status = 3 or shoporders.status = -5 or shoporders.status = -6)";//2016-12-25-yanru
+        $condition .= " and ( status = 3 or status = -5 or status = -6) ";
+        $band_condition .= " and ( shoporders.status = 3 or shoporders.status = -5 or shoporders.status = -6) ";//2016-12-25-yanru
     }
     //当是商家登录时判断对应商家的商品是否发货,其中5为待发货,6为待收货
     if (($status == '11' || $status == '12') && (empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin'])||!empty($_GP['bandmanage']))){
         if($status == '11')
-            $band_condition .= " AND (shoporders.status = 2 or shoporders.status = 3) AND (ordergoods.status = 11 or ordergoods.status = 0) ";//2017-1-3-yanru
+            $band_condition .= " AND (shoporders.status = 2 OR (shoporders.status = 3 AND ordergoods.status = 11)) ";//2017-1-3-yanru
         if($status == '12')
-            $band_condition .= " AND (shoporders.status = 2 or shoporders.status = 3) AND ordergoods.status = 12 ";//2017-1-3-yanru
+            $band_condition .= " AND shoporders.status = 3 AND ordergoods.status = 12 ";//2017-1-3-yanru
     }
     //2017-1-5-yanru-新增通过微信名查询
     if(!empty($_GP['weixin_nickname'])){
@@ -147,10 +147,11 @@ if ($operation == 'display')
 
     $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('shop_order') . " WHERE 1=1  $condition");
     $pager = pagination($total, $pindex, $psize);
-    foreach ( $list as $id => $item)
-    {
-        if(!empty($item['openid'])){
-            $list[$id]['isguest']=mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  openid=:openid ",array(':openid' => $item['openid']));
+    if(!empty($list)) {
+        foreach ($list as $id => $item) {
+            if (!empty($item['openid'])) {
+                $list[$id]['isguest'] = mysqld_selectcolumn("SELECT istemplate from " . table('member') . " where  openid=:openid ", array(':openid' => $item['openid']));
+            }
         }
     }
 

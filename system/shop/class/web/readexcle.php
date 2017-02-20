@@ -112,6 +112,16 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                                 "express" => $list[$i]['express']
                             );
                             mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
+
+                            //2017-02-20-yanru-begin-实现文件导入时也能够修改订单中某商品的运单
+                            mysqld_update('shop_order_goods', array(
+                                'status' => 12,
+                                'express' => $express,
+                                'expresscom' => $_GP['expresscom'.$k],
+                                'expresssn' => $_GP['expressno'.$k],),
+                                array('orderid' => $list[$i]['id'], 'goodsid'=>$list[$i]['ordergoods'][$j]['goodsid']));
+                            //end
+
                             $notice = array(
                                 "touser" => $list[$i]['weixin_openid'],
                                 "template_id" => "A-pOebjfRNtuzGSqEVnGwgtjk1Hqt3G9GOpavMVHzb0",
