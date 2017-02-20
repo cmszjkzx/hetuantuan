@@ -55,7 +55,7 @@
             <div class="home-categories">
                 <div class="category-container" style="background-color:#ffffff;">
                     <ul class="goods_list">
-                        <!--@php  if(is_array($list)) { if(empty($option)) { foreach($list as $item) { @-->
+                        <!--@php  if(is_array($list) && count($list) > 0) { if(empty($option)) { foreach($list as $item) { @-->
                         <li class="SeckillOne" id="goods_<!--@php  echo $item[id] @-->">
                             <div class="img" style="height: 8.35rem;overflow: hidden;width: 100%;display: inline-block">
                                 <img src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $item['thumb'];@-->" class="good-img"
@@ -91,7 +91,7 @@
                             </a>
                         </li>
                         <!--@php } } } else { @-->
-                        <span>测试字段</span>
+                        <span style="display: block;text-align: center">暂无数据</span>
                         <!--@php } @-->
                     </ul>
                 </div>
