@@ -272,7 +272,7 @@
             <td><?php  if(empty($item['optionprice'])) { echo $item['price']; } else { echo $item['optionprice']; }?> 元 <?php  if($item['hasbonus']>0) { ?><span class="label label-success">惠<?php echo $item['bonusprice'];?></span><?php  }?></td>
             <td>
         <?php if(empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin']) || !empty($_GP['bandmanage'])){ ?>
-            <?php  if($item['status']==0 && $item['optionstatus'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php } ?>
+            <?php  if($item['status']==0 && ($item['optionstatus'] == 11 || $item['optionstatus'] == 0)) { ?><span class="label label-warning" >待付款未超时</span><?php } ?>
             <?php  if($item['status']==1 && $item['status']>2 && $item['optionstatus'] <= 1) { ?><span class="label label-danger" >已关闭</span><?php } ?>
             <?php  if($item['status']==2 && ($item['optionstatus'] == 11 || $item['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
             <?php  if($item['status']==3 && $item['optionstatus'] == 12 ) { ?><span class="label label-success" >待收货</span><?php  } ?>
