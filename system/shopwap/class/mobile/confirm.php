@@ -389,19 +389,19 @@ if (checksubmit('submit')) {
             }
         }
     }
-    //2017-1-11-yanru-begin-新增不包邮地区
-    if(1 == $hasdahuangjia){
-        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
-        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
-            $dispatchprice += 10;
-    }
-    //2017-2-10-yanru-判断是否有马卡龙
-    if(1 == $hasmakeawish){
-        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
-        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
-            $dispatchprice += 10;
-    }
-    //end
+//    //2017-1-11-yanru-begin-新增不包邮地区
+//    if(1 == $hasdahuangjia){
+//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+//            $dispatchprice += 10;
+//    }
+//    //2017-2-10-yanru-判断是否有马卡龙
+//    if(1 == $hasmakeawish){
+//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+//            $dispatchprice += 10;
+//    }
+//    //end
     $ordersns= date('Ymd') . random(6, 1);
     $randomorder = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE  ordersn=:ordersn limit 1", array(':ordersn' =>$ordersns));
     if(!empty($randomorder['ordersn']))
