@@ -96,6 +96,15 @@ $(function () {
 		<!--begin main-->
 		<div class="main-t clearfix">
 			<div class="work-bench-r">
+                <?php if(empty($_CMS[WEB_SESSION_ACCOUNT]['is_admin']) || !empty($_GP['bandmanage'])){ ?>
+                    <div class="latest-notice">
+                        <dl>
+                            <dt><span class="title">待处理订单</span></dt>
+                            <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 11, 'bandmanage' => $_GP['bandmanage']))?>">待发货：<?php echo $needsend_count ?>笔</a>￥<?php echo $needsend__price ?></dd>
+                            <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 12, 'bandmanage' => $_GP['bandmanage']))?>">待收货：<?php echo $needget_count ?>笔</a>￥<?php echo $needget__price ?></dd>
+                        </dl>
+                    </div>
+                <?php } else { ?>
 		        <div class="pending-order">
 		            <dl>
 		               <dt><span class="title">待处理事务</span></dt>
@@ -119,6 +128,7 @@ $(function () {
 		               
 		            </dl>
 		        </div>
+                <?php } ?>
 		    </div>
 		    <div class="work-bench-l">
 		        <!--begin 今日简报-->
