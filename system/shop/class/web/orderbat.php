@@ -9,10 +9,10 @@ if ($operation == 'display') {
         $total = mysqld_selectcolumn("SELECT count(*) FROM " . table('shop_order') . " WHERE 1=1 $condition ");
     }else{
         $list = mysqld_selectall("SELECT o.* FROM " . table('shop_order_goods') . " og LEFT JOIN ".table('shop_goods') ." g ON og.goodsid=g.id LEFT JOIN ".table('shop_order')
-            ." o ON og.orderid=o.id WHERE og.status=11 AND g.band=:band AND o.ordersn IS NOT NULL AND o.expresssn NOT LIKE concat('%',og.goodsid,'@',og.optionid,'%') "
+            ." o ON og.orderid=o.id WHERE (o.status=2 OR (o.status=3 AND (og.status=11 OR og.status=0))) AND g.band=:band AND o.ordersn IS NOT NULL AND o.expresssn NOT LIKE concat('%',og.goodsid,'@',og.optionid,'%') "
             , array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
         $total = mysqld_selectcolumn("SELECT count(o.*) AS total FROM " . table('shop_order_goods') . " og LEFT JOIN ".table('shop_goods') ." g ON og.goodsid=g.id LEFT JOIN "
-            .table('shop_order') ." o ON og.orderid=o.id WHERE og.status=11 AND g.band=:band AND o.ordersn IS NOT NULL AND o.expresssn NOT LIKE concat('%',og.goodsid,'@',og.optionid,'%') "
+            .table('shop_order') ." o ON og.orderid=o.id WHERE (o.status=2 OR (o.status=3 AND (og.status=11 OR og.status=0))) AND g.band=:band AND o.ordersn IS NOT NULL AND o.expresssn NOT LIKE concat('%',og.goodsid,'@',og.optionid,'%') "
             , array(':band'=>$_CMS[WEB_SESSION_ACCOUNT]['groupName']));
     }
 
