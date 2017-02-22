@@ -27,7 +27,7 @@ else
      $condition1 = " and orders.createtime>=" . $start_time . " and " . "orders.createtime<=" . $end_time;
      $condition2 = " and orders2.createtime>=" . $start_time . " and " . "orders2.createtime<=" . $end_time;
      }
- $list = mysqld_selectall("SELECT member.realname,member.mobile,(" . "SELECT count(orders.id) FROM " . table('shop_order') . " orders where orders.openid=member.openid  " . $condition1 . ") as ordercount,(" . "SELECT sum(cast(orders2.price as decimal(8,2))) FROM " . table('shop_order') . " orders2 where orders2.openid=member.openid and orders2.status >=2 " . $condition2 . ") ordermoney FROM " . table('member') . " member where  member.istemplate=0 ORDER BY " . $sortname . "  DESC limit 100");
+ $list = mysqld_selectall("SELECT member.realname,member.mobile,(" . "SELECT count(orders.id) FROM " . table('shop_order') . " orders where orders.status >=2 and orders.openid=member.openid  " . $condition1 . ") as ordercount,(" . "SELECT sum(cast(orders2.price as decimal(8,2))) FROM " . table('shop_order') . " orders2 where orders2.openid=member.openid and orders2.status >=2 " . $condition2 . ") ordermoney FROM " . table('member') . " member where  member.istemplate=0 ORDER BY " . $sortname . "  DESC limit 100");
 
 
 
