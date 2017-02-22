@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2015 http://www.hetuantuan.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: °Ù¼Òcms <QQ:1987884799> <http://www.hetuantuan.com>
+// | Author: ï¿½Ù¼ï¿½cms <QQ:1987884799> <http://www.hetuantuan.com>
 // +----------------------------------------------------------------------
  $condition = "";
  $pindex = max(1, intval($_GP['page']));
@@ -28,8 +28,8 @@
      $psize = 9999;
      $pindex = 1;
      }
- $list = mysqld_selectall("SELECT ordergoods.price,ordergoods.total,(select title from " . table('shop_goods') . " goods where ordergoods.goodsid=goods.id) titles,orders.createtime,orders.ordersn from  " . table('shop_order_goods') . " ordergoods left join " . table('shop_order') . " orders  on orders.id=ordergoods.orderid where 1=1 $condition order by orders.createtime  desc  LIMIT " . ($pindex - 1) * $psize . ',' . $psize);
- $total = mysqld_selectcolumn("SELECT count(ordergoods.id) from  " . table('shop_order_goods') . " ordergoods left join " . table('shop_order') . " orders  on orders.id=ordergoods.orderid where 1=1 $condition order by orders.createtime desc");
+ $list = mysqld_selectall("SELECT ordergoods.price,ordergoods.total,(select title from " . table('shop_goods') . " goods where ordergoods.goodsid=goods.id) titles,orders.createtime,orders.ordersn from  " . table('shop_order_goods') . " ordergoods left join " . table('shop_order') . " orders  on orders.id=ordergoods.orderid where 1=1 and orders.status >=2 $condition order by orders.createtime  desc  LIMIT " . ($pindex - 1) * $psize . ',' . $psize);
+ $total = mysqld_selectcolumn("SELECT count(ordergoods.id) from  " . table('shop_order_goods') . " ordergoods left join " . table('shop_order') . " orders  on orders.id=ordergoods.orderid where 1=1 and orders.status >=2 $condition order by orders.createtime desc");
  $pager = pagination($total, $pindex, $psize);
 
  if(!empty($_GP['saledetailsEXP01']))

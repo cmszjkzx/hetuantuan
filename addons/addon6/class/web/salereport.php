@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2015 http://www.hetuantuan.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: °Ù¼Òcms <QQ:1987884799> <http://www.hetuantuan.com>
+// | Author: ï¿½Ù¼ï¿½cms <QQ:1987884799> <http://www.hetuantuan.com>
 // +----------------------------------------------------------------------
 $nowyear = intval(date('Y', time()));
  $nowmonth = intval(date('m', time()));
@@ -42,11 +42,11 @@ $nowyear = intval(date('Y', time()));
     
      if($radioMonthForSaleType == '0')
     {
-         $ordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE  createtime >=" . strtotime($dropMonthForYaer . "-" . $month . "-1" . " 00:00:01") . " and createtime <=" . strtotime($dropMonthForYaer . "-" . $month . "-" . $lastday . " 23:59:59"));
+         $ordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status >=2 AND  createtime >=" . strtotime($dropMonthForYaer . "-" . $month . "-1" . " 00:00:01") . " and createtime <=" . strtotime($dropMonthForYaer . "-" . $month . "-" . $lastday . " 23:59:59"));
          }
      if($radioMonthForSaleType == '1')
     {
-         $ordercount = mysqld_selectcolumn("SELECT sum(cast(price as decimal(8,2))) FROM " . table('shop_order') . " WHERE  createtime >=" . strtotime($dropMonthForYaer . "-" . $month . "-1" . " 00:00:01") . " and createtime <=" . strtotime($dropMonthForYaer . "-" . $month . "-" . $lastday . " 23:59:59"));
+         $ordercount = mysqld_selectcolumn("SELECT sum(cast(price as decimal(8,2))) FROM " . table('shop_order') . " WHERE status >=2 AND createtime >=" . strtotime($dropMonthForYaer . "-" . $month . "-1" . " 00:00:01") . " and createtime <=" . strtotime($dropMonthForYaer . "-" . $month . "-" . $lastday . " 23:59:59"));
          }
      if(empty($ordercount))
         {
@@ -102,11 +102,11 @@ $nowyear = intval(date('Y', time()));
     
      if($radiodayForSaleType == '0')
     {
-         $dayordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE createtime >=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 00:00:01") . " and createtime <=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 23:59:59"));
+         $dayordercount = mysqld_selectcolumn("SELECT count(id) FROM " . table('shop_order') . " WHERE status >=2 AND createtime >=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 00:00:01") . " and createtime <=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 23:59:59"));
          }
      if($radiodayForSaleType == '1')
     {
-         $dayordercount = mysqld_selectcolumn("SELECT sum(cast(price as decimal(8,2))) FROM " . table('shop_order') . " WHERE createtime >=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 00:00:01") . " and createtime <=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 23:59:59"));
+         $dayordercount = mysqld_selectcolumn("SELECT sum(cast(price as decimal(8,2))) FROM " . table('shop_order') . " WHERE status >=2 AND createtime >=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 00:00:01") . " and createtime <=" . strtotime($dropdayForYaer . "-" . $selectmonthSale . "-" . $day . " 23:59:59"));
          }
     
      if(empty($dayordercount))

@@ -5,13 +5,13 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2015 http://www.hetuantuan.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: °Ù¼Òcms <QQ:1987884799> <http://www.hetuantuan.com>
+// | Author: ï¿½Ù¼ï¿½cms <QQ:1987884799> <http://www.hetuantuan.com>
 // +----------------------------------------------------------------------
  $goodslist = mysqld_selectall("SELECT goods.id,goods.sales from  " . table('shop_goods') . " goods  ");
 
  foreach ($goodslist as $gooditem){
     
-     $goodtotal = mysqld_selectcolumn("SELECT sum(goodorder.total) FROM " . table('shop_order_goods') . " goodorder left join " . table('shop_order') . " orders on orders.id=goodorder.orderid WHERE goodorder.goodsid = :id and orders.status>=1", array(':id' => $gooditem['id']));
+     $goodtotal = mysqld_selectcolumn("SELECT sum(goodorder.total) FROM " . table('shop_order_goods') . " goodorder left join " . table('shop_order') . " orders on orders.id=goodorder.orderid WHERE goodorder.goodsid = :id and orders.status>=2", array(':id' => $gooditem['id']));
      if($goodtotal > 0 && $goodslist['sales'] != $goodtotal && !empty($goodtotal))
         {
          mysqld_update('shop_goods', array('sales' => $goodtotal), array('id' => $gooditem['id']));

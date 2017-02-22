@@ -31,8 +31,8 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 				<tr>
 					<th width="85"  >排行</th>
 					<th width="41" >商品名称</th>
-				<th width="41" >销售量</th>
-					<th width="42" >销售额</th>
+				<th width="41" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salescount'))?>">销售量</th>
+					<th width="42" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salesmoney'))?>">销售额</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -47,8 +47,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 					<td><?php echo $item['salesmoney']==0?0:$item['salesmoney']?></td>
 				</tr>
 				<?php  } } ?>
-
-			</tr>
+			</tbody>
 		</table>
 				
 								<script type="text/javascript">
