@@ -13,9 +13,9 @@ if (empty($_GP['op']) || 'collection'==$_GP['op']){
     $list = mysqld_selectall("SELECT a.id, a.goodname, a.isshow, a.limittime, a.isgroup, a.goodsn, a.praise, a.thumb, a.sucessthumb,
  a.description, a.express, SUM(a.ispraise) AS ispraise FROM (SELECT hetuantuan_group.*, IF(hetuantuan_group.id=hetuantuan_group_user.goodid,1,0) 
   AS ispraise from hetuantuan_group, hetuantuan_group_user WHERE hetuantuan_group.isshow=:isshow AND hetuantuan_group.isgroup=:isgroup AND 
-  hetuantuan_group_user.weixin_openid=:weixin_openid) a GROUP BY a.id ", array(":isshow"=>1, "isgroup"=>0, ':weixin_openid'=>$weixin_openid));
+  hetuantuan_group_user.weixin_openid=:weixin_openid) a GROUP BY a.praise ", array(":isshow"=>1, "isgroup"=>0, ':weixin_openid'=>$weixin_openid));
     if(empty($list)){
-        $list = mysqld_selectall("SELECT * FROM " . table('group')." WHERE isshow=:isshow AND isgroup=:isgroup ", array(":isshow"=>1, "isgroup"=>0));
+        $list = mysqld_selectall("SELECT * FROM " . table('group')." WHERE isshow=:isshow AND isgroup=:isgroup GROUP BY praise ", array(":isshow"=>1, "isgroup"=>0));
     }
     $option = 0;
     include themePage('bangnicai');
