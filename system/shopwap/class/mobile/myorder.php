@@ -46,7 +46,7 @@ if ($op == 'cancelsend')
     //end
 
     if(!empty($openid)){
-        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
+        mysqld_update('shop_order', array('status' => -7,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
     //message('该订单不可取消');
     //2016-12-16-yanru

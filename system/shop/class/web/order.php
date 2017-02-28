@@ -337,7 +337,7 @@ if ($operation == 'detail')
 
     //2016-12-15-yanru-begin-后台订单状态查询
     $item = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id", array(':id' => $orderid));
-    if($item['status'] >= 3 && empty($_GP['confirmsend'])){
+    if(($item['status'] >= 3 || $item['status'] == -7)&& empty($_GP['confirmsend'])){
         //2016-12-4-yanru-begin
         $temp_expresscom = explode(";", $item['expresscom']);
         array_pop($temp_expresscom);

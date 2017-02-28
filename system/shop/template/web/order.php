@@ -207,7 +207,7 @@
             </td>
         </tr>
     </table>
-    <?php if($order['status']>=3) { ?>
+    <?php if($order['status']>=3 || $order['status']==-7) { ?>
     <h3 class="header smaller lighter blue">物流信息</h3>
     <table class="table ">
         <?php foreach ($goods as $good) { if(!empty($good['expresssn'])) { ?>
@@ -252,9 +252,9 @@
                 <td>
                     <?php  if($order['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
                     <?php  if($order['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
-                    <?php  if($order['status']==2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
-                    <?php  if($order['status']==3 && $good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
-                    <?php  if($order['status']>=3 && ($good['optionstatus'] == 13 || $good['optionstatus'] == 0)) { ?><span class="label label-success">已完成</span><?php  } ?>
+                    <?php  if($order['status'] == 2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
+                    <?php  if($order['status'] == 3 && $good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
+                    <?php  if(($order['status'] >= 3 || $order['status'] == -7)&& ($good['optionstatus'] == 13 || $good['optionstatus'] == 0)) { ?><span class="label label-success">已完成</span><?php  } ?>
                 </td>
             </tr>
         <?php  } } ?>
@@ -283,7 +283,7 @@
                 <?php if($order['status'] == 2&&!empty($order['isverify'])) { ?>
                     <button type="submit" class="btn btn-success span2" onclick="return confirm('确认完成此订单吗？'); return false;" name="finish" value="finish">完成订单</button>
                 <?php  } ?>
-                <?php  if($order['status'] ==3||$order['status'] ==4||$order['status'] ==5) { ?>
+                <?php  if($order['status'] ==3||$order['status'] ==4||$order['status'] ==5||$order['status'] ==-7) { ?>
                     <button type="submit" class="btn btn-success span2" onclick="return confirm('确认完成此订单吗？'); return false;" name="finish" value="finish">完成订单</button>
 				<?php  } ?>
                 <?php  if(($order['status']==-2||$order['status']==2)&&$order['paytype']!=3) { ?>

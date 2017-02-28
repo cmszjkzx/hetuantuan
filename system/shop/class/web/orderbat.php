@@ -182,9 +182,10 @@ if ($operation == 'display') {
                 }
             }
             //end
+            message('批量发货操作完成,成功处理'.$index.'条订单', refresh(), 'success');
+        }else{
+            message('请勾选需要批量导入的订单!');
         }
-        message('批量发货操作完成,成功处理'.$index.'条订单', refresh(), 'success');
-
     }
     $dispatchlist = mysqld_selectall("SELECT * FROM " . table('dispatch')." where sendtype=0" );
 

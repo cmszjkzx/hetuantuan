@@ -290,6 +290,7 @@
             <?php  if($item['status'] == -4) { ?><span class="label label-danger">退货中</span><?php  } ?>
             <?php  if($item['status'] == -5) { ?><span class="label label-success">已退货</span><?php  } ?>
             <?php  if($item['status'] == -6) { ?><span class="label  label-success">已退款</span><?php  } ?>
+            <?php  if($item['status'] == -7) { ?><span class="label  label-success">用户关闭</span><?php  } ?>
                 <?php } ?>
             </td>
             <td><?php  echo date('Y-m-d H:i:s', $item['createtime'])?></td>
