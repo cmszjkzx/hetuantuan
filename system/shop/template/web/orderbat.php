@@ -59,21 +59,21 @@
         <?php  if(is_array($list)) { foreach($list as $item) { ?>
             <tr>
                 <td class="with-checkbox">
-                    <input type="checkbox" onchange="onchangcheckbox();" name="check[]" value="<?php  echo $item['id'];?>"></td>
-                <td><select onchange="onchangcheckbox();" name="express<?php  echo $item['id'];?>" id="express<?php  echo $item['id'];?>" >
+                    <input type="checkbox" onchange="onchangcheckbox();" name="check[]" value="<?php  echo $item['ordergoodsid'];?>"></td>
+                <td><select onchange="onchangcheckbox();" name="express<?php  echo $item['ordergoodsid'];?>" id="express<?php  echo $item['ordergoodsid'];?>" >
                         <option value="-1" data-name="">无需快递</option>
                         <?php   foreach($dispatchlist as $dispatchitem) { ?>
                             <option value="<?php echo $dispatchitem['code'];?>" data-name="<?php echo $dispatchitem['name'];?>"><?php echo $dispatchitem['name'];?></option>
                         <?php   } ?>
-                    </select> <input type='hidden'  name='expresscom<?php  echo $item['id'];?>' id='expresscom<?php  echo $item['id'];?>'  />
+                    </select> <input type='hidden'  name='expresscom<?php  echo $item['ordergoodsid'];?>' id='expresscom<?php  echo $item['ordergoodsid'];?>'  />
                     <script>
-                        if(jsSelectIsExitItem(document.getElementById("express<?php  echo $item['id'];?>"),"<?php  echo $item['dispatchexpress'];?>"))
+                        if(jsSelectIsExitItem(document.getElementById("express<?php  echo $item['ordergoodsid'];?>"),"<?php  echo $item['dispatchexpress'];?>"))
                         {
-                            document.getElementById("express<?php  echo $item['id'];?>").value='<?php  echo $item['dispatchexpress'];?>';
+                            document.getElementById("express<?php  echo $item['ordergoodsid'];?>").value='<?php  echo $item['dispatchexpress'];?>';
                         }
                     </script>
                 </td>
-                <td><input type="text" id="expressno<?php  echo $item['id'];?>" name="expressno<?php  echo $item['id'];?>"  placeholder="请输入快递单号"  value="">
+                <td><input type="text" id="expressno<?php  echo $item['ordergoodsid'];?>" name="expressno<?php  echo $item['ordergoodsid'];?>"  placeholder="请输入快递单号"  value="">
                 </td>
                 <td><?php  echo $item['ordersn'];?></td>
                 <td><?php  echo $item['address_realname'];?></td>
@@ -98,6 +98,7 @@
                     <?php  if($item['status'] == -4) { ?><span class="label label-danger">退货中</span><?php  } ?>
                     <?php  if($item['status'] == -5) { ?><span class="label label-success">已退货</span><?php  } ?>
                     <?php  if($item['status'] == -6) { ?><span class="label  label-success">已退款</span><?php  } ?>
+                    <?php  if($item['status'] == -7) { ?><span class="label  label-success">用户关闭</span><?php  } ?>
                 </td>
                 <?php } ?>
                 <td><?php  echo date('Y-m-d H:i:s', $item['createtime'])?></td>
