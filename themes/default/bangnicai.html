@@ -4,13 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" src="__RESOURCE__/js/jquery-1.11.3.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="__RESOURCE__/css/base.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/iconfont.css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/list.css" type="text/css"/>
     <link rel="stylesheet" href="__RESOURCE__/css/hetuantuanrest.css" type="text/css"/>
-    <script type="text/javascript" src="__RESOURCE__/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="__RESOURCE__/script/remsetting.js"></script>
+    <script type="text/css">
+        .modal-body h4{
+            font-weight: 100;
+        }
+    </script>
 </head>
 <body>
     <div class="row">
@@ -24,12 +32,13 @@
                 <div class="bd">
                     <ul>
                         <li>
-                            <a href="">
+                            <a>
                                 <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $head_thumb['thumb'];@-->"/>
                             </a>
                         </li>
                     </ul>
                 </div>
+                <div style="position: absolute;bottom: 5px;width: 100%"><a style="text-align: center;display: block" data-toggle="modal" data-target="#myModal"><img src="__RESOURCE__/images/ic_pull_down.png"></img></a></div>
             </div>
             <script type="text/javascript">
                 TouchSlide({
@@ -39,8 +48,8 @@
                     delayTime: 600,
                     interTime: 4000,
                     effect: "leftLoop",
-                    autoPlay: true,//自动播放
-                    autoPage: true, //自动分页
+                    autoPlay: false,//自动播放
+                    autoPage: false, //自动分页
                     switchLoad: "_src" //切换加载，真实图片路径为"_src"
                 });
             </script>
@@ -100,6 +109,29 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="border-radius: 0">
+        <div class="modal-dialog" role="document"  style="text-align: center;margin: 0;border: none;font-family: PingFangSC-Regular;opacity: 0.8;font-weight: 100">
+            <div class="modal-content" style="border-radius: 0">
+                <div class="modal-body">
+                    <h4 style="font-weight: 100">免费点赞您感兴趣的商品</h4>
+
+
+
+                    <h4 style="font-weight: 100">点赞数高的商品，</h4>
+                    <h4 style="font-weight: 100">我们的采购团队出马砍价，</h4>
+
+
+
+                    <h4 style="font-weight: 100">低价谈好后，立即微信告知您</h4>
+
+
+
+                    <h6 style="font-weight: 100">（中途取消关注和团团beta微信公众号则无法收到团购信息）</h6>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript">
     function favorate(id) {
@@ -115,6 +147,10 @@
             }
         });
     };
+    function showDescr() {
+        console.log('dkdkfjfjkfk');
+
+    }
     function timer(parentId,intDiff){
 //        parentId = '1';
         var id = window.setInterval(function(){
