@@ -31,8 +31,8 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 				<tr>
 					<th width="85"  >排行</th>
 					<th width="41" >商品名称</th>
-				<th width="41" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salescount'))?>">销售量</th>
-					<th width="42" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salesmoney'))?>">销售额</th>
+				<th width="41" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salescount', 'start_time' => empty($start_time)?date('Y-m-d',time()):date('Y-m-d',$start_time), 'end_time' => empty($end_time)?date('Y-m-d',time()):date('Y-m-d',$end_time)))?>">销售量</th>
+					<th width="42" ><a href="<?php  echo create_url('site',  array('name' => 'addon6','do'=>'productsaleranking','op' => 'salesmoney', 'start_time' => empty($start_time)?date('Y-m-d',time()):date('Y-m-d',$start_time), 'end_time' => empty($end_time)?date('Y-m-d',time()):date('Y-m-d',$end_time)))?>">销售额</th>
 				</tr>
 			</thead>
 			<tbody>
