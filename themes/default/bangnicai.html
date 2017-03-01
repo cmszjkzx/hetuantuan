@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="row">
-        <div class="slider card card-nomb" style="visibility: visible;">
+        <div class="slider card card-nomb" style="visibility: visible;" data-toggle="modal" data-target="#myModal">
             <script type="text/javascript" src="__RESOURCE__/js/TouchSlide.1.1.js"></script>
             <div id="focus" class="focus">
                 <div class="hd">
@@ -32,13 +32,13 @@
                 <div class="bd">
                     <ul>
                         <li>
-                            <a data-toggle="modal" data-target="#myModal">
+                            <a>
                                 <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $head_thumb['thumb'];@-->"/>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div style="position: absolute;bottom: 5px;width: 100%"><a style="text-align: center;display: block" data-toggle="modal" data-target="#myModal"><img src="__RESOURCE__/images/ic_pull_down.png"></img></a></div>
+                <div style="position: absolute;bottom: 0.5rem;width: 100%"><a style="text-align: center;display: block"><img style="height: 1.5rem" src="__RESOURCE__/images/ic_pull_down.png"/></a></div>
             </div>
             <script type="text/javascript">
                 TouchSlide({
