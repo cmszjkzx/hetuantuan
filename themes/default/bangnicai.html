@@ -141,18 +141,13 @@
             if (obj.result == 1){
 //                $("#goods_"+id+" #doFavorate").attr('disabled',"true");
                 console.log("#goods_"+id+" #doFavorate");
-                $("#goods_"+id+" #praiseNum").text(data.total);
+                $("#goods_"+id+" #praiseNum").text(obj.total);
                 $("#goods_"+id+" #doFavorate").removeAttr('onclick');
                 $("#goods_"+id+" #doFavorate").css('background-image','url(__RESOURCE__/images/favorate_on.png)');
             }
         });
     };
-    function showDescr() {
-        console.log('dkdkfjfjkfk');
-
-    }
     function timer(parentId,intDiff){
-//        parentId = '1';
         var id = window.setInterval(function(){
             var day=0,
                 hour=0,
