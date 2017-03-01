@@ -869,7 +869,9 @@ CREATE TABLE `hetuantuan_shop_order` (
   `verify_shopvname` varchar(50) DEFAULT '' COMMENT '核销门店名称',
   `verify_shopvid` int(10) DEFAULT '0' COMMENT '核销门店id',
   `verify_openid` varchar(50) DEFAULT '' COMMENT '核销员openid',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `indx_openid` (`openid`),
+  KEY `indx_status` (`status`),
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
