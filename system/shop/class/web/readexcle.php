@@ -159,6 +159,38 @@ for ($row = 2; $row <= $allRow; $row++){//行数是以第1行开始
                             $token = get_weixin_token();
                             $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$token}";
                             $content = http_post($url, $dat);
+                        }else if(stristr($list[$i]['expresssn'], $express_id)==false || stristr($list[$i]['expresscom'], $express_name)==false){
+                            $old_expresssn = $list[$i]['expresssn'];
+                            $old_expresscom = $list[$i]['expresscom'];
+                            $old_express = $list[$i]['express'];
+
+                            $temp_sn_int_begin = stripos($old_expresssn, $tmp);
+                            $temp_sn_int_end = stripos(substr($old_expresssn, $temp_sn_int_begin, strlen($old_expresssn)-$temp_sn_int_begin), ';');
+
+                            $temp_com_int_begin = stripos($old_expresscom, $tmp);
+                            $temp_com_int_end = stripos(substr($old_expresscom, $temp_com_int_begin, strlen($old_expresscom)-$temp_com_int_begin), ';');
+
+                            $temp_int_begin = stripos($old_express, $tmp);
+                            $temp_int_end = stripos(substr($old_express, $temp_int_begin, strlen($old_express)-$temp_int_begin), ';');
+
+                            $old_expresssn = substr_replace($old_expresssn, $tmp."_".$express_id.";", $temp_sn_int_begin, $temp_sn_int_end + 1);
+                            $old_expresscom = substr_replace($old_expresscom, $tmp."_".$express_string.";", $temp_com_int_begin, $temp_com_int_end + 1);
+                            $old_express = substr_replace($old_express, $tmp."_".$express.";", $temp_int_begin, $temp_int_end + 1);
+
+                            $order_update = array(
+                                "status" => 3,
+                                "express" => $old_express,
+                                "expresscom" => $old_expresscom,
+                                "expresssn" => $old_expresssn
+                            );
+                            mysqld_update("shop_order", $order_update, array("id" => $list[$i]['id']));
+
+                            mysqld_update('shop_order_goods', array(
+                                'status' => 12,
+                                'express' => $express,
+                                'expresscom' => $express_string,
+                                'expresssn' => $express_id),
+                                array('orderid' => $list[$i]['id'], 'goodsid'=>$list[$i]['ordergoods'][$j]['goodsid']));
                         }
                     }
                 }
