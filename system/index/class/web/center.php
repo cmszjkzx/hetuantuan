@@ -165,7 +165,11 @@ for($dateindex=1;$dateindex<=7;$dateindex++)
     $start_time=date("Y-m-d 00:00:01",mktime(0, 0 , 0,date("m"),date("d")-date("w")+$dateindex,date("Y")));
 			  			
     $end_time=date("Y-m-d 23:59:59",mktime(23,59,59,date("m"),date("d")-date("w")+$dateindex,date("Y")));
-    $chart1data = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=2 and createtime >=".strtotime($start_time)." and createtime <=".strtotime($end_time)."  ");
+    if($_CMS[WEB_SESSION_ACCOUNT]['is_admin']) {
+        $chart1data = mysqld_selectcolumn("SELECT sum(price) FROM " . table('shop_order') . " WHERE status>=2 and createtime >=" . strtotime($start_time) . " and createtime <=" . strtotime($end_time) . "  ");
+    }else{
+        $chart1data = mysqld_selectcolumn("SELECT sum(ordergoods.price) FROM " . table('shop_order_goods') . " ordergoods LEFT JOIN ".table('shop_goods')." shopgoods ON ordergoods.goodsid=shopgoods.id LEFT JOIN ". table('shop_order') . " shoporder ON shoporder.id=ordergoods.orderid WHERE shoporder.status>=2 and shoporder.createtime >=" . strtotime($start_time) . " and shoporder.createtime <=" . strtotime($end_time) . "  ");
+    }
     if(empty($chart1data))
     {
         $chart1data="0.00";
