@@ -25,8 +25,8 @@
     </script>
 </head>
 <body>
-    <div>
-        <div class="slider card card-nomb" style="visibility: visible;" data-toggle="modal" data-target="#myModal">
+    <div onclick="showModal()">
+        <div class="slider card card-nomb" style="visibility: visible;">
             <script type="text/javascript" src="__RESOURCE__/js/TouchSlide.1.1.js"></script>
             <div id="focus" class="focus">
                 <div class="hd">
@@ -36,9 +36,7 @@
                 <div class="bd">
                     <ul>
                         <li>
-                            <a>
                                 <img style="height: 8.35rem" src="<!--@php echo WEBSITE_ROOT;@-->/attachment/<!--@php  echo $head_thumb['thumb'];@-->"/>
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -173,6 +171,9 @@
             }
         }, 1000);
     };
+    function showModal() {
+        $("#myModal").modal("show");
+    }
     $(function(){
         var list = <!--@php echo json_encode($list) @-->;
         if (list.length>0){
