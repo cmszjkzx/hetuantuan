@@ -688,7 +688,7 @@ CREATE TABLE `hetuantuan_shop_goods` (
   `goodssn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
   `weight` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '重量',
   `productsn` varchar(50) NOT NULL DEFAULT '',
-  `marketprice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '本店销售价格',
+  `marketprice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '平台销售价格',
   `productprice` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '市场销售价格',
   `total` int(10) NOT NULL DEFAULT '0' COMMENT '库存',
   `totalcnf` int(11) DEFAULT '0' COMMENT '0 拍下减库存 1 付款减库存 2 永久不减',
@@ -1097,6 +1097,101 @@ CREATE TABLE `hetuantuan_group_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Records of hetuantuan_group_user
+-- ----------------------------
+
+
+-- ----------------------------
+-- 2017-03-19-yanru-begin
+-- ----------------------------
+-- ----------------------------
+-- Table structure for hetuantuan_package_bonus
+-- ----------------------------
+DROP TABLE IF EXISTS `hetuantuan_package_bonus`;
+CREATE TABLE `hetuantuan_package_bonus` (
+  `bonus_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `package_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `max_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '红包允许领取的最大金额',
+  `max_number` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '红包允许领取的最多人数',
+  `bonus_name` varchar(60) NOT NULL DEFAULT '' COMMENT '红包优惠券名称',
+  `bonus_send_type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '红包优惠券发放类型',
+  `bonus_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '红包优惠券面额',
+  `min_goods_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '红包优惠券允许使用最少订单金额',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `eable_days` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '红包优惠券可用天数',
+  `min_send_amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '红包发放用户最低订单金额',
+  PRIMARY KEY (`bonus_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of hetuantuan_package_bonus
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for hetuantuan_package_good
+-- ----------------------------
+DROP TABLE IF EXISTS `hetuantuan_package_good`;
+CREATE TABLE `hetuantuan_package_good` (
+  `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+  `package_id` int(8) NOT NULL,
+  `bonus_id` int(8) NOT NULL,
+  `good_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of hetuantuan_package_good
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for hetuantuan_package
+-- ----------------------------
+DROP TABLE IF EXISTS `hetuantuan_package`;
+CREATE TABLE `hetuantuan_package` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `package_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `max_number` int(10) unsigned NOT NULL DEFAULT '0',
+  `users_number` int(10) unsigned NOT NULL DEFAULT '1',
+  `order_id` int(10) unsigned NOT NULL,
+  `create_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `package_id` (`package_id`),
+  KEY `openid` (`openid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of hetuantuan_package
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for hetuantuan_package_bonus_user
+-- ----------------------------
+DROP TABLE IF EXISTS `hetuantuan_package_bonus_user`;
+CREATE TABLE `hetuantuan_package_bonus_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `package_bonus_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `bonus_sn` varchar(20) NOT NULL DEFAULT '',
+  `openid` varchar(50) NOT NULL DEFAULT '',
+  `package_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid',
+  `deleted` int(1) NOT NULL DEFAULT '0',
+  `isuse` int(1) NOT NULL DEFAULT '0',
+  `eable_days` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `use_start_date` int(10) NOT NULL,
+  `use_end_date` int(10) unsigned NOT NULL DEFAULT '0',
+  `used_time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `package_bonus_id` (`package_bonus_id`),
+  KEY `openid` (`openid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of hetuantuan_package_bonus_user
+-- ----------------------------
+-- ----------------------------
+-- 2017-03-19-yanru-end
 -- ----------------------------
 
 ";

@@ -169,7 +169,7 @@
     </li>
 <?php  } ?>
 
-<?php if(checkrule('bonus','bonus')||checkrule('promotion','promotion')){ ?>
+<?php if(checkrule('bonus','bonus')||checkrule('promotion','promotion')||checkrule('package','package')){ ?>
   <li class="open active">
     <a href="#" class="dropdown-toggle">
       <i class="icon-gift"></i>
@@ -192,6 +192,14 @@
           </a>
         </li>
       <?php  } ?>
+
+        <?php if(checkrule('package','package')){ ?>
+            <li>
+                <a  onclick="navtoggle('促销管理 - > 优惠券礼包管理')"  href="<?php  echo create_url('site', array('name' => 'package','do' => 'package','op'=>'display'))?>" target="main">
+                    <i class="icon-double-angle-right"></i>优惠券礼包管理
+                </a>
+            </li>
+        <?php  } ?>
     </ul>
   </li>
 <?php  } ?>
