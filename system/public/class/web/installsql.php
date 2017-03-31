@@ -247,7 +247,7 @@ CREATE TABLE `hetuantuan_config` (
 DROP TABLE IF EXISTS `hetuantuan_dispatch`;
 CREATE TABLE `hetuantuan_dispatch` (
   `id` int(7) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(20) NOT NULL DEFAULT '',
+  `code` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(120) NOT NULL DEFAULT '',
   `sendtype` int(5) NOT NULL DEFAULT '0' COMMENT '0为快递，1为自提',
   `desc` text NOT NULL,
