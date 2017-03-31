@@ -150,7 +150,7 @@ if ($operation == 'display') {
         }
     }
 
-    $dispatchlist = mysqld_selectall("SELECT * FROM " . table('dispatch')." where sendtype=0" );
+    $dispatchlist = mysqld_selectall("SELECT * FROM " . table('dispatch')." where sendtype=0 and enabled=1" );
 
     include page('orderbat');
 }
