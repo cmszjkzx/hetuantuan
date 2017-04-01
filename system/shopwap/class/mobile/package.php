@@ -61,7 +61,13 @@ if (is_use_weixin()) {
                     message('抱歉，你来晚了!');
                 }
             }
+            $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']))
+                ,"和团团优惠大礼包",$dzdpic,"分享就可以领取",$settings);
+            if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+                include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
+            }
             include themePage('sharebonus');
+            exit;
         }else{
             message('抱歉，购买商品后才可以获得优惠大礼包!');
         }
