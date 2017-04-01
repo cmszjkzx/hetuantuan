@@ -9,6 +9,7 @@ if (is_use_weixin()) {
     if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
         $weixin_openid = get_weixin_openid();
         member_login_weixin($weixin_openid);
+        $weixin_wxfans = mysqld_select("SELECT * FROM " . table('weixin_wxfans') . " WHERE weixin_openid=:weixin_openid ", array(':weixin_openid' =>$weixin_openid));
         $member = mysqld_select("SELECT * FROM " . table('member') . " where weixin_openid=:weixin_openid or openid=:openid limit 1", array(':openid' => $weixin_wxfans['openid'], ':weixin_openid' => $weixin_openid));
 
         $order_id = intval($_GP['orderid']);
