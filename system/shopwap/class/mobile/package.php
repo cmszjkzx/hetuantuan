@@ -24,7 +24,7 @@ if (is_use_weixin()) {
         }
 
         if(!empty($_GP['orderid'])) {
-            $packages = mysqld_select("select * from " . table('package') . " where openid=:openid and weixin_openid=:weixin_openid and order_id=:order_id ", array(':openid' => $member['openid'], ':weixin_openid' => $member['weixin_openid'], ':order_id' => intval($_GP['orderid'])));
+            $packages = mysqld_select("select * from " . table('package') . " where order_id=:order_id ", array(':order_id' => intval($_GP['orderid'])));
             if(empty($packages)){
                 $data = array(
                     'package_id' => $package_id,
@@ -37,22 +37,28 @@ if (is_use_weixin()) {
                 );
                 mysqld_insert('package', $data);
             }else{
-                $haspackagebonus = mysqld_selectall("select * from ".table('package_bonus_user')." where openid=:openid and weixin_openid=:weixin_openid and deleted = 0 ", array(':openid'=>$member['openid'], ':weixin_openid'=>$member['weixin_openid']));
-                if(empty($haspackagebonus)){
-                    if(is_array($package_bonus) && !empty($package_bonus)){
-                        foreach ($package_bonus as $bonus){
-                            $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
-                            $data = array('package_bonus_id' => $bonus['bonus_id'],
-                                'bonus_sn' => $bonus_sn,
-                                'openid' => $member['openid'],
-                                'package_id' => $bonus['package_id'],
-                                'weixin_openid' => $member['weixin_openid'],
-                                'eable_days'=>$bonus['eable_days'],
-                                'use_start_date' => time(),
-                                'use_end_date' => strtotime('+'.$bonus['eable_days'].' day'));
-                            mysqld_insert('package_bonus_user', $data);
+                if($packages['users_number'] != 0) {
+                    $haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where openid=:openid and weixin_openid=:weixin_openid and deleted = 0 ", array(':openid' => $member['openid'], ':weixin_openid' => $member['weixin_openid']));
+                    if (empty($haspackagebonus)) {
+                        if (is_array($package_bonus) && !empty($package_bonus)) {
+                            foreach ($package_bonus as $bonus) {
+                                $bonus_sn = date("Ymd", time()) . $rank_model['type_id'] . rand(1000000, 9999999);
+                                $data = array('package_bonus_id' => $bonus['bonus_id'],
+                                    'bonus_sn' => $bonus_sn,
+                                    'openid' => $member['openid'],
+                                    'package_id' => $bonus['package_id'],
+                                    'weixin_openid' => $member['weixin_openid'],
+                                    'eable_days' => $bonus['eable_days'],
+                                    'use_start_date' => time(),
+                                    'use_end_date' => strtotime('+' . $bonus['eable_days'] . ' day'));
+                                mysqld_insert('package_bonus_user', $data);
+                            }
                         }
+                        $users_number = $packages['users_number']-1;
+                        mysqld_update('package', array('users_number'=>$users_number), array('order_id' => intval($_GP['orderid'])));
                     }
+                }else{
+                    message('抱歉，你来晚了!');
                 }
             }
             include themePage('sharebonus');
