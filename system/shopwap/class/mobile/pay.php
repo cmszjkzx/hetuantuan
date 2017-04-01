@@ -1,6 +1,6 @@
 <?php
 $member=get_member_account();
-$openid =$member['openid'] ;
+$openid = $member['openid'] ;
 $orderid = intval($_GP['orderid']);
 $order = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE id = :id and openid =:openid", array(':id' => $orderid,':openid'=>$openid));
 $goodsstr="";
@@ -10,7 +10,12 @@ if(empty($order['id']))
 }
 if($_GP['isok'] == '1'&&$order['paytypecode']=='weixin') {
     //message('支付成功！',WEBSITE_ROOT.mobile_url('myorder'),'success');
-    header("location:".WEBSITE_ROOT.create_url('mobile',array('status' => 99,'do' => 'myorder')));
+    //2017-03-31-yanru-修改：支付成功后跳转到优惠礼包分享页面而不是订单页面
+    //header("location:".WEBSITE_ROOT.create_url('mobile',array('status' => 99,'do' => 'myorder')));
+    $weixin_openid = $member['weixin_openid'];
+    $customer_name = $member['nickname'];
+    include themePage('bonus_callback');
+    exit;
 }
 if (($order['paytype'] !=3 && $order['status'] >0)&&(!($order['paytype'] ==3&&$order['status'] ==1))) {
     message('抱歉，您的订单已经付款或是被关闭，请重新进入付款！', mobile_url('myorder'), 'error');
