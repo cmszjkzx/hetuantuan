@@ -38,7 +38,10 @@ if (is_use_weixin()) {
                 mysqld_insert('package', $data);
             }else{
                 if($packages['users_number'] != 0) {
-                    $haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where openid=:openid and weixin_openid=:weixin_openid and deleted = 0 ", array(':openid' => $member['openid'], ':weixin_openid' => $member['weixin_openid']));
+                    //$haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where openid=:openid and weixin_openid=:weixin_openid and deleted = 0 ", array(':openid' => $member['openid'], ':weixin_openid' => $member['weixin_openid']));
+                    //2017-04-03-yanru-可能因为读取访问页面微信用户的信息会重新分配一个用户openid，所以暂时只用weixin_openid作为查询条件
+                    $haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where weixin_openid=:weixin_openid and deleted = 0 ", array(':weixin_openid' => $member['weixin_openid']));
+                    //end
                     if (empty($haspackagebonus)) {
                         if (is_array($package_bonus) && !empty($package_bonus)) {
                             foreach ($package_bonus as $bonus) {
