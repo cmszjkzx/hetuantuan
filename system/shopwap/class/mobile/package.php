@@ -72,7 +72,7 @@ if (is_use_weixin()) {
                 }
             }
             $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']))
-                ,"我领取和团团全场通用优惠券-各地方特产",WEB_ROOT.'/themes/default/_RESOURCE_/image/weixin_bonus_share.jpg',"等你来尝鲜",$settings);
+                ,"我领取和团团全场通用优惠券-各地方特产",WEBSITE_ROOT.'/themes/default/_RESOURCE_/images/weixin_bonus_share.jpg',"等你来尝鲜",$settings);
             if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
                 include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
             }
