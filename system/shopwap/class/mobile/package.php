@@ -41,31 +41,38 @@ if (is_use_weixin()) {
                     //$haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where openid=:openid and weixin_openid=:weixin_openid and deleted = 0 ", array(':openid' => $member['openid'], ':weixin_openid' => $member['weixin_openid']));
                     //2017-04-03-yanru-可能因为读取访问页面微信用户的信息会重新分配一个用户openid，所以暂时只用weixin_openid作为查询条件
                     $haspackagebonus = mysqld_selectall("select * from " . table('package_bonus_user') . " where weixin_openid=:weixin_openid and deleted = 0 ", array(':weixin_openid' => $member['weixin_openid']));
+                    //2017-04-05-yanru-添加对分享链接的时间判断，不能超过两天
+                    $orderCreateTime = mysqld_selectcolumn("SELECT createtime FROM " . table('shop_order') . " WHERE id =  ".intval($_GP['orderid']));
+                    $orderLinkLastTime = strtotime(date('Y-m-d', $orderCreateTime).'+ 2 day');
                     //end
-                    if (empty($haspackagebonus)) {
-                        if (is_array($package_bonus) && !empty($package_bonus)) {
-                            foreach ($package_bonus as $bonus) {
-                                $bonus_sn = date("Ymd", time()) . $rank_model['type_id'] . rand(1000000, 9999999);
-                                $data = array('package_bonus_id' => $bonus['bonus_id'],
-                                    'bonus_sn' => $bonus_sn,
-                                    'openid' => $member['openid'],
-                                    'package_id' => $bonus['package_id'],
-                                    'weixin_openid' => $member['weixin_openid'],
-                                    'eable_days' => $bonus['eable_days'],
-                                    'use_start_date' => time(),
-                                    'use_end_date' => strtotime('+' . $bonus['eable_days'] . ' day'));
-                                mysqld_insert('package_bonus_user', $data);
+                    if ($orderLinkLastTime > time()) {
+                        if (empty($haspackagebonus)) {
+                            if (is_array($package_bonus) && !empty($package_bonus)) {
+                                foreach ($package_bonus as $bonus) {
+                                    $bonus_sn = date("Ymd", time()) . $rank_model['type_id'] . rand(1000000, 9999999);
+                                    $data = array('package_bonus_id' => $bonus['bonus_id'],
+                                        'bonus_sn' => $bonus_sn,
+                                        'openid' => $member['openid'],
+                                        'package_id' => $bonus['package_id'],
+                                        'weixin_openid' => $member['weixin_openid'],
+                                        'eable_days' => $bonus['eable_days'],
+                                        'use_start_date' => time(),
+                                        'use_end_date' => strtotime('+' . $bonus['eable_days'] . ' day'));
+                                    mysqld_insert('package_bonus_user', $data);
+                                }
                             }
+                            $users_number = $packages['users_number'] - 1;
+                            mysqld_update('package', array('users_number' => $users_number), array('order_id' => intval($_GP['orderid'])));
                         }
-                        $users_number = $packages['users_number']-1;
-                        mysqld_update('package', array('users_number'=>$users_number), array('order_id' => intval($_GP['orderid'])));
+                    }else{
+                        message('抱歉，链接已过期!');
                     }
                 }else{
                     message('抱歉，你来晚了!');
                 }
             }
             $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']))
-                ,"和团团优惠大礼包",$dzdpic,"分享就可以领取",$settings);
+                ,"我领取和团团全场通用优惠券-各地方特产",WEB_ROOT.'/themes/default/_RESOURCE_/image/weixin_bonus_share.jpg',"等你来尝鲜",$settings);
             if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
                 include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
             }
