@@ -125,27 +125,27 @@ if ($operation == 'display')
         }else{
             $bandname = empty($_GP['band'])?$_GP['bandmanage']:$_GP['band'];
             if("其他" == $bandname){
-                $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                $list = mysqld_selectall("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
                     ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => ''));
-                $total = mysqld_query("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                $total = mysqld_query("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
                     ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby, array(':band' => ''));
             }
             else{
-                $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                $list = mysqld_selectall("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
                     ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $bandname));
-                $total = mysqld_query("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+                $total = mysqld_query("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
                     " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
                     ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby, array(':band' => $bandname));
             }
         }
     }else{
-        $list = mysqld_selectall("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+        $list = mysqld_selectall("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
             " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
             ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby.$selectCondition, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
-        $total = mysqld_query("SELECT shoporders.*, ordergoods.price AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
+        $total = mysqld_query("SELECT shoporders.*, SUM(ordergoods.price) AS optionsprice, ordergoods.status AS optionstatus FROM " . table('shop_order') . " shoporders LEFT JOIN ".table('shop_order_goods').
             " ordergoods ON ordergoods.orderid = shoporders.id LEFT JOIN ".table('shop_goods')." goods ON goods.id = ordergoods.goodsid"
             ." WHERE goods.band=:band $band_condition GROUP BY shoporders.id ORDER BY shoporders.createtime ".$orderby, array(':band' => $_CMS[WEB_SESSION_ACCOUNT]['groupName']));
     }

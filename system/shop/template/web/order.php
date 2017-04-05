@@ -252,7 +252,7 @@
                 <td>
                     <?php  if($order['status'] == 0) { ?><span class="label label-warning" >待付款未超时</span><?php  } ?>
                     <?php  if($order['status'] == 1) { ?><span class="label label-danger" >已超时</span><?php  } ?>
-                    <?php  if($order['status'] == 2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
+                    <?php  if(($order['status'] == 2 || $order['status'] == 3) && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0)) { ?><span class="label label-warning">待发货</span><?php  } ?>
                     <?php  if($order['status'] == 3 && $good['optionstatus'] == 12) { ?><span class="label label-success" >待收货</span><?php  } ?>
                     <?php  if(($order['status'] >= 3 || $order['status'] == -7)&& ($good['optionstatus'] == 13 || $good['optionstatus'] == 0)) { ?><span class="label label-success">已完成</span><?php  } ?>
                 </td>
