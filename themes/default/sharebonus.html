@@ -106,7 +106,7 @@
 <div style="margin-left: 0rem;margin-top: 1rem;margin-right: 1.15rem;padding: 0">
     <img src="__RESOURCE__/images/ic_bonus_face.png" style="width: 7rem;height: 7rem">
     <div style="display: inline-block;position: absolute;top: 2rem;" class="font-28 color-494C49">
-        <span style="display: block"><!--@php echo $customer_name @-->;</span>
+        <span style="display: block"><!--@php echo $customer_name @--></span>
         <span style="display: block">和团团送你<!--@php echo $max_amount @-->元大礼包</span>
         <span style="display: block">不要客气哈</span>
     </div>
@@ -114,7 +114,7 @@
         <ul style="margin: 0.725rem auto;padding-left: 2rem;padding-right: 2rem">
             <!--@php  if(is_array($package_bonus) && !empty($package_bonus)) { foreach($package_bonus as $bonus) { @-->
             <li class="bjprit coupon-style-0" style="background-image:url('__RESOURCE__/images/ic_bonus_bg_usable.png');background-size: 100% 100%;height: 5.8rem">
-                <a class="clearfix" href="">
+                <a class="clearfix" href="<!--@php  echo mobile_url('bonus')@-->">
                     <p style="text-align: center;font-size: 0.4rem;color: white;line-height: 0.5rem;font-weight: 100"><!--@php echo $bonus['use_end_date'] @--> 到期</p>
                     <h4 class="bjprshna bjf14 color-3c" style="text-align: center;font-size: 0.675rem;margin-top: 1rem;font-weight: 100"><!--@php echo $bonus['bonus_name'] @--></h4>
                     <h4 class="bjprshna bjf14" style="text-align: center;font-size: 1rem;width: 100%;color: white;margin-top: 1.5rem;font-weight: 100"><!--@php echo $bonus['bonus_money'] @--></h4>
