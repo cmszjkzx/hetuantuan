@@ -308,19 +308,6 @@ if (checksubmit('submit')) {
 //    if($direct)
 ////    if($direct&&!empty($item['isverify']))
 //    {
-    //2017-03-31-yanru-优惠礼包分享测试
-    $orderid = $_GP['orderid'];
-    $openid = $member['openid'];
-    $weixin_openid = $member['weixin_openid'];
-    $customer_name = $member['nickname'];
-    $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>9,'customer_name'=>$customer_name)
-        ,"和团团优惠大礼包",$dzdpic,"分享就可以领取",$settings);
-    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
-        include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
-    }
-    include themePage('bonus_callback');
-    exit;
-    //end
     if (empty($_GP['verify_address_name'])) {
         message('请填写联系人！');
     }

@@ -12,10 +12,19 @@ if($_GP['isok'] == '1'&&$order['paytypecode']=='weixin') {
     //message('支付成功！',WEBSITE_ROOT.mobile_url('myorder'),'success');
     //2017-03-31-yanru-修改：支付成功后跳转到优惠礼包分享页面而不是订单页面
     //header("location:".WEBSITE_ROOT.create_url('mobile',array('status' => 99,'do' => 'myorder')));
+    //2017-03-31-yanru-优惠礼包分享测试
+    $orderid = $_GP['orderid'];
+    $openid = $member['openid'];
     $weixin_openid = $member['weixin_openid'];
     $customer_name = $member['nickname'];
+    $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']),'customer_name'=>$customer_name)
+        ,"领取和团团全场通用优惠券",WEBSITE_ROOT.'/attachment/weixin_bonus_share.jpg',"各地方特产等你来尝鲜",$settings);
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+        include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
+    }
     include themePage('bonus_callback');
     exit;
+    //end
 }
 if (($order['paytype'] !=3 && $order['status'] >0)&&(!($order['paytype'] ==3&&$order['status'] ==1))) {
     message('抱歉，您的订单已经付款或是被关闭，请重新进入付款！', mobile_url('myorder'), 'error');
