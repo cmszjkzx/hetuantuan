@@ -298,8 +298,8 @@
                     <span class="color-FFAE01">
                         &yen;</span><span class="color-FFAE01" id="total-sum">
                     <!--@php  if(is_array($bonus_list) && count($bonus_list) > 0 && $bonus_list[0]['canbeuse']==1) { @-->
-                    <!--@php  echo $totalprice + $dispatchprice - $bonus_list[0]['type_money'];@-->
-                    <!--@php  } else { @-->
+                    <!--@php  if(($totalprice - $bonus_list[0]['type_money']) >= 0) echo $totalprice + $dispatchprice - $bonus_list[0]['type_money'];@-->
+                    <!--@php  else echo $dispatchprice;} else { @-->
                     <!--@php  echo $totalprice + $dispatchprice;@-->
                     <!--@php  }  @-->
                 </span>
