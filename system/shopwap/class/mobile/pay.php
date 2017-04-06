@@ -18,7 +18,7 @@ if($_GP['isok'] == '1'&&$order['paytypecode']=='weixin') {
     $weixin_openid = $member['weixin_openid'];
     $customer_name = $member['nickname'];
     $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']),'customer_name'=>$customer_name)
-        ,"领取和团团全场通用优惠券",WEBSITE_ROOT.'/attachment/weixin_bonus_share.jpg',"各地方特产等你来尝鲜",$settings);
+        ,"戳我领取和团团全场通用优惠券！",WEBSITE_ROOT.'/attachment/weixin_bonus_share.jpg',"各地方特产、等你来尝鲜～",$settings);
     if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
         include WEB_ROOT.'/system/common/template/mobile/weixinshare.php';
     }

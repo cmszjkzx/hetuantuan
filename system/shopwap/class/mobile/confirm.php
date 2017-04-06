@@ -358,22 +358,40 @@ if (checksubmit('submit')) {
             {
                 $bonus_sn=$_GP['custom_bonus_sn'];
             }
-            $use_bonus = mysqld_select("select * from ".table('bonus_user')." where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1",array(":bonus_sn"=>$bonus_sn));
-            if(!empty($use_bonus['bonus_id']))
-            {
-                $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
-                if(!empty($bonus_type['type_id']))
-                {
-                    //2017-1-11-yanru-begin-用户使用优惠券的价格
-                    $bonusprice=$bonus_type['type_money'];
-                    //end
-                }else
-                {
-                    message("优惠券已过期，请选择'无'可继续购买操作。");
+            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
+            $bonus_sn_from = explode("@",$bonus_sn);
+            if(count($bonus_sn_from) > 1){
+                if($bonus_sn_from[1] == "0"){
+                    $use_bonus = mysqld_select("select * from ".table('bonus_user')." where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1",array(":bonus_sn"=>$bonus_sn_from[0]));
+                    if(!empty($use_bonus['bonus_id']))
+                    {
+                        $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
+                        if(!empty($bonus_type['type_id']))
+                        {
+                            //2017-1-11-yanru-begin-用户使用优惠券的价格
+                            $bonusprice=$bonus_type['type_money'];
+                            //end
+                        }else
+                        {
+                            message("优惠券已过期");
+                        }
+                    }else
+                    {
+                        message("未找到相关优惠券");
+                    }
                 }
-            }else
-            {
-                message("未找到相关优惠券");
+                if($bonus_sn_from[1] == "1"){
+                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
+                        .tabl("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 ",
+                        array(":bonus_sn"=>$bonus_sn_from[0]));
+                    if(!empty($package_bonus)){
+                        $bonusprice = $package_bonus['bonus_money'];
+                    }else{
+                        message("优惠券已过期");
+                    }
+                }
+            }else{
+                message("存在无效优惠券");
             }
         }
     }
@@ -457,21 +475,48 @@ if (checksubmit('submit')) {
             {
                 $bonus_sn=$_GP['custom_bonus_sn'];
             }
-            $use_bonus = mysqld_select("select * from ".table('bonus_user')." where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1",array(":bonus_sn"=>$bonus_sn));
-            if(!empty($use_bonus['bonus_id']))
-            {
-                $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
-                if(!empty($bonus_type['type_id']))
-                {
-                    $hasbonus=1;
-                    $bonusprice=$bonus_type['type_money'];
-                    mysqld_update('bonus_user',array('isuse'=>1,'order_id'=>$orderid,'used_time'=>time()),array('bonus_id'=>$use_bonus['bonus_id']));
-                    mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice-$bonusprice,'hasbonus'=>$hasbonus,'bonusprice'=>$bonusprice),array('id'=>$orderid));
-                }else
-                {
+            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
+            $bonus_sn_from = explode("@",$bonus_sn);
+            if(count($bonus_sn_from) > 1) {
+                if($bonus_sn_from[1] == "0") {
+                    $use_bonus = mysqld_select("select * from " . table('bonus_user') . " where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1", array(":bonus_sn" => $bonus_sn_from[1]));
+                    if (!empty($use_bonus['bonus_id'])) {
+                        $bonus_type = mysqld_select("select * from " . table('bonus_type') . " where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
+                        if (!empty($bonus_type['type_id'])) {
+                            $hasbonus = 1;
+                            $bonusprice = $bonus_type['type_money'];
+                            if(($goodsprice - $bonusprice) >= 0) {
+                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
+                                mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                            }
+                            else{
+                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
+                                mysqld_update('shop_order', array('price' => $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                            }
+                        }
+                    }
                 }
-            }else
-            {
+                if($bonus_sn_from[1] == "1"){
+                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
+                        .tabl("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 ",
+                        array(":bonus_sn"=>$bonus_sn_from[0]));
+                    if(!empty($package_bonus)){
+                        $$hasbonus = 1;
+                        $bonusprice = $bonus_type['bonus_money'];
+                        if(($goodsprice - $bonusprice) >= 0) {
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $package_bonus['id']));
+                            mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                        }
+                        else{
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $package_bonus['id']));
+                            mysqld_update('shop_order', array('price' => $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                        }
+                    }else{
+                        message("优惠券已过期");
+                    }
+                }
+            }else{
+                message("存在无效优惠券");
             }
         }
     }
@@ -532,7 +577,8 @@ if(is_login_account())
                         }else{
                             $canbeuse = 1;
                         }
-                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
+                        //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                        $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn']."@0","bonus_name"=>$bonus_type['type_name'], "min_goods_amount"=>$bonus_type['min_goods_amount'], "type_money"=>$bonus_type['type_money'], "canbeuse"=>$canbeuse);
                     }
                 }
             }
@@ -547,7 +593,8 @@ if(is_login_account())
                         }
                         if(!empty($bonus_user['bonus_id']))
                         {
-                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                            //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                            $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn']."@0","bonus_name"=>$bonus_type['type_name']);
                         }else
                         {
                             $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
@@ -567,7 +614,8 @@ if(is_login_account())
                                 'isuse'=>0,
                                 'bonus_type_id'=>$bonus_type['type_id']);
                             mysqld_insert('bonus_user',$data);
-                            $bonus_list[]=array("bonus_sn"=>$bonus_sn,"bonus_name"=>$bonus_type['type_name']);
+                            //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                            $bonus_list[]=array("bonus_sn"=>$bonus_sn."@0","bonus_name"=>$bonus_type['type_name']);
                         }
                     }
                 }
@@ -579,7 +627,8 @@ if(is_login_account())
                 }
                 if(!empty($bonus_user['bonus_id']))
                 {
-                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn'],"bonus_name"=>$bonus_type['type_name']);
+                    //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                    $bonus_list[]=array("bonus_sn"=>$bonus_user['bonus_sn']."@0","bonus_name"=>$bonus_type['type_name']);
                 }else
                 {
                     $bonus_sn=date("Ymd",time()).$rank_model['type_id'].rand(1000000,9999999);
@@ -599,17 +648,49 @@ if(is_login_account())
                         'isuse'=>0,
                         'bonus_type_id'=>$bonus_type['type_id']);
                     mysqld_insert('bonus_user',$data);
-
-                    $bonus_list[]=array("bonus_sn"=>$bonus_sn,"bonus_name"=>$bonus_type['type_name']);
+                    //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                    $bonus_list[]=array("bonus_sn"=>$bonus_sn."@0","bonus_name"=>$bonus_type['type_name']);
                 }
             }
             if($bonus_type['send_type']==3)
             {
+                //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
                 $bonus_list[]=array("send_type"=>3,"bonus_name"=>$bonus_type['type_name']);
             }
         }
     }
-
+    //2017-04-06-yanru-begin-添加优惠礼包里的优惠券，用户下单的时候可以勾选使用
+    $package_bonus = mysqld_selectall("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
+        . table("package_bonus_user")." pbu left join ".table("package_bonus") ." pb on pbu.package_bonus_id = pb.bonus_id where pb.deleted=0 and pbu.deleted=0 
+        and pbu.isuse=0 and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date and pbu.openid=:openid ",
+        array(":use_start_date"=>time(),":use_end_date"=>time(),":openid"=>$openid));
+    if(is_array($package_bonus) && !empty($package_bonus)) {
+        foreach ($package_bonus as $bonus_type) {
+            if ($bonus_type['send_type'] == 0 || $bonus_type['send_type'] == 2 || $bonus_type['send_type'] == 3) {
+                if ($bonus_type['min_goods_amount'] > $totalprice) {
+                    $canbeuse = 0;
+                } else {
+                    $canbeuse = 1;
+                }
+                //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                $bonus_list[] = array("bonus_sn" => $bonus_type['bonus_sn']."@1", "bonus_name" => $bonus_type['bonus_name'], "min_goods_amount" => $bonus_type['min_goods_amount'], "type_money" => $bonus_type['bonus_money'], "canbeuse" => $canbeuse);
+            }
+            if ($bonus_type['send_type'] == 1) {
+                foreach ($allgoods as $good) {
+                    $bonus_good = mysqld_select("select * from " . table("package_good") . " where good_id=:good_id and bonus_id=:bonus_id limit 1", array(":good_id" => $good['id'], ":bonus_id" => $bonus_type['package_bonus_id']));
+                    if (!empty($bonus_good['id'])) {
+                        if ($bonus_type['min_goods_amount'] > $totalprice) {
+                            $canbeuse = 0;
+                        } else {
+                            $canbeuse = 1;
+                        }
+                        //2017-04-06-yanru-新增判断优惠券是否来自优惠大礼包
+                        $bonus_list[] = array("bonus_sn" => $bonus_type['bonus_sn']."@1", "bonus_name" => $bonus_type['bonus_name'], "min_goods_amount" => $bonus_type['min_goods_amount'], "type_money" => $bonus_type['bonus_money'], "canbeuse" => $canbeuse);
+                    }
+                }
+            }
+        }
+    }
     //2016-11-28-yanru-begin先排序
     $mim_price = array();
     foreach ($bonus_list as $bonus){
