@@ -504,11 +504,11 @@ if (checksubmit('submit')) {
                         $$hasbonus = 1;
                         $bonusprice = $bonus_type['bonus_money'];
                         if(($goodsprice - $bonusprice) >= 0) {
-                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $package_bonus['id']));
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
                             mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
                         }
                         else{
-                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $package_bonus['id']));
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
                             mysqld_update('shop_order', array('price' => $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
                         }
                     }else{
