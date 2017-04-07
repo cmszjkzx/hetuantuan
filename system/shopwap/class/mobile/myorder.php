@@ -36,10 +36,19 @@ if ($op == 'cancelsend')
     if($item['status']==0 || $item['status']==1)
     {
         if($item['hasbonus']) {
-            $data = array('isuse' => 0,
-                'used_time' => 0,
-                'order_id' => 0);
-            mysqld_update('bonus_user', $data, array('order_id' => $item['id'], 'openid'=>$openid));
+            //2017-04-07-yanru-优惠券更新，需要判断优惠券是否是大礼包
+            $packagebonus = mysqld_select("select * from ".table("package_bonus_user")." where orderid=:orderid and  openid=:openid ", array(':orderid'=>$item['id'], ':openid'=>$openid));
+            if(empty($packagebonus)) {
+                $data = array('isuse' => 0,
+                    'used_time' => 0,
+                    'order_id' => 0);
+                mysqld_update('bonus_user', $data, array('order_id' => $item['id'], 'openid' => $openid));
+            }else{
+                $data = array('isuse' => 0,
+                    'used_time' => 0,
+                    'orderid' => 0);
+                mysqld_update('package_bonus_user', $data, array('orderid' => $item['id'], 'openid' => $openid));
+            }
         }
 
     }
@@ -306,6 +315,12 @@ else if ($op == 'detail')
                     $bonusprice += $bonus['type_money'];
                     mysqld_update('bonus_user', $data, array('bonus_id'=>$bonus['bonus_id']));
                 }
+            }else{
+                //2017-04-07-yanru-优惠券更新，需要判断优惠券是否是大礼包
+                $data = array('isuse'=>0,
+                    'used_time'=>0,
+                    'orderid'=>0);
+                mysqld_update('package_bonus_user', $data, array('orderid' => $orderid, 'openid' => $openid));
             }
         }else{
             $bonusprice=0;

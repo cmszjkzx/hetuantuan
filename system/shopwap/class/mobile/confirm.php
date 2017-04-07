@@ -501,7 +501,7 @@ if (checksubmit('submit')) {
                         .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
                         ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
                     if(!empty($package_bonus)){
-                        $$hasbonus = 1;
+                        $hasbonus = 1;
                         $bonusprice = $package_bonus['bonus_money'];
                         if(($goodsprice - $bonusprice) >= 0) {
                             mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
