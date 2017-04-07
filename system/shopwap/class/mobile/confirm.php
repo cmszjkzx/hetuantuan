@@ -371,13 +371,7 @@ if (checksubmit('submit')) {
                             //2017-1-11-yanru-begin-用户使用优惠券的价格
                             $bonusprice=$bonus_type['type_money'];
                             //end
-                        }else
-                        {
-                            message("优惠券已过期");
                         }
-                    }else
-                    {
-                        message("未找到相关优惠券");
                     }
                 }
                 if($bonus_sn_from[1] == "1"){
@@ -386,12 +380,8 @@ if (checksubmit('submit')) {
                         ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
                     if(!empty($package_bonus)){
                         $bonusprice = $package_bonus['bonus_money'];
-                    }else{
-                        message("优惠券已过期");
                     }
                 }
-            }else{
-                message("存在无效优惠券");
             }
         }
     }
@@ -511,12 +501,8 @@ if (checksubmit('submit')) {
                             mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
                             mysqld_update('shop_order', array('price' => $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
                         }
-                    }else{
-                        message("优惠券已过期");
                     }
                 }
-            }else{
-                message("存在无效优惠券");
             }
         }
     }

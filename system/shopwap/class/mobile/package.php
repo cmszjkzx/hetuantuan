@@ -63,14 +63,14 @@ if (is_use_weixin()) {
                             }
                             $users_number = $packages['users_number'] - 1;
                             mysqld_update('package', array('users_number' => $users_number), array('order_id' => intval($_GP['orderid'])));
-                        }else{
-                            message('您已经领取，请快使用吧!');
                         }
                     }else{
-                        message('抱歉，链接已过期!');
+                        include themePage('bonus_err_callback');
+                        exit;
                     }
                 }else{
-                    message('抱歉，你来晚了!');
+                    include themePage('bonus_err_callback');
+                    exit;
                 }
             }
             $shopwap_weixin_share = $shopwap_weixin_share = weixin_share('package',array('orderid'=>intval($_GP['orderid']))
@@ -80,10 +80,6 @@ if (is_use_weixin()) {
             }
             include themePage('sharebonus');
             exit;
-        }else{
-            message('抱歉，购买商品后才可以获得优惠大礼包!');
         }
     }
-}else {
-    message('抱歉，请使用微信访问!');
 }
