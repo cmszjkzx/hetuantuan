@@ -63,6 +63,8 @@ if (is_use_weixin()) {
                             }
                             $users_number = $packages['users_number'] - 1;
                             mysqld_update('package', array('users_number' => $users_number), array('order_id' => intval($_GP['orderid'])));
+                        }else{
+                            message('您已经领取，请快使用吧!');
                         }
                     }else{
                         message('抱歉，链接已过期!');

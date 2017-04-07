@@ -1178,6 +1178,7 @@ CREATE TABLE `hetuantuan_package_bonus_user` (
   `weixin_openid` varchar(100) DEFAULT '' COMMENT '微信openid',
   `deleted` int(1) NOT NULL DEFAULT '0',
   `isuse` int(1) NOT NULL DEFAULT '0',
+  `orderid` int(10) NOT NULL,
   `eable_days` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `use_start_date` int(10) NOT NULL,
   `use_end_date` int(10) unsigned NOT NULL DEFAULT '0',
