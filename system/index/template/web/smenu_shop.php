@@ -25,13 +25,13 @@
         </li>
       <?php }?>
 
-      <?php if(checkrule('member','outchargegold')){ ?>
+      <!--<?php //if(checkrule('member','outchargegold')){ ?>
         <li>
-          <a onclick="navtoggle('会员管理 - > 余额提现申请 ')"  href="<?php  echo create_url('site', array('name' => 'member','do' => 'outchargegold'))?>" target="main" >
+          <a onclick="navtoggle('会员管理 - > 余额提现申请 ')"  href="<?php  //echo create_url('site', array('name' => 'member','do' => 'outchargegold'))?>" target="main" >
             <i class="icon-double-angle-right"></i>余额提现审核
           </a>
         </li>
-      <?php }?>
+      <?php //}?>-->
     </ul>
   </li>
 <?php }?>
@@ -213,21 +213,21 @@
       <b class="arrow icon-angle-down"></b>
     </a>
     <ul class="submenu">
-      <?php if(checkrule('shopwap','themes')){ ?>
+      <!--<?php //if(checkrule('shopwap','themes')){ ?>
         <li>
-          <a  onclick="navtoggle('商城配置 - > 模板设置')"  href="<?php  echo create_url('site', array('name' => 'shopwap','do' => 'themes','op'=>'display'))?>" target="main">
+          <a  onclick="navtoggle('商城配置 - > 模板设置')"  href="<?php  //echo create_url('site', array('name' => 'shopwap','do' => 'themes','op'=>'display'))?>" target="main">
             <i class="icon-double-angle-right"></i>商城主题模板
           </a>
         </li>
-      <?php  } ?>
+      <?php  //} ?>
 
-      <?php if(checkrule('shopwap','fansindex_menu')){ ?>
+      <?php //if(checkrule('shopwap','fansindex_menu')){ ?>
         <li>
-          <a  onclick="navtoggle('商城配置 - > 个人中心菜单')"  href="<?php  echo create_url('site', array('name' => 'shopwap','do' => 'fansindex_menu','op'=>'display'))?>" target="main">
+          <a  onclick="navtoggle('商城配置 - > 个人中心菜单')"  href="<?php  //echo create_url('site', array('name' => 'shopwap','do' => 'fansindex_menu','op'=>'display'))?>" target="main">
             <i class="icon-double-angle-right"></i>个人中心菜单
           </a>
         </li>
-      <?php  } ?>
+      <?php  //} ?>-->
 
       <?php if(checkrule('shop','adv')){ ?>
         <li>

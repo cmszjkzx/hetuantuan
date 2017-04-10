@@ -95,9 +95,8 @@
     </li>
 <?php  } ?>
 
-<?php if(checkrule('alipay','ALL')){ ?>
-    <li>
-        <!-- 导航第一级 -->
+<?php //if(checkrule('alipay','ALL')){ ?>
+<!--    <li>
         <a href="#" class="dropdown-toggle">
             <i class="icon-cogs"></i>
             <span class="menu-text"> 支付宝服务窗</span>
@@ -105,26 +104,26 @@
         </a>
         <ul class="submenu">
             <li>
-                <a onclick="navtoggle('支付宝服务窗 - > 服务窗设置 ')"  href="<?php  echo create_url('site', array('name' => 'alipay','do' => 'setting'))?>" target="main" >
+                <a onclick="navtoggle('支付宝服务窗 - > 服务窗设置 ')"  href="<?php  //echo create_url('site', array('name' => 'alipay','do' => 'setting'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     服务窗设置
                 </a>
             </li>
             <li>
-                <a onclick="navtoggle('支付宝服务窗 - > 菜单管理 ')"  href="<?php  echo create_url('site', array('name' => 'alipay','do' => 'designer'))?>" target="main" >
+                <a onclick="navtoggle('支付宝服务窗 - > 菜单管理 ')"  href="<?php  //echo create_url('site', array('name' => 'alipay','do' => 'designer'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     菜单管理
                 </a>
             </li>
             <li>
-                <a onclick="navtoggle('支付宝服务窗 - > 自定义回复 ')"  href="<?php  echo create_url('site', array('name' => 'alipay','do' => 'rule'))?>" target="main" >
+                <a onclick="navtoggle('支付宝服务窗 - > 自定义回复 ')"  href="<?php  //echo create_url('site', array('name' => 'alipay','do' => 'rule'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     自定义回复
                 </a>
             </li>
         </ul>
-    </li>
-<?php  } ?>
+    </li>-->
+<?php  //} ?>
 
 <?php if(checkrule('user','ALL')){ ?>
     <li>
@@ -157,9 +156,8 @@
     </li>
 <?php  } ?>
                                     
-<?php if(!empty($account['is_admin'])){ ?>
-    <li>
-        <!-- 导航第一级 -->
+<?php //if(!empty($account['is_admin'])){ ?>
+    <!--<li>
         <a href="#" class="dropdown-toggle">
             <i class="icon-cloud"></i>
             <span class="menu-text">基础维护</span>
@@ -167,17 +165,17 @@
         </a>
         <ul class="submenu">
             <li>
-                <a onclick="navtoggle('系统管理 - > 系统维护')" href="<?php  echo create_url('site', array('name' => 'modules','do' => 'update'))?>" target="main" >
+                <a onclick="navtoggle('系统管理 - > 系统维护')" href="<?php  //echo create_url('site', array('name' => 'modules','do' => 'update'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     系统维护
                 </a>
             </li>
             <li>
-                <a onclick="navtoggle('系统管理 - > 插件扩展')" href="<?php  echo create_url('site', array('name' => 'modules','do' => 'modules'))?>" target="main" >
+                <a onclick="navtoggle('系统管理 - > 插件扩展')" href="<?php  //echo create_url('site', array('name' => 'modules','do' => 'modules'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     插件扩展
                 </a>
             </li>
         </ul>
-    </li>
-<?php  } ?>
+    </li>-->
+<?php  //} ?>

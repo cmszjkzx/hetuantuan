@@ -316,6 +316,9 @@ if ($operation == 'detail')
     if($order['hasbonus'])
     {
         $bonuslist = mysqld_selectall("SELECT bonus_user.*,bonus_type.type_name FROM " . table('bonus_user') . " bonus_user left join  " . table('bonus_type') . " bonus_type on bonus_type.type_id=bonus_user.bonus_type_id WHERE bonus_user.order_id=:order_id",array(":order_id"=>$orderid));
+        if(empty($bonuslist)){
+            $bonuslist = mysqld_selectall("SELECT pb.bonus_name AS type_name, pbu.bonus_sn AS bonus_sn FROM ".table('package_bonus_user')." pbu LEFT JOIN ".table('package_bonus')." pb ON pbu.package_bonus_id=pb.bonus_id WHERE pbu.orderid=:orderid ", array(":orderid"=>$orderid));
+        }
     }
     $dispatchlist = mysqld_selectall("SELECT * FROM " . table('dispatch')." where sendtype=0 and enabled = 1" );
     $payments = mysqld_selectall("SELECT * FROM " . table('payment') . " WHERE enabled = 1");
