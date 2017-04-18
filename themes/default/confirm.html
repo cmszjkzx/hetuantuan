@@ -349,7 +349,7 @@
     $(".dropdown-menu li.able-click").click(function () {
         $("#dLabel-name").text($(this).text());
         //$("#dLabel-name").val($(this).val());
-        $("#dLabel-name").val($(this).attr('value'));
+        $("#dLabel-name").attr("value",$(this).attr('value'));
 //        alert("text is : " + $(this).text() + "and value is :  " + $(this).val());
 //        alert($("#dLabel-name").val());
         bunousMoney = $(this).attr("attr-money")||0;
@@ -437,7 +437,7 @@
 //        var value = $("#dLabel-name").attr('value');
 //        $("#bonus-input").val(value);
 //        alert($("#bonus-input").val());
-        var value = $("#dLabel-name").val();
+        var value = $("#dLabel-name").attr("value");
 //        alert(value);
         $("#bonus-input").attr("value",value);
 //        alert($("#bonus-input").attr('value'));
