@@ -501,6 +501,23 @@ else
                 if (30*60 < time()-$row['createtime']){
                     $row['status'] = 1;
                     mysqld_update("shop_order", array("status" => 1), array("id" => $row['id']));
+
+                    //2017-04-17-yanru-新增当订单超时后自动更新优惠券
+                    if($row['hasbonus']) {
+                        //2017-04-17-yanru-优惠券更新，需要判断优惠券是否是大礼包
+                        $packagebonus = mysqld_select("select * from ".table("package_bonus_user")." where orderid=:orderid and  openid=:openid ", array(':orderid'=>$row['id'], ':openid'=>$openid));
+                        if(empty($packagebonus)) {
+                            $data = array('isuse' => 0,
+                                'used_time' => 0,
+                                'order_id' => 0);
+                            mysqld_update('bonus_user', $data, array('order_id' => $row['id'], 'openid' => $openid));
+                        }else{
+                            $data = array('isuse' => 0,
+                                'used_time' => 0,
+                                'orderid' => 0);
+                            mysqld_update('package_bonus_user', $data, array('orderid' => $row['id'], 'openid' => $openid));
+                        }
+                    }
                 }
             }
             //end

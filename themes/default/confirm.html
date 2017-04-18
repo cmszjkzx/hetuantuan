@@ -348,7 +348,10 @@
     var bunousMoney = 0;
     $(".dropdown-menu li.able-click").click(function () {
         $("#dLabel-name").text($(this).text());
-        $("#dLabel-name").val($(this).val());
+        //$("#dLabel-name").val($(this).val());
+        $("#dLabel-name").val($(this).attr('value'));
+//        alert("text is : " + $(this).text() + "and value is :  " + $(this).val());
+//        alert($("#dLabel-name").val());
         bunousMoney = $(this).attr("attr-money")||0;
         $("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - ($(this).attr("attr-money")||0));
 //        alert($(this).attr("attr-money"));
@@ -431,8 +434,13 @@
         }
         //end
 
-        var value = $("#dLabel-name").attr('value');
-        $("#bonus-input").val(value);
+//        var value = $("#dLabel-name").attr('value');
+//        $("#bonus-input").val(value);
+//        alert($("#bonus-input").val());
+        var value = $("#dLabel-name").val();
+//        alert(value);
+        $("#bonus-input").attr("value",value);
+//        alert($("#bonus-input").attr('value'));
         if($("#address-area").css('display') == 'none'){
             $.myalert({
                 content: '请添加收货地址!',
