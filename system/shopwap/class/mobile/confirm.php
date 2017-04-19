@@ -12,7 +12,6 @@ if ( is_use_weixin() ) {
     $shopwap_weixin_share = weixin_share('confirm',array(),$dzdtitle,$dzdpic,$dzddes,$settings);
 }
 
-
 if ( is_use_weixin()) {
     include WEB_ROOT.'/system/common/template/mobile/weixinconfirm.php';
 }
@@ -38,8 +37,13 @@ $member=get_member_account();
 $openid =$member['openid'] ;
 $weixin_openid = $member['weixin_openid'];
 $op = $_GP['op']?$_GP['op']:'display';
+
 $totalprice = 0;
-//$totaltotal = 0;
+$totaltotal = 0;
+$hasbonus = 0;
+$bonusprice = 0;
+$promotionprice = 0;
+
 $allgoods = array();
 $id = intval($_GP['id']);
 $optionid = intval($_GP['optionid']);
@@ -119,32 +123,32 @@ if (!empty($id))
 //            }
     $totaltotal += $item['total'];
 
-    //========促销活动===============
-    $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-
-    if(empty($issendfree))
-    {
-        foreach($promotion as $pro){
-            if($pro['promoteType']==1)
-            {
-                $usable_promotion[] = $pro;//2016-11-27-yanru-价格满包邮
-                if(	($item['totalprice'])>=$pro['condition'])
-                {
-                    $issendfree=1;
-                    $haspromotion =1;
-                }
-            }
-            else if($pro['promoteType']==0)
-            {
-                $usable_promotion[] = $pro;//2016-11-27-yanru-数量满包邮
-                if($total>=$pro['condition'])
-                {
-                    $issendfree=1;
-                    $haspromotion =1;
-                }
-            }
-        }
-    }
+//    //========促销活动===============
+//    $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
+//
+//    if(empty($issendfree))
+//    {
+//        foreach($promotion as $pro){
+//            if($pro['promoteType']==1)
+//            {
+//                $usable_promotion[] = $pro;//2016-11-27-yanru-价格满包邮
+//                if(	($item['totalprice'])>=$pro['condition'])
+//                {
+//                    $issendfree=1;
+//                    $haspromotion =1;
+//                }
+//            }
+//            else if($pro['promoteType']==0)
+//            {
+//                $usable_promotion[] = $pro;//2016-11-27-yanru-数量满包邮
+//                if($total>=$pro['condition'])
+//                {
+//                    $issendfree=1;
+//                    $haspromotion =1;
+//                }
+//            }
+//        }
+//    }
 
     $direct = true;
     $returnurl = mobile_url("confirm", array("id" => $id, "optionid" => $optionid, "total" => $total));
@@ -205,30 +209,30 @@ if (!$direct) {
             //end
         }
 
-        $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
-
-        //========促销活动===============//全场的优惠活动，跟商品无关
-        foreach($promotion as $pro){
-            if($pro['promoteType']==1)
-            {
-                $usable_promotion[] = $pro;//2016-11-27-yanru
-                if(	($totalprice)>=$pro['condition'])
-                {
-                    $issendfree=1;
-                    $haspromotion =1;
-                }
-            }
-            else if($pro['promoteType']==0)
-            {
-                $usable_promotion[] = $pro;//2016-11-27-yanru
-                if($totaltotal>=$pro['condition'])
-                {
-                    $issendfree=1;
-                    $haspromotion =1;
-                }
-            }
-        }
-        //========end===============
+//        $promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
+//
+//        //========促销活动===============//全场的优惠活动，跟商品无关
+//        foreach($promotion as $pro){
+//            if($pro['promoteType']==1)
+//            {
+//                $usable_promotion[] = $pro;//2016-11-27-yanru
+//                if(	($totalprice)>=$pro['condition'])
+//                {
+//                    $issendfree=1;
+//                    $haspromotion =1;
+//                }
+//            }
+//            else if($pro['promoteType']==0)
+//            {
+//                $usable_promotion[] = $pro;//2016-11-27-yanru
+//                if($totaltotal>=$pro['condition'])
+//                {
+//                    $issendfree=1;
+//                    $haspromotion =1;
+//                }
+//            }
+//        }
+//        //========end===============
         unset($g);
     }
     $returnurl = mobile_url("confirm");
@@ -303,249 +307,6 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
     }
 }
 $payments = mysqld_selectall("select * from " . table("payment")." where enabled=1 {$paymentconfig} order by `order` desc");
-
-if (checksubmit('submit')) {
-//    if($direct)
-////    if($direct&&!empty($item['isverify']))
-//    {
-    if (empty($_GP['verify_address_name'])) {
-        message('请填写联系人！');
-    }
-    if (empty($_GP['verify_address_tell'])) {
-        message('请填写联系电话！');
-    }
-    $address['realname']=$_GP['verify_address_name'];
-    $address['mobile']=$_GP['verify_address_tell'];
-    $address['province']=$_GP['verify_address_province'];
-    $address['city']=$_GP['verify_address_city'];
-    $address['area']=$_GP['verify_address_country'];
-    $address['address']=$_GP['verify_address_detail'];
-//    }else
-//    {
-//        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
-//        if (empty($address)) {
-//            message('抱歉，请您填写收货地址！');
-//        }
-//    }
-    /*2016-11-14-yanru
-    *if (empty($_GP['dispatch'])) {
-        message('请选择配送方式！');
-    }
-    if (empty($_GP['payment'])) {
-        message('请选择支付方式！');
-    }*/
-    //商品价格
-    $goodsprice = 0;
-    $goodscredit=0;
-    foreach ($allgoods as $row) {
-        $goodsprice+= $row['totalprice'];
-        //if($row['issendfree']==1||$row['type']==1||$row['isverify']==1)//避免出现问题所以只有当免运费的时候才包邮
-        if($row['issendfree']==1||$row['type']==1)
-        {
-            $issendfree=1;
-        }
-        $goodscredit+= intval($row['credit']);
-    }
-    //运费
-    $hasbonus=0;
-    $bonusprice=0;
-    if(is_login_account())
-    {
-        if (!empty($_GP['bonus'])) {
-            //检测优惠券是否有效
-            $bonus_sn=$_GP['bonus'];
-            if($bonus_sn=='custom')
-            {
-                $bonus_sn=$_GP['custom_bonus_sn'];
-            }
-            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
-            $bonus_sn_from = explode("@",$bonus_sn);
-            if(count($bonus_sn_from) > 1){
-                if($bonus_sn_from[1] == "0"){
-                    $use_bonus = mysqld_select("select * from ".table('bonus_user')." where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1",array(":bonus_sn"=>$bonus_sn_from[0]));
-                    if(!empty($use_bonus['bonus_id']))
-                    {
-                        $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
-                        if(!empty($bonus_type['type_id']))
-                        {
-                            //2017-1-11-yanru-begin-用户使用优惠券的价格
-                            $bonusprice=$bonus_type['type_money'];
-                            //end
-                        }
-                    }
-                }
-                if($bonus_sn_from[1] == "1"){
-                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
-                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
-                        ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
-                    if(!empty($package_bonus)){
-                        $bonusprice = $package_bonus['bonus_money'];
-                    }
-                }
-            }
-        }
-    }
-
-    $dispatchid = intval($_GP['dispatch']);
-    $dispatchitem = mysqld_select("select sendtype,express from ".table('shop_dispatch')." where id=:id limit 1",array(":id"=>$dispatchid));
-    $dispatchprice = 0;
-    if($issendfree!=1)
-    {
-        foreach ($dispatch as $d) {
-            if ($d['id'] == $dispatchid) {
-                $dispatchprice = $d['price'];
-            }
-        }
-    }
-//    //2017-1-11-yanru-begin-新增不包邮地区
-//    if(1 == $hasdahuangjia){
-//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
-//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
-//            $dispatchprice += 10;
-//    }
-//    //2017-2-10-yanru-判断是否有马卡龙
-//    if(1 == $hasmakeawish){
-//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
-//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
-//            $dispatchprice += 10;
-//    }
-//    //end
-    $ordersns= date('Ymd') . random(6, 1);
-    $randomorder = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE  ordersn=:ordersn limit 1", array(':ordersn' =>$ordersns));
-    if(!empty($randomorder['ordersn']))
-    {
-        $ordersns= date('Ymd') . random(6, 1);
-    }
-    /*2016-11-14-yanru
-    *固定支付方式为微信支付
-    */
-    $_GP['payment'] = "weixin";
-    //end
-    $payment = mysqld_select("select * from " . table("payment")." where enabled='1' and code=:payment",array(':payment'=>$_GP['payment']));
-    if(empty($payment['id']))
-    {
-        message("没有获取到付款方式");
-    }
-
-    $paytype=$this->getPaytypebycode($payment['code']);
-    $data = array(
-        'openid' => $openid,
-        'weixin_openid' => $weixin_openid,
-        'ordersn' => $ordersns,
-        'price' => $goodsprice + $dispatchprice,
-        'dispatchprice' => $dispatchprice,
-        'goodsprice' => $goodsprice,
-        'credit'=> $goodscredit,
-        'status' => 0,
-        'isverify'=> empty($item['isverify'])?'0':1,
-        'paytype'=> $paytype,
-        'sendtype' => intval($dispatchitem['sendtype']),
-        'dispatchexpress' => $dispatchitem['express'],
-        'dispatch' => $dispatchid,
-        'paytypecode' => $payment['code'],
-        'paytypename' => $payment['name'],
-        'remark' => $_GP['remark']."@&".$_GP['personid']."_".$_GP['personname'],
-        'addressid'=> $address['id'],
-        'address_mobile' => $address['mobile'],
-        'address_realname' => $address['realname'],
-        'address_province' => $address['province'],
-        'address_city' => $address['city'],
-        'address_area' => $address['area'],
-        'address_address' => $address['address'],
-        'createtime' => time()
-    );
-    mysqld_insert('shop_order', $data);
-    $orderid = mysqld_insertid();
-    if(is_login_account())
-    {
-        //插入优惠券
-        if (!empty($_GP['bonus'])) {
-            $bonus_sn=$_GP['bonus'];
-            if($bonus_sn=='custom')
-            {
-                $bonus_sn=$_GP['custom_bonus_sn'];
-            }
-            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
-            $bonus_sn_from = explode("@",$bonus_sn);
-            if(count($bonus_sn_from) > 1) {
-                if($bonus_sn_from[1] == "0") {
-                    $use_bonus = mysqld_select("select * from " . table('bonus_user') . " where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1", array(":bonus_sn" => $bonus_sn_from[0]));
-                    if (!empty($use_bonus['bonus_id'])) {
-                        $bonus_type = mysqld_select("select * from " . table('bonus_type') . " where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
-                        if (!empty($bonus_type['type_id'])) {
-                            $hasbonus = 1;
-                            $bonusprice = $bonus_type['type_money'];
-//                            if(($goodsprice + $dispatchprice - $bonusprice) >= 0) {
-//                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
-//                                mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-//                            }
-//                            else{
-//                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
-//                                mysqld_update('shop_order', array('price' => 0.00, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-//                            }
-                            mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
-                            mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-                        }
-                    }
-                }
-                if($bonus_sn_from[1] == "1"){
-                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
-                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
-                        ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
-                    if(!empty($package_bonus)){
-                        $hasbonus = 1;
-                        $bonusprice = $package_bonus['bonus_money'];
-//                        if(($goodsprice + $dispatchprice - $bonusprice) >= 0) {
-//                            mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
-//                            mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-//                        }
-//                        else{
-//                            mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
-//                            mysqld_update('shop_order', array('price' => 0.00, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-//                        }
-                        mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
-                        mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
-
-                    }
-                }
-            }
-        }
-    }
-
-    //插入订单商品
-    foreach ($allgoods as $row) {
-        if (empty($row)) {
-            continue;
-        }
-        $d = array(
-            'goodsid' => $row['id'],
-            'orderid' => $orderid,
-            'status' => 11,//插入的初始状态改为11，就是没有发货-2017-02-20-yanru
-            'total' => $row['total'],
-            'price' => $row['marketprice'],
-            'createtime' => time(),
-            'optionid' => $row['optionid']
-        );
-        $o = mysqld_select("select title from ".table('shop_goods_option')." where id=:id limit 1",array(":id"=>$row['optionid']));
-        if(!empty($o)){
-            $d['optionname'] = $o['title'];
-        }
-        //获取商品id
-        $ccate = $row['ccate'];
-        mysqld_insert('shop_order_goods', $d);
-        $ogid = mysqld_insertid();
-
-        require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_1.php');
-    }
-    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_2.php');
-    //清空购物车
-    if (!$direct) {
-        //mysqld_delete("shop_cart", array("session_id" => $openid));
-        mysqld_delete("shop_cart", array("ischecked"=>1, "session_id" => $openid));
-    }
-    clearloginfrom();
-    header("Location:".mobile_url('pay', array('orderid' => $orderid,'topay'=>'1')) );
-}
 
 if(is_login_account())
 {
@@ -711,6 +472,297 @@ if(is_login_account())
         }
     }
     //end
+}
+
+//========促销活动===============
+$promotion=mysqld_selectall("select * from ".table('shop_pormotions')." where starttime<=:starttime and endtime>=:endtime",array(':starttime'=>TIMESTAMP,':endtime'=>TIMESTAMP));
+
+if(isset($bonus_list[0]['type_money']) && (1 == $bonus_list[0]['canbeuse']) && (0==$hasbonus)){
+    $bonusprice = $bonus_list[0]['type_money'];
+}
+
+if(empty($issendfree))//2017-04-19-yanru
+{
+    foreach($promotion as $pro){
+        if($pro['promoteType']==1)
+        {
+            $usable_promotion[] = $pro;//2016-11-27-yanru-价格满包邮
+
+            $promotionprice = $pro['condition'];
+
+            if(($totalprice-$bonusprice)>=$pro['condition'])
+            {
+                $issendfree=1;
+                $haspromotion =1;
+            }else{
+                $issendfree=0;
+                $haspromotion =1;
+            }
+        }
+        else if($pro['promoteType']==0)
+        {
+            $usable_promotion[] = $pro;//2016-11-27-yanru-数量满包邮
+            if($totaltotal>=$pro['condition'])
+            {
+                $issendfree=1;
+                $haspromotion =1;
+            }
+        }
+    }
+}
+
+if (checksubmit('submit')) {
+//    if($direct)
+////    if($direct&&!empty($item['isverify']))
+//    {
+    if (empty($_GP['verify_address_name'])) {
+        message('请填写联系人！');
+    }
+    if (empty($_GP['verify_address_tell'])) {
+        message('请填写联系电话！');
+    }
+    $address['realname']=$_GP['verify_address_name'];
+    $address['mobile']=$_GP['verify_address_tell'];
+    $address['province']=$_GP['verify_address_province'];
+    $address['city']=$_GP['verify_address_city'];
+    $address['area']=$_GP['verify_address_country'];
+    $address['address']=$_GP['verify_address_detail'];
+//    }else
+//    {
+//        $address = mysqld_select("SELECT * FROM " . table('shop_address') . " WHERE id = :id", array(':id' => intval($_GP['address'])));
+//        if (empty($address)) {
+//            message('抱歉，请您填写收货地址！');
+//        }
+//    }
+    /*2016-11-14-yanru
+    *if (empty($_GP['dispatch'])) {
+        message('请选择配送方式！');
+    }
+    if (empty($_GP['payment'])) {
+        message('请选择支付方式！');
+    }*/
+    //商品价格
+    $goodsprice = 0;
+    $goodscredit=0;
+    foreach ($allgoods as $row) {
+        $goodsprice+= $row['totalprice'];
+        //if($row['issendfree']==1||$row['type']==1||$row['isverify']==1)//避免出现问题所以只有当免运费的时候才包邮
+        if($row['issendfree']==1||$row['type']==1)
+        {
+            $issendfree=1;
+        }
+        $goodscredit+= intval($row['credit']);
+    }
+    //运费
+    $hasbonus=0;
+    $bonusprice=0;
+//    if(is_login_account())
+//    {
+//        if (!empty($_GP['bonus'])) {
+//            //检测优惠券是否有效
+//            $bonus_sn=$_GP['bonus'];
+//            if($bonus_sn=='custom')
+//            {
+//                $bonus_sn=$_GP['custom_bonus_sn'];
+//            }
+//            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
+//            $bonus_sn_from = explode("@",$bonus_sn);
+//            if(count($bonus_sn_from) > 1){
+//                if($bonus_sn_from[1] == "0"){
+//                    $use_bonus = mysqld_select("select * from ".table('bonus_user')." where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1",array(":bonus_sn"=>$bonus_sn_from[0]));
+//                    if(!empty($use_bonus['bonus_id']))
+//                    {
+//                        $bonus_type = mysqld_select("select * from ".table('bonus_type')." where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":type_id"=>$use_bonus['bonus_type_id'],":min_amount"=>$goodsprice,":min_goods_amount"=>$goodsprice,":use_start_date"=>time(),":use_end_date"=>time()));
+//                        if(!empty($bonus_type['type_id']))
+//                        {
+//                            //2017-1-11-yanru-begin-用户使用优惠券的价格
+//                            $bonusprice=$bonus_type['type_money'];
+//                            //end
+//                        }
+//                    }
+//                }
+//                if($bonus_sn_from[1] == "1"){
+//                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
+//                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
+//                        ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
+//                    if(!empty($package_bonus)){
+//                        $bonusprice = $package_bonus['bonus_money'];
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    $dispatchid = intval($_GP['dispatch']);
+    $dispatchitem = mysqld_select("select sendtype,express from ".table('shop_dispatch')." where id=:id limit 1",array(":id"=>$dispatchid));
+    $dispatchprice = 0;
+    if($issendfree!=1)
+    {
+        foreach ($dispatch as $d) {
+            if ($d['id'] == $dispatchid) {
+                $dispatchprice = $d['price'];
+            }
+        }
+    }
+//    //2017-1-11-yanru-begin-新增不包邮地区
+//    if(1 == $hasdahuangjia){
+//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+//            $dispatchprice += 10;
+//    }
+//    //2017-2-10-yanru-判断是否有马卡龙
+//    if(1 == $hasmakeawish){
+//        $notfreezone = "@黑龙江省;吉林省;辽宁省;山西省;青海省;西藏自治区;内蒙古自治区;甘肃省;新疆维吾尔自治区;西藏省;内蒙古省;新疆省;@";
+//        if(!empty(strpos($notfreezone, $address['province'])) && 1 != $haspromotion)
+//            $dispatchprice += 10;
+//    }
+//    //end
+    $ordersns= date('Ymd') . random(6, 1);
+    $randomorder = mysqld_select("SELECT * FROM " . table('shop_order') . " WHERE  ordersn=:ordersn limit 1", array(':ordersn' =>$ordersns));
+    if(!empty($randomorder['ordersn']))
+    {
+        $ordersns= date('Ymd') . random(6, 1);
+    }
+    /*2016-11-14-yanru
+    *固定支付方式为微信支付
+    */
+    $_GP['payment'] = "weixin";
+    //end
+    $payment = mysqld_select("select * from " . table("payment")." where enabled='1' and code=:payment",array(':payment'=>$_GP['payment']));
+    if(empty($payment['id']))
+    {
+        message("没有获取到付款方式");
+    }
+
+    $paytype=$this->getPaytypebycode($payment['code']);
+    $data = array(
+        'openid' => $openid,
+        'weixin_openid' => $weixin_openid,
+        'ordersn' => $ordersns,
+        'price' => $goodsprice + $dispatchprice,
+        'dispatchprice' => $dispatchprice,
+        'goodsprice' => $goodsprice,
+        'credit'=> $goodscredit,
+        'status' => 0,
+        'isverify'=> empty($item['isverify'])?'0':1,
+        'paytype'=> $paytype,
+        'sendtype' => intval($dispatchitem['sendtype']),
+        'dispatchexpress' => $dispatchitem['express'],
+        'dispatch' => $dispatchid,
+        'paytypecode' => $payment['code'],
+        'paytypename' => $payment['name'],
+        'remark' => $_GP['remark']."@&".$_GP['personid']."_".$_GP['personname'],
+        'addressid'=> $address['id'],
+        'address_mobile' => $address['mobile'],
+        'address_realname' => $address['realname'],
+        'address_province' => $address['province'],
+        'address_city' => $address['city'],
+        'address_area' => $address['area'],
+        'address_address' => $address['address'],
+        'createtime' => time()
+    );
+    mysqld_insert('shop_order', $data);
+    $orderid = mysqld_insertid();
+    if(is_login_account())
+    {
+        //插入优惠券
+        if (!empty($_GP['bonus'])) {
+            $bonus_sn=$_GP['bonus'];
+            if($bonus_sn=='custom')
+            {
+                $bonus_sn=$_GP['custom_bonus_sn'];
+            }
+            //2017-04-06-yanru-新增判断优惠券是否来自大礼包
+            $bonus_sn_from = explode("@",$bonus_sn);
+            if(count($bonus_sn_from) > 1) {
+                if($bonus_sn_from[1] == "0") {
+                    $use_bonus = mysqld_select("select * from " . table('bonus_user') . " where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1", array(":bonus_sn" => $bonus_sn_from[0]));
+                    if (!empty($use_bonus['bonus_id'])) {
+                        $bonus_type = mysqld_select("select * from " . table('bonus_type') . " where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
+                        if (!empty($bonus_type['type_id'])) {
+                            $hasbonus = 1;
+                            $bonusprice = $bonus_type['type_money'];
+                            if(($goodsprice - $bonusprice) >= $promotionprice) {
+                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
+                                mysqld_update('shop_order', array('price' => $goodsprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                            }
+                            else{
+                                mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
+                                mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                            }
+                            //mysqld_update('bonus_user', array('isuse' => 1, 'order_id' => $orderid, 'used_time' => time()), array('bonus_id' => $use_bonus['bonus_id']));
+                            //mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                        }
+                    }
+                }
+                if($bonus_sn_from[1] == "1"){
+                    $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
+                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
+                        ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
+                    if(!empty($package_bonus)){
+                        $hasbonus = 1;
+                        $bonusprice = $package_bonus['bonus_money'];
+                        if(($goodsprice - $bonusprice) >= $promotionprice) {
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
+                            mysqld_update('shop_order', array('price' => $goodsprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                        }
+                        else{
+                            mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
+                            mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                        }
+                        //mysqld_update('package_bonus_user', array('isuse' => 1, 'orderid' => $orderid, 'used_time' => time()), array('id' => $package_bonus['id']));
+                        //mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice - $bonusprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                    }
+                }
+            }else {
+                if ($goodsprice >= $promotionprice) {
+                    mysqld_update('shop_order', array('price' => $goodsprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                }else{
+                    mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+                }
+            }
+        }else {
+            if ($goodsprice >= $promotionprice) {
+                mysqld_update('shop_order', array('price' => $goodsprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+            }else{
+                mysqld_update('shop_order', array('price' => $goodsprice + $dispatchprice, 'hasbonus' => $hasbonus, 'bonusprice' => $bonusprice), array('id' => $orderid));
+            }
+        }
+    }
+
+    //插入订单商品
+    foreach ($allgoods as $row) {
+        if (empty($row)) {
+            continue;
+        }
+        $d = array(
+            'goodsid' => $row['id'],
+            'orderid' => $orderid,
+            'status' => 11,//插入的初始状态改为11，就是没有发货-2017-02-20-yanru
+            'total' => $row['total'],
+            'price' => $row['marketprice'],
+            'createtime' => time(),
+            'optionid' => $row['optionid']
+        );
+        $o = mysqld_select("select title from ".table('shop_goods_option')." where id=:id limit 1",array(":id"=>$row['optionid']));
+        if(!empty($o)){
+            $d['optionname'] = $o['title'];
+        }
+        //获取商品id
+        $ccate = $row['ccate'];
+        mysqld_insert('shop_order_goods', $d);
+        $ogid = mysqld_insertid();
+
+        require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_1.php');
+    }
+    require(WEB_ROOT.'/system/common/extends/class/shopwap/class/mobile/confirm_2.php');
+    //清空购物车
+    if (!$direct) {
+        //mysqld_delete("shop_cart", array("session_id" => $openid));
+        mysqld_delete("shop_cart", array("ischecked"=>1, "session_id" => $openid));
+    }
+    clearloginfrom();
+    header("Location:".mobile_url('pay', array('orderid' => $orderid,'topay'=>'1')) );
 }
 
 include themePage('confirm');
