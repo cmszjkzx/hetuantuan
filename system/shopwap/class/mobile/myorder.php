@@ -50,11 +50,13 @@ if ($op == 'cancelsend')
                 mysqld_update('package_bonus_user', $data, array('orderid' => $item['id'], 'openid' => $openid));
             }
         }
+        //2017-04-20-yanru-更新用户订单状态为了区别已付款订单，这时更新状态为-1
+        mysqld_update('shop_order', array('status' => -1,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
 
     }
     //end
 
-    if(!empty($openid)){
+    if($item['status'] >= 3){
         mysqld_update('shop_order', array('status' => -7,'updatetime'=>time()), array('id' => $orderid, 'openid' => $openid));
     }
     //message('该订单不可取消');

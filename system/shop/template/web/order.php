@@ -175,7 +175,7 @@
                 </td>
             </tr>
         <?php  } ?>
-        <?php  if($order['status'] <=-2) { ?>
+        <?php  if($order['status'] <=-2 && $order['status'] != -7) { ?>
             <tr>
                 <th ><label for="">	<?php  if($order['status'] == -2||$order['status'] == -6) { ?>退款<?php  } ?><?php  if($order['status'] == -3) { ?>换货<?php  } ?><?php  if($order['status'] == -4||$order['status'] == -5) { ?>退货<?php  } ?>原因</label></th>
                 <td >
@@ -283,9 +283,6 @@
                 <?php if($order['status'] == 2&&!empty($order['isverify'])) { ?>
                     <button type="submit" class="btn btn-success span2" onclick="return confirm('确认完成此订单吗？'); return false;" name="finish" value="finish">完成订单</button>
                 <?php  } ?>
-                <?php  if($order['status'] ==3||$order['status'] ==4||$order['status'] ==5||$order['status'] ==-7) { ?>
-                    <button type="submit" class="btn btn-success span2" onclick="return confirm('确认完成此订单吗？'); return false;" name="finish" value="finish">完成订单</button>
-				<?php  } ?>
                 <?php  if(($order['status']==-2||$order['status']==2)&&$order['paytype']!=3) { ?>
                     <button type="submit" class="btn btn-danger span2" onclick="return confirm('确认退款此订单吗？'); return false;" name="returnpay" value="returnpay">确认退款</button>
                 <?php  } ?>

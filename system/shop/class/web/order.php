@@ -67,13 +67,13 @@ if ($operation == 'display')
         $band_condition .= " AND shoporders.status = '" . intval($status) . "'";//2016-12-25-yanru
     }
     if ($status == '9'){
-        $condition .= " and ( status = 4 or status = 5) ";
-        $band_condition .= " and ( shoporders.status = 4 or shoporders.status = 5) ";//2016-12-25-yanru
+        $condition .= " and ( status = -7 or status = 4 or status = 5) ";
+        $band_condition .= " and ( shoporders.status = -7 or shoporders.status = 4 or shoporders.status = 5) ";//2016-12-25-yanru
     }
     //2016-12-25-yanru-新增状态10是表示需要更新快递信息的订单，状态2和3的集合
     if ($status == '10'){
-        $condition .= " and ( status >= 2 and status <= 5) ";
-        $band_condition .= " and ( shoporders.status >= 2 and shoporders.status <= 5) ";//2016-12-25-yanru
+        $condition .= " and ( status = -7 or (status >= 2 and status <= 5)) ";
+        $band_condition .= " and ( shoporders.status = -7 or (shoporders.status >= 2 and shoporders.status <= 5)) ";//2016-12-25-yanru
     }
     if ($status == '3') {
         $condition .= " and ( status = 3 or status = -5 or status = -6) ";
@@ -600,8 +600,13 @@ if ($operation == 'detail')
     }
     if (checksubmit('close'))
     {
-        mysqld_update('shop_order', array('status' => -1,'remark'=>$_GP['remark']), array('id' => $orderid));
-        message('订单关闭操作成功！', refresh(), 'success');
+        if($item['status']>=2) {
+            mysqld_update('shop_order', array('status' => -7, 'remark' => $_GP['remark']), array('id' => $orderid));
+            message('订单关闭操作成功！', refresh(), 'success');
+        }else{
+            mysqld_update('shop_order', array('status' => -1, 'remark' => $_GP['remark']), array('id' => $orderid));
+            message('订单关闭操作成功！', refresh(), 'success');
+        }
     }
     if (checksubmit('finish'))
     {
