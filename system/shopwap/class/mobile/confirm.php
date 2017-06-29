@@ -24,7 +24,8 @@ if($_GP["follower"]!="nologinby")
         if(empty($_SESSION["noneedlogin"]))
         {
             tosaveloginfrom();
-            header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'login','from'=>'confirm')));
+            //header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'login','from'=>'confirm')));
+            header("location:".create_url('mobile',array('name' => 'shopwap','do' => 'shopindex')));
             exit;
         }
     }
