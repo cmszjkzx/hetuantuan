@@ -21,7 +21,21 @@
                     return false;
                 }
             });
+//            $("#search_word").focus(function(){
+//                console.log("豆浆机");
+//            });
+            $("#search_word").on('input',function(e){
+                if ($("#search_word").val() != ''){
+                    console.log("it's empty!");
+                    $("#search_word").css('width','80%');
+                    $("#searchCancel").css('display','inline');
+                }else{
+                    $("#search_word").css('width','100%');
+                    $("#searchCancel").css('display','none');
+                }
+            });
         });
+
     </script>
 </head>
 <body>
@@ -36,6 +50,7 @@
                     <input type="hidden" name="do" value="goodlist"/>
                     <input type="hidden" name="name" value="shopwap"/>
                     <input type="search" name="keyword" class="weui-search-bar__input" id="search_word" placeholder="搜索" />
+                    <input class="weui-search-bar__cancel-btn" type="submit" id="searchCancel" style="display: none"/>
                 </div>
             </form>
             <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="submit">搜索</a>-->
