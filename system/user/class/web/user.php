@@ -44,8 +44,9 @@ defined('SYSTEM_IN') or exit('Access Denied');
 					$data= array('username'=> $_GP['username'],'is_admin'=> intval($_GP['is_admin']),'groupid'=> intval($_GP['groupid']),'groupName'=> $user_group['groupName'],'createtime'=>time());
 							
 						 mysqld_update('user', $data,array('id'=> $account['id']));
-								message('密码修改成功！',create_url('site',array('name' => 'user','do' => 'user','op'=>'listuser')),'succes');	
-					}else
+								//message('密码修改成功！',create_url('site',array('name' => 'user','do' => 'user','op'=>'listuser')),'succes');
+                        message('保存成功！',create_url('site',array('name' => 'user','do' => 'user','op'=>'listuser')),'succes');
+                    }else
 					{
 						message('用户名不存在',refresh(),'error');	
 					}

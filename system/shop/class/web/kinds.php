@@ -30,6 +30,9 @@ if('kinds' == $_GP['do']) {
                     'kinds_name' => $_GP['kinds_name']);
                 mysqld_insert('goods_kinds', $data);
             } else {
+                if($_GP['kinds_level'] == $kinds['kinds_level']){
+                    message("商品编号已经存在！");
+                }
                 $thumbPath = '';
                 if (!empty($_FILES['kinds_thumb_before']['tmp_name'])) {
                     $upload = file_upload($_FILES['kinds_thumb_before']);
