@@ -18,12 +18,12 @@ foreach ($category as &$c) {
         if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
             //2016-11-30-yanru-begin
             //$c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and kinds = '{$_GP['kinds']}' ORDER BY displayorder DESC, sales");
-            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND kinds = '{$_GP['kinds']}' ORDER BY createtime DESC");
+            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND kinds = '{$_GP['kinds']}' ORDER BY ccate, createtime DESC");
             //end
         }else {
             //2016-11-30-yanru-begin
             //$c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}'  ORDER BY displayorder DESC, sales");
-            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' ORDER BY createtime DESC");
+            $c['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' ORDER BY ccate, createtime DESC");
             //end
         }
             foreach ($c['list'] as &$c1goods) {
@@ -39,11 +39,11 @@ foreach ($category as &$c) {
                 if(!empty($_GP['kinds'])&&'0'!=$_GP['kidns']){
                     //2016-11-30-yanru-begin
                     //$child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and ccate='{$child['id']}' and kinds = '{$_GP['kinds']}' ORDER BY displayorder DESC, sales DESC ");
-                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND ccate='{$child['id']}' AND kinds = '{$_GP['kinds']}' ORDER BY createtime DESC");
+                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND ccate='{$child['id']}' AND kinds = '{$_GP['kinds']}' ORDER BY ccate, createtime DESC");
                     //end
                 }else {
                     //$child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 and deleted=0 AND status = 1  and pcate='{$c['id']}' and ccate='{$child['id']}'  ORDER BY displayorder DESC, sales DESC ");
-                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND ccate='{$child['id']}' ORDER BY createtime DESC");
+                    $child['list'] = mysqld_selectall("SELECT * FROM " . table('shop_goods') . " WHERE  isrecommand=1 AND deleted=0 AND status = '1' AND pcate='{$c['id']}' AND ccate='{$child['id']}' ORDER BY ccate, createtime DESC");
                     //end
                 }foreach ($child['list'] as &$c2goods) {
                     if ($c2goods['isrecommand'] == 1&&$c2goods['isfirst'] == 1) {

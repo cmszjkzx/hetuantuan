@@ -117,8 +117,8 @@ $(function () {
 		        <div class="latest-notice">
 		        <dl>
 		               <dt><span class="title">待处理订单</span></dt>
-		                <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 1))?>">待发货：<?php echo $needsend_count ?>笔</a>￥<?php echo $needsend__price ?></dd>
-		                <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待收货：<?php echo $needget_count ?>笔</a>￥<?php echo $needget__price ?></dd>
+		                <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 2))?>">待发货：<?php echo $needsend_count ?>笔</a>￥<?php echo $needsend__price ?></dd>
+		                <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => 3))?>">待收货：<?php echo $needget_count ?>笔</a>￥<?php echo $needget__price ?></dd>
 		               
 		               
 		                <dd><a href="<?php  echo create_url('site',  array('name' => 'shop','do'=>'order','op' => 'display', 'status' => -3))?>">换货单：<?php echo $returnofgoods_count ?>笔</a>￥<?php echo $returnofgoods_price ?></dd>

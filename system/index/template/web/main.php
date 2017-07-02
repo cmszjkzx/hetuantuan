@@ -95,12 +95,12 @@
         } 
     }
 ?>  
-<li class="light-blue">
+<!--<li class="light-blue">
     <a class="dropdown-toggle"  href="<?php  echo create_url('site',array('name' => 'index','do' => 'main','smenu'=>'extends'))?>" >
         <i class="icon-cloud"></i>
         <span>&nbsp;扩&nbsp;展&nbsp;</span>
     </a> 
-</li> 
+</li> -->
 <li class="light-blue">
     <a class="dropdown-toggle"  href="<?php  echo create_url('site',array('name' => 'index','do' => 'main','smenu'=>'setting'))?>" >
         <i class="icon-gear"></i>
@@ -126,12 +126,12 @@
         <span>PC端商城首页</span>
     </a> 
 </li>
-<li class="Larger">
-    <a class="dropdown-toggle"  href="<?php  echo WEBSITE_ROOT.'mobile.php';?>" target="_blank">
+<!--<li class="Larger">
+    <a class="dropdown-toggle"  href="<?php  //echo WEBSITE_ROOT.'mobile.php';?>" target="_blank">
         <i class="icon-mobile-phone"></i>
         <span>手机端商城首页</span>
     </a> 
-</li>
+</li>-->
 
 
 
@@ -210,9 +210,9 @@
           	  <?php   require "smenu_setting.php";?> 
           	  <?php   }?> 
           	  
-          	<?php if("extends"==$_GP['smenu']){ ?>
-          	  <?php   require "smenu_extends.php";?>
-          	  <?php   }?>
+          	<?php //if("extends"==$_GP['smenu']){ ?>
+          	  <?php //  require "smenu_extends.php";?>
+          	  <?php  // }?>
 <!-- 2017-02-17-yanru-begin-新增商家界面 -->
             <?php if("bands"==$_GP['smenu']){ ?>
                 <?php   require "smenu_bands.php";?>

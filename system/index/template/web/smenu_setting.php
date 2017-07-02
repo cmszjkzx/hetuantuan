@@ -9,34 +9,34 @@
              <b class="arrow icon-angle-down"></b>
         </a>
         <ul class="submenu">
-            <?php if(checkrule('shop','config')){ ?>
-                <li> <a  onclick="navtoggle('商城配置 - > 商城基础设置')"  href="<?php  echo create_url('site', array('name' => 'shop','do' => 'config'))?>" target="main">
+            <!-- <?php //if(checkrule('shop','config')){ ?>
+                <li> <a  onclick="navtoggle('商城配置 - > 商城基础设置')"  href="<?php  //echo create_url('site', array('name' => 'shop','do' => 'config'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
                         商城基础设置
                     </a>
                 </li>
-            <?php  } ?>
-            <?php if(checkrule('shop','noticemail')){ ?>
-                <li> <a  onclick="navtoggle('商城配置 - > 新订单邮件提醒')"  href="<?php  echo create_url('site', array('name' => 'shop','do' => 'noticemail'))?>" target="main">
+            <?php  //} ?>
+            <?php //if(checkrule('shop','noticemail')){ ?>
+                <li> <a  onclick="navtoggle('商城配置 - > 新订单邮件提醒')"  href="<?php  //echo create_url('site', array('name' => 'shop','do' => 'noticemail'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
                         新订单邮件提醒
                     </a>
                 </li>
-            <?php  } ?>
-            <?php if(checkrule('modules','payment')){ ?>
-                <li> <a onclick="navtoggle('商城配置 - > 支付方式')" href="<?php  echo create_url('site', array('name' => 'modules','do' => 'payment','op'=>'list'))?>" target="main">
+            <?php // } ?>
+            <?php //if(checkrule('modules','payment')){ ?>
+                <li> <a onclick="navtoggle('商城配置 - > 支付方式')" href="<?php  //echo create_url('site', array('name' => 'modules','do' => 'payment','op'=>'list'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
                         支付方式
                     </a>
                 </li>
-            <?php  } ?>
-            <?php if(checkrule('modules','thirdlogin')){ ?>
-                <li> <a onclick="navtoggle('商城配置 - > 快捷登录')" href="<?php  echo create_url('site', array('name' => 'modules','do' => 'thirdlogin'))?>" target="main">
+            <?php  //} ?>
+            <?php //if(checkrule('modules','thirdlogin')){ ?>
+                <li> <a onclick="navtoggle('商城配置 - > 快捷登录')" href="<?php  //echo create_url('site', array('name' => 'modules','do' => 'thirdlogin'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
                         快捷登录
                     </a>
                 </li>
-            <?php  } ?>
+            <?php  //} ?> -->
             <?php if(checkrule('modules','dispatch')){ ?>
                 <li> <a onclick="navtoggle('模块 - > 配送方式')" href="<?php  echo create_url('site', array('name' => 'modules','do' => 'dispatch','op'=>'display'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
@@ -64,12 +64,12 @@
                 </a>
             </li>
                                               
-            <li>
-                <a onclick="navtoggle('微信设置 - > 菜单管理 ')"  href="<?php  echo create_url('site', array('name' => 'weixin','do' => 'designer'))?>" target="main" >
+            <!--<li>
+                <a onclick="navtoggle('微信设置 - > 菜单管理 ')"  href="<?php  //echo create_url('site', array('name' => 'weixin','do' => 'designer'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     菜单管理
                 </a>
-            </li>
+            </li>-->
                                                
             <li>
                 <a onclick="navtoggle('微信设置 - > 自定义回复 ')"  href="<?php  echo create_url('site', array('name' => 'weixin','do' => 'rule'))?>" target="main" >
@@ -78,12 +78,12 @@
                 </a>
             </li>
 
-            <li>
+            <!--<li>
                 <a onclick="navtoggle('微信设置 - > 素材上传 ')"  href="<?php  echo create_url('site', array('name' => 'weixin','do' => 'weixin_upload'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
                     素材上传
                 </a>
-            </li>
+            </li>-->
 
             <li>
                 <a onclick="navtoggle('微信设置 - > 杨东专用 ')"  href="<?php  echo create_url('site', array('name' => 'weixin','do' => 'yangdong'))?>" target="main" >
@@ -149,7 +149,7 @@
             <li>
                 <a onclick="navtoggle('多用户管理 - > 会员组 ')"  href="<?php  echo create_url('site', array('name' => 'user','do' => 'usergroup','op' => 'listgroup'))?>" target="main" >
                     <i class="icon-double-angle-right"></i>
-                    会员组
+                    用户组
                 </a>
             </li>
         </ul>

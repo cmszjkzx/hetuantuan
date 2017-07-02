@@ -50,7 +50,7 @@
             <th style="width:80px;">配送方式</th>
             <th style="width:50px;">运费</th>
             <th style="width:50px;">总价</th>
-            <th style="width:50px;">状态</th>
+            <!---<th style="width:50px;">状态</th>-->
             <?php } ?>
             <th style="width:150px;">下单时间</th>
         </tr>
@@ -87,19 +87,19 @@
                 </td>
                 <td><?php  echo $item['dispatchprice'];?></td>
                 <td><?php  echo $item['price'];?> 元</td>
-                <td>
-                    <?php  if($item['status'] == 0) { ?><span class="label label-warning" >待付款</span><?php  } ?>
-                    <?php  if($item['status'] == 1) { ?><span class="label label-danger" >待发货</span><?php  } ?>
-                    <?php  if($item['status'] == 2) { ?><span class="label label-warning">待收货</span><?php  } ?>
-                    <?php  if($item['status'] == 3) { ?><span class="label label-success" >已完成</span><?php  } ?>
-                    <?php  if($item['status'] == -1) { ?><span class="label label-success">已关闭</span><?php  } ?>
-                    <?php  if($item['status'] == -2) { ?><span class="label label-danger">退款中</span><?php  } ?>
-                    <?php  if($item['status'] == -3) { ?><span class="label label-danger">换货中</span><?php  } ?>
-                    <?php  if($item['status'] == -4) { ?><span class="label label-danger">退货中</span><?php  } ?>
-                    <?php  if($item['status'] == -5) { ?><span class="label label-success">已退货</span><?php  } ?>
-                    <?php  if($item['status'] == -6) { ?><span class="label  label-success">已退款</span><?php  } ?>
-                    <?php  if($item['status'] == -7) { ?><span class="label  label-success">用户关闭</span><?php  } ?>
-                </td>
+                <!--<td>
+                    <?php  //if($item['status'] == 0) { ?><span class="label label-warning" >待付款</span><?php  //} ?>
+                    <?php  //if($item['status'] == 1) { ?><span class="label label-danger" >待发货</span><?php  //} ?>
+                    <?php  //if($item['status'] == 2) { ?><span class="label label-warning">待收货</span><?php  //} ?>
+                    <?php  //if($item['status'] == 3) { ?><span class="label label-success" >已完成</span><?php  //} ?>
+                    <?php  //if($item['status'] == -1) { ?><span class="label label-success">已关闭</span><?php  //} ?>
+                    <?php  //if($item['status'] == -2) { ?><span class="label label-danger">退款中</span><?php  //} ?>
+                    <?php  //if($item['status'] == -3) { ?><span class="label label-danger">换货中</span><?php  //} ?>
+                    <?php  //if($item['status'] == -4) { ?><span class="label label-danger">退货中</span><?php  //} ?>
+                    <?php  //if($item['status'] == -5) { ?><span class="label label-success">已退货</span><?php // } ?>
+                    <?php  //if($item['status'] == -6) { ?><span class="label  label-success">已退款</span><?php // } ?>
+                    <?php  //if($item['status'] == -7) { ?><span class="label  label-success">用户关闭</span><?php // } ?>
+                </td>-->
                 <?php } ?>
                 <td><?php  echo date('Y-m-d H:i:s', $item['createtime'])?></td>
             </tr>

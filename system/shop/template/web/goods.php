@@ -124,11 +124,11 @@
 			<input type="checkbox" name="issendfree" value="1" id="isnew" <?php  if($item['issendfree'] == 1) { ?>checked="true"<?php  } ?> /> 打勾表示此商品不会产生运费花销，否则按照正常运费计算。
            &nbsp;</div>
 		</div>
-	<div class="form-group">
+	<!--<div class="form-group">
 		<label class="col-sm-2 control-label no-padding-left" > 限时促销：</label>
 		<div class="col-sm-9">
-			<input type="checkbox" name="istime" id='istime' value="1" id="isnew" <?php  if($item['istime'] == 1) { ?>checked="true"<?php  } ?> /> 开启限时促销
-			<input type="text" id="datepicker_timestart" name="timestart" value="<?php if(!empty($item['timestart'])){echo date('Y-m-d H:i',$item['timestart']);}?>" readonly="readonly" />
+			<input type="checkbox" name="istime" id='istime' value="1" id="isnew" <?php  //if($item['istime'] == 1) { ?>checked="true"<?php  //} ?> /> 开启限时促销
+			<input type="text" id="datepicker_timestart" name="timestart" value="<?php //if(!empty($item['timestart'])){echo date('Y-m-d H:i',$item['timestart']);}?>" readonly="readonly" />
 			<script type="text/javascript">
 				$("#datepicker_timestart").datetimepicker({
 					format: "yyyy-mm-dd hh:ii",
@@ -137,7 +137,7 @@
 					// autoclose: true
 				// });
 			</script> -
-			<input type="text"  id="datepicker_timeend" name="timeend" value="<?php if(!empty($item['timestart'])){echo date('Y-m-d H:i',$item['timeend']);}?>" readonly="readonly" />
+			<input type="text"  id="datepicker_timeend" name="timeend" value="<?php //if(!empty($item['timestart'])){echo date('Y-m-d H:i',$item['timeend']);}?>" readonly="readonly" />
 			<script type="text/javascript">
 				$("#datepicker_timeend").datetimepicker({
 					format: "yyyy-mm-dd hh:ii"
@@ -153,10 +153,10 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label no-padding-left" >奖励积分：</label>
 		<div class="col-sm-9">
-			<input type="text" name="credit" id="credit" value="<?php  echo empty($item['credit'])?'0':$item['credit'];?>" />
+			<input type="text" name="credit" id="credit" value="<?php  //echo empty($item['credit'])?'0':$item['credit'];?>" />
 			<p class="help-block">会员购买商品赠送的积分, 如果不填写，则默认为不奖励积分</p>
 		</div>
-	</div>
+	</div>-->
 		
 	<div class="form-group">
 		<label class="col-sm-2 control-label no-padding-left" >商品主图：<br/>（建议640*640）</label>
