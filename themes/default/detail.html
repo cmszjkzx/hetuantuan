@@ -227,8 +227,7 @@
 
 <script type="text/javascript">
     $("#total").on('input',function(e){
-        console.log($("#goodstotail").html());
-        if ($("#total").val() > $("#goodstotail").html()){
+        if ($("#total").val() > parseInt($("#goodstotail").html())){
             alert("超过库存数量");
             $("#total").val(1);
         }

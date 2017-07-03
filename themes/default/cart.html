@@ -123,9 +123,9 @@
 				<span class="input-group-btn">
 					<button type="button" value="-" class="btn btn-default ic-minus" onclick="reduceNum(<!--@php  echo $item['id'];@-->)"></button>
 				</span>
-                <input type="tel" class="form-control ic-input" name="number" value="<!--@php  echo $item['total'];@-->" price="<!--@php  echo $goods['marketprice'];@-->" pricetotal="<!--@php  echo $item['totalprice'];@-->" id="goodsnum_<!--@php  echo $item['id'];@-->" cartid='<!--@php  echo $item['id'];@-->' maxbuy="999"  style="height:inherit;text-align: center"/>
+                <input readonly="true" type="tel" class="form-control ic-input" name="number" value="<!--@php  echo $item['total'];@-->" price="<!--@php  echo $goods['marketprice'];@-->" pricetotal="<!--@php  echo $item['totalprice'];@-->" id="goodsnum_<!--@php  echo $item['id'];@-->" cartid="<!--@php  echo $item['id'];@-->" maxbuy="<!--@php  echo $goods['optionstock'];@-->"  style="height:inherit;text-align: center"/>
                 <span class="input-group-btn">
-                                        <button type="button" value="+" class="btn btn-default ic-plus" onclick="addNum(<!--@php  echo $item['id'];@-->,999)"></button>
+                                        <button type="button" value="+" class="btn btn-default ic-plus" onclick="addNum(<!--@php  echo $item['id'];@-->)"></button>
                                     </span>
             </div>
 		</div>
@@ -319,21 +319,25 @@
 
 		var url  = '<!--@php  echo mobile_url('mycart', array('op'=>'update'))@-->' + "&id=" + id+"&num=" + num;
 		$.getJSON(url, function(s){
-
+		    console.log(s);
 		});
 	}
 	function checkMaxBuy(id, maxbuy){
 
 
 	}
-	function addNum(id,maxbuy){
-		var mb = maxbuy;
+
+	function addNum(id){
+
+		var mb = parseInt( $("#goodsnum_" + id).attr("maxbuy") );
+		console.log(mb);
 		var stock =$("#stock_" + id).html()==''?-1:parseInt($("#stock_" + id).html());
+		console.log(stock);
 		if(mb>stock && stock!=-1){
 			mb = stock;
 		}
 
-		var num = parseInt( $("#goodsnum_" + id).val() ) + 1;
+		var num = parseInt( $("#goodsnum_" + id).val()) + 1;
 		if(num>mb && mb>0){
 			alert("最多只能购买 " + mb + " 件!",true);
 			return;
