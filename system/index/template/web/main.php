@@ -96,7 +96,7 @@
     }
 ?>  
 <!--<li class="light-blue">
-    <a class="dropdown-toggle"  href="<?php  echo create_url('site',array('name' => 'index','do' => 'main','smenu'=>'extends'))?>" >
+    <a class="dropdown-toggle"  href="<?php  //echo create_url('site',array('name' => 'index','do' => 'main','smenu'=>'extends'))?>" >
         <i class="icon-cloud"></i>
         <span>&nbsp;扩&nbsp;展&nbsp;</span>
     </a> 

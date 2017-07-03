@@ -18,14 +18,14 @@
                     </a>
                 </li>
             <?php }?>
-            <?php if(checkrule('shop','orderbat')){ ?>
+            <!--<?php //if(checkrule('shop','orderbat')){ ?>
                 <li>
-                    <a onclick="navtoggle('订单管理 - > 批量发货')" href="<?php  echo create_url('site', array('name' => 'shop','do'=>'orderbat','op' => 'display'))?>" target="main">
+                    <a onclick="navtoggle('订单管理 - > 批量发货')" href="<?php  //echo create_url('site', array('name' => 'shop','do'=>'orderbat','op' => 'display'))?>" target="main">
                         <i class="icon-double-angle-right"></i>
                         批量发货
                     </a>
                 </li>
-            <?php }?>
+            <?php //}?>-->
             <?php if(checkrule('shop','goods_comment')){ ?>
                 <li>
                     <a onclick="navtoggle('订单管理 - > 评论管理')" href="<?php  echo create_url('site', array('name' => 'shop','do'=>'goods_comment','op' => 'display'))?>" target="main">

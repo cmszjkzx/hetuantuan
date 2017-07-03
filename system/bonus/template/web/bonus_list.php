@@ -28,12 +28,12 @@
       <td class="text-center"><?php echo $item['sendcount']; ?></td>
       <td class="text-center"><?php echo $item['usercount']; ?></td>
       <td class="text-center">
-    	<a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'bonus','do' => 'bonusview','op'=>'post','id'=>$item['type_id']))?>"><i class="icon-zoom-out"></i>查看发放记录</a> 
+    	<!--<a class="btn btn-xs btn-info"  href="<?php // echo create_url('site', array('name' => 'bonus','do' => 'bonusview','op'=>'post','id'=>$item['type_id']))?>"><i class="icon-zoom-out"></i>查看发放记录</a>
       &nbsp;&nbsp;	       
-      <?php if($item['send_type']!=2){?>
-          <a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'bonus','do' => 'sendbonus','op'=>'post','id'=>$item['type_id']))?>"><i class="icon-tasks"></i>&nbsp;发&nbsp;放&nbsp;</a> 
+      <?php //if($item['send_type']!=2){?>
+          <a class="btn btn-xs btn-info"  href="<?php  //echo create_url('site', array('name' => 'bonus','do' => 'sendbonus','op'=>'post','id'=>$item['type_id']))?>"><i class="icon-tasks"></i>&nbsp;发&nbsp;放&nbsp;</a>
           &nbsp;&nbsp;	  	
-      <?php } ?>
+      <?php //} ?>-->
       <a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'bonus','do' => 'bonus','op'=>'post','id'=>$item['type_id']))?>"><i class="icon-edit"></i>&nbsp;修&nbsp;改&nbsp;</a> 
       &nbsp;&nbsp;	<a class="btn btn-xs btn-info" onclick="return confirm('此操作不可恢复，确认删除？');return false;"  href="<?php  echo create_url('site', array('name' => 'bonus','do' => 'bonus','op'=>'delete','id'=>$item['type_id']))?>"><i class="icon-edit"></i>&nbsp;删&nbsp;除&nbsp;</a> </td>
 		</tr>

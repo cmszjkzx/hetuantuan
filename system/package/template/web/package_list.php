@@ -32,12 +32,12 @@
             <td class="text-center"><?php echo $item['min_send_amount']; ?></td>
             <td class="text-center"><?php echo $item['package_id']; ?></td>
             <td class="text-center">
-                <a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'package','do' => 'packagebonusview','op'=>'post','bonus_id'=>$item['bonus_id']))?>"><i class="icon-zoom-out"></i>查看发放记录</a>
+                <!--<a class="btn btn-xs btn-info"  href="<?php  //echo create_url('site', array('name' => 'package','do' => 'packagebonusview','op'=>'post','bonus_id'=>$item['bonus_id']))?>"><i class="icon-zoom-out"></i>查看发放记录</a>
       &nbsp;&nbsp;	       
-                <?php if($item['send_type']!=2){?>
-                    <a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'package','do' => 'sendpackagebonus','op'=>'post','bonus_id'=>$item['bonus_id']))?>"><i class="icon-tasks"></i>&nbsp;发&nbsp;放&nbsp;</a>
+                <?php //if($item['send_type']!=2){?>
+                    <a class="btn btn-xs btn-info"  href="<?php  //echo create_url('site', array('name' => 'package','do' => 'sendpackagebonus','op'=>'post','bonus_id'=>$item['bonus_id']))?>"><i class="icon-tasks"></i>&nbsp;发&nbsp;放&nbsp;</a>
           &nbsp;&nbsp;	  	
-                <?php } ?>
+                <?php //} ?>-->
                 <a class="btn btn-xs btn-info"  href="<?php  echo create_url('site', array('name' => 'package','do' => 'package','op'=>'post','bonus_id'=>$item['bonus_id']))?>"><i class="icon-edit"></i>&nbsp;修&nbsp;改&nbsp;</a>
                 &nbsp;&nbsp;<a class="btn btn-xs btn-info" onclick="return confirm('此操作不可恢复，确认删除？');return false;"  href="<?php  echo create_url('site', array('name' => 'package','do' => 'package','op'=>'delete','bonus_id'=>$item['bonus_id']))?>"><i class="icon-edit"></i>&nbsp;删&nbsp;除&nbsp;</a> </td>
         </tr>
