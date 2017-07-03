@@ -31,9 +31,9 @@
         <label class="col-sm-2 control-label no-padding-left" > 优惠券发放类型</label>
         <div class="col-sm-9">
             <input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="0"  <?php echo empty($bonus['bonus_send_type'])?"checked=\"true\"":"";?> onclick="showunit($(this))">按用户发放
-            <input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="1" onclick="showunit($(this))" <?php echo $bonus['bonus_send_type']==1?"checked=\"true\"":"";?>>按商品发放
+            <!--<input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="1" onclick="showunit($(this))" <?php echo $bonus['bonus_send_type']==1?"checked=\"true\"":"";?>>按商品发放
             <input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="2" onclick="showunit($(this))" <?php echo $bonus['bonus_send_type']==2?"checked=\"true\"":"";?>>按订单金额发放
-            <input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="3" onclick="showunit($(this))" <?php echo $bonus['bonus_send_type']==3?"checked=\"true\"":"";?>>线下发放的优惠券
+            <input type="radio" name='bonus_send_type_<?php  echo $add_bonus_number;?>' value="3" onclick="showunit($(this))" <?php echo $bonus['bonus_send_type']==3?"checked=\"true\"":"";?>>线下发放的优惠券-->
         </div>
     </div>
     <div class="form-group" id='1_<?php  echo $add_bonus_number;?>' style="display:none">

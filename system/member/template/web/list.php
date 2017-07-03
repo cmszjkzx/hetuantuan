@@ -49,8 +49,8 @@
 						<input name="weixinname"  type="text" value="<?php  echo $_GP['weixinname'];?>" />
 								</td>
 						
-					<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:130px">支付宝昵称</td>
-			<td><input name="alipayname"  type="text" value="<?php  echo $_GP['alipayname'];?>" />
+					<!--<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:130px">支付宝昵称</td>
+			<td><input name="alipayname"  type="text" value="<?php  //echo $_GP['alipayname'];?>" />-->
 			</td>	
 						</tr>
 						
@@ -136,9 +136,9 @@
 										<a class="btn btn-xs btn-success" href="<?php  echo web_url('delete',array('name'=>'member','openid' => $v['openid'],'status' => 1));?>" onclick="return confirm('确定要恢复该账户吗？');"><i class="icon-edit"></i>恢复账户</a>
 										
 									<?php  } ?>
-										&nbsp;<a  class="btn btn-xs btn-info" href="<?php  echo web_url('detail',array('name'=>'member','openid' => $v['openid']));?>"><i class="icon-edit"></i>账户编辑</a>&nbsp;<br/><br/>
-										<a class="btn btn-xs btn-info" href="<?php  echo web_url('recharge',array('name'=>'member','openid' => $v['openid'],'op'=>'credit'));?>"><i class="icon-edit"></i>积分管理</a>&nbsp;
-										<a class="btn btn-xs btn-info" href="<?php  echo web_url('recharge',array('name'=>'member','openid' => $v['openid'],'op'=>'gold'));?>"><i class="icon-edit"></i>余额管理</a>	
+										&nbsp;<!--<a  class="btn btn-xs btn-info" href="<?php  //echo web_url('detail',array('name'=>'member','openid' => $v['openid']));?>"><i class="icon-edit"></i>账户编辑</a>&nbsp;<br/><br/>
+										<a class="btn btn-xs btn-info" href="<?php  //echo web_url('recharge',array('name'=>'member','openid' => $v['openid'],'op'=>'credit'));?>"><i class="icon-edit"></i>积分管理</a>&nbsp;
+										<a class="btn btn-xs btn-info" href="<?php  //echo web_url('recharge',array('name'=>'member','openid' => $v['openid'],'op'=>'gold'));?>"><i class="icon-edit"></i>余额管理</a>	-->
 									</td>
 								</tr>
 								<?php  } } ?>

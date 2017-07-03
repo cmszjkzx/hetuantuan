@@ -1,7 +1,7 @@
 <?php
 $operation = !empty($_GP['op']) ? $_GP['op'] : 'display';
 if($operation=='delete') {
-	mysqld_update('package_bonus',array('deleted'=>1),array('bonus_id'=>intval($_GP['id'])));
+	mysqld_update('package_bonus',array('deleted'=>1),array('bonus_id'=>intval($_GP['bonus_id'])));
 	message("删除成功！","refresh","success");
 }
 if($operation=='addbonus') {
@@ -12,9 +12,17 @@ if($operation=='addbonus') {
 if($operation=='post') {
 	$bonus = mysqld_select("SELECT * FROM " . table('package_bonus')." where bonus_id='".intval($_GP['bonus_id'])."' " );
   	if (checksubmit('submit')) {
+  	    if(empty($_GP['package_id'])){
+  	        message("请填写优惠礼包编号！");
+        }
+        if(empty($_GP['max_amount'])){
+            message("请填写优惠礼包金额！");
+        }
+        if(empty($_GP['max_number'])){
+            message("请填写优惠礼包最大人数！");
+        }
 		if(empty($_GP['bonus_id'])) {
 		    for($i=1; $i<=$_GP['add_bonus_number']; $i++) {
-
                 $data=array('package_id'=>$_GP['package_id'],
                     'max_amount'=>$_GP['max_amount'],
                     'max_number'=>$_GP['max_number'],

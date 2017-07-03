@@ -29,9 +29,9 @@
 			<label class="col-sm-2 control-label no-padding-left" > 如何发放此类型优惠券</label>
 			<div class="col-sm-9">
 			<input type="radio" name="send_type" value="0"  <?php  echo empty($bonus['send_type'])?"checked=\"true\"":"";?> onclick="showunit(0)">按用户发放
-			<input type="radio" name="send_type" value="1" onclick="showunit(1)" <?php  echo $bonus['send_type']==1?"checked=\"true\"":"";?>>按商品发放
+			<!--<input type="radio" name="send_type" value="1" onclick="showunit(1)" <?php  echo $bonus['send_type']==1?"checked=\"true\"":"";?>>按商品发放
 			<input type="radio" name="send_type" value="2" onclick="showunit(2)" <?php  echo $bonus['send_type']==2?"checked=\"true\"":"";?>>按订单金额发放
-			<input type="radio" name="send_type" value="3" onclick="showunit(3)" <?php  echo $bonus['send_type']==3?"checked=\"true\"":"";?>>线下发放的优惠券 
+			<input type="radio" name="send_type" value="3" onclick="showunit(3)" <?php  echo $bonus['send_type']==3?"checked=\"true\"":"";?>>线下发放的优惠券 -->
 			</div>
 		</div>
 		<div class="form-group" id="1" style="display:none">
