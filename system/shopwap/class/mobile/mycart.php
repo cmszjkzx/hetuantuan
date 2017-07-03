@@ -86,9 +86,9 @@ if ($op == 'add') {
     $goods_option_stock =  mysqld_selectcolumn("SELECT sgo.stock FROM ".table('shop_cart')." sc LEFT JOIN ".table('shop_goods_option')." sgo ON sc.optionid=sgo.id WHERE sc.id=:id ", array(':id'=>$id));
     if($num !=0 && $num <= $goods_option_stock) {
         mysqld_query("update " . table('shop_cart') . " set total=$num where id=:id", array(":id" => $id));
-        die(json_encode(array("result" => 1)));
+        die(json_encode(array("code" => 1001, "message"=>"success")));
     }else{
-        die(json_encode(array("result" => 0)));
+        die(json_encode(array("code" => 1002, "message"=>"超过了")));
     }
 } else if($op == 'check'){
     //2016-12-13-yanru
