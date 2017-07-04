@@ -70,7 +70,7 @@ defined('SYSTEM_IN') or exit('Access Denied');
 							}
 							
 							
-							$data= array('password'=> md5($_GP['newpassword']),'createtime'=>time());
+							$data= array('password'=> $_GP['newpassword'],'createtime'=>time());
 							 mysqld_update('user', $data,array('id'=> $account['id']));
 							 
 									message('密码修改成功！',web_url('user'),'succes');	
@@ -109,7 +109,7 @@ defined('SYSTEM_IN') or exit('Access Denied');
 							
 							
 				 $user_group = mysqld_select("select * from " . table('user_group')."where id=:id",array(":id"=>intval($_GP['groupid'])));
-							$data= array('username'=> $_GP['username'],'is_admin'=> intval($_GP['is_admin']),'groupid'=> intval($_GP['groupid']),'groupName'=> $user_group['groupName'],'password'=> md5($_GP['newpassword']),'createtime'=>time());
+							$data= array('username'=> $_GP['username'],'is_admin'=> intval($_GP['is_admin']),'groupid'=> intval($_GP['groupid']),'groupName'=> $user_group['groupName'],'password'=> $_GP['newpassword'],'createtime'=>time());
 							 mysqld_insert('user', $data);
 							 
 							 

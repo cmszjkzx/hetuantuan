@@ -18,11 +18,19 @@
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/js/common.js"></script>
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/bootstrap3/js/bootstrap.min.js"></script> 
 <script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/common/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="<?php echo RESOURCE_ROOT;?>addons/public/md5.min.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo RESOURCE_ROOT;?>addons/common/kindeditor/themes/default/default.css" />
 <script type="text/javascript">
 window.UEDITOR_HOME_URL = '<?php echo RESOURCE_ROOT;?>/addons/common/';
 window.UEDITOR_RES_URL = '<?php echo RESOURCE_ROOT;?>/addons/common/';
 window.UEDITOR_UEUPLOAD='<?php echo WEBSITE_ROOT.web_url('file_ueupload',array('name'=>'index'));?>';
+function checkpassword() {
+    var newpwd = $("#newpassword");
+    var confirmpwd = $("#confirmpassword");
+
+    newpwd.val(md5(newpwd.val() + 'Random_KUGBJVY'));
+    confirmpwd.val(md5(confirmpwd.val() + 'Random_KUGBJVY'));
+}
 </script>
    <!--[if IE 7]>
     <link rel="stylesheet" href="<?php echo RESOURCE_ROOT;?>addons/common/fontawesome3/css/font-awesome-ie7.min.css">
