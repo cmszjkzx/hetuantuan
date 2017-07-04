@@ -166,9 +166,11 @@
             var time = "许愿倒计时："+day +'天' + hour + '时' + minute + '分' + second + "秒";
             $('#'+parentId + ' #countdowm').html(time);
             intDiff--;
-            if (intDiff == 0){
+            if (day == 0 && minute == 0 && second == 0){
                 $('#'+parentId + ' #countdowm').html('心愿收集结束啦');
                 $('#'+parentId + " #doFavorate").removeAttr('onclick');
+            }
+            if (intDiff == 0){
                 window.clearInterval(id);
             }
         }, 1000);
