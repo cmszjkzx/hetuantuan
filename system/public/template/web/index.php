@@ -69,6 +69,7 @@
 	<script src="<?php echo RESOURCE_ROOT;?>/addons/public/jquery.jbox-min.js"></script>
 	<script src="<?php echo RESOURCE_ROOT;?>/addons/public/component-min.js"></script>
 	<script src="<?php echo RESOURCE_ROOT;?>/addons/public/common_login_reg.js"></script>
+    <script src="<?php echo RESOURCE_ROOT;?>/addons/public/md5.min.js"></script>
 	<!--[if lt IE 10]>
 		<script src="<?php echo RESOURCE_ROOT;?>/addons/public/jquery.placeholder-min.js"></script>
 		<script>
@@ -90,6 +91,7 @@
 		}
 		function dologin()
 		{
+//		    debugger;
 			var pw = $("#ipt_pwd");
 			var idname = $("#ipt_account");
 			var verifycode = $("#ipt_code");
@@ -108,6 +110,7 @@
 				LoginShowError(verifycode,"请输入验证码!");
 				return false;
 			}
+			pw.val(md5(pw.val() + 'Random_KUGBJVY'));
 			return true;
 		}
 		

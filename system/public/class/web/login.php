@@ -3,7 +3,7 @@
 	{
 		message('验证码输入错误！','refresh','error');	
 	}
-	$account = mysqld_select('SELECT * FROM '.table('user')." WHERE  username = :username and password=:password" , array(':username' => $_GP['username'],':password'=> md5($_GP['password'])));
+	$account = mysqld_select('SELECT * FROM '.table('user')." WHERE  username = :username and password=:password" , array(':username' => $_GP['username'],':password'=> $_GP['password']));
 	if(!empty($account['id']))
 	{
 		unset($account['password']);
