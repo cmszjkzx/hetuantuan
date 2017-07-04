@@ -168,6 +168,10 @@ if (!$direct) {
             //属性
             $option = mysqld_select("select * from " . table("shop_goods_option") . " where id=:id ", array(":id" => $g['optionid']));
             if ($option) {
+                //2017-07-04-yanru-cart
+                if($g['total']>$option['stock']){
+                    message("商品".$item['title'].$option['title']."库存不够!");
+                }
                 //2016-11-25-yanru-begin
                 if($item['issendfree']==1)
                 {
@@ -414,7 +418,7 @@ if(is_login_account())
     }
     //2017-04-06-yanru-begin-添加优惠礼包里的优惠券，用户下单的时候可以勾选使用
     $package_bonus = mysqld_selectall("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
-        . table("package_bonus_user")." pbu left join ".table("package_bonus") ." pb on pbu.package_bonus_id = pb.bonus_id where pb.deleted=0 and pbu.deleted=0 
+        . table("package_bonus_user")." pbu left join ".table("package_bonus") ." pb on pbu.package_bonus_id = pb.bonus_id where pbu.deleted=0  
         and pbu.isuse=0 and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date and pbu.openid=:openid ",
         array(":use_start_date"=>time(),":use_end_date"=>time(),":openid"=>$openid));
     if(is_array($package_bonus) && !empty($package_bonus)) {
@@ -698,7 +702,7 @@ if (checksubmit('submit')) {
                 }
                 if($bonus_sn_from[1] == "1"){
                     $package_bonus = mysqld_select("select pbu.*, pb.bonus_send_type as send_type, pb.bonus_name as bonus_name, pb.min_goods_amount as min_goods_amount, pb.bonus_money as bonus_money from "
-                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 and pb.deleted=0 "
+                        .table("package_bonus_user")." pbu left join " .table("package_bonus"). " pb on pb.bonus_id=pbu.package_bonus_id where pbu.bonus_sn=:bonus_sn and pbu.deleted=0 and pbu.isuse=0 "
                         ."and pbu.use_start_date<=:use_start_date and pbu.use_end_date>=:use_end_date", array(":bonus_sn"=>$bonus_sn_from[0], ":use_start_date" => time(), ":use_end_date" => time()));
                     if(!empty($package_bonus)){
                         $hasbonus = 1;

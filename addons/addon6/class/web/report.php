@@ -1,12 +1,14 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
+//ini_set('display_errors', TRUE);
+//ini_set('display_startup_errors', TRUE);
+ini_set('display_errors', FALSE);
+ini_set('display_startup_errors', FALSE);
 if (PHP_SAPI == 'cli')
     die('This example should only be run from a Web Browser');
 require_once WEB_ROOT.'/includes/lib/phpexcel/PHPExcel.php';
 
-ini_set('memory_limit', '350M');
+//ini_set('memory_limit', '350M');
 	
 // Create new PHPExcel object
 $objPHPExcel = new PHPExcel();
@@ -101,16 +103,17 @@ if($report=='orderstatistics')
         ->setCellValue('F1', '收货人')
         ->setCellValue('G1', '收货地址')
         ->setCellValue('H1', '收货电话')
-        ->setCellValue('I1', '分类名称')
-        ->setCellValue('J1', '产品名称')
-        ->setCellValue('K1', '规格')
-        ->setCellValue('L1', '商品单价')
-        ->setCellValue('M1', '商品进价')
-        ->setCellValue('N1', '购买数量')
-        ->setCellValue('O1', '商品总价')
-        ->setCellValue('P1', '优惠券价格')
-        ->setCellValue('Q1', '商品利润')
-        ->setCellValue('R1', '微信手续费');
+        ->setCellValue('I1', '优惠券价格')
+        ->setCellValue('J1', '微信手续费')
+        ->setCellValue('K1', '分类名称')
+        ->setCellValue('L1', '产品名称')
+        ->setCellValue('M1', '规格')
+        ->setCellValue('N1', '商品单价')
+        ->setCellValue('O1', '商品进价')
+        ->setCellValue('P1', '购买数量')
+        ->setCellValue('Q1', '商品总价')
+        ->setCellValue('R1', '商品利润');
+
     $objPHPExcel->getActiveSheet()->getStyle('A')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
     $i=2;
     $index=0;
@@ -147,7 +150,7 @@ if($report=='orderstatistics')
         }
         $countmoney2=$countmoney2+$priceother;
         $allbonusprice=$allbonusprice+$item['bonusprice'];
-        $allweixinprice=$allweixinprice+round(($item['price']*0.0006),2);
+        $allweixinprice=$allweixinprice+round(($item['price']*0.006),2);
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i, $item['ordersn'])
             ->setCellValue('B'.$i, date('Y-m-d  H:i:s',$item['createtime']))
@@ -157,9 +160,9 @@ if($report=='orderstatistics')
             ->setCellValue('F'.$i, $item['tdrealname'])
             ->setCellValue('G'.$i, $item['tdaddress'])
             ->setCellValue('H'.$i, $item['tdmobile'])
-            ->setCellValue('P'.$i, $item['bonusprice'])
-            ->setCellValue('R'.$i, round(($item['price']*0.006),2));
-        $itemdatas=array();
+            ->setCellValue('I'.$i, $item['bonusprice'])
+            ->setCellValue('J'.$i, round(($item['price']*0.006),2));
+        //$itemdatas=array();
 		$itemdline=0;
         foreach($item['ordergoods'] as $itemgoods){
 //				if($itemdline==0)
@@ -185,17 +188,17 @@ if($report=='orderstatistics')
 //                $itemdatas['goodstotal']=$itemdatas['goodstotal'].$sline.round(($itemgoods['total']*$itemgoods['price']),2);
 
             $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('I'.$i, $itemgoods['categoryname'])
-                ->setCellValue('J'.$i, $itemgoods['title'])
-                ->setCellValue('K'.$i, $itemgoods['optionname'])
-                ->setCellValue('L'.$i, $itemgoods['price'])
-                ->setCellValue('M'.$i, $itemgoods['productprice'])
-                ->setCellValue('N'.$i, $itemgoods['total'])
-                ->setCellValue('O'.$i, $itemgoods['total']*$itemgoods['price'])
-                ->setCellValue('Q'.$i, $itemgoods['price']-$itemgoods['productprice']);
+                ->setCellValue('K'.$i, $itemgoods['categoryname'])
+                ->setCellValue('L'.$i, $itemgoods['title'])
+                ->setCellValue('M'.$i, $itemgoods['optionname'])
+                ->setCellValue('N'.$i, $itemgoods['productprice'])
+                ->setCellValue('O'.$i, $itemgoods['price'])
+                ->setCellValue('P'.$i, $itemgoods['total'])
+                ->setCellValue('Q'.$i, $itemgoods['total']*$itemgoods['price'])
+                ->setCellValue('R'.$i, $itemgoods['total']*($itemgoods['price']-$itemgoods['productprice']));
 
             $countmoney3=$countmoney3+round(($itemgoods['total']*$itemgoods['price']),2);
-            $countmoney4=$countmoney4+$itemgoods['productprice'];
+            $countmoney4=$countmoney4+$itemgoods['total']*($itemgoods['price']-$itemgoods['productprice']);
             //$itemdline=$itemdline+1;
 
             $i++;
@@ -223,15 +226,15 @@ $objBorderA5->getBottom()->getColor()->setARGB('FFFF0000');
         //$i++;
 }
 //2016-12-22-yanru : 因为最后一个订单存在问题，所以导出必须修改其中内容
-$objPHPExcel->setActiveSheetIndex(0)
-    ->setCellValue('K'.($i-3), '500克')
-    ->setCellValue('M'.($i-3), 30)
-    ->setCellValue('M'.($i-2), 30)
-    ->setCellValue('M'.($i-1), 27)
-    ->setCellValue('Q'.($i-3), 9)
-    ->setCellValue('Q'.($i-2), 10)
-    ->setCellValue('Q'.($i-1), 12);
-    $modify_price = 120;
+//$objPHPExcel->setActiveSheetIndex(0)
+//    ->setCellValue('K'.($i-3), '500克')
+//    ->setCellValue('M'.($i-3), 30)
+//    ->setCellValue('M'.($i-2), 30)
+//    ->setCellValue('M'.($i-1), 27)
+//    ->setCellValue('Q'.($i-3), 9)
+//    ->setCellValue('Q'.($i-2), 10)
+//    ->setCellValue('Q'.($i-1), 12);
+//    $modify_price = 120;
     //end
  	
     $objPHPExcel->setActiveSheetIndex(0)
@@ -241,10 +244,10 @@ $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('D'.$i, " ".$countmoney2)
         ->setCellValue('E'.$i, "商品总价：")
         ->setCellValue('F'.$i, " ".round($countmoney3,2))
-        ->setCellValue('G'.$i, "优惠券总价格：".$allbonusprice."  微信手续总费用：".round($allweixinprice,2)."  总利润：".(round(($countmoney1-$countmoney4),2)-$allbonusprice-$allweixinprice+$modify_price));
+        ->setCellValue('G'.$i, "优惠券总价格：".$allbonusprice."  微信手续总费用：".round($allweixinprice,2)."  总利润：".round($countmoney4-$allbonusprice-$allweixinprice,2));
 //$objPHPExcel->getActiveSheet()->getStyle('A'.$i.':P'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
  
-    $objPHPExcel->getActiveSheet()->getStyle('A1:P1')->getFont()->setBold(true);
+    $objPHPExcel->getActiveSheet()->getStyle('A1:R1')->getFont()->setBold(true);
     $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
     $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
     $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(10);

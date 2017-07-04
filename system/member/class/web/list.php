@@ -57,14 +57,22 @@
       }
       
       $rank_model_list = mysqld_selectall("SELECT * FROM " . table('rank_model')." order by rank_level" );
-  	
-			$list = mysqld_selectall('SELECT * FROM '.table('member')." where 1=1 and `istemplate`=0  and `status`=$status $condition "." LIMIT " . ($pindex - 1) * $psize . ',' . $psize,$conditiondata);
-	 		$total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('member')." where 1=1 and `istemplate`=0 $condition ",$conditiondata);
-      $pager = pagination($total, $pindex, $psize);
-      
-      		foreach($list as  $index=>$item){
-      			 $list[$index]['weixin']= mysqld_selectall("SELECT * FROM " . table('weixin_wxfans') . " WHERE openid = :openid", array(':openid' => $item['openid']));
-        $list[$index]['alipay'] = mysqld_selectall("SELECT * FROM " . table('alipay_alifans') . " WHERE openid = :openid", array(':openid' => $item['openid']));
-           
-      		}
+
+          if(!empty($condition)) {
+              $list = mysqld_selectall('SELECT * FROM ' . table('member') . " where `istemplate`=0  and `status`=$status $condition " . " LIMIT " . ($pindex - 1) * $psize . ',' . $psize, $conditiondata);
+              $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('member') . " where `istemplate`=0 and`status`=$status $condition ", $conditiondata);
+          }else{
+              $list = mysqld_selectall('SELECT * FROM ' . table('member') . " where `istemplate`=0  and `status`=$status " . " LIMIT " . ($pindex - 1) * $psize . ',' . $psize);
+              $total = mysqld_selectcolumn('SELECT COUNT(*) FROM ' . table('member') . " where `istemplate`=0 and`status`=$status ");
+          }
+      if(empty($total)){
+          $total = 0;
+      }
+	 		$pager = pagination($total, $pindex, $psize);
+      if(!empty($list)) {
+          foreach ($list as $index => $item) {
+              $list[$index]['weixin'] = mysqld_selectall("SELECT * FROM " . table('weixin_wxfans') . " WHERE openid = :openid", array(':openid' => $item['openid']));
+              $list[$index]['alipay'] = mysqld_selectall("SELECT * FROM " . table('alipay_alifans') . " WHERE openid = :openid", array(':openid' => $item['openid']));
+          }
+      }
 			include page('list');

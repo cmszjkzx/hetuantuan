@@ -49,7 +49,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label no-padding-left" >商品类别图片（点击后）：</label>
+        <label class="col-sm-2 control-label no-padding-left" >商品类别图片(点击后)：</label>
         <div class="col-sm-9">
             <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
