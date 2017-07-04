@@ -123,7 +123,7 @@
 				<span class="input-group-btn">
 					<button type="button" value="-" class="btn btn-default ic-minus" onclick="reduceNum(<!--@php  echo $item['id'];@-->)"></button>
 				</span>
-                <input readonly="true" type="tel" class="form-control ic-input" name="number" value="<!--@php  echo $item['total'];@-->" price="<!--@php  echo $goods['marketprice'];@-->" pricetotal="<!--@php  echo $item['totalprice'];@-->" id="goodsnum_<!--@php  echo $item['id'];@-->" cartid="<!--@php  echo $item['id'];@-->" maxbuy="<!--@php  echo $goods['optionstock'];@-->"  style="height:inherit;text-align: center"/>
+                <input disabled="true" class="form-control ic-input color-black" name="number" value="<!--@php  echo $item['total'];@-->" price="<!--@php  echo $goods['marketprice'];@-->" pricetotal="<!--@php  echo $item['totalprice'];@-->" id="goodsnum_<!--@php  echo $item['id'];@-->" cartid="<!--@php  echo $item['id'];@-->" maxbuy="<!--@php  echo $goods['optionstock'];@-->"  style="height:inherit;text-align: center"/>
                 <span class="input-group-btn">
                                         <button type="button" value="+" class="btn btn-default ic-plus" onclick="addNum(<!--@php  echo $item['id'];@-->)"></button>
                                     </span>
