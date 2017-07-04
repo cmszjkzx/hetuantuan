@@ -167,6 +167,18 @@ if ($operation == 'post') {
         if (empty($_GP['kinds'])) {
             message('请选择商品类别！');
         }
+        if (empty($_GP['marketprice']) || (!is_numeric($_GP['marketprice']) && !is_float($_GP['marketprice']))) {
+            message('请输入本店售价！');
+        }
+        if (empty($_GP['productprice']) || (!is_numeric($_GP['productprice']) && !is_float($_GP['productprice']))) {
+            message('请输入市场售价！');
+        }
+        if (empty($_GP['weight']) || (!is_numeric($_GP['weight']) && !is_float($_GP['weight']))) {
+            message('请输入重量！');
+        }
+        if (empty($_GP['total']) || (!is_numeric($_GP['total']) && !is_float($_GP['total']))) {
+            message('请输入库存！');
+        }
 //        //2016-11-10-yanru
 //        if (empty($_GP['videopath'])) {
 //            message('请上传商品视频！');
@@ -457,6 +469,10 @@ if ($operation == 'post') {
     include page('goods_list');
 } elseif ($operation == 'delete') {
     $id = intval($_GP['id']);
+    $status = mysqld_selectcolumn("select status from ".table('shop_goods')." where id=:id", array(':id'=>$id));
+    if($status == 1){
+        message('商品上架中！');
+    }
     $row = mysqld_select("SELECT id, thumb FROM " . table('shop_goods') . " WHERE id = :id", array(':id' => $id));
     if (empty($row)) {
         message('抱歉，商品不存在或是已经被删除！');

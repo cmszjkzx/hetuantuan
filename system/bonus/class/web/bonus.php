@@ -10,6 +10,12 @@ if($operation=='post')
 	$bonus = mysqld_select("SELECT * FROM " . table('bonus_type')." where type_id='".intval($_GP['id'])."' " );
   	if (checksubmit('submit'))
   	{
+  	    if(!is_numeric($_GP['type_money']) && !is_float($_GP['type_money'])){
+            message("输入的数字非法请重新输入!");
+        }
+        if(!is_numeric($_GP['min_amount']) && !is_float($_GP['min_amount'])){
+            message("输入的数字非法请重新输入!");
+        }
 		if(	empty($_GP['id']))
 		{
 			$data=array('type_name'=>

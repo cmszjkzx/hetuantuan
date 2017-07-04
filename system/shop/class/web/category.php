@@ -79,11 +79,16 @@
         } elseif ($operation == 'delete') {
             $id = intval($_GP['id']);
             $category = mysqld_select("SELECT id, parentid FROM " . table('shop_category') . " WHERE id = '$id' and deleted=0 ");
+            $list = mysqld_select("SELECT id, parentid FROM " . table('shop_category') . " WHERE parentid = '$id' and deleted=0 ");
             if (empty($category)) {
                 message('抱歉，分类不存在或是已经被删除！', web_url('category', array('op' => 'display')), 'error');
             }
-            mysqld_update('shop_category', array('deleted' => 1), array('id' => $id, 'parentid' => $id), 'OR');
-            message('分类删除成功！', web_url('category', array('op' => 'display')), 'success');
+            if (!empty($list)){
+                message("存在子分类!");
+            }else {
+                mysqld_update('shop_category', array('deleted' => 1), array('id' => $id, 'parentid' => $id), 'OR');
+                message('分类删除成功！', web_url('category', array('op' => 'display')), 'success');
+            }
         } elseif ($operation == 'changestyle') {
         
              $cfg = array(

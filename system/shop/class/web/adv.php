@@ -40,7 +40,7 @@ if ($operation == 'display') {
         $adv_bonus = explode('-',$adv['hasbonus']);
         array_shift($adv_bonus);
     }
-    $bonuslist = mysqld_selectall("select * from " . table('bonus_type') . " where send_type=0 and use_start_date<=:use_start_date and use_end_date>=:use_end_date" ,array(":use_start_date"=>time(),":use_end_date"=>time()));
+    $bonuslist = mysqld_selectall("select * from " . table('bonus_type') . " where send_type=0 and deleted=0 and use_start_date<=:use_start_date and use_end_date>=:use_end_date" ,array(":use_start_date"=>time(),":use_end_date"=>time()));
     //end
     include page('adv');
 } elseif ($operation == 'delete') {
