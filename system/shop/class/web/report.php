@@ -50,7 +50,7 @@ if($report=='orderreport')
         //->setCellValue('I1', '商品进价')//不需要
         ->setCellValue('H1', '收货人')
         ->setCellValue('I1', '电话')
-        ->setCellValue('J1', '发货地址')
+        ->setCellValue('J1', '收货地址')
         ->setCellValue('K1', '物流公司')
         ->setCellValue('L1', '物流单号')
         ->setCellValue('M1', '运费')//新增

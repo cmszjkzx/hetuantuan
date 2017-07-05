@@ -21,8 +21,23 @@ if($operation=='post') {
         if(empty($_GP['max_number'])){
             message("请填写优惠礼包最大人数！");
         }
+        if(empty($_GP['add_bonus_number'])){
+            message("请添加优惠券！");
+        }
 		if(empty($_GP['bonus_id'])) {
 		    for($i=1; $i<=$_GP['add_bonus_number']; $i++) {
+		        if(empty($_GP['bonus_name_'.$i])){
+                    message("请填写优惠券名！");
+                }
+                if(empty($_GP['bonus_money_'.$i])){
+                    message("请填写优惠券金额！");
+                }
+                if(empty($_GP['min_goods_amount_'.$i])){
+                    message("请填写最小订单金额！");
+                }
+                if(empty($_GP['eable_days_'.$i])){
+                    message("请填写优惠券可用天数！");
+                }
                 $data=array('package_id'=>$_GP['package_id'],
                     'max_amount'=>$_GP['max_amount'],
                     'max_number'=>$_GP['max_number'],
@@ -42,12 +57,12 @@ if($operation=='post') {
 			$data=array('package_id'=>$_GP['package_id'],
 				'max_amount'=>$_GP['max_amount'],
                 'max_number'=>$_GP['max_number'],
-                'bonus_name'=>$_GP['bonus_name_'],
-                'bonus_send_type'=>$_GP['bonus_send_type_'],
-                'bonus_money'=>$_GP['bonus_money_'],
-				'min_goods_amount'=>$_GP['min_goods_amount_'],
-                'eable_days'=>$_GP['eable_days_'],
-                'min_send_amount'=>$_GP['min_send_amount_']);
+                'bonus_name'=>$_GP['bonus_name_'.$_GP['bonus_id']],
+                'bonus_send_type'=>$_GP['bonus_send_type_'.$_GP['bonus_id']],
+                'bonus_money'=>$_GP['bonus_money_'.$_GP['bonus_id']],
+				'min_goods_amount'=>$_GP['min_goods_amount_'.$_GP['bonus_id']],
+                'eable_days'=>$_GP['eable_days_'.$_GP['bonus_id']],
+                'min_send_amount'=>$_GP['min_send_amount_'.$_GP['bonus_id']]);
 			mysqld_update('package_bonus',$data,array('bonus_id'=>$_GP['bonus_id']));
 			message("修改成功","refresh","success");
 		}
