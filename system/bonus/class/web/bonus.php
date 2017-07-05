@@ -13,7 +13,7 @@ if($operation=='post')
   	    if(!is_numeric($_GP['type_money']) && !is_float($_GP['type_money'])){
             message("输入的数字非法请重新输入!");
         }
-        if(!is_numeric($_GP['min_amount']) && !is_float($_GP['min_amount'])){
+        if(!is_numeric($_GP['min_goods_amount']) && !is_float($_GP['min_goods_amount'])){
             message("输入的数字非法请重新输入!");
         }
 		if(	empty($_GP['id']))

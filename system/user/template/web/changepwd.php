@@ -5,7 +5,7 @@
 										<label class="col-sm-2 control-label no-padding-left" for="form-field-1"> 新密码：</label>
 
 										<div class="col-sm-9">
-											   <input type="password" id="newpassword"  name="newpassword"  class="col-xs-10 col-sm-2" />
+											   <input type="password" id="newpassword"  name="newpassword"  autocomplete="off" class="col-xs-10 col-sm-2" />
 										</div>
 									</div>
 									

@@ -5,11 +5,15 @@ if($operation=='delete') {
 	message("删除成功！","refresh","success");
 }
 if($operation=='addbonus') {
-    $add_bonus_number = $_GP['count'];
+//    if($_GP['count'] > 1){
+//        exit;
+//    }
+    $add_bonus_number=$_GP['count'];
     include page('package_bonus');
     exit;
 }
 if($operation=='post') {
+    $bonus_id = $_GP['bonus_id'];
 	$bonus = mysqld_select("SELECT * FROM " . table('package_bonus')." where bonus_id='".intval($_GP['bonus_id'])."' " );
   	if (checksubmit('submit')) {
   	    if(empty($_GP['package_id'])){
@@ -21,7 +25,7 @@ if($operation=='post') {
         if(empty($_GP['max_number'])){
             message("请填写优惠礼包最大人数！");
         }
-        if(empty($_GP['add_bonus_number'])){
+        if(empty($_GP['add_bonus_number'])&&empty($_GP['bonus_id'])){
             message("请添加优惠券！");
         }
 		if(empty($_GP['bonus_id'])) {
@@ -57,14 +61,14 @@ if($operation=='post') {
 			$data=array('package_id'=>$_GP['package_id'],
 				'max_amount'=>$_GP['max_amount'],
                 'max_number'=>$_GP['max_number'],
-                'bonus_name'=>$_GP['bonus_name_'.$_GP['bonus_id']],
-                'bonus_send_type'=>$_GP['bonus_send_type_'.$_GP['bonus_id']],
-                'bonus_money'=>$_GP['bonus_money_'.$_GP['bonus_id']],
-				'min_goods_amount'=>$_GP['min_goods_amount_'.$_GP['bonus_id']],
-                'eable_days'=>$_GP['eable_days_'.$_GP['bonus_id']],
-                'min_send_amount'=>$_GP['min_send_amount_'.$_GP['bonus_id']]);
+                'bonus_name'=>$_GP['bonus_name_'],
+                'bonus_send_type'=>$_GP['bonus_send_type_'],
+                'bonus_money'=>$_GP['bonus_money_'],
+				'min_goods_amount'=>$_GP['min_goods_amount_'],
+                'eable_days'=>$_GP['eable_days_'],
+                'min_send_amount'=>$_GP['min_send_amount_']);
 			mysqld_update('package_bonus',$data,array('bonus_id'=>$_GP['bonus_id']));
-			message("修改成功","refresh","success");
+			message("修改成功",create_url('site', array('name' => 'package','do' => 'package','op'=>'display')),"success");
 		}
 	}
 	include page('package');

@@ -157,16 +157,20 @@ if ($operation == 'post') {
         if (empty($_GP['goodsband'])) {
             message('请输入商品品牌！');
         }
-        if (empty($_GP['pcate'])) {
+        //2017-07-05-yanru
+        /*if (empty($_GP['pcate'])) {
             message('请选择商品分类！');
-        }
+        }*/
+        //end
         if (empty($_GP['total'])) {
             message('请输入商品库存！');
         }
         //2016-10-26-yanru-begin
-        if (empty($_GP['kinds'])) {
+        //2017-07-05
+        /*if (empty($_GP['kinds'])) {
             message('请选择商品类别！');
-        }
+        }*/
+        //end
         if (empty($_GP['marketprice']) || (!is_numeric($_GP['marketprice']) && !is_float($_GP['marketprice']))) {
             message('请输入本店售价！');
         }

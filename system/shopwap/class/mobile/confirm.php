@@ -318,7 +318,9 @@ if(is_login_account())
     $bonus_list=array();
     //2016-11-28-yanru-begin
     //$bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and min_amount<:min_amount and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":min_amount"=>$totalprice,":min_goods_amount"=>$totalprice,":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
-    $bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
+    //2017-07-05
+    //$bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where deleted=0  and (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
+    $bonus_types= mysqld_selectall("select * from " . table("bonus_type")." where (send_type=0  or (send_type=1 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or (send_type=2 and send_start_date<=:send_start_date and send_end_date>=:send_end_date) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date",array(":send_start_date"=>time(),":send_end_date"=>time(),":use_start_date"=>time(),":use_end_date"=>time()));
     //end
     foreach ($bonus_types as $bonus_type) {
         if(!empty($bonus_type['type_id']))
@@ -683,7 +685,9 @@ if (checksubmit('submit')) {
                 if($bonus_sn_from[1] == "0") {
                     $use_bonus = mysqld_select("select * from " . table('bonus_user') . " where deleted=0 and isuse=0 and  bonus_sn=:bonus_sn limit 1", array(":bonus_sn" => $bonus_sn_from[0]));
                     if (!empty($use_bonus['bonus_id'])) {
-                        $bonus_type = mysqld_select("select * from " . table('bonus_type') . " where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
+                        //2017-07-05
+                        //$bonus_type = mysqld_select("select * from " . table('bonus_type') . " where deleted=0 and type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
+                        $bonus_type = mysqld_select("select * from " . table('bonus_type') . " where type_id=:type_id and    min_goods_amount<=:min_goods_amount and (send_type=0  or (send_type=1 ) or (send_type=2 and min_amount<:min_amount ) or send_type=3)  and use_start_date<=:use_start_date and use_end_date>=:use_end_date", array(":type_id" => $use_bonus['bonus_type_id'], ":min_amount" => $goodsprice, ":min_goods_amount" => $goodsprice, ":use_start_date" => time(), ":use_end_date" => time()));
                         if (!empty($bonus_type['type_id'])) {
                             $hasbonus = 1;
                             $bonusprice = $bonus_type['type_money'];

@@ -61,7 +61,7 @@ if('post' == $operation){
         } else {
             mysqld_update('group', $data, array('id' => $id));
         }
-        header("location:".create_url('site', array('name' => 'group','do' => 'group','op'=>'post','id'=>$id)));
+        header("location:".create_url('site', array('name' => 'group','do' => 'group','op'=>'display','id'=>$id)));
         exit;
     }
 
@@ -78,6 +78,7 @@ if('post' == $operation){
     include page('group_goods_list');
 } else if ('delete' == $operation) {
     mysqld_delete('group', array('id' => intval($_GP['id'])));
+    $list = mysqld_selectall("SELECT * FROM " . table('group'));
     include page('group_goods_list');
 }else if ('notice' == $operation) {
     $list = mysqld_selectall("SELECT weixin_openid FROM ".table('group_user')." WHERE goodid = :goodid AND ispraise=1 ", array(':goodid' => intval($_GP['id'])));

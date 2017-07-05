@@ -34,7 +34,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 				</tr>
 				<?php  } } ?>
 
-			</tr>
+			</tbody>
 		</table>
 		
 <?php  include page('footer');?>

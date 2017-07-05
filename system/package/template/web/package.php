@@ -53,21 +53,30 @@
 </form>   
 <script>
     var rsource_url="<?php echo RESOURCE_ROOT;?>";
+    //2017-07-05-yanru
+    <?php if (empty($bonus_id)){?>
     var count = 1;
+    <?php }else{ ?>
+    var count = 2;
+    <?php }?>
+    //var count = 1;
+    //end
     //var package_bonus_url="<?php //echo create_url('sit',array('name'=>'package','do'=>'package','op'=>'addbonus')) ?>";
 
     function addbonus(){
-        $("#add-bonus").html("正在处理...").attr("disabled","true").toggleClass("btn-primary");
-        var package_bonus_url="<?php echo create_url('sit',array('name'=>'package','do'=>'package','op'=>'addbonus')) ?>"+"&count="+count;
-        var t=package_bonus_url;
-        $.ajax({
-            url:t,success:function(t){
-                $("#add-bonus").html('<i class="icon-plus"></i> 添加优惠券').removeAttr("disabled").toggleClass("btn-primary"), $("#bonus").append(t);
-                var e=$(".add-bonus").length-1;
-                $(".add-bonus:eq("+e+")").focus(),window.optionchanged=!0
-            }
-        })
-        count++;
+        if(count <=1 ) {
+            $("#add-bonus").html("正在处理...").attr("disabled", "true").toggleClass("btn-primary");
+            var package_bonus_url = "<?php echo create_url('sit', array('name' => 'package', 'do' => 'package', 'op' => 'addbonus', 'bonus_id' => $bonus_id)) ?>" + "&count=" + count;
+            var t = package_bonus_url;
+            $.ajax({
+                url: t, success: function (t) {
+                    $("#add-bonus").html('<i class="icon-plus"></i> 添加优惠券').removeAttr("disabled").toggleClass("btn-primary"), $("#bonus").append(t);
+                    var e = $(".add-bonus").length - 1;
+                    $(".add-bonus:eq(" + e + ")").focus(), window.optionchanged = !0
+                }
+            })
+            count++;
+        }
     }
 
     function removebonus(t){

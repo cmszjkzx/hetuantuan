@@ -14,7 +14,7 @@
 
 										<div class="col-sm-9">
 										 
-                    <input type="password" name="oldpassword" class="span2"  />
+                    <input type="password" name="oldpassword" autocomplete="off" class="span2"  />
 										</div>
 									</div>
 									
@@ -23,7 +23,7 @@
 
 										<div class="col-sm-9">
 										 
-                    <input type="password"  name="newpassword" class="span2"  />
+                    <input type="password"  name="newpassword" autocomplete="off" class="span2"  />
 										</div>
 									</div>
         

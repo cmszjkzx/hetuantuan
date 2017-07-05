@@ -27,7 +27,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 										<tr>
 											<th class="row-hover" style="width:200px">订单总金额</th>
 											<th class="row-hover" style="width:200px">总会员数</th>
-											<th class="row-hover" style="width:200px">平均每位客户订单金额</th>
+											<th class="row-hover" style="width:200px">平均每位客户订单金额转化率</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -50,7 +50,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 										<tr>
 											<th class="row-hover" style="width:200px">订单总金额</th>
 											<th class="row-hover" style="width:200px">总访问次数</th>
-											<th class="row-hover" style="width:200px">平均每次访问订单金额</th>
+											<th class="row-hover" style="width:200px">平均每次访问订单金额转化率</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -121,7 +121,7 @@ defined('SYSTEM_IN') or exit('Access Denied');?>
 										<tr>
 											<th class="row-hover"  style="width:200px">总订单数</th>
 											<th class="row-hover" style="width:200px">总会员数</th>
-											<th class="row-hover"  style="width:200px">平均会员订单量</th>
+											<th class="row-hover"  style="width:200px">平均会员订单百分比</th>
 										</tr>
 									</thead>
 									<tbody>
