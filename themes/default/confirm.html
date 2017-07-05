@@ -359,8 +359,8 @@
         bunousMoney = $(this).attr("attr-money")||0;
         /*$("#total-sum").text(<!--@php  echo $totalprice + $dispatchprice;@--> - ($(this).attr("attr-money")||0));*/
 //        alert($(this).attr("attr-money"));
-        var tempBonusMoney = <!--@php  echo $totalprice - $promotionprice;@--> - ($(this).attr("attr-money")||0);
-        if(tempBonusMoney >= 88){
+        var tempBonusMoney = <!--@php  echo ($totalprice - $promotionprice);@--> - ($(this).attr("attr-money")||0);
+        if(tempBonusMoney >= 0){
             $("#total-sum").text(<!--@php  echo $totalprice;@--> - bunousMoney);
             $("#dispatchprice").text('免运费');
         }else{
