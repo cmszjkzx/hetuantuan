@@ -61,12 +61,12 @@ if($operation=='post') {
 			$data=array('package_id'=>$_GP['package_id'],
 				'max_amount'=>$_GP['max_amount'],
                 'max_number'=>$_GP['max_number'],
-                'bonus_name'=>$_GP['bonus_name_'],
-                'bonus_send_type'=>$_GP['bonus_send_type_'],
-                'bonus_money'=>$_GP['bonus_money_'],
-				'min_goods_amount'=>$_GP['min_goods_amount_'],
-                'eable_days'=>$_GP['eable_days_'],
-                'min_send_amount'=>$_GP['min_send_amount_']);
+                'bonus_name'=>$_GP['bonus_name_'.$_GP['add_bonus_number']],
+                'bonus_send_type'=>$_GP['bonus_send_type_'.$_GP['add_bonus_number']],
+                'bonus_money'=>$_GP['bonus_money_'.$_GP['add_bonus_number']],
+				'min_goods_amount'=>$_GP['min_goods_amount_'.$_GP['add_bonus_number']],
+                'eable_days'=>$_GP['eable_days_'.$_GP['add_bonus_number']],
+                'min_send_amount'=>$_GP['min_send_amount_'.$_GP['add_bonus_number']]);
 			mysqld_update('package_bonus',$data,array('bonus_id'=>$_GP['bonus_id']));
 			message("修改成功",create_url('site', array('name' => 'package','do' => 'package','op'=>'display')),"success");
 		}
