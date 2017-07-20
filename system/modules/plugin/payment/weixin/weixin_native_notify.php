@@ -23,7 +23,10 @@
 
 
 	////存储微信的回调
-	 $xml = $GLOBALS['HTTP_RAW_POST_DATA'];	
+	 $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+if(empty($xml)){
+    $xml = file_get_contents("php://input");
+}
 	 mysqld_insert('paylog', array('typename'=>'微信支付记录','pdate'=>$xml,'ptype'=>'success','paytype'=>'weixin'));
 
 	 $array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);		

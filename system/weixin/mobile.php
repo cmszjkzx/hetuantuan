@@ -72,6 +72,9 @@ public function verifyorder($openid,$ordersn)
 		}
 		if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
 		    $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            if(empty($postStr)){
+                $postStr = file_get_contents("php://input");
+            }
 		    $message=$this->requestParse($postStr);
 		    if (empty($message)) {
 		        exit('Request Failed');
