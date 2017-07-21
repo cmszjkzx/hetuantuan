@@ -29,7 +29,7 @@ if('kinds' == $_GP['do']) {
                     message("商品类别编号不能重复!");
                 }
             }
-            if (empty(intval($_GP['kinds_level']))) {
+            if (empty($_GP['kinds_level']) ||intval($_GP['kinds_level'])==0) {
                 message("商品类别编号错误!");
             } else if (empty($_GP['kinds_name'])) {
                 message("商品类别名称不能为空!");

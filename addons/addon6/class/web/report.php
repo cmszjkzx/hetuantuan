@@ -14,13 +14,20 @@ require_once WEB_ROOT.'/includes/lib/phpexcel/PHPExcel.php';
 $objPHPExcel = new PHPExcel();
 
 // Set document properties
+//$objPHPExcel->getProperties()->setCreator("和团团")
+//							 ->setLastModifiedBy("和团团")
+//							 ->setTitle("Office 2007 XLSX Test Document")
+//							 ->setSubject("Office 2007 XLSX Test Document")
+//							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+//							 ->setKeywords("office 2007 openxml php")
+//							 ->setCategory("report file");
 $objPHPExcel->getProperties()->setCreator("和团团")
-							 ->setLastModifiedBy("和团团")
-							 ->setTitle("Office 2007 XLSX Test Document")
-							 ->setSubject("Office 2007 XLSX Test Document")
-							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-							 ->setKeywords("office 2007 openxml php")
-							 ->setCategory("report file");
+    ->setLastModifiedBy("和团团")
+    ->setTitle("Office 2003 XLS Test Document")
+    ->setSubject("Office 2003 XLS Test Document")
+    ->setDescription("Test document for Office 2003 XLS, generated using PHP classes.")
+    ->setKeywords("office 2003 openxml php")
+    ->setCategory("report file");
 
 if($report=='salereport01')
 {
@@ -369,10 +376,14 @@ $objPHPExcel->setActiveSheetIndex(0);
 
 
 // Redirect output to a client’s web browser (Excel2007)
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="report_'.time().'.xlsx"');
+//header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//header('Content-Disposition: attachment;filename="report_'.time().'.xlsx"');
+//header('Cache-Control: max-age=0');
+//$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="report_'.time().'.xls"');
 header('Cache-Control: max-age=0');
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save('php://output');
 exit;
