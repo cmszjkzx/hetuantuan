@@ -305,7 +305,7 @@
                     &nbsp;
                     <a onclick="document.getElementById('print_express_orderid').value='<?php  echo $order['id']?>';$('#modal-expressprint').modal()" href="javascript:;">快递单打印</a>
                 <?php  } ?>
-                <?php } else { if($order['status']==2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0) && empty($order['isverify'])) { ?>
+                <?php } else { if($order['status']>=2 && ($good['optionstatus'] == 11 || $good['optionstatus'] == 0) && empty($order['isverify'])) { ?>
                     <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">确认发货</button>
                 <?php  } if($order['status']==3 && $good['optionstatus'] == 12 && empty($order['isverify'])){ ?>
                     <button type="button" class="btn btn-primary span2" name="confirmsend" data-toggle="modal" data-target="#modal-confirmsend" value="confirmsend">修改物流</button>
